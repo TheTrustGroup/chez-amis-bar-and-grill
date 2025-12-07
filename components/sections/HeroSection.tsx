@@ -4,7 +4,7 @@ import { useEffect, useState } from "react"
 import Link from "next/link"
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
-import { ChevronDown, Star, Phone } from "lucide-react"
+import { ChevronDown, Star } from "lucide-react"
 import { QuickActions } from "@/components/mobile/QuickActions"
 import { cn } from "@/lib/utils"
 
