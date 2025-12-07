@@ -164,10 +164,10 @@ export function MapSection() {
                       +233 050 243 2037
                     </a>
                     <a
-                      href="mailto:info@chezamis.com"
+                      href="mailto:chez@chezamisrestaurant.com"
                       className="block text-muted-foreground hover:text-gold-600 transition-colors"
                     >
-                      info@chezamis.com
+                      chez@chezamisrestaurant.com
                     </a>
                   </div>
                   <div className="mt-4 flex flex-col sm:flex-row gap-2">

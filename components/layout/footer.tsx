@@ -195,11 +195,11 @@ export function Footer() {
             </a>
             <span className="hidden md:inline text-gold-500/30">|</span>
             <a
-              href="mailto:info@chezamis.com"
+              href="mailto:chez@chezamisrestaurant.com"
               className="flex items-center gap-2 hover:text-gold-500 transition-colors"
             >
               <Mail className="h-4 w-4" />
-              <span>info@chezamis.com</span>
+              <span>chez@chezamisrestaurant.com</span>
             </a>
             <span className="hidden md:inline text-gold-500/30">|</span>
             <div className="flex items-center gap-2">

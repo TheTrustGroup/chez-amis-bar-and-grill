@@ -330,7 +330,7 @@ export default function MenuPage() {
       {/* Print Footer (hidden on screen) */}
       <div className="print-footer hidden print:block">
         <p>For the most up-to-date menu and allergen information, please visit our website or contact us directly.</p>
-        <p>www.chezamis.com | info@chezamis.com</p>
+        <p>www.chezamisrestaurant.com | chez@chezamisrestaurant.com</p>
       </div>
     </div>
   )

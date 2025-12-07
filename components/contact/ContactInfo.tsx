@@ -95,21 +95,15 @@ export function ContactInfo() {
               </div>
               <div className="space-y-2">
                 <a
-                  href="mailto:info@chezamis.com"
+                  href="mailto:chez@chezamisrestaurant.com"
                   className="block text-base text-foreground font-body font-light hover:text-gold-600 transition-colors"
                 >
-                  info@chezamis.com
-                </a>
-                <a
-                  href="mailto:reservations@chezamis.com"
-                  className="block text-base text-foreground font-body font-light hover:text-gold-600 transition-colors"
-                >
-                  reservations@chezamis.com
+                  chez@chezamisrestaurant.com
                 </a>
               </div>
               <p className="mt-2">
                 <a
-                  href="mailto:info@chezamis.com"
+                  href="mailto:chez@chezamisrestaurant.com"
                   className="text-sm font-heading font-light tracking-wide text-gold-600 hover:text-gold-700 underline underline-offset-2 transition-colors"
                 >
                   Send email
