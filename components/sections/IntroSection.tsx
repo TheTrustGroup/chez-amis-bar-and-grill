@@ -2,7 +2,6 @@
 
 import Link from "next/link"
 import Image from "next/image"
-import { ImageWithFallback } from "@/components/ui/image-with-fallback"
 import { cn } from "@/lib/utils"
 
 export function IntroSection() {
@@ -15,14 +14,14 @@ export function IntroSection() {
             {/* Background gradient fallback */}
             <div className="absolute inset-0 bg-gradient-to-br from-charcoal-900 via-charcoal-800 to-burgundy-900 rounded-lg"></div>
             {/* Chef Image */}
-            <ImageWithFallback
+            <Image
               src="/images/team/head-chef.jpg"
               alt="Head Chef of Chez Amis Bar and Grill presenting signature dishes with warm hospitality"
               fill
               className="object-cover object-center rounded-lg transition-transform duration-700 group-hover:scale-105"
               priority
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 600px"
-              fallbackSrc="/images/placeholder-dish.jpg"
+              quality={90}
             />
             {/* Subtle overlay for depth and text readability */}
             <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-black/15 to-transparent rounded-lg pointer-events-none"></div>
