@@ -9,118 +9,74 @@ export function IntroSection() {
     <section className="section-padding bg-background" aria-labelledby="intro-heading">
       <div className="container-custom">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-          {/* Left: Head Chef Image - Premium Professional Treatment */}
-          <div className="relative w-full h-[400px] md:h-[500px] lg:h-[600px] order-2 lg:order-1 rounded-2xl overflow-hidden shadow-[0_20px_60px_-15px_rgba(0,0,0,0.5)] group">
-            {/* Base: Sophisticated dark gradient - Option A foundation */}
-            <div className="absolute inset-0 bg-gradient-to-br from-[#0a0a0a] via-[#1a1a1a] to-[#0f0f0f] rounded-2xl"></div>
-            
-            {/* Chef Image with professional color grading */}
-            <div className="absolute inset-0">
+          {/* Left: Head Chef Image - Bright & Polished */}
+          <div className="relative w-full h-[400px] md:h-[500px] lg:h-[600px] order-2 lg:order-1 group">
+            {/* Background decorative elements - subtle glow */}
+            <div className="absolute -inset-4 -z-10">
+              <div className="absolute top-0 left-0 w-40 h-40 bg-amber-400/5 rounded-full blur-3xl"></div>
+              <div className="absolute bottom-0 right-0 w-48 h-48 bg-amber-500/5 rounded-full blur-3xl"></div>
+            </div>
+
+            {/* Main Image Container - BRIGHT AND CLEAR */}
+            <div className="relative w-full h-full rounded-xl overflow-hidden shadow-2xl">
+              {/* Chef Image - NO DARK OVERLAYS, BRIGHT AND VISIBLE */}
               <Image
                 src="/images/team/head-chef.jpg"
                 alt="Head Chef of Chez Amis Bar and Grill presenting signature dishes with warm hospitality"
                 fill
-                className="object-cover object-center rounded-2xl transition-all duration-700 group-hover:scale-[1.02]"
+                className="object-cover object-center rounded-xl transition-all duration-500 group-hover:scale-105"
                 priority
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 600px"
                 quality={95}
                 style={{
-                  filter: 'brightness(1.08) contrast(1.15) saturate(1.1)',
+                  filter: 'brightness(1.08) contrast(1.12) saturate(1.15)',
                 }}
               />
-            </div>
 
-            {/* Professional dark overlay - eliminates background pattern */}
-            <div 
-              className="absolute inset-0 rounded-2xl pointer-events-none"
-              style={{
-                background: 'linear-gradient(135deg, rgba(10,10,10,0.92) 0%, rgba(20,20,20,0.88) 50%, rgba(5,5,5,0.95) 100%)',
-                mixBlendMode: 'multiply',
-              }}
-            />
+              {/* Minimal bottom gradient ONLY for text readability */}
+              <div className="absolute bottom-0 inset-x-0 h-32 bg-gradient-to-t from-gray-900/50 via-gray-900/20 to-transparent pointer-events-none"></div>
 
-            {/* Sophisticated bokeh-like lighting effects - Option C luxury elements */}
-            {/* Main warm spotlight from top-left */}
-            <div 
-              className="absolute top-0 left-0 w-2/3 h-2/3 rounded-2xl pointer-events-none opacity-40 group-hover:opacity-50 transition-opacity duration-700"
-              style={{
-                background: 'radial-gradient(ellipse 80% 80% at 20% 20%, rgba(212, 175, 55, 0.25) 0%, transparent 60%)',
-                filter: 'blur(40px)',
-              }}
-            />
-            
-            {/* Secondary warm accent from right */}
-            <div 
-              className="absolute top-1/4 right-0 w-1/2 h-1/2 rounded-2xl pointer-events-none opacity-20 group-hover:opacity-30 transition-opacity duration-700"
-              style={{
-                background: 'radial-gradient(circle at 30% 50%, rgba(212, 175, 55, 0.15) 0%, transparent 50%)',
-                filter: 'blur(30px)',
-              }}
-            />
-
-            {/* Subtle bottom accent light */}
-            <div 
-              className="absolute bottom-0 left-1/3 w-1/3 h-1/3 rounded-2xl pointer-events-none opacity-15"
-              style={{
-                background: 'radial-gradient(ellipse 60% 60% at 50% 0%, rgba(212, 175, 55, 0.1) 0%, transparent 70%)',
-                filter: 'blur(25px)',
-              }}
-            />
-
-            {/* Professional spotlight on chef - keeps focus */}
-            <div 
-              className="absolute inset-0 rounded-2xl pointer-events-none"
-              style={{
-                background: 'radial-gradient(ellipse 70% 90% at 50% 45%, transparent 0%, rgba(0,0,0,0.5) 100%)',
-              }}
-            />
-
-            {/* Premium vignette - cinematic depth */}
-            <div 
-              className="absolute inset-0 rounded-2xl pointer-events-none"
-              style={{
-                boxShadow: 'inset 0 0 100px rgba(0,0,0,0.4), inset 0 0 50px rgba(0,0,0,0.3), inset 0 0 25px rgba(0,0,0,0.2)',
-              }}
-            />
-
-            {/* Elegant frame - triple border treatment */}
-            <div className="absolute inset-0 border border-gold-500/15 rounded-2xl pointer-events-none"></div>
-            <div className="absolute inset-[1px] border border-white/3 rounded-2xl pointer-events-none"></div>
-            <div className="absolute inset-[2px] border border-gold-500/10 rounded-2xl pointer-events-none"></div>
-
-            {/* Premium text overlay - magazine-style typography */}
-            <div className="absolute bottom-0 left-0 right-0 p-6 md:p-8 bg-gradient-to-t from-black/90 via-black/70 to-transparent rounded-b-2xl pointer-events-none">
-              <div className="relative">
-                {/* Elegant gold accent line */}
-                <div className="absolute -top-4 left-0 w-20 h-[1px] bg-gradient-to-r from-gold-500/80 via-gold-400/60 to-transparent"></div>
-                
-                {/* Main title */}
-                <p className="text-cream-100 font-display text-xl md:text-2xl font-light drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)] mb-2 tracking-tight">
-                  Our Head Chef
-                </p>
-                
-                {/* Subtitle with refined styling */}
-                <p className="text-gold-300/95 font-body text-sm md:text-base font-light drop-shadow-[0_1px_4px_rgba(0,0,0,0.6)] tracking-wider uppercase letter-spacing-[0.1em]">
-                  Crafting Culinary Excellence
-                </p>
+              {/* Text overlay at bottom */}
+              <div className="absolute bottom-6 left-6 right-6 text-white z-10 pointer-events-none">
+                <div className="relative">
+                  {/* Gold accent line */}
+                  <div className="absolute -top-3 left-0 w-16 h-0.5 bg-gradient-to-r from-amber-400/80 to-transparent"></div>
+                  <p className="text-sm font-semibold tracking-wider uppercase text-amber-300 mb-1 drop-shadow-lg">
+                    Our Head Chef
+                  </p>
+                  <p className="text-lg md:text-xl font-light font-display drop-shadow-lg">
+                    Crafting culinary excellence
+                  </p>
+                </div>
               </div>
+
+              {/* Elegant frame border - subtle */}
+              <div className="absolute inset-0 rounded-xl border border-white/20 pointer-events-none"></div>
             </div>
 
-            {/* Premium badge - refined positioning */}
-            <div className="absolute top-5 right-5 bg-black/50 backdrop-blur-md border border-gold-500/25 rounded-full px-4 py-2 pointer-events-none shadow-lg">
-              <span className="text-gold-300 text-[10px] md:text-xs font-semibold tracking-[0.15em] uppercase">
-                Executive Chef
-              </span>
+            {/* Floating credential badge */}
+            <div className="absolute -bottom-4 -right-4 bg-white rounded-lg shadow-xl p-4 max-w-[180px] z-20 hidden md:block">
+              <div className="flex items-center gap-2 mb-2">
+                <svg className="w-5 h-5 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                </svg>
+                <span className="text-xs font-bold tracking-wider uppercase text-amber-700">
+                  Executive Chef
+                </span>
+              </div>
+              <div className="flex gap-1 mb-2">
+                {[...Array(5)].map((_, i) => (
+                  <svg key={i} className="w-3 h-3 fill-amber-400 text-amber-400" viewBox="0 0 20 20">
+                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                  </svg>
+                ))}
+              </div>
+              <p className="text-xs text-gray-600">15+ Years Experience</p>
             </div>
 
-            {/* Subtle texture overlay for premium feel */}
-            <div 
-              className="absolute inset-0 rounded-2xl pointer-events-none opacity-[0.03]"
-              style={{
-                backgroundImage: 'radial-gradient(circle at 2px 2px, white 1px, transparent 0)',
-                backgroundSize: '40px 40px',
-              }}
-            />
+            {/* Gold accent corners - decorative */}
+            <div className="absolute top-4 right-4 w-16 h-16 border-t-2 border-r-2 border-amber-400/30 rounded-tr-xl pointer-events-none hidden md:block"></div>
+            <div className="absolute bottom-4 left-4 w-16 h-16 border-b-2 border-l-2 border-amber-400/30 rounded-bl-xl pointer-events-none hidden md:block"></div>
           </div>
 
           {/* Right: Welcome Text */}
