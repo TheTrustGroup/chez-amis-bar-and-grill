@@ -129,10 +129,10 @@ export default function CateringPage() {
                   <div>
                     <p className="font-heading font-medium text-cream-100">Email</p>
                     <a
-                      href="mailto:catering@chezamis.com"
+                      href="mailto:chez@chezamisrestaurant.com"
                       className="text-gold-400 hover:text-gold-300 transition-colors"
                     >
-                      catering@chezamis.com
+                      chez@chezamisrestaurant.com
                     </a>
                   </div>
                 </div>

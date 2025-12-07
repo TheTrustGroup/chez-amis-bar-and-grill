@@ -62,10 +62,10 @@ export default function PressPage() {
                   <div>
                     <p className="font-heading font-medium text-foreground">Email</p>
                     <a
-                      href="mailto:press@chezamis.com"
+                      href="mailto:chez@chezamisrestaurant.com"
                       className="text-gold-600 hover:text-gold-700 transition-colors"
                     >
-                      press@chezamis.com
+                      chez@chezamisrestaurant.com
                     </a>
                   </div>
                 </div>

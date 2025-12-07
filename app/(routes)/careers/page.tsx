@@ -157,10 +157,10 @@ export default function CareersPage() {
                   <div>
                     <p className="font-heading font-medium text-cream-100">Email</p>
                     <a
-                      href="mailto:careers@chezamis.com"
+                      href="mailto:chez@chezamisrestaurant.com"
                       className="text-gold-400 hover:text-gold-300 transition-colors"
                     >
-                      careers@chezamis.com
+                      chez@chezamisrestaurant.com
                     </a>
                   </div>
                 </div>

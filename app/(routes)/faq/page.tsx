@@ -36,7 +36,7 @@ export default function FAQPage() {
     },
     {
       question: "Do you offer catering services?",
-      answer: "Yes, we provide catering services for events, corporate functions, and special occasions. We can customize menus to suit your needs. Minimum order is for 10 guests, and we recommend 48 hours advance notice. Contact us at catering@chezamis.com or call us for more information.",
+      answer: "Yes, we provide catering services for events, corporate functions, and special occasions. We can customize menus to suit your needs. Minimum order is for 10 guests, and we recommend 48 hours advance notice. Contact us at chez@chezamisrestaurant.com or call us for more information.",
     },
     {
       question: "What payment methods do you accept?",
