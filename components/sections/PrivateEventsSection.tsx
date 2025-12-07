@@ -52,7 +52,7 @@ export function PrivateEventsSection() {
                   Request Private Dining
                 </Button>
               </Link>
-              <Link href="/events" className="w-full sm:w-auto">
+              <Link href="/private-events" className="w-full sm:w-auto">
                 <Button
                   size="lg"
                   variant="outline"
