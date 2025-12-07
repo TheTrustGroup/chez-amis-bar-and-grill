@@ -193,11 +193,13 @@ export function HeroSection() {
 
           {/* Operating Hours Text - Positioned relative to content, not absolute */}
           <div 
-            className="mb-6 md:mb-8"
+            className="mb-6 md:mb-8 px-4"
             style={{ animationDelay: "0.6s" }}
           >
-            <p className="text-sm md:text-base text-gray-300 flex items-center justify-center gap-2">
-              <span>Walk-ins welcome | Open daily 9:30 am - 12 am</span>
+            <p className="text-xs sm:text-sm md:text-base text-gray-300 text-center leading-relaxed">
+              <span className="block sm:inline">Walk-ins welcome</span>
+              <span className="hidden sm:inline"> | </span>
+              <span className="block sm:inline mt-1 sm:mt-0">Open daily 9:30 am - 12 am</span>
             </p>
           </div>
 
