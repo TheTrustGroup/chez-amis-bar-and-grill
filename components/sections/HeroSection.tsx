@@ -204,7 +204,7 @@ export function HeroSection() {
 
           {/* Mobile Quick Actions */}
           {isMobile && (
-            <div className="mt-6 mb-8">
+            <div className="mt-6 mb-20">
               <QuickActions variant="hero" />
             </div>
           )}
@@ -229,19 +229,19 @@ export function HeroSection() {
         <ChevronDown className="h-6 w-6 md:h-7 md:w-7 opacity-70" aria-hidden="true" />
       </button>
 
-      {/* Social Proof Banner - Positioned above bottom navigation on mobile */}
+      {/* Social Proof Banner - Positioned above bottom navigation on mobile with proper spacing */}
       <div className={cn(
         "absolute left-0 right-0 z-10",
-        isMobile ? "bottom-16" : "bottom-0"
+        isMobile ? "bottom-20" : "bottom-0"
       )}>
         <div className="bg-black/30 backdrop-blur-md border-t border-cream-200/10">
           <div className={cn(
-            "container mx-auto px-6 md:px-8 lg:px-12",
-            isMobile ? "py-4" : "py-4 lg:py-5"
+            "container mx-auto px-4 sm:px-6 md:px-8 lg:px-12",
+            isMobile ? "py-3" : "py-4 lg:py-5"
           )}>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-3 md:gap-6 text-cream-200/90">
               {/* Star Rating */}
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-1.5 sm:gap-2">
                 <div className="flex gap-0.5 sm:gap-1" aria-label="5 star rating">
                   {[...Array(5)].map((_, i) => (
                     <Star
@@ -251,7 +251,7 @@ export function HeroSection() {
                     />
                   ))}
                 </div>
-                <span className="text-xs sm:text-sm md:text-base font-heading font-light">
+                <span className="text-xs sm:text-sm md:text-base font-heading font-light whitespace-nowrap">
                   Rated Accra&apos;s finest
                 </span>
               </div>
@@ -260,7 +260,7 @@ export function HeroSection() {
               <div className="hidden sm:block h-4 w-px bg-cream-200/20" aria-hidden="true"></div>
               
               {/* Guest Count */}
-              <span className="text-xs sm:text-sm md:text-base font-body font-light">
+              <span className="text-xs sm:text-sm md:text-base font-body font-light whitespace-nowrap">
                 2,500+ satisfied guests
               </span>
             </div>
