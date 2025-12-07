@@ -193,10 +193,7 @@ export function HeroSection() {
 
           {/* Operating Hours Text - Positioned relative to content, not absolute */}
           <div 
-            className={cn(
-              "mb-8 md:mb-10",
-              isMobile && "mb-10"
-            )}
+            className="mb-6 md:mb-8"
             style={{ animationDelay: "0.6s" }}
           >
             <p className="text-sm md:text-base text-gray-300 flex items-center justify-center gap-2">
@@ -207,8 +204,40 @@ export function HeroSection() {
 
           {/* Mobile Quick Actions */}
           {isMobile && (
-            <div className="mt-8 mb-12">
+            <div className="mt-6 mb-6">
               <QuickActions variant="hero" />
+            </div>
+          )}
+
+          {/* Mobile Social Proof Banner - In content flow with proper spacing */}
+          {isMobile && (
+            <div className="mt-4 mb-20">
+              <div className="bg-black/30 backdrop-blur-md border-t border-cream-200/10 rounded-t-lg">
+                <div className="container mx-auto px-4 py-3">
+                  <div className="flex flex-col items-center justify-center gap-2 text-cream-200/90">
+                    {/* Star Rating */}
+                    <div className="flex items-center gap-1.5">
+                      <div className="flex gap-0.5" aria-label="5 star rating">
+                        {[...Array(5)].map((_, i) => (
+                          <Star
+                            key={i}
+                            className="h-3.5 w-3.5 fill-gold-500 text-gold-500"
+                            aria-hidden="true"
+                          />
+                        ))}
+                      </div>
+                      <span className="text-xs font-heading font-light whitespace-nowrap">
+                        Rated Accra&apos;s finest
+                      </span>
+                    </div>
+                    
+                    {/* Guest Count */}
+                    <span className="text-xs font-body font-light whitespace-nowrap">
+                      2,500+ satisfied guests
+                    </span>
+                  </div>
+                </div>
+              </div>
             </div>
           )}
         </div>
@@ -259,38 +288,6 @@ export function HeroSection() {
                 
                 {/* Guest Count */}
                 <span className="text-xs sm:text-sm md:text-base font-body font-light whitespace-nowrap">
-                  2,500+ satisfied guests
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Mobile Social Proof Banner - Properly spaced in content flow */}
-      {isMobile && (
-        <div className="absolute bottom-20 left-0 right-0 z-10">
-          <div className="bg-black/40 backdrop-blur-md border-t border-cream-200/20">
-            <div className="container mx-auto px-4 py-4">
-              <div className="flex flex-col items-center justify-center gap-2.5 text-cream-200/95">
-                {/* Star Rating with Text */}
-                <div className="flex items-center justify-center gap-2">
-                  <div className="flex gap-0.5" aria-label="5 star rating">
-                    {[...Array(5)].map((_, i) => (
-                      <Star
-                        key={i}
-                        className="h-4 w-4 fill-gold-500 text-gold-500"
-                        aria-hidden="true"
-                      />
-                    ))}
-                  </div>
-                  <span className="text-sm font-heading font-light whitespace-nowrap">
-                    Rated Accra&apos;s finest
-                  </span>
-                </div>
-                
-                {/* Guest Count */}
-                <span className="text-xs font-body font-light text-cream-200/80 whitespace-nowrap">
                   2,500+ satisfied guests
                 </span>
               </div>
