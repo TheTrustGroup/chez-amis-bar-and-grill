@@ -5,7 +5,7 @@ import { ContactInfo } from "@/components/contact/ContactInfo"
 import { ContactForm } from "@/components/contact/ContactForm"
 import { MapSection } from "@/components/contact/MapSection"
 import { Button } from "@/components/ui/button"
-import { Phone, MessageCircle, Instagram, Facebook, Twitter } from "lucide-react"
+import { Phone, MessageCircle, Instagram } from "lucide-react"
 
 export default function ContactPage() {
   return (
@@ -99,16 +99,23 @@ export default function ContactPage() {
             </a>
 
             <a
-              href="https://facebook.com/chezamis"
+              href="https://snapchat.com/add/chezamis"
               target="_blank"
               rel="noopener noreferrer"
               className="group flex flex-col items-center gap-3 p-6 rounded-lg border border-border/50 hover:border-gold-500/50 hover:bg-gold-500/5 transition-all duration-300"
-              aria-label="Follow us on Facebook"
+              aria-label="Follow us on Snapchat"
             >
-              <div className="p-4 rounded-full bg-blue-600 group-hover:scale-110 transition-transform">
-                <Facebook className="h-8 w-8 text-white" />
+              <div className="p-4 rounded-full bg-gradient-to-br from-yellow-400 to-yellow-500 group-hover:scale-110 transition-transform">
+                <svg
+                  className="h-8 w-8 text-white"
+                  fill="currentColor"
+                  viewBox="0 0 24 24"
+                  aria-hidden="true"
+                >
+                  <path d="M12.206.793c.99 0 4.347.276 5.93 3.821.529 1.193.403 3.219.299 4.847l-.003.15c-.012.75-.042 1.688.376 2.508.208.405.49.77.82 1.103.495.5 1.04.95 1.617 1.35.157.11.316.216.473.325.64.445 1.3.87 1.88 1.36.47.4.93.87 1.24 1.44.26.48.35 1.04.35 1.59 0 .66-.19 1.31-.57 1.89-.38.58-.95 1.04-1.62 1.35-.67.31-1.42.46-2.18.46-.48 0-.97-.06-1.44-.18-.47-.12-.93-.3-1.35-.54-.42-.24-.81-.54-1.15-.9-.34-.36-.64-.77-.88-1.22-.24-.45-.42-.93-.54-1.42-.12-.49-.18-1-.18-1.52 0-.52.06-1.03.18-1.52.12-.49.3-.97.54-1.42.24-.45.54-.86.88-1.22.34-.36.73-.66 1.15-.9.42-.24.88-.42 1.35-.54.47-.12.96-.18 1.44-.18.76 0 1.51.15 2.18.46.67.31 1.24.77 1.62 1.35.38.58.57 1.23.57 1.89 0 .55-.09 1.11-.35 1.59-.31.57-.77 1.04-1.24 1.44-.58.49-1.24.915-1.88 1.36-.157.109-.316.215-.473.325-.577.4-1.122.85-1.617 1.35-.33.333-.612.698-.82 1.103-.418.82-.388 1.758-.376 2.508l.003.15c.104 1.628.23 3.654-.299 4.847-1.583 3.545-4.94 3.821-5.93 3.821-.99 0-4.347-.276-5.93-3.821-.529-1.193-.403-3.219-.299-4.847l.003-.15c.012-.75.042-1.688-.376-2.508-.208-.405-.49-.77-.82-1.103-.495-.5-1.04-.95-1.617-1.35-.157-.11-.316-.216-.473-.325-.64-.445-1.3-.87-1.88-1.36-.47-.4-.93-.87-1.24-1.44-.26-.48-.35-1.04-.35-1.59 0-.66.19-1.31.57-1.89.38-.58.95-1.04 1.62-1.35.67-.31 1.42-.46 2.18-.46.48 0 .97.06 1.44.18.47.12.93.3 1.35.54.42.24.81.54 1.15.9.34.36.64.77.88 1.22.24.45.42.93.54 1.42.12.49.18 1 .18 1.52 0 .52-.06 1.03-.18 1.52-.12.49-.3.97-.54 1.42-.24.45-.54.86-.88 1.22-.34.36-.73.66-1.15.9-.42.24-.88.42-1.35.54-.47.12-.96.18-1.44.18-.76 0-1.51-.15-2.18-.46-.67-.31-1.24-.77-1.62-1.35-.38-.58-.57-1.23-.57-1.89 0-.55.09-1.11.35-1.59.31-.57.77-1.04 1.24-1.44.58-.49 1.24-.915 1.88-1.36.157-.109.316-.215.473-.325.577-.4 1.122-.85 1.617-1.35.33-.333.612-.698.82-1.103.418-.82.388-1.758.376-2.508l-.003-.15c-.104-1.628-.23-3.654.299-4.847C7.859 1.069 11.216.793 12.206.793z"/>
+                </svg>
               </div>
-              <span className="text-sm font-heading font-light tracking-wide">Facebook</span>
+              <span className="text-sm font-heading font-light tracking-wide">Snapchat</span>
             </a>
 
             <a
@@ -129,19 +136,6 @@ export default function ContactPage() {
                 </svg>
               </div>
               <span className="text-sm font-heading font-light tracking-wide">TikTok</span>
-            </a>
-
-            <a
-              href="https://twitter.com/chezamis"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group flex flex-col items-center gap-3 p-6 rounded-lg border border-border/50 hover:border-gold-500/50 hover:bg-gold-500/5 transition-all duration-300"
-              aria-label="Follow us on Twitter"
-            >
-              <div className="p-4 rounded-full bg-black group-hover:scale-110 transition-transform">
-                <Twitter className="h-8 w-8 text-white" />
-              </div>
-              <span className="text-sm font-heading font-light tracking-wide">Twitter</span>
             </a>
           </div>
         </div>
