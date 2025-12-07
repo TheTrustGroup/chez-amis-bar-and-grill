@@ -99,17 +99,23 @@ Vercel will auto-detect Next.js, but verify:
 **Option A: Use Vercel Nameservers (Recommended - Easier)**
 
 1. **In GoDaddy:**
-   - Log in to GoDaddy
-   - Go to **"My Products"** → Find your domain → **"DNS"**
-   - Scroll to **"Nameservers"** section
-   - Click **"Change"**
-   - Select **"Custom"**
-   - Add Vercel nameservers (Vercel will provide these):
+   - Log in to GoDaddy at **godaddy.com**
+   - Click on your **profile/account icon** (top right)
+   - Click **"My Products"** or **"All Products and Services"**
+   - Find your domain in the list
+   - Click the **three dots (⋯)** next to your domain
+   - Select **"Manage DNS"** (NOT "Manage" or "Domain Portfolio")
+   - If you see "Domain Portfolio", look for a **"DNS"** button or tab
+   - Scroll down to find **"Nameservers"** section
+   - Click **"Change"** next to Nameservers
+   - Select **"Custom"** (not "GoDaddy Nameservers")
+   - Delete existing nameservers and add Vercel nameservers:
      ```
      ns1.vercel-dns.com
      ns2.vercel-dns.com
      ```
    - Click **"Save"**
+   - Wait for confirmation message
 
 2. **In Vercel:**
    - Go back to Vercel → **"Settings"** → **"Domains"**
@@ -126,8 +132,12 @@ Vercel will auto-detect Next.js, but verify:
    - Vercel will show you DNS records to add
 
 2. **In GoDaddy:**
-   - Go to **"My Products"** → Your domain → **"DNS"**
-   - Find **"Records"** section
+   - Log in to GoDaddy
+   - Go to **"My Products"** → Find your domain
+   - Click **three dots (⋯)** → **"Manage DNS"**
+   - If you see "Domain Portfolio", click **"DNS"** tab or button
+   - Scroll to **"Records"** section (or "DNS Records")
+   - Click **"Add"** to create new records
    - Add these records (Vercel will provide exact values):
 
      **For Root Domain (chezamis.com):**
