@@ -42,8 +42,14 @@ export const metadata: Metadata = {
   title: "Chez Amis Bar and Grill | Premium Dining Experience",
   description: "Experience exceptional culinary artistry and warm hospitality in the heart of Accra. Where every meal is a celebration of flavor and elegance.",
   icons: {
-    icon: "/favicon-32x32.png",
-    apple: "/apple-touch-icon.png",
+    icon: [
+      { url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },
+      { url: "/icon.svg", type: "image/svg+xml" },
+    ],
+    apple: [
+      { url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
+    ],
+    shortcut: "/favicon-32x32.png",
   },
 }
 
