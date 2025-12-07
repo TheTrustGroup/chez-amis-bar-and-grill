@@ -86,7 +86,7 @@ export default function ContactPage() {
 
           <div className="flex flex-wrap justify-center gap-6 md:gap-8">
             <a
-              href="https://instagram.com/chezamis"
+              href="https://www.instagram.com/chez_amis_restaurant?igsh=dWFmbnA5MzlqaWk5"
               target="_blank"
               rel="noopener noreferrer"
               className="group flex flex-col items-center gap-3 p-6 rounded-lg border border-border/50 hover:border-gold-500/50 hover:bg-gold-500/5 transition-all duration-300"
@@ -99,7 +99,7 @@ export default function ContactPage() {
             </a>
 
             <a
-              href="https://snapchat.com/add/chezamis"
+              href="https://www.snapchat.com/add/chez_amis"
               target="_blank"
               rel="noopener noreferrer"
               className="group flex flex-col items-center gap-3 p-6 rounded-lg border border-border/50 hover:border-gold-500/50 hover:bg-gold-500/5 transition-all duration-300"
@@ -119,7 +119,7 @@ export default function ContactPage() {
             </a>
 
             <a
-              href="https://tiktok.com/@chezamis"
+              href="https://www.tiktok.com/@chezamisrestaurant?_r=1&_t=ZM-920yX90ahAW"
               target="_blank"
               rel="noopener noreferrer"
               className="group flex flex-col items-center gap-3 p-6 rounded-lg border border-border/50 hover:border-gold-500/50 hover:bg-gold-500/5 transition-all duration-300"

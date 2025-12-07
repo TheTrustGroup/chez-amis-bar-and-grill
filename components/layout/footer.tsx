@@ -36,7 +36,7 @@ export function Footer() {
             </p>
             <div className="flex items-center gap-4 pt-2">
               <a
-                href="https://instagram.com/chezamis"
+                href="https://www.instagram.com/chez_amis_restaurant?igsh=dWFmbnA5MzlqaWk5"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-cream-200/70 hover:text-gold-500 transition-colors"
@@ -45,7 +45,7 @@ export function Footer() {
                 <Instagram className="h-5 w-5" />
               </a>
               <a
-                href="https://snapchat.com/add/chezamis"
+                href="https://www.snapchat.com/add/chez_amis"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-cream-200/70 hover:text-gold-500 transition-colors"
@@ -61,7 +61,7 @@ export function Footer() {
                 </svg>
               </a>
               <a
-                href="https://tiktok.com/@chezamis"
+                href="https://www.tiktok.com/@chezamisrestaurant?_r=1&_t=ZM-920yX90ahAW"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-cream-200/70 hover:text-gold-500 transition-colors"
