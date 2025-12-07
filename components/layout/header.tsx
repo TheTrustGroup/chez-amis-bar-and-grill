@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { Menu, X, Phone } from "lucide-react"
+import { Menu, X, ShoppingBag } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { useCartContext } from "@/lib/context/CartContext"
@@ -168,24 +168,6 @@ export function Header() {
 
             {/* Right Side Actions */}
             <div className="flex items-center gap-4 md:gap-6">
-              {/* Phone Number - Desktop */}
-              <a
-                href="tel:+2330243952339"
-                className={cn(
-                  "hidden lg:flex items-center gap-2 transition-colors duration-300",
-                  "focus:outline-none focus:ring-2 focus:ring-gold-500 focus:ring-offset-2 focus:ring-offset-transparent rounded-sm px-2 py-1 min-h-[44px] min-w-[44px]",
-                  isScrolled
-                    ? "text-muted-foreground hover:text-foreground"
-                    : "text-white/90 hover:text-white"
-                )}
-                aria-label="Call us at +233 024 395 2339"
-              >
-                <Phone className="h-4 w-4" aria-hidden="true" />
-                <span className="text-sm font-heading font-light tracking-wide">
-                  +233 024 395 2339
-                </span>
-              </a>
-
               {/* Your Selection Link */}
               <button
                 onClick={() => {
@@ -202,6 +184,7 @@ export function Header() {
                 )}
                 aria-label={`Your selection${cartItemCount > 0 ? ` (${cartItemCount} items)` : ""}`}
               >
+                <ShoppingBag className="h-5 w-5" aria-hidden="true" />
                 <span className="text-sm font-heading font-light tracking-wide">
                   Your Selection
                 </span>
@@ -328,18 +311,6 @@ export function Header() {
 
                 {/* Mobile Actions */}
                 <div className="flex flex-col items-center gap-4 mt-8 pt-8 border-t border-white/10 w-full max-w-xs">
-                  {/* Phone */}
-                  <a
-                    href="tel:+2330243952339"
-                    className="flex items-center gap-3 text-white/90 hover:text-white transition-colors min-h-[44px]"
-                    aria-label="Call us at +233 024 395 2339"
-                  >
-                    <Phone className="h-5 w-5" aria-hidden="true" />
-                    <span className="font-heading font-light tracking-wide">
-                      +233 024 395 2339
-                    </span>
-                  </a>
-
                   {/* Your Selection */}
                   <Link
                     href="/order-summary"
@@ -347,6 +318,7 @@ export function Header() {
                     onClick={() => setIsMobileMenuOpen(false)}
                     aria-label={`Your selection${cartItemCount > 0 ? ` (${cartItemCount} items)` : ""}`}
                   >
+                    <ShoppingBag className="h-5 w-5" aria-hidden="true" />
                     <span className="font-heading font-light tracking-wide">
                       Your Selection
                     </span>
