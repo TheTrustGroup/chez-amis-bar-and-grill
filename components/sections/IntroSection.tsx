@@ -9,23 +9,29 @@ export function IntroSection() {
     <section className="section-padding bg-background" aria-labelledby="intro-heading">
       <div className="container-custom">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-          {/* Left: Large Image */}
-          <div className="relative w-full h-[400px] md:h-[500px] lg:h-[600px] order-2 lg:order-1">
-            <div className="absolute inset-0 bg-gradient-to-br from-charcoal-900 via-charcoal-800 to-burgundy-900 rounded-lg overflow-hidden">
-              {/* In production, replace with Next.js Image */}
-              {/* <Image
-                src="/images/restaurant-interior.jpg"
-                alt="Chez Amis restaurant interior"
+          {/* Left: Head Chef Image */}
+          <div className="relative w-full h-[400px] md:h-[500px] lg:h-[600px] order-2 lg:order-1 rounded-lg overflow-hidden shadow-xl">
+            <div className="absolute inset-0 bg-gradient-to-br from-charcoal-900 via-charcoal-800 to-burgundy-900">
+              <Image
+                src="/images/team/head-chef.jpg"
+                alt="Head Chef of Chez Amis Bar and Grill holding signature dishes"
                 fill
-                className="object-cover"
+                className="object-cover object-center"
                 priority
-              /> */}
-              <div className="absolute inset-0 flex items-center justify-center text-cream-200/30 font-display text-4xl">
-                Restaurant Interior
-              </div>
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 600px"
+                quality={90}
+                placeholder="blur"
+                blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q=="
+              />
             </div>
-            {/* Subtle overlay for depth */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+            {/* Subtle overlay for depth and text readability */}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-black/10 to-transparent"></div>
+            {/* Optional: Chef name overlay at bottom */}
+            <div className="absolute bottom-0 left-0 right-0 p-6 md:p-8 bg-gradient-to-t from-black/60 to-transparent">
+              <p className="text-cream-100 font-display text-lg md:text-xl font-light">
+                Our Head Chef
+              </p>
+            </div>
           </div>
 
           {/* Right: Welcome Text */}
