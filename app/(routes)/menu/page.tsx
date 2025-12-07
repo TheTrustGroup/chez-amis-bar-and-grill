@@ -134,25 +134,45 @@ export default function MenuPage() {
         </div>
 
         {/* Mobile Category Tabs */}
-        <div className="lg:hidden sticky top-20 bg-white border-b border-gray-200 z-30 pb-4 mb-8">
-          <ScrollArea className="w-full">
-            <div className="flex gap-2 px-4">
-              {menuCategories.map((category) => (
-                <button
-                  key={category.id}
-                  onClick={() => scrollToCategory(category.id)}
-                  className={cn(
-                    "px-4 py-2 rounded-full whitespace-nowrap text-sm transition-colors",
-                    activeCategory === category.id
-                      ? "bg-amber-500 text-white"
-                      : "bg-gray-100 text-gray-700 hover:bg-gray-200"
-                  )}
-                >
-                  {category.name}
-                </button>
-              ))}
+        <div className="lg:hidden sticky top-20 bg-white border-b border-gray-200 z-30 mb-8">
+          <div className="overflow-x-auto scrollbar-hide px-4 py-4">
+            <div className="flex gap-3 min-w-max">
+              {menuCategories.map((category) => {
+                // Shortened names for mobile to prevent clustering
+                const getShortName = (name: string) => {
+                  if (name.length <= 12) return name
+                  // Map long names to shorter versions
+                  const shortMap: { [key: string]: string } = {
+                    'Pasta & Rice Dishes': 'Pasta & Rice',
+                    'Main Course / Entrées': 'Main Course',
+                    'From the Grill': 'Grill',
+                    'Seafood Selections': 'Seafood',
+                    'Sides & Accompaniments': 'Sides',
+                    'Cold Beverages': 'Cold Drinks',
+                    'Alcoholic Beverages': 'Alcohol',
+                  }
+                  return shortMap[name] || name.split(' ').slice(0, 2).join(' ')
+                }
+                
+                return (
+                  <button
+                    key={category.id}
+                    onClick={() => scrollToCategory(category.id)}
+                    className={cn(
+                      "px-4 py-2.5 rounded-full whitespace-nowrap text-xs font-medium transition-all flex-shrink-0",
+                      "shadow-sm hover:shadow-md",
+                      activeCategory === category.id
+                        ? "bg-amber-500 text-white shadow-md scale-105"
+                        : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                    )}
+                    title={category.name}
+                  >
+                    {getShortName(category.name)}
+                  </button>
+                )
+              })}
             </div>
-          </ScrollArea>
+          </div>
         </div>
 
         {/* Search Functionality */}
