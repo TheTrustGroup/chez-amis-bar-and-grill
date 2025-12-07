@@ -41,15 +41,18 @@ const italiana = Italiana({
 export const metadata: Metadata = {
   title: "Chez Amis Bar and Grill | Premium Dining Experience",
   description: "Experience exceptional culinary artistry and warm hospitality in the heart of Accra. Where every meal is a celebration of flavor and elegance.",
+  // Next.js 14 automatically generates favicon from app/icon.png and app/icon.svg
+  // Additional icons for better browser compatibility
   icons: {
     icon: [
+      { url: "/favicon.ico", sizes: "any" },
       { url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },
       { url: "/icon.svg", type: "image/svg+xml" },
     ],
     apple: [
       { url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
     ],
-    shortcut: "/favicon-32x32.png",
+    shortcut: "/favicon.ico",
   },
 }
 
