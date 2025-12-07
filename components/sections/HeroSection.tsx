@@ -197,7 +197,6 @@ export function HeroSection() {
             style={{ animationDelay: "0.6s" }}
           >
             <p className="text-sm md:text-base text-gray-300 flex items-center justify-center gap-2">
-              <Phone className="h-4 w-4" aria-hidden="true" />
               <span>Walk-ins welcome | Open daily 9:30 am - 12 am</span>
             </p>
           </div>
