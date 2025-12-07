@@ -78,7 +78,7 @@ export function HeroSection() {
       <div className={cn(
         "relative z-10 container mx-auto px-6 md:px-12 lg:px-20 max-w-[1200px]",
         "py-20 md:py-32",
-        isMobile ? "pb-56" : "pb-32"
+        isMobile ? "pb-32" : "pb-32"
       )}>
         <div
           className={cn(
@@ -204,7 +204,7 @@ export function HeroSection() {
 
           {/* Mobile Quick Actions */}
           {isMobile && (
-            <div className="mt-6 mb-40">
+            <div className="mt-6 mb-8">
               <QuickActions variant="hero" />
             </div>
           )}
@@ -229,26 +229,29 @@ export function HeroSection() {
         <ChevronDown className="h-6 w-6 md:h-7 md:w-7 opacity-70" aria-hidden="true" />
       </button>
 
-      {/* Social Proof Banner - Positioned below Quick Actions on mobile with proper spacing */}
-      <div className="absolute bottom-0 left-0 right-0 z-10 pb-20 lg:pb-0">
+      {/* Social Proof Banner - Positioned above bottom navigation on mobile */}
+      <div className={cn(
+        "absolute left-0 right-0 z-10",
+        isMobile ? "bottom-16" : "bottom-0"
+      )}>
         <div className="bg-black/30 backdrop-blur-md border-t border-cream-200/10">
           <div className={cn(
             "container mx-auto px-6 md:px-8 lg:px-12",
-            isMobile ? "py-6" : "py-4 lg:py-5"
+            isMobile ? "py-4" : "py-4 lg:py-5"
           )}>
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-3 md:gap-6 text-cream-200/90">
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-3 md:gap-6 text-cream-200/90">
               {/* Star Rating */}
               <div className="flex items-center gap-2">
-                <div className="flex gap-1" aria-label="5 star rating">
+                <div className="flex gap-0.5 sm:gap-1" aria-label="5 star rating">
                   {[...Array(5)].map((_, i) => (
                     <Star
                       key={i}
-                      className="h-4 w-4 md:h-5 md:w-5 fill-gold-500 text-gold-500"
+                      className="h-3.5 w-3.5 sm:h-4 sm:w-4 md:h-5 md:w-5 fill-gold-500 text-gold-500"
                       aria-hidden="true"
                     />
                   ))}
                 </div>
-                <span className="text-sm md:text-base font-heading font-light">
+                <span className="text-xs sm:text-sm md:text-base font-heading font-light">
                   Rated Accra&apos;s finest
                 </span>
               </div>
@@ -257,7 +260,7 @@ export function HeroSection() {
               <div className="hidden sm:block h-4 w-px bg-cream-200/20" aria-hidden="true"></div>
               
               {/* Guest Count */}
-              <span className="text-sm md:text-base font-body font-light">
+              <span className="text-xs sm:text-sm md:text-base font-body font-light">
                 2,500+ satisfied guests
               </span>
             </div>
