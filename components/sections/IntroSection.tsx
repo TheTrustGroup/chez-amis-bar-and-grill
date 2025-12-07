@@ -11,25 +11,28 @@ export function IntroSection() {
       <div className="container-custom">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
           {/* Left: Head Chef Image */}
-          <div className="relative w-full h-[400px] md:h-[500px] lg:h-[600px] order-2 lg:order-1 rounded-lg overflow-hidden shadow-xl">
-            <div className="absolute inset-0 bg-gradient-to-br from-charcoal-900 via-charcoal-800 to-burgundy-900 rounded-lg">
-              {/* Chef Image with Fallback */}
-              <ImageWithFallback
-                src="/images/team/head-chef.jpg"
-                alt="Head Chef of Chez Amis Bar and Grill holding signature dishes"
-                fill
-                className="object-cover object-center rounded-lg"
-                priority
-                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 600px"
-                fallbackSrc="/images/placeholder-dish.jpg"
-              />
-            </div>
+          <div className="relative w-full h-[400px] md:h-[500px] lg:h-[600px] order-2 lg:order-1 rounded-lg overflow-hidden shadow-xl group">
+            {/* Background gradient fallback */}
+            <div className="absolute inset-0 bg-gradient-to-br from-charcoal-900 via-charcoal-800 to-burgundy-900 rounded-lg"></div>
+            {/* Chef Image */}
+            <ImageWithFallback
+              src="/images/team/head-chef.jpg"
+              alt="Head Chef of Chez Amis Bar and Grill presenting signature dishes with warm hospitality"
+              fill
+              className="object-cover object-center rounded-lg transition-transform duration-700 group-hover:scale-105"
+              priority
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 600px"
+              fallbackSrc="/images/placeholder-dish.jpg"
+            />
             {/* Subtle overlay for depth and text readability */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-black/10 to-transparent rounded-lg pointer-events-none"></div>
+            <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-black/15 to-transparent rounded-lg pointer-events-none"></div>
             {/* Chef name overlay at bottom */}
-            <div className="absolute bottom-0 left-0 right-0 p-6 md:p-8 bg-gradient-to-t from-black/60 to-transparent rounded-b-lg pointer-events-none">
-              <p className="text-cream-100 font-display text-lg md:text-xl font-light">
+            <div className="absolute bottom-0 left-0 right-0 p-6 md:p-8 bg-gradient-to-t from-black/70 via-black/50 to-transparent rounded-b-lg pointer-events-none">
+              <p className="text-cream-100 font-display text-lg md:text-xl font-light drop-shadow-lg">
                 Our Head Chef
+              </p>
+              <p className="text-cream-200/80 font-body text-sm md:text-base mt-1 drop-shadow-md">
+                Crafting culinary excellence
               </p>
             </div>
           </div>
