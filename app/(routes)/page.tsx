@@ -9,7 +9,7 @@ import { Metadata } from "next"
 import { StructuredData } from "@/components/seo/StructuredData"
 
 export const metadata: Metadata = {
-  title: "Chez Amis Bar and Grill | Premium Dining Experience in Accra",
+  title: "Chez Amis Restaurant",
   description: "Experience exceptional culinary artistry and warm hospitality in the heart of Accra. Signature Attieke dishes, Ivorian-Ghanaian fusion cuisine, fine dining, reservations, and private events. Open daily 9:30 AM - 12 AM at 40 Boundary Rd, Accra.",
   keywords: [
     "Chez Amis",
@@ -31,10 +31,10 @@ export const metadata: Metadata = {
     "culinary experience Accra"
   ],
   openGraph: {
-    title: "Chez Amis Bar and Grill | Premium Dining Experience in Accra",
+    title: "Chez Amis Restaurant",
     description: "Experience exceptional culinary artistry and warm hospitality. Signature Attieke dishes, Ivorian-Ghanaian fusion cuisine, fine dining, and private events.",
     url: process.env.NEXT_PUBLIC_SITE_URL || "https://chezamis.com",
-    siteName: "Chez Amis Bar and Grill",
+    siteName: "Chez Amis Restaurant",
     images: [
       {
         url: "/images/og-image.jpg",
@@ -48,7 +48,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Chez Amis Bar and Grill | Premium Dining Experience in Accra",
+    title: "Chez Amis Restaurant",
     description: "Experience exceptional culinary artistry and warm hospitality. Signature Attieke dishes, Ivorian-Ghanaian fusion cuisine.",
     images: ["/images/og-image.jpg"],
   },

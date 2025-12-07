@@ -41,8 +41,8 @@ const italiana = Italiana({
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://chezamis.com'),
   title: {
-    default: "Chez Amis Bar and Grill | Premium Dining Experience in Accra",
-    template: "%s | Chez Amis Bar and Grill"
+    default: "Chez Amis Restaurant",
+    template: "%s | Chez Amis Restaurant"
   },
   description: "Experience exceptional culinary artistry and warm hospitality in the heart of Accra. Signature Attieke dishes, Ivorian-Ghanaian fusion cuisine, fine dining, reservations, and private events. Open daily 9:30 AM - 12 AM.",
   keywords: [
@@ -76,8 +76,8 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_US",
     url: process.env.NEXT_PUBLIC_SITE_URL || "https://chezamis.com",
-    siteName: "Chez Amis Bar and Grill",
-    title: "Chez Amis Bar and Grill | Premium Dining Experience in Accra",
+    siteName: "Chez Amis Restaurant",
+    title: "Chez Amis Restaurant",
     description: "Experience exceptional culinary artistry and warm hospitality in the heart of Accra. Signature Attieke dishes, Ivorian-Ghanaian fusion cuisine, fine dining, and private events.",
     images: [
       {
@@ -90,7 +90,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Chez Amis Bar and Grill | Premium Dining Experience in Accra",
+    title: "Chez Amis Restaurant",
     description: "Experience exceptional culinary artistry and warm hospitality. Signature Attieke dishes, Ivorian-Ghanaian fusion cuisine.",
     images: ["/images/og-image.jpg"],
     creator: "@chezamisrestaurant",
