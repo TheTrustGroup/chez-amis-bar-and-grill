@@ -41,6 +41,10 @@ const italiana = Italiana({
 export const metadata: Metadata = {
   title: "Chez Amis Bar and Grill | Premium Dining Experience",
   description: "Experience exceptional culinary artistry and warm hospitality in the heart of Accra. Where every meal is a celebration of flavor and elegance.",
+  icons: {
+    icon: "/favicon-32x32.png",
+    apple: "/apple-touch-icon.png",
+  },
 }
 
 export default function RootLayout({
