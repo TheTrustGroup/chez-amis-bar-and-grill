@@ -39,8 +39,82 @@ const italiana = Italiana({
 })
 
 export const metadata: Metadata = {
-  title: "Chez Amis Bar and Grill | Premium Dining Experience",
-  description: "Experience exceptional culinary artistry and warm hospitality in the heart of Accra. Where every meal is a celebration of flavor and elegance.",
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://chezamis.com'),
+  title: {
+    default: "Chez Amis Bar and Grill | Premium Dining Experience in Accra",
+    template: "%s | Chez Amis Bar and Grill"
+  },
+  description: "Experience exceptional culinary artistry and warm hospitality in the heart of Accra. Signature Attieke dishes, Ivorian-Ghanaian fusion cuisine, fine dining, reservations, and private events. Open daily 9:30 AM - 12 AM.",
+  keywords: [
+    "Chez Amis",
+    "restaurant Accra",
+    "fine dining Accra",
+    "Attieke Accra",
+    "Ivorian restaurant Ghana",
+    "Ghanaian restaurant",
+    "West African cuisine",
+    "premium dining Accra",
+    "restaurant reservations Accra",
+    "private dining Accra",
+    "catering Accra",
+    "Bar and Grill Accra",
+    "East Legon restaurant",
+    "Boundary Road restaurant",
+    "best restaurant Accra",
+    "gourmet food Ghana",
+    "culinary experience Accra"
+  ],
+  authors: [{ name: "Chez Amis Bar and Grill" }],
+  creator: "Chez Amis Bar and Grill",
+  publisher: "Chez Amis Bar and Grill",
+  formatDetection: {
+    email: false,
+    address: false,
+    telephone: false,
+  },
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    url: process.env.NEXT_PUBLIC_SITE_URL || "https://chezamis.com",
+    siteName: "Chez Amis Bar and Grill",
+    title: "Chez Amis Bar and Grill | Premium Dining Experience in Accra",
+    description: "Experience exceptional culinary artistry and warm hospitality in the heart of Accra. Signature Attieke dishes, Ivorian-Ghanaian fusion cuisine, fine dining, and private events.",
+    images: [
+      {
+        url: "/images/og-image.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Chez Amis Bar and Grill - Premium Dining Experience",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Chez Amis Bar and Grill | Premium Dining Experience in Accra",
+    description: "Experience exceptional culinary artistry and warm hospitality. Signature Attieke dishes, Ivorian-Ghanaian fusion cuisine.",
+    images: ["/images/og-image.jpg"],
+    creator: "@chezamisrestaurant",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
+  verification: {
+    // Add your verification codes here when available
+    // google: 'your-google-verification-code',
+    // yandex: 'your-yandex-verification-code',
+    // bing: 'your-bing-verification-code',
+  },
+  alternates: {
+    canonical: process.env.NEXT_PUBLIC_SITE_URL || "https://chezamis.com",
+  },
   // Next.js 14 automatically generates favicon from app/icon.png and app/icon.svg
   // Additional icons for better browser compatibility
   icons: {
