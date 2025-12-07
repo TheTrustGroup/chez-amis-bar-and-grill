@@ -137,28 +137,10 @@ export function Footer() {
                 FAQs
               </Link>
               <Link
-                href="/gift-cards"
-                className="block text-sm font-body font-light text-cream-200/70 hover:text-gold-500 transition-colors"
-              >
-                Gift Cards
-              </Link>
-              <Link
                 href="/catering"
                 className="block text-sm font-body font-light text-cream-200/70 hover:text-gold-500 transition-colors"
               >
                 Catering
-              </Link>
-              <Link
-                href="/dietary"
-                className="block text-sm font-body font-light text-cream-200/70 hover:text-gold-500 transition-colors"
-              >
-                Dietary Information
-              </Link>
-              <Link
-                href="/accessibility"
-                className="block text-sm font-body font-light text-cream-200/70 hover:text-gold-500 transition-colors"
-              >
-                Accessibility
               </Link>
             </nav>
           </div>
