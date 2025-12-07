@@ -8,23 +8,25 @@ export function FounderStory() {
     <section className="section-padding bg-background" aria-labelledby="founder-story-heading">
       <div className="container-custom">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-          {/* Left: Portrait */}
+          {/* Left: Portrait - Using chef's picture, especially visible on mobile */}
           <div className="relative w-full h-[500px] md:h-[600px] lg:h-[700px] order-2 lg:order-1">
-            <div className="absolute inset-0 bg-gradient-to-br from-charcoal-900 via-charcoal-800 to-burgundy-900 rounded-lg overflow-hidden">
-              {/* In production, use Next.js Image */}
-              {/* <Image
-                src="/images/chef-portrait.jpg"
-                alt="Chef and Founder"
+            <div className="absolute inset-0 rounded-lg overflow-hidden shadow-2xl">
+              {/* Chef Image - Using head-chef.jpg */}
+              <Image
+                src="/images/team/head-chef.jpg"
+                alt="Chef and Founder of Chez Amis Bar and Grill"
                 fill
-                className="object-cover"
+                className="object-cover object-center rounded-lg"
                 priority
-              /> */}
-              <div className="absolute inset-0 flex items-center justify-center text-cream-200/30 font-display text-3xl">
-                Chef Portrait
-              </div>
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 600px"
+                quality={90}
+                style={{
+                  filter: 'brightness(1.05) contrast(1.1) saturate(1.1)',
+                }}
+              />
+              {/* Subtle overlay for text readability */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent"></div>
             </div>
-            {/* Subtle overlay */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
           </div>
 
           {/* Right: Story Text */}

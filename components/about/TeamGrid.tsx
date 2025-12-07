@@ -17,10 +17,10 @@ interface TeamMember {
 const teamMembers: TeamMember[] = [
   {
     id: "1",
-    name: "Chef Kwame Mensah",
-    role: "Head Chef & Founder",
+    name: "Chez Amis",
+    role: "Chez Amis",
     bio: "Trained in Paris under Michelin-starred chefs, Chef Kwame brings over 20 years of culinary excellence to Chez Amis. His innovative approach to combining French techniques with local Ghanaian flavors has earned him recognition as one of Accra's most celebrated chefs.",
-    specialty: "French-Ghanaian Fusion",
+    specialty: "Ivorian - Ghanaian fusion",
     image: "/images/team/head-chef.jpg",
   },
   {

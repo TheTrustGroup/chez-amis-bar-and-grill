@@ -25,8 +25,8 @@ export const aboutCopy = {
     subtitle: "A journey of passion, tradition, and culinary excellence",
   },
   founder: {
-    name: "Chef Antoine Dubois",
-    title: "Head Chef & Founder",
+    name: "Chez Amis",
+    title: "Chez Amis",
     story: `Born in Lyon, France, and trained in some of Europe's most prestigious kitchens, Chef Antoine Dubois found his true calling in Accra. After years of traveling and exploring global cuisines, he fell in love with Ghana's vibrant food culture and warm hospitality.
 
 What started as a dream to blend French culinary techniques with West African flavors has become Chez Amis—a place where every dish tells a story, and every guest feels like family.
@@ -97,7 +97,7 @@ export const menuCopy = {
   },
   chefNote: {
     quote: `"Our commitment to culinary excellence is unwavering. We believe in the power of fresh, local ingredients to tell a story on your plate."`,
-    attribution: "— Chef Antoine Dubois, Head Chef & Founder",
+    attribution: "— Chez Amis, Ivorian - Ghanaian fusion",
   },
   seasonal: {
     title: "Seasonal Specials",
