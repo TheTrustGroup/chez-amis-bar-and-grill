@@ -2,29 +2,40 @@
 
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
-import { MapPin, Phone, Clock } from "lucide-react"
+import { MapPin, Phone, Clock, Navigation } from "lucide-react"
 
 export function VisitUsSection() {
   return (
     <section className="section-padding bg-background" aria-labelledby="visit-heading">
       <div className="container-custom">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-          {/* Left: Map or Location Image */}
-          <div className="relative w-full h-[400px] md:h-[500px] lg:h-[600px] rounded-lg overflow-hidden">
-            <div className="absolute inset-0 bg-gradient-to-br from-charcoal-900 via-charcoal-800 to-burgundy-900">
-              {/* In production, use embedded map or Next.js Image */}
-              {/* <iframe
-                src="https://www.google.com/maps/embed?pb=..."
-                className="w-full h-full border-0"
-                allowFullScreen
-                loading="lazy"
-              /> */}
-              <div className="absolute inset-0 flex items-center justify-center text-cream-200/30 font-display text-2xl">
-                Location Map
-              </div>
-            </div>
-            {/* Subtle overlay */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+          {/* Left: Interactive Google Map */}
+          <div className="relative w-full h-[400px] md:h-[500px] lg:h-[600px] rounded-lg overflow-hidden shadow-2xl">
+            {/* Google Maps Embed */}
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3970.4955103223842!2d-0.14888879037757927!3d5.641201894316414!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xfdf84aa959debd3%3A0x19c03e87c6e69ecc!2sChez%20Amis%20Bar%20and%20Grill!5e0!3m2!1sen!2sgh!4v1765127088179!5m2!1sen!2sgh"
+              width="100%"
+              height="100%"
+              style={{ border: 0 }}
+              allowFullScreen
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+              title="Chez Amis Bar and Grill Location - 40 Boundary Rd, Accra"
+              aria-label="Google Maps showing Chez Amis restaurant location"
+              className="absolute inset-0"
+            />
+            {/* Elegant border overlay */}
+            <div className="absolute inset-0 border-2 border-gold-500/20 rounded-lg pointer-events-none"></div>
+            {/* Quick action button */}
+            <a
+              href="https://maps.google.com/?q=Chez+Amis+Bar+and+Grill+40+Boundary+Rd+Accra"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="absolute bottom-4 right-4 bg-white p-3 rounded-full shadow-lg hover:bg-amber-50 transition-colors z-10"
+              aria-label="Get directions"
+            >
+              <Navigation className="w-5 h-5 text-amber-600" />
+            </a>
           </div>
 
           {/* Right: Contact Information */}
