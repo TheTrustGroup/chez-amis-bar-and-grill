@@ -193,7 +193,10 @@ export function HeroSection() {
 
           {/* Operating Hours Text - Positioned relative to content, not absolute */}
           <div 
-            className="mb-6 md:mb-8"
+            className={cn(
+              "mb-6 md:mb-8",
+              isMobile && "mb-8"
+            )}
             style={{ animationDelay: "0.6s" }}
           >
             <p className="text-sm md:text-base text-gray-300 flex items-center justify-center gap-2">
@@ -204,7 +207,7 @@ export function HeroSection() {
 
           {/* Mobile Quick Actions */}
           {isMobile && (
-            <div className="mt-6 mb-20">
+            <div className="mt-6 mb-24">
               <QuickActions variant="hero" />
             </div>
           )}
@@ -230,43 +233,71 @@ export function HeroSection() {
       </button>
 
       {/* Social Proof Banner - Positioned above bottom navigation on mobile with proper spacing */}
-      <div className={cn(
-        "absolute left-0 right-0 z-10",
-        isMobile ? "bottom-20" : "bottom-0"
-      )}>
-        <div className="bg-black/30 backdrop-blur-md border-t border-cream-200/10">
-          <div className={cn(
-            "container mx-auto px-4 sm:px-6 md:px-8 lg:px-12",
-            isMobile ? "py-3" : "py-4 lg:py-5"
-          )}>
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-3 md:gap-6 text-cream-200/90">
-              {/* Star Rating */}
-              <div className="flex items-center gap-1.5 sm:gap-2">
-                <div className="flex gap-0.5 sm:gap-1" aria-label="5 star rating">
-                  {[...Array(5)].map((_, i) => (
-                    <Star
-                      key={i}
-                      className="h-3.5 w-3.5 sm:h-4 sm:w-4 md:h-5 md:w-5 fill-gold-500 text-gold-500"
-                      aria-hidden="true"
-                    />
-                  ))}
+      {!isMobile && (
+        <div className="absolute bottom-0 left-0 right-0 z-10">
+          <div className="bg-black/30 backdrop-blur-md border-t border-cream-200/10">
+            <div className="container mx-auto px-6 md:px-8 lg:px-12 py-4 lg:py-5">
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-3 md:gap-6 text-cream-200/90">
+                {/* Star Rating */}
+                <div className="flex items-center gap-1.5 sm:gap-2">
+                  <div className="flex gap-0.5 sm:gap-1" aria-label="5 star rating">
+                    {[...Array(5)].map((_, i) => (
+                      <Star
+                        key={i}
+                        className="h-3.5 w-3.5 sm:h-4 sm:w-4 md:h-5 md:w-5 fill-gold-500 text-gold-500"
+                        aria-hidden="true"
+                      />
+                    ))}
+                  </div>
+                  <span className="text-xs sm:text-sm md:text-base font-heading font-light whitespace-nowrap">
+                    Rated Accra&apos;s finest
+                  </span>
                 </div>
-                <span className="text-xs sm:text-sm md:text-base font-heading font-light whitespace-nowrap">
-                  Rated Accra&apos;s finest
+                
+                {/* Divider */}
+                <div className="hidden sm:block h-4 w-px bg-cream-200/20" aria-hidden="true"></div>
+                
+                {/* Guest Count */}
+                <span className="text-xs sm:text-sm md:text-base font-body font-light whitespace-nowrap">
+                  2,500+ satisfied guests
                 </span>
               </div>
-              
-              {/* Divider */}
-              <div className="hidden sm:block h-4 w-px bg-cream-200/20" aria-hidden="true"></div>
-              
-              {/* Guest Count */}
-              <span className="text-xs sm:text-sm md:text-base font-body font-light whitespace-nowrap">
-                2,500+ satisfied guests
-              </span>
             </div>
           </div>
         </div>
-      </div>
+      )}
+
+      {/* Mobile Social Proof Banner - In content flow to prevent overlapping */}
+      {isMobile && (
+        <div className="relative z-10 mt-8 mb-20">
+          <div className="bg-black/30 backdrop-blur-md border-t border-cream-200/10 rounded-t-lg">
+            <div className="container mx-auto px-4 py-3">
+              <div className="flex flex-col items-center justify-center gap-2 text-cream-200/90">
+                {/* Star Rating */}
+                <div className="flex items-center gap-1.5">
+                  <div className="flex gap-0.5" aria-label="5 star rating">
+                    {[...Array(5)].map((_, i) => (
+                      <Star
+                        key={i}
+                        className="h-3.5 w-3.5 fill-gold-500 text-gold-500"
+                        aria-hidden="true"
+                      />
+                    ))}
+                  </div>
+                  <span className="text-xs font-heading font-light whitespace-nowrap">
+                    Rated Accra&apos;s finest
+                  </span>
+                </div>
+                
+                {/* Guest Count */}
+                <span className="text-xs font-body font-light whitespace-nowrap">
+                  2,500+ satisfied guests
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </section>
   )
 }
