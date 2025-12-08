@@ -139,7 +139,7 @@ export function OrderSummary({ orderType, onPlaceOrder, canPlaceOrder = false, i
                 </Button>
                 {!canPlaceOrder && (
                   <p className="text-xs text-muted-foreground font-body font-light text-center px-2">
-                    Complete all fields above to place your order
+                    {isSubmitting ? 'Processing your order...' : 'Complete all fields above to place your order'}
                   </p>
                 )}
               </div>

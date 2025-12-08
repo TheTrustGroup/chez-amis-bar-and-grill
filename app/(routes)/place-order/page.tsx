@@ -35,17 +35,25 @@ export default function PlaceOrderPage() {
   }
 
   const canProceedToStep2 = orderType !== null
-  const canProceedToStep3 =
-    canProceedToStep2 &&
-    (orderType === "dine-in"
-      ? formData.date && formData.time && formData.guests
+  
+  // Check if order type specific fields are filled
+  const hasOrderTypeFields = 
+    orderType === "dine-in"
+      ? !!(formData.date && formData.time && formData.guests)
       : orderType === "takeaway"
-      ? formData.pickupTime && formData.phone
-      : formData.deliveryAddress && formData.phone)
+      ? !!(formData.pickupTime && formData.phone)
+      : orderType === "delivery"
+      ? !!(formData.deliveryAddress && formData.deliveryTime && (formData.deliveryTime === "asap" || formData.scheduledTime))
+      : false
+  
+  const canProceedToStep3 = canProceedToStep2 && hasOrderTypeFields
+  
+  // Check if all required fields are filled
   const canPlaceOrder =
     canProceedToStep3 &&
-    formData.fullName &&
-    formData.email &&
+    !!formData.fullName &&
+    !!formData.email &&
+    !!formData.phone &&
     paymentMethod !== null
 
   const handlePlaceOrder = async () => {
@@ -264,20 +272,24 @@ export default function PlaceOrderPage() {
                   <p className="text-xs text-muted-foreground font-body font-light text-center mt-2">
                     {!orderType 
                       ? 'Please select an order type to continue'
-                      : !canProceedToStep3
+                      : !hasOrderTypeFields
                       ? orderType === 'delivery' && !formData.deliveryAddress
                         ? 'Please fill in your delivery address'
-                        : orderType === 'delivery' && !formData.phone
-                        ? 'Please provide your phone number'
+                        : orderType === 'delivery' && !formData.deliveryTime
+                        ? 'Please select a delivery time (ASAP or Scheduled)'
+                        : orderType === 'delivery' && formData.deliveryTime === 'scheduled' && !formData.scheduledTime
+                        ? 'Please select a scheduled delivery time'
                         : orderType === 'takeaway' && !formData.pickupTime
                         ? 'Please select a pickup time'
-                        : orderType === 'takeaway' && !formData.phone
-                        ? 'Please provide your phone number'
                         : orderType === 'dine-in' && (!formData.date || !formData.time || !formData.guests)
                         ? 'Please fill in date, time, and number of guests'
-                        : 'Please complete all required fields'
-                      : !formData.fullName || !formData.email
-                      ? 'Please fill in your name and email'
+                        : 'Please complete all order type fields'
+                      : !formData.fullName
+                      ? 'Please fill in your full name'
+                      : !formData.email
+                      ? 'Please fill in your email address'
+                      : !formData.phone
+                      ? 'Please provide your phone number'
                       : !paymentMethod
                       ? 'Please select a payment method'
                       : 'Please complete all required fields'}
