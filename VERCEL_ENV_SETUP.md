@@ -14,7 +14,7 @@ Click **Add New** and add these variables:
 
 **Variable 1:**
 - **Key:** `RESEND_API_KEY`
-- **Value:** `re_exzWAyZJ_Ha64cQjg2xDoMQkpjASvgLMs`
+- **Value:** Your Resend API key (get from https://resend.com/api-keys)
 - **Environment:** Production, Preview, Development (select all)
 
 **Variable 2:**
@@ -46,7 +46,7 @@ Your Twilio SMS service is configured. Add these to Vercel:
 
 **Variable 3:**
 - **Key:** `TWILIO_PHONE_NUMBER`
-- **Value:** Your Twilio phone number (e.g., `+15204754558` for trial, or `+233XXXXXXXXX` for Ghana)
+- **Value:** Your Twilio phone number (e.g., `+1234567890` for trial, or `+233XXXXXXXXX` for Ghana)
 - **Environment:** Production, Preview, Development (select all)
 
 **Your Credentials:**

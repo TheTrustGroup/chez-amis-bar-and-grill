@@ -6,7 +6,7 @@
 - **Provider:** Twilio
 - **Account SID:** Configured
 - **Auth Token:** Configured
-- **Phone Number:** +15204754558 (Trial number)
+- **Phone Number:** Configured (Trial number)
 - **Status:** Ready for testing
 
 **Email Service:** ✅ **CONFIGURED**
@@ -33,11 +33,12 @@ Create or update `.env.local` file in project root:
 
 ```bash
 # Email Service (Resend)
-RESEND_API_KEY=re_exzWAyZJ_Ha64cQjg2xDoMQkpjASvgLMs
+# Replace with your actual Resend API key from https://resend.com/api-keys
+RESEND_API_KEY=re_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 RESEND_FROM_EMAIL=Chez Amis <noreply@chezamisrestaurant.com>
 
 # SMS Service (Twilio)
-# Replace with your actual Twilio credentials
+# Replace with your actual Twilio credentials from https://console.twilio.com
 TWILIO_ACCOUNT_SID=ACxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 TWILIO_AUTH_TOKEN=your_auth_token_here
 TWILIO_PHONE_NUMBER=+1234567890
@@ -56,7 +57,7 @@ TWILIO_PHONE_NUMBER=+1234567890
 
 ## ⚠️ Important: Trial Number Limitations
 
-Your Twilio phone number (`+15204754558`) appears to be a **trial number**.
+Your Twilio phone number appears to be a **trial number**.
 
 ### What This Means:
 

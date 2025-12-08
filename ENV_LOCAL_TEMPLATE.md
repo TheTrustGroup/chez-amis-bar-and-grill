@@ -12,7 +12,8 @@ NEXT_PUBLIC_PHONE=+2330243952339
 NEXT_PUBLIC_EMAIL=chez@chezamisrestaurant.com
 
 # Email Service (Resend) - ✅ CONFIGURED
-RESEND_API_KEY=re_exzWAyZJ_Ha64cQjg2xDoMQkpjASvgLMs
+# Replace with your actual Resend API key from https://resend.com/api-keys
+RESEND_API_KEY=re_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 RESEND_FROM_EMAIL=Chez Amis <noreply@chezamisrestaurant.com>
 
 # SMS Service (Twilio) - ✅ CONFIGURED
