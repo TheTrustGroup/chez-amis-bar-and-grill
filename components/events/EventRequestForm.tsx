@@ -28,32 +28,53 @@ export function EventRequestForm() {
     setFormData((prev) => ({ ...prev, [field]: value }))
   }
 
+  const [isSubmitted, setIsSubmitted] = useState(false)
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsSubmitting(true)
 
-    // In production, this would submit to your backend
-    // In production, this would send to your API
+    try {
+      // Submit to API route
+      const response = await fetch('/api/events', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      })
 
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 1000))
+      const result = await response.json()
 
-    alert("Thank you! We'll contact you within 24 hours to discuss your event.")
-    setIsSubmitting(false)
-    // Reset form
-    setFormData({
-      eventType: "",
-      date: "",
-      alternateDate: "",
-      guests: "",
-      spacePreference: "",
-      budgetRange: "",
-      name: "",
-      email: "",
-      phone: "",
-      company: "",
-      additionalDetails: "",
-    })
+      if (!response.ok) {
+        throw new Error(result.error || 'Failed to send event request')
+      }
+
+      setIsSubmitting(false)
+      setIsSubmitted(true)
+
+      // Reset form after showing success message
+      setTimeout(() => {
+        setIsSubmitted(false)
+        setFormData({
+          eventType: "",
+          date: "",
+          alternateDate: "",
+          guests: "",
+          spacePreference: "",
+          budgetRange: "",
+          name: "",
+          email: "",
+          phone: "",
+          company: "",
+          additionalDetails: "",
+        })
+      }, 5000)
+    } catch (error) {
+      console.error('Event request submission error:', error)
+      setIsSubmitting(false)
+      alert('Failed to send event request. Please try again or call us directly.')
+    }
   }
 
   const isFormValid =
