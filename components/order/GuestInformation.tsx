@@ -89,18 +89,6 @@ export function GuestInformation({ formData, onFieldChange }: GuestInformationPr
           </p>
         </div>
       </div>
-
-      <div className="pt-4 border-t border-border/50">
-        <p className="text-sm text-muted-foreground font-body font-light">
-          For returning guests:{" "}
-          <Link
-            href="/login"
-            className="underline underline-offset-2 hover:text-foreground transition-colors"
-          >
-            Sign in to use saved details
-          </Link>
-        </p>
-      </div>
     </div>
   )
 }

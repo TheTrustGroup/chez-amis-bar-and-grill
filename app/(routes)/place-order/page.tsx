@@ -171,9 +171,9 @@ export default function PlaceOrderPage() {
 
       {/* Main Content */}
       <div className="container-custom py-12 md:py-16">
-        <div className="grid grid-cols-1 lg:grid-cols-5 gap-12 lg:gap-16">
+        <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 lg:gap-16">
           {/* Left Column - Order Form (60%) */}
-          <div className="lg:col-span-3 space-y-12">
+          <div className="lg:col-span-3 space-y-12 order-2 lg:order-1">
             {/* Step 1: Order Type */}
             <div>
               <OrderTypeSelector
@@ -209,47 +209,82 @@ export default function PlaceOrderPage() {
               </div>
             )}
 
-            {/* Bottom Section */}
-            {canProceedToStep3 && (
-              <div className="pt-8 border-t border-border/50 space-y-6">
-                <div className="flex items-center gap-4 text-sm text-muted-foreground font-body font-light">
-                  <Shield className="h-4 w-4" />
-                  <span>Secure payment</span>
-                  <span className="text-border">•</span>
-                  <Lock className="h-4 w-4" />
-                  <span>SSL encrypted</span>
-                </div>
-
-                <p className="text-sm text-muted-foreground font-body font-light">
-                  By placing this order, you agree to our{" "}
-                  <a
-                    href="/terms"
-                    className="underline underline-offset-2 hover:text-foreground transition-colors"
-                  >
-                    terms of service
-                  </a>
-                </p>
-
-                {submitError && (
-                  <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-4">
-                    <p className="text-sm text-red-800 font-body font-light">{submitError}</p>
+            {/* Bottom Section - Always visible */}
+            <div className="pt-8 border-t border-border/50 space-y-6">
+              {canProceedToStep3 && (
+                <>
+                  <div className="flex items-center gap-4 text-sm text-muted-foreground font-body font-light">
+                    <Shield className="h-4 w-4" />
+                    <span>Secure payment</span>
+                    <span className="text-border">•</span>
+                    <Lock className="h-4 w-4" />
+                    <span>SSL encrypted</span>
                   </div>
-                )}
+
+                  <p className="text-sm text-muted-foreground font-body font-light">
+                    By placing this order, you agree to our{" "}
+                    <a
+                      href="/terms"
+                      className="underline underline-offset-2 hover:text-foreground transition-colors"
+                    >
+                      terms of service
+                    </a>
+                  </p>
+                </>
+              )}
+
+              {submitError && (
+                <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-4">
+                  <p className="text-sm text-red-800 font-body font-light">{submitError}</p>
+                </div>
+              )}
+
+              {/* Place Order Button - Hidden on mobile (shown in OrderSummary sidebar instead) */}
+              <div className="hidden lg:block">
                 <Button
                   onClick={handlePlaceOrder}
                   disabled={!canPlaceOrder || isSubmitting}
                   size="lg"
-                  className="w-full md:w-auto min-w-[200px] font-heading font-light tracking-wide bg-foreground text-background hover:bg-foreground/90 text-lg px-8 py-7"
+                  className="w-full font-heading font-light tracking-wide bg-foreground text-background hover:bg-foreground/90 disabled:opacity-50 disabled:cursor-not-allowed text-lg px-8 py-7"
                 >
                   {isSubmitting ? 'Placing Order...' : 'Place Order'}
                 </Button>
+
+                {!canPlaceOrder && (
+                  <p className="text-xs text-muted-foreground font-body font-light text-center mt-2">
+                    {!orderType 
+                      ? 'Please select an order type to continue'
+                      : !canProceedToStep3
+                      ? orderType === 'delivery' && !formData.deliveryAddress
+                        ? 'Please fill in your delivery address'
+                        : orderType === 'delivery' && !formData.phone
+                        ? 'Please provide your phone number'
+                        : orderType === 'takeaway' && !formData.pickupTime
+                        ? 'Please select a pickup time'
+                        : orderType === 'takeaway' && !formData.phone
+                        ? 'Please provide your phone number'
+                        : orderType === 'dine-in' && (!formData.date || !formData.time || !formData.guests)
+                        ? 'Please fill in date, time, and number of guests'
+                        : 'Please complete all required fields'
+                      : !formData.fullName || !formData.email
+                      ? 'Please fill in your name and email'
+                      : !paymentMethod
+                      ? 'Please select a payment method'
+                      : 'Please complete all required fields'}
+                  </p>
+                )}
               </div>
-            )}
+            </div>
           </div>
 
-          {/* Right Column - Order Summary (40%, Sticky) */}
-          <div className="lg:col-span-2">
-            <OrderSummary orderType={orderType} />
+          {/* Right Column - Order Summary (40%, Sticky) - Shows first on mobile */}
+          <div className="lg:col-span-2 order-1 lg:order-2">
+            <OrderSummary 
+              orderType={orderType} 
+              onPlaceOrder={handlePlaceOrder}
+              canPlaceOrder={!!canPlaceOrder}
+              isSubmitting={!!isSubmitting}
+            />
           </div>
         </div>
       </div>

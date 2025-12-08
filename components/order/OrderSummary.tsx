@@ -6,13 +6,17 @@ import { useCartContext } from "@/lib/context/CartContext"
 import { OrderType } from "./OrderTypeSelector"
 import { Clock } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
+import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 
 interface OrderSummaryProps {
   orderType: OrderType | null
+  onPlaceOrder?: () => void
+  canPlaceOrder?: boolean
+  isSubmitting?: boolean
 }
 
-export function OrderSummary({ orderType }: OrderSummaryProps) {
+export function OrderSummary({ orderType, onPlaceOrder, canPlaceOrder = false, isSubmitting = false }: OrderSummaryProps) {
   const { items, getSubtotal, getTax, getDeliveryFee, getGrandTotal } = useCartContext()
 
   const subtotal = getSubtotal()
@@ -35,8 +39,8 @@ export function OrderSummary({ orderType }: OrderSummaryProps) {
   }
 
   return (
-    <div className="sticky top-24 h-fit">
-      <div className="bg-cream-50 rounded-lg p-6 md:p-8 border border-border/30 space-y-6">
+    <div className="lg:sticky lg:top-24 h-fit">
+      <div className="bg-cream-50 rounded-lg p-6 md:p-8 border border-border/30 space-y-6 shadow-sm">
         <div>
           <h2 className="text-2xl font-display font-light text-foreground mb-4">
             Your Order
@@ -122,13 +126,34 @@ export function OrderSummary({ orderType }: OrderSummaryProps) {
               </p>
             </div>
 
+            {/* Place Order Button - Prominent, always visible */}
+            {onPlaceOrder && (
+              <div className="pt-4 space-y-3">
+                <Button
+                  onClick={onPlaceOrder}
+                  disabled={!canPlaceOrder || isSubmitting}
+                  size="lg"
+                  className="w-full font-heading font-light tracking-wide bg-foreground text-background hover:bg-foreground/90 disabled:opacity-50 disabled:cursor-not-allowed text-lg px-8 py-7 shadow-lg hover:shadow-xl transition-all"
+                >
+                  {isSubmitting ? 'Placing Order...' : 'Place Order'}
+                </Button>
+                {!canPlaceOrder && (
+                  <p className="text-xs text-muted-foreground font-body font-light text-center px-2">
+                    Complete all fields above to place your order
+                  </p>
+                )}
+              </div>
+            )}
+
             {/* Modify Order Link */}
-            <Link
-              href="/menu"
-              className="block text-center text-sm text-muted-foreground hover:text-foreground font-body font-light underline underline-offset-2 transition-colors"
-            >
-              Modify Order
-            </Link>
+            {onPlaceOrder && (
+              <Link
+                href="/menu"
+                className="block text-center text-sm text-muted-foreground hover:text-foreground font-body font-light underline underline-offset-2 transition-colors pt-2"
+              >
+                Modify Order
+              </Link>
+            )}
           </>
         )}
       </div>
