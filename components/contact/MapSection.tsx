@@ -63,18 +63,6 @@ export function MapSection() {
             {/* Elegant border overlay */}
             <div className="absolute inset-0 border-2 border-gold-500/20 rounded-xl pointer-events-none"></div>
 
-            {/* Floating Status indicator - Dynamic based on current time */}
-            <div className="absolute top-4 left-4 bg-white rounded-full px-4 py-2 shadow-lg z-10">
-              <div className="flex items-center gap-2">
-                <span 
-                  className={`w-2 h-2 rounded-full ${restaurantStatus.isOpen ? 'bg-green-500 animate-pulse' : 'bg-red-500'}`}
-                ></span>
-                <span className={`text-sm font-medium ${restaurantStatus.isOpen ? 'text-green-600' : 'text-red-600'}`}>
-                  {restaurantStatus.text}
-                </span>
-              </div>
-            </div>
-
             {/* Quick action buttons over map */}
             <div className="absolute bottom-4 right-4 flex gap-2 z-10">
               <a
