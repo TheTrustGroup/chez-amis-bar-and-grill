@@ -181,16 +181,28 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     return getSubtotal() * VAT_RATE
   }, [getSubtotal])
 
-  // Get delivery fee
-  const getDeliveryFee = useCallback(() => {
+  // Get delivery fee (only for delivery orders)
+  const getDeliveryFee = useCallback((orderType?: 'dine-in' | 'takeaway' | 'delivery') => {
+    if (orderType !== 'delivery') return 0
     const subtotal = getSubtotal()
     return subtotal >= FREE_DELIVERY_THRESHOLD ? 0 : DELIVERY_FEE
   }, [getSubtotal])
 
-  // Get grand total
-  const getGrandTotal = useCallback(() => {
-    return getSubtotal() + getTax() + getDeliveryFee()
-  }, [getSubtotal, getTax, getDeliveryFee])
+  // Get service charge (only for dine-in orders)
+  const getServiceCharge = useCallback((orderType?: 'dine-in' | 'takeaway' | 'delivery') => {
+    if (orderType !== 'dine-in') return 0
+    const subtotal = getSubtotal()
+    return subtotal * 0.1 // 10% service charge
+  }, [getSubtotal])
+
+  // Get grand total (includes tax, delivery fee, and service charge based on order type)
+  const getGrandTotal = useCallback((orderType?: 'dine-in' | 'takeaway' | 'delivery') => {
+    const subtotal = getSubtotal()
+    const tax = getTax()
+    const deliveryFee = getDeliveryFee(orderType)
+    const serviceCharge = getServiceCharge(orderType)
+    return subtotal + tax + deliveryFee + serviceCharge
+  }, [getSubtotal, getTax, getDeliveryFee, getServiceCharge])
 
   // Get cart total (alias for grand total for backward compatibility)
   const getCartTotal = useCallback(() => {
@@ -221,6 +233,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     getSubtotal,
     getTax,
     getDeliveryFee,
+    getServiceCharge,
     getGrandTotal,
     isItemInCart,
   }

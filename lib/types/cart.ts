@@ -28,8 +28,9 @@ export interface CartContextType {
   getCartItemCount: () => number
   getSubtotal: () => number
   getTax: () => number
-  getDeliveryFee: () => number
-  getGrandTotal: () => number
+  getDeliveryFee: (orderType?: 'dine-in' | 'takeaway' | 'delivery') => number
+  getServiceCharge: (orderType?: 'dine-in' | 'takeaway' | 'delivery') => number
+  getGrandTotal: (orderType?: 'dine-in' | 'takeaway' | 'delivery') => number
   isItemInCart: (itemId: string) => boolean
 }
 

@@ -11,10 +11,12 @@ export default function OrderSummaryPage() {
   const router = useRouter()
   const { items, updateQuantity, removeFromCart, getSubtotal, getTax, getDeliveryFee, getGrandTotal } = useCartContext()
 
+  // Order summary page doesn't have order type yet, so show base totals
+  // Delivery fee and service charge will be calculated on place-order page
   const subtotal = getSubtotal()
   const tax = getTax()
-  const deliveryFee = getDeliveryFee()
-  const total = getGrandTotal()
+  const deliveryFee = 0 // Not shown until order type is selected
+  const total = getSubtotal() + getTax() // Base total without delivery/service charge
 
   const handleProceedToCheckout = () => {
     // Redirect to place-order page for complete checkout

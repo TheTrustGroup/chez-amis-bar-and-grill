@@ -17,13 +17,13 @@ interface OrderSummaryProps {
 }
 
 export function OrderSummary({ orderType, onPlaceOrder, canPlaceOrder = false, isSubmitting = false }: OrderSummaryProps) {
-  const { items, getSubtotal, getTax, getDeliveryFee, getGrandTotal } = useCartContext()
+  const { items, getSubtotal, getTax, getDeliveryFee, getServiceCharge, getGrandTotal } = useCartContext()
 
   const subtotal = getSubtotal()
   const tax = getTax()
-  const deliveryFee = getDeliveryFee()
-  const serviceCharge = orderType === "dine-in" ? subtotal * 0.1 : 0
-  const total = getGrandTotal() + serviceCharge
+  const deliveryFee = getDeliveryFee(orderType || undefined)
+  const serviceCharge = getServiceCharge(orderType || undefined)
+  const total = getGrandTotal(orderType || undefined)
 
   const getOrderTypeLabel = () => {
     switch (orderType) {

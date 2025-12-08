@@ -13,7 +13,7 @@ import { Shield, Lock } from "lucide-react"
 
 export default function PlaceOrderPage() {
   const router = useRouter()
-  const { items } = useCartContext()
+  const { items, getSubtotal, getTax, getDeliveryFee, getServiceCharge, getGrandTotal } = useCartContext()
   const [currentStep, setCurrentStep] = useState<1 | 2 | 3>(1)
   const [orderType, setOrderType] = useState<OrderType | null>(null)
   const [paymentMethod, setPaymentMethod] = useState<PaymentMethod | null>(null)
@@ -68,12 +68,12 @@ export default function PlaceOrderPage() {
         .toString()
         .padStart(4, "0")}`
 
-      // Calculate totals
-      const subtotal = items.reduce((sum, item) => sum + item.menuItem.price * item.quantity, 0)
-      const tax = subtotal * 0.15 // 15% VAT
-      const deliveryFee = orderType === "delivery" ? (subtotal >= 100 ? 0 : 15) : 0
-      const serviceCharge = orderType === "dine-in" ? subtotal * 0.1 : 0
-      const total = subtotal + tax + deliveryFee + serviceCharge
+      // Calculate totals using context methods for consistency
+      const subtotal = getSubtotal()
+      const tax = getTax()
+      const deliveryFee = getDeliveryFee(orderType!)
+      const serviceCharge = getServiceCharge(orderType!)
+      const total = getGrandTotal(orderType!)
 
       // Prepare order data
       const orderData = {
@@ -136,12 +136,18 @@ export default function PlaceOrderPage() {
       const emailStatus = result.notifications?.customer?.email?.sent ? 'sent' : 'failed'
       const smsStatus = result.notifications?.customer?.sms?.sent ? 'sent' : 'failed'
       
-      // Build URL with order details
+      // Build URL with order details and payment totals
       const params = new URLSearchParams({
         email: emailStatus,
         sms: smsStatus,
         orderType: orderType!,
         customerName: formData.fullName!,
+        // Payment totals for accurate display
+        subtotal: subtotal.toFixed(2),
+        tax: tax.toFixed(2),
+        deliveryFee: deliveryFee.toFixed(2),
+        serviceCharge: serviceCharge.toFixed(2),
+        total: total.toFixed(2),
         ...(orderType === 'dine-in' && {
           tableNumber: formData.tableNumber || '',
           date: formData.date || '',

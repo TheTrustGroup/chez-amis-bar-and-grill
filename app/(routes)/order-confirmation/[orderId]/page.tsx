@@ -12,7 +12,7 @@ export default function OrderConfirmationPage() {
   const params = useParams()
   const router = useRouter()
   const searchParams = useSearchParams()
-  const { items, clearCart, getSubtotal, getTax, getDeliveryFee, getGrandTotal } = useCartContext()
+  const { items, clearCart, getSubtotal, getTax, getDeliveryFee, getServiceCharge, getGrandTotal } = useCartContext()
   const [isAnimating, setIsAnimating] = useState(true)
   const orderId = params.orderId as string
   
@@ -184,11 +184,20 @@ export default function OrderConfirmationPage() {
   const nextSteps = getNextSteps()
   const OrderIcon = getOrderTypeIcon()
 
-  const subtotal = getSubtotal()
-  const tax = getTax()
-  const deliveryFee = getDeliveryFee()
-  const serviceCharge = orderData.orderType === "dine-in" ? subtotal * 0.1 : 0
-  const total = getGrandTotal() + serviceCharge
+  // Get payment totals from URL params (passed from place-order page)
+  // This ensures accuracy even if cart is cleared
+  const subtotalParam = searchParams.get('subtotal')
+  const taxParam = searchParams.get('tax')
+  const deliveryFeeParam = searchParams.get('deliveryFee')
+  const serviceChargeParam = searchParams.get('serviceCharge')
+  const totalParam = searchParams.get('total')
+
+  // Use URL params if available (accurate), otherwise fall back to cart context
+  const subtotal = subtotalParam ? parseFloat(subtotalParam) : getSubtotal()
+  const tax = taxParam ? parseFloat(taxParam) : getTax()
+  const deliveryFee = deliveryFeeParam ? parseFloat(deliveryFeeParam) : getDeliveryFee(orderData.orderType)
+  const serviceCharge = serviceChargeParam ? parseFloat(serviceChargeParam) : getServiceCharge(orderData.orderType)
+  const total = totalParam ? parseFloat(totalParam) : getGrandTotal(orderData.orderType)
 
   return (
     <div className="min-h-screen bg-background flex items-center justify-center py-20">
