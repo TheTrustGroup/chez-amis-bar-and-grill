@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState, useMemo } from "react"
+import { useEffect, useState, useMemo, useCallback } from "react"
 import { useParams, useRouter, useSearchParams } from "next/navigation"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
@@ -33,7 +33,7 @@ export default function OrderConfirmationPage() {
   const scheduledTimeParam = searchParams.get('scheduledTime')
 
   // Format time for display
-  const formatTime = (timeString: string | null): string => {
+  const formatTime = useCallback((timeString: string | null): string => {
     if (!timeString) return ''
     // If it's already formatted (e.g., "7:30 PM"), return as is
     if (timeString.includes('PM') || timeString.includes('AM')) return timeString
@@ -47,10 +47,10 @@ export default function OrderConfirmationPage() {
     } catch {
       return timeString
     }
-  }
+  }, [])
 
   // Format date for display
-  const formatDate = (dateString: string | null): string => {
+  const formatDate = useCallback((dateString: string | null): string => {
     if (!dateString) return ''
     try {
       const date = new Date(dateString)
@@ -63,10 +63,10 @@ export default function OrderConfirmationPage() {
     } catch {
       return dateString
     }
-  }
+  }, [])
 
   // Format datetime-local to time
-  const formatDateTimeToTime = (dateTimeString: string | null): string => {
+  const formatDateTimeToTime = useCallback((dateTimeString: string | null): string => {
     if (!dateTimeString) return ''
     try {
       const date = new Date(dateTimeString)
@@ -74,7 +74,7 @@ export default function OrderConfirmationPage() {
     } catch {
       return dateTimeString
     }
-  }
+  }, [formatTime])
 
   // Build order data from URL parameters using useMemo
   const orderData = useMemo(() => {
@@ -118,6 +118,9 @@ export default function OrderConfirmationPage() {
     deliveryAddressParam,
     deliveryTimeParam,
     scheduledTimeParam,
+    formatTime,
+    formatDate,
+    formatDateTimeToTime,
   ])
 
   useEffect(() => {
