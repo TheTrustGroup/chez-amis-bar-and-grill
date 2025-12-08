@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import { useRouter } from "next/navigation"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -12,6 +13,7 @@ import { Phone, Clock } from "lucide-react"
 type OrderType = "dine-in" | "takeaway" | "delivery"
 
 export default function OrderSummaryPage() {
+  const router = useRouter()
   const { items, updateQuantity, removeFromCart, getSubtotal, getTax, getDeliveryFee, getGrandTotal } = useCartContext()
   const [orderType, setOrderType] = useState<OrderType>("dine-in")
   const [tableNumber, setTableNumber] = useState("")
@@ -26,9 +28,9 @@ export default function OrderSummaryPage() {
   const total = getGrandTotal() + serviceCharge
 
   const handlePlaceOrder = () => {
-    // In production, this would submit the order
-    // Navigate to confirmation
-    alert("Order placed! (In production, this would navigate to confirmation page)")
+    // Redirect to place-order page with pre-filled order type
+    // The place-order page has all necessary fields (customer info, payment) and proper order submission
+    router.push('/place-order')
   }
 
   if (items.length === 0) {
