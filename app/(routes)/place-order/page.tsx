@@ -132,7 +132,11 @@ export default function PlaceOrderPage() {
       }
 
       // Navigate to confirmation with notification status
-      router.push(`/order-confirmation/${orderId}?email=${result.notifications.email.sent ? 'sent' : 'failed'}&sms=${result.notifications.sms.sent ? 'sent' : 'failed'}`)
+      // API returns notifications.customer.email.sent and notifications.customer.sms.sent
+      const emailStatus = result.notifications?.customer?.email?.sent ? 'sent' : 'failed'
+      const smsStatus = result.notifications?.customer?.sms?.sent ? 'sent' : 'failed'
+      
+      router.push(`/order-confirmation/${orderId}?email=${emailStatus}&sms=${smsStatus}`)
     } catch (error) {
       console.error('Order submission error:', error)
       setSubmitError(error instanceof Error ? error.message : 'Failed to place order. Please try again.')

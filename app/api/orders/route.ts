@@ -74,11 +74,23 @@ export async function POST(request: NextRequest) {
     // Log results
     const customerNotifications = customerResult.status === 'fulfilled' 
       ? customerResult.value 
-      : { email: { sent: false, error: (customerResult.reason as Error).message }, sms: { sent: false, error: (customerResult.reason as Error).message } }
+      : { 
+          email: { sent: false, error: customerResult.reason instanceof Error ? customerResult.reason.message : 'Unknown error' }, 
+          sms: { sent: false, error: customerResult.reason instanceof Error ? customerResult.reason.message : 'Unknown error' } 
+        }
 
     const adminNotifications = adminResult.status === 'fulfilled'
       ? adminResult.value
-      : { email: { sent: false, error: (adminResult.reason as Error).message }, sms: { sent: false, error: (adminResult.reason as Error).message } }
+      : { 
+          email: { sent: false, error: adminResult.reason instanceof Error ? adminResult.reason.message : 'Unknown error' }, 
+          sms: { sent: false, error: adminResult.reason instanceof Error ? adminResult.reason.message : 'Unknown error' } 
+        }
+
+    // Log notification results for debugging
+    console.log('Order notifications:', {
+      customer: customerNotifications,
+      admin: adminNotifications,
+    })
 
     // Return success even if notifications fail (order is still placed)
     return NextResponse.json({
