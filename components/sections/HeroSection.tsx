@@ -74,26 +74,33 @@ export function HeroSection() {
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" aria-hidden="true"></div>
       </div>
 
-      {/* Centered Content */}
+      {/* Centered Content - Proper spacing to avoid header overlap */}
       <div className={cn(
         "relative z-10 container mx-auto px-6 md:px-12 lg:px-20 max-w-[1200px]",
-        "py-20 md:py-32",
-        isMobile ? "pb-32" : "pb-32"
+        "w-full",
+        // Mobile: Add top padding to account for fixed header (80px) + extra spacing
+        isMobile ? "pt-24 pb-8" : "py-20 md:py-32",
+        // Ensure content doesn't overlap when scrolling
+        "flex flex-col items-center justify-center"
       )}>
         <div
           className={cn(
-            "text-center transition-all duration-1000 ease-out",
+            "text-center transition-all duration-1000 ease-out w-full",
+            "flex flex-col items-center justify-center",
             isVisible
               ? "opacity-100 translate-y-0"
               : "opacity-0 translate-y-12"
           )}
         >
-          {/* Restaurant Name "Chez Amis" */}
+          {/* Restaurant Name "Chez Amis" - Fixed at top, won't overlap */}
           <h1 
             className={cn(
-              "font-display font-normal text-white tracking-wide mb-2",
-              "text-5xl sm:text-6xl md:text-7xl lg:text-8xl",
-              "drop-shadow-[0_2px_8px_rgba(0,0,0,0.5)]"
+              "font-display font-normal text-white tracking-wide",
+              // Mobile: Smaller size with proper spacing
+              isMobile ? "mb-2 text-4xl sm:text-5xl" : "mb-2 text-5xl sm:text-6xl md:text-7xl lg:text-8xl",
+              "drop-shadow-[0_2px_8px_rgba(0,0,0,0.5)]",
+              // Ensure it stays in place
+              "relative z-10"
             )}
             style={{ animationDelay: "0.1s" }}
           >
@@ -101,29 +108,33 @@ export function HeroSection() {
           </h1>
 
           {/* Decorative Gold Line Divider */}
-          <div className="flex items-center justify-center mb-4" aria-hidden="true">
+          <div className="flex items-center justify-center mb-3 md:mb-4" aria-hidden="true">
             <div className="h-px w-[100px] bg-gold-500"></div>
           </div>
 
           {/* Subtitle "BAR AND GRILL" */}
           <p 
             className={cn(
-              "font-heading font-light tracking-[0.3em] uppercase mb-10 md:mb-12",
-              "text-sm md:text-base lg:text-lg",
+              "font-heading font-light tracking-[0.3em] uppercase",
+              // Mobile: Reduced spacing
+              isMobile ? "mb-6 text-xs sm:text-sm" : "mb-10 md:mb-12 text-sm md:text-base lg:text-lg",
               "text-gold-400",
-              "drop-shadow-[0_1px_4px_rgba(0,0,0,0.5)]"
+              "drop-shadow-[0_1px_4px_rgba(0,0,0,0.5)]",
+              "relative z-10"
             )}
             style={{ animationDelay: "0.2s" }}
           >
             BAR AND GRILL
           </p>
 
-          {/* Tagline "An Intimate Culinary Journey" */}
+          {/* Tagline "An Intimate Culinary Journey" - Proper spacing after branding */}
           <h2 
             className={cn(
-              "font-display font-light text-white mb-4 md:mb-6 max-w-3xl mx-auto",
-              "text-xl sm:text-2xl md:text-3xl lg:text-4xl",
-              "drop-shadow-[0_2px_6px_rgba(0,0,0,0.5)]"
+              "font-display font-light text-white max-w-3xl mx-auto",
+              // Mobile: Proper spacing and sizing
+              isMobile ? "mb-3 text-lg sm:text-xl" : "mb-4 md:mb-6 text-xl sm:text-2xl md:text-3xl lg:text-4xl",
+              "drop-shadow-[0_2px_6px_rgba(0,0,0,0.5)]",
+              "relative z-10"
             )}
             style={{ animationDelay: "0.3s" }}
           >
@@ -133,20 +144,25 @@ export function HeroSection() {
           {/* Description "Where passion meets palate..." */}
           <p 
             className={cn(
-              "font-body font-light text-gray-200 mb-8 md:mb-10 max-w-2xl mx-auto leading-relaxed",
-              "text-base md:text-lg lg:text-xl",
-              "drop-shadow-[0_1px_3px_rgba(0,0,0,0.5)]"
+              "font-body font-light text-gray-200 max-w-2xl mx-auto leading-relaxed",
+              // Mobile: Proper spacing
+              isMobile ? "mb-6 text-sm sm:text-base" : "mb-8 md:mb-10 text-base md:text-lg lg:text-xl",
+              "drop-shadow-[0_1px_3px_rgba(0,0,0,0.5)]",
+              "relative z-10"
             )}
             style={{ animationDelay: "0.4s" }}
           >
             Where passion meets palate in the heart of Accra
           </p>
 
-          {/* CTA Buttons */}
+          {/* CTA Buttons - Proper spacing */}
           <div 
             className={cn(
-              "flex flex-col sm:flex-row gap-4 items-center justify-center mb-8 md:mb-10",
-              "animate-fade-in-up"
+              "flex flex-col sm:flex-row gap-4 items-center justify-center w-full",
+              // Mobile: Reduced spacing
+              isMobile ? "mb-6" : "mb-8 md:mb-10",
+              "animate-fade-in-up",
+              "relative z-10"
             )}
             style={{ animationDelay: "0.5s" }}
           >
@@ -191,9 +207,14 @@ export function HeroSection() {
             </Link>
           </div>
 
-          {/* Operating Hours Text - Positioned relative to content, not absolute */}
+          {/* Operating Hours Text - Proper spacing, won't overlap */}
           <div 
-            className="mb-6 md:mb-8 px-4"
+            className={cn(
+              "px-4 w-full",
+              // Mobile: Proper spacing
+              isMobile ? "mb-5" : "mb-6 md:mb-8",
+              "relative z-10"
+            )}
             style={{ animationDelay: "0.6s" }}
           >
             <p className="text-xs sm:text-sm md:text-base text-gray-300 text-center leading-relaxed">
@@ -203,16 +224,25 @@ export function HeroSection() {
             </p>
           </div>
 
-          {/* Mobile Quick Actions */}
+          {/* Mobile Quick Actions - Proper spacing */}
           {isMobile && (
-            <div className="mt-6 mb-6">
+            <div className={cn(
+              "w-full",
+              "mb-5",
+              "relative z-10"
+            )}>
               <QuickActions variant="hero" />
             </div>
           )}
 
-          {/* Mobile Social Proof Banner - In content flow with proper spacing */}
+          {/* Mobile Social Proof Banner - Proper spacing, won't overlap */}
           {isMobile && (
-            <div className="mt-4 mb-20">
+            <div className={cn(
+              "w-full mt-4",
+              // Extra bottom margin to prevent overlap with next section
+              "mb-8",
+              "relative z-10"
+            )}>
               <div className="bg-black/30 backdrop-blur-md border-t border-cream-200/10 rounded-t-lg">
                 <div className="container mx-auto px-4 py-3">
                   <div className="flex flex-col items-center justify-center gap-2 text-cream-200/90">

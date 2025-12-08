@@ -365,10 +365,16 @@
     min-width: 44px;
   }
 
-  /* Mobile hero height */
+  /* Mobile hero height - Ensure full viewport with proper spacing */
   .mobile-hero {
-    height: 70vh;
-    min-height: 500px;
+    min-height: 100vh;
+    min-height: 100dvh; /* Dynamic viewport height for mobile browsers */
+    /* Account for fixed header (80px) + safe spacing */
+    padding-top: 80px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
   }
 
   /* Stagger animation for hero children */
