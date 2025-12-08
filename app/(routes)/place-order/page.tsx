@@ -261,45 +261,9 @@ export default function PlaceOrderPage() {
                 </div>
               )}
 
-              {/* Place Order Button - Hidden on mobile (shown in OrderSummary instead) */}
-              <div className="hidden lg:block">
-                <Button
-                  onClick={handlePlaceOrder}
-                  disabled={!canPlaceOrder || isSubmitting}
-                  size="lg"
-                  className="w-full font-heading font-light tracking-wide bg-foreground text-background hover:bg-foreground/90 disabled:opacity-50 disabled:cursor-not-allowed text-lg px-8 py-7"
-                >
-                  {isSubmitting ? 'Placing Order...' : 'Place Order'}
-                </Button>
-
-                {!canPlaceOrder && (
-                  <p className="text-xs text-muted-foreground font-body font-light text-center mt-2">
-                    {!orderType 
-                      ? 'Please select an order type to continue'
-                      : !hasOrderTypeFields
-                      ? orderType === 'delivery' && !formData.deliveryAddress
-                        ? 'Please fill in your delivery address'
-                        : orderType === 'delivery' && !formData.deliveryTime
-                        ? 'Please select a delivery time (ASAP or Scheduled)'
-                        : orderType === 'delivery' && formData.deliveryTime === 'scheduled' && !formData.scheduledTime
-                        ? 'Please select a scheduled delivery time'
-                        : orderType === 'takeaway' && !formData.pickupTime
-                        ? 'Please select a pickup time'
-                        : orderType === 'dine-in' && (!formData.date || !formData.time || !formData.guests)
-                        ? 'Please fill in date, time, and number of guests'
-                        : 'Please complete all order type fields'
-                      : !formData.fullName
-                      ? 'Please fill in your full name'
-                      : !formData.email
-                      ? 'Please fill in your email address'
-                      : !formData.phone
-                      ? 'Please provide your phone number'
-                      : !paymentMethod
-                      ? 'Please select a payment method'
-                      : 'Please complete all required fields'}
-                  </p>
-                )}
-              </div>
+              {/* Place Order Button - Hidden on desktop (shown in OrderSummary sidebar instead) */}
+              {/* On mobile, OrderSummary appears above with the button */}
+              {/* On desktop, OrderSummary sidebar has the button */}
             </div>
           </div>
 
