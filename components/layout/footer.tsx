@@ -4,13 +4,18 @@ import Link from "next/link"
 import { Instagram, Mail, Phone, MapPin, Clock } from "lucide-react"
 import { NewsletterSignup } from "./NewsletterSignup"
 import { SnapchatIcon } from "@/components/ui/snapchat-icon"
+import { SocialMediaFeed } from "@/components/sections/SocialMediaFeed"
 import { cn } from "@/lib/utils"
 
 export function Footer() {
   const currentYear = new Date().getFullYear()
 
   return (
-    <footer className="bg-charcoal-900 text-cream-100" role="contentinfo">
+    <>
+      {/* Social Media Feed Section */}
+      <SocialMediaFeed />
+      
+      <footer className="bg-charcoal-900 text-cream-100" role="contentinfo">
       {/* Top Section - Four Columns */}
       <div className="container-custom py-12 md:py-16 lg:py-20">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12 lg:gap-16">
@@ -245,7 +250,8 @@ export function Footer() {
           </div>
         </div>
       </div>
-    </footer>
+      </footer>
+    </>
   )
 }
 

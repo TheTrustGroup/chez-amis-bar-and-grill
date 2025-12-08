@@ -5,6 +5,7 @@ import { SignatureCreations } from "@/components/sections/SignatureCreations"
 import { PrivateEventsSection } from "@/components/sections/PrivateEventsSection"
 import { TestimonialsCarousel } from "@/components/sections/TestimonialsCarousel"
 import { VisitUsSection } from "@/components/sections/VisitUsSection"
+import { FeaturedGallerySection } from "@/components/sections/FeaturedGallerySection"
 import { Metadata } from "next"
 import { StructuredData } from "@/components/seo/StructuredData"
 
@@ -66,6 +67,7 @@ export default function Home() {
         <IntroSection />
         <ExperienceSection />
         <SignatureCreations />
+        <FeaturedGallerySection />
         <PrivateEventsSection />
         <TestimonialsCarousel />
         <VisitUsSection />

@@ -104,7 +104,12 @@ const createProteinVariations = (
       description: enhancedDescription,
       price: protein.portionSizes ? undefined : protein.price,
       category: baseCategory,
-      image: `/images/menu/${baseName.toLowerCase().replace(/\s+/g, '-')}.jpg`,
+      // Use uploaded gallery images when available, otherwise fallback to default
+      image: baseName.toLowerCase() === 'attieke' && protein.name.toLowerCase().includes('tilapia')
+        ? '/media/images/dishes/attieke/attieke-grilled-tilapia-001.jpg'
+        : baseName.toLowerCase() === 'attieke' && protein.name.toLowerCase().includes('fish')
+        ? '/media/images/dishes/attieke/attieke-fish-platter-001.jpg'
+        : `/images/menu/${baseName.toLowerCase().replace(/\s+/g, '-')}.jpg`,
       portionSizes: protein.portionSizes,
       spicyLevel: protein.spicyLevel,
       dietary: protein.name.toLowerCase().includes('vegetable') ? ['vegetarian', 'vegan'] : undefined,

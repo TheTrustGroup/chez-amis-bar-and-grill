@@ -6,6 +6,7 @@ import { FounderStory } from "@/components/about/FounderStory"
 import { Philosophy } from "@/components/about/Philosophy"
 import { TeamGrid } from "@/components/about/TeamGrid"
 import { SpaceGallery } from "@/components/about/SpaceGallery"
+import { BehindTheScenesSection } from "@/components/sections/BehindTheScenesSection"
 import { Award, Star, BookOpen } from "lucide-react"
 
 export default function AboutPage() {
@@ -45,6 +46,9 @@ export default function AboutPage() {
 
       {/* Space Gallery */}
       <SpaceGallery />
+
+      {/* Behind the Scenes */}
+      <BehindTheScenesSection />
 
       {/* Awards & Recognition */}
       <section className="section-padding bg-background" aria-labelledby="awards-heading">
