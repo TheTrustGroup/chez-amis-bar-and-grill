@@ -66,8 +66,12 @@ export async function sendEmail({ to, subject, template, data }: SendEmailParams
       throw new Error(`Failed to send email: ${error.message || 'Unknown error'}`)
     }
 
-    console.log('✅ Email sent successfully:', template, 'to', to)
+    // Log success only in development
+    if (process.env.NODE_ENV === 'development') {
+      console.log('✅ Email sent successfully:', template, 'to', to)
+    }
   } catch (error) {
+    // Always log errors for debugging
     console.error('❌ Error sending email:', error)
     throw error
   }

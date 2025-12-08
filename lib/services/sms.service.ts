@@ -103,9 +103,13 @@ export async function sendSMS({ to, template, data }: SendSMSParams): Promise<vo
       throw new Error(`Failed to send SMS: ${error.message || 'Unknown error'}`)
     }
 
-    const result = await response.json()
-    console.log('✅ SMS sent successfully:', template, 'to', toNumber, 'SID:', result.sid)
+    // Log success only in development
+    if (process.env.NODE_ENV === 'development') {
+      const result = await response.json()
+      console.log('✅ SMS sent successfully:', template, 'to', toNumber, 'SID:', result.sid)
+    }
   } catch (error) {
+    // Always log errors for debugging
     console.error('❌ Error sending SMS:', error)
     throw error
   }

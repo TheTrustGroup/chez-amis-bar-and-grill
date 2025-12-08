@@ -171,10 +171,15 @@ export async function sendOrderConfirmationEmail(orderData: OrderData): Promise<
       throw new Error(`Failed to send email: ${error.message || 'Unknown error'}`)
     }
 
-    console.log('✅ Order confirmation email sent to:', orderData.customer.email)
+    // Log success only in development
+    if (process.env.NODE_ENV === 'development') {
+      console.log('✅ Order confirmation email sent to:', orderData.customer.email)
+    }
   } catch (error) {
+    // Always log errors for debugging
     console.error('❌ Error sending order confirmation email:', error)
     throw error
   }
 }
+
 

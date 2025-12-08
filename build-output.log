@@ -1,0 +1,56 @@
+
+> chez-amis-bar-and-grill@0.1.0 build
+> next build
+
+  ▲ Next.js 14.2.33
+  - Environments: .env.local
+
+   Creating an optimized production build ...
+ ✓ Compiled successfully
+   Linting and checking validity of types ...
+   Collecting page data ...
+   Generating static pages (0/28) ...
+   Generating static pages (7/28) 
+   Generating static pages (14/28) 
+   Generating static pages (21/28) 
+ ✓ Generating static pages (28/28)
+   Finalizing page optimization ...
+   Collecting build traces ...
+
+Route (app)                              Size     First Load JS
+┌ ○ /                                    10.8 kB         130 kB
+├ ○ /_not-found                          873 B          88.1 kB
+├ ○ /about                               6.77 kB         116 kB
+├ ƒ /api/orders                          0 B                0 B
+├ ƒ /api/reservations                    0 B                0 B
+├ ƒ /api/test-notifications              0 B                0 B
+├ ○ /beverages                           8.89 kB         109 kB
+├ ○ /careers                             183 B          96.1 kB
+├ ○ /cart                                3.65 kB         107 kB
+├ ○ /catering                            183 B          96.1 kB
+├ ○ /contact                             8.5 kB          112 kB
+├ ○ /faq                                 3.31 kB         107 kB
+├ ○ /icon.png                            0 B                0 B
+├ ○ /icon.svg                            0 B                0 B
+├ ○ /menu                                9.81 kB         120 kB
+├ ○ /order                               25.9 kB         129 kB
+├ ƒ /order-confirmation/[orderId]        4.56 kB         108 kB
+├ ○ /order-summary                       4.63 kB         108 kB
+├ ○ /place-order                         8.78 kB         112 kB
+├ ○ /press                               183 B          96.1 kB
+├ ○ /privacy                             3.29 kB         107 kB
+├ ○ /private-events                      10.4 kB         114 kB
+├ ○ /reservations                        6.67 kB         110 kB
+├ ○ /reservations/confirmation           3.56 kB         107 kB
+├ ○ /sitemap                             183 B          96.1 kB
+├ ○ /sitemap.xml                         0 B                0 B
+└ ○ /terms                               3.35 kB         107 kB
++ First Load JS shared by all            87.3 kB
+  ├ chunks/117-c05eb3dd15d7dc3e.js       31.7 kB
+  ├ chunks/fd9d1056-c3b2e0bf7bd7942c.js  53.6 kB
+  └ other shared chunks (total)          1.9 kB
+
+
+○  (Static)   prerendered as static content
+ƒ  (Dynamic)  server-rendered on demand
+

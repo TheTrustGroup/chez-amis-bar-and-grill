@@ -108,11 +108,16 @@ export async function sendOrderConfirmationSMS(orderData: OrderData): Promise<vo
       throw new Error(`Failed to send SMS: ${error.message || 'Unknown error'}`)
     }
 
-    const result = await response.json()
-    console.log('✅ Order confirmation SMS sent to:', toNumber, 'Message SID:', result.sid)
+    // Log success only in development
+    if (process.env.NODE_ENV === 'development') {
+      const result = await response.json()
+      console.log('✅ Order confirmation SMS sent to:', toNumber, 'Message SID:', result.sid)
+    }
   } catch (error) {
+    // Always log errors for debugging
     console.error('❌ Error sending order confirmation SMS:', error)
     throw error
   }
 }
+
 
