@@ -43,11 +43,18 @@ export async function sendSMS({ to, template, data }: SendSMSParams): Promise<vo
   const fromNumber = process.env.TWILIO_PHONE_NUMBER
 
   if (!accountSid || !authToken || !fromNumber) {
+    const errorMsg = 'SMS service not configured: Missing TWILIO credentials'
+    console.error('❌', errorMsg, {
+      hasAccountSid: !!accountSid,
+      hasAuthToken: !!authToken,
+      hasFromNumber: !!fromNumber,
+    })
     if (process.env.NODE_ENV === 'development') {
       console.log('📱 [DEV] Would send SMS to:', to, 'Template:', template)
+      // In development, don't throw error, just log
       return
     }
-    throw new Error('SMS service not configured')
+    throw new Error(errorMsg)
   }
 
   try {

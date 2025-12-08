@@ -19,11 +19,14 @@ interface SendEmailParams {
 export async function sendEmail({ to, subject, template, data }: SendEmailParams): Promise<void> {
   const apiKey = process.env.RESEND_API_KEY
   if (!apiKey) {
+    const errorMsg = 'Email service not configured: RESEND_API_KEY is missing'
+    console.error('❌', errorMsg)
     if (process.env.NODE_ENV === 'development') {
       console.log('📧 [DEV] Would send email to:', to, 'Template:', template)
+      // In development, don't throw error, just log
       return
     }
-    throw new Error('Email service not configured')
+    throw new Error(errorMsg)
   }
 
   try {
