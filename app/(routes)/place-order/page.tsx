@@ -173,7 +173,7 @@ export default function PlaceOrderPage() {
       <div className="container-custom py-12 md:py-16">
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 lg:gap-16">
           {/* Left Column - Order Form (60%) */}
-          <div className="lg:col-span-3 space-y-12 order-2 lg:order-1">
+          <div className="lg:col-span-3 space-y-12">
             {/* Step 1: Order Type */}
             <div>
               <OrderTypeSelector
@@ -187,6 +187,16 @@ export default function PlaceOrderPage() {
                   onFieldChange={handleFieldChange}
                 />
               )}
+            </div>
+
+            {/* Order Summary - Shows below OrderTypeSelector on mobile, in sidebar on desktop */}
+            <div className="lg:hidden">
+              <OrderSummary 
+                orderType={orderType} 
+                onPlaceOrder={handlePlaceOrder}
+                canPlaceOrder={!!canPlaceOrder}
+                isSubmitting={!!isSubmitting}
+              />
             </div>
 
             {/* Step 2: Guest Information */}
@@ -239,7 +249,7 @@ export default function PlaceOrderPage() {
                 </div>
               )}
 
-              {/* Place Order Button - Hidden on mobile (shown in OrderSummary sidebar instead) */}
+              {/* Place Order Button - Hidden on mobile (shown in OrderSummary instead) */}
               <div className="hidden lg:block">
                 <Button
                   onClick={handlePlaceOrder}
@@ -277,8 +287,8 @@ export default function PlaceOrderPage() {
             </div>
           </div>
 
-          {/* Right Column - Order Summary (40%, Sticky) - Shows first on mobile */}
-          <div className="lg:col-span-2 order-1 lg:order-2">
+          {/* Right Column - Order Summary (40%, Sticky) - Desktop sidebar */}
+          <div className="hidden lg:block lg:col-span-2">
             <OrderSummary 
               orderType={orderType} 
               onPlaceOrder={handlePlaceOrder}
