@@ -79,9 +79,9 @@ export default function CartPage() {
                     <span>Total</span>
                     <span>GH₵ {total.toFixed(2)}</span>
                   </div>
-                  <Link href="/order-summary">
+                  <Link href="/place-order">
                     <Button className="w-full font-heading font-light tracking-wide" size="lg">
-                      Place Order
+                      Proceed to Checkout
                       <ArrowRight className="ml-2 h-4 w-4" />
                     </Button>
                   </Link>
