@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { sendOrderConfirmationEmail } from '@/lib/services/email'
-import { sendOrderConfirmationSMS } from '@/lib/services/sms'
+import { sendOrderConfirmation, sendAdminNotification } from '@/lib/services/notification.service'
+import type { OrderData } from '@/lib/types/notifications'
 
 export interface OrderRequest {
   orderId: string
@@ -55,35 +55,39 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Send confirmation emails and SMS in parallel
-    const [emailResult, smsResult] = await Promise.allSettled([
-      sendOrderConfirmationEmail(orderData),
-      sendOrderConfirmationSMS(orderData),
-    ])
-
-    // Log results (in production, save to database)
-    const results = {
+    // Convert to OrderData format
+    const notificationData: OrderData = {
       orderId: orderData.orderId,
-      emailSent: emailResult.status === 'fulfilled',
-      smsSent: smsResult.status === 'fulfilled',
-      emailError: emailResult.status === 'rejected' ? (emailResult.reason as Error).message : null,
-      smsError: smsResult.status === 'rejected' ? (smsResult.reason as Error).message : null,
+      orderType: orderData.orderType,
+      customer: orderData.customer,
+      items: orderData.items,
+      orderDetails: orderData.orderDetails,
+      payment: orderData.payment,
     }
 
-    // Return success even if one notification fails (order is still placed)
+    // Send customer confirmation and admin notification in parallel
+    const [customerResult, adminResult] = await Promise.allSettled([
+      sendOrderConfirmation(notificationData),
+      sendAdminNotification('order', notificationData),
+    ])
+
+    // Log results
+    const customerNotifications = customerResult.status === 'fulfilled' 
+      ? customerResult.value 
+      : { email: { sent: false, error: (customerResult.reason as Error).message }, sms: { sent: false, error: (customerResult.reason as Error).message } }
+
+    const adminNotifications = adminResult.status === 'fulfilled'
+      ? adminResult.value
+      : { email: { sent: false, error: (adminResult.reason as Error).message }, sms: { sent: false, error: (adminResult.reason as Error).message } }
+
+    // Return success even if notifications fail (order is still placed)
     return NextResponse.json({
       success: true,
       orderId: orderData.orderId,
       message: 'Order placed successfully',
       notifications: {
-        email: {
-          sent: results.emailSent,
-          error: results.emailError,
-        },
-        sms: {
-          sent: results.smsSent,
-          error: results.smsError,
-        },
+        customer: customerNotifications,
+        admin: adminNotifications,
       },
     })
   } catch (error) {
@@ -94,4 +98,5 @@ export async function POST(request: NextRequest) {
     )
   }
 }
+
 

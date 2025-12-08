@@ -37,16 +37,67 @@ export function ReservationForm() {
     e.preventDefault()
     setIsSubmitting(true)
 
-    // Generate reservation number
-    const reservationNumber = generateReservationNumber()
+    try {
+      // Generate reservation number
+      const reservationNumber = generateReservationNumber()
 
-    // In production, this would submit to your backend
+      // Prepare reservation data
+      const specialRequestsValue = formData.specialRequests || 
+        (formData.occasion === 'birthday' || formData.occasion === 'anniversary' 
+          ? formData.specialOccasionRequest 
+          : '')
 
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 1000))
+      // Map seating preference to readable label
+      const seatingLabels: Record<string, string> = {
+        'main-dining': 'Main Dining Room',
+        'outdoor': 'Outdoor Terrace',
+        'bar': 'Bar Area',
+        'private': 'Private Room',
+      }
 
-    // Navigate to confirmation
-    router.push(`/reservations/confirmation?number=${reservationNumber}`)
+      const reservationData = {
+        reservationNumber,
+        customer: {
+          fullName: formData.name,
+          email: formData.email,
+          phone: formData.phone,
+        },
+        date: formData.date,
+        time: formData.time,
+        guests: parseInt(formData.partySize),
+        ...(formData.seating ? { seatingPreference: seatingLabels[formData.seating] || formData.seating } : {}),
+        ...(formData.occasion ? { occasion: formData.occasion } : {}),
+        ...(specialRequestsValue ? { specialRequests: specialRequestsValue } : {}),
+      }
+
+      // Submit to API
+      const response = await fetch('/api/reservations', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(reservationData),
+      })
+
+      if (!response.ok) {
+        const error = await response.json()
+        throw new Error(error.message || 'Failed to submit reservation')
+      }
+
+      const result = await response.json()
+
+      // Navigate to confirmation with notification status
+      const params = new URLSearchParams({
+        number: reservationNumber,
+        email: result.notifications?.customer?.email?.sent ? 'sent' : 'failed',
+        sms: result.notifications?.customer?.sms?.sent ? 'sent' : 'failed',
+      })
+      router.push(`/reservations/confirmation?${params.toString()}`)
+    } catch (error) {
+      console.error('Reservation submission error:', error)
+      alert('Failed to submit reservation. Please try again or call us directly.')
+      setIsSubmitting(false)
+    }
   }
 
   const isFormValid =
