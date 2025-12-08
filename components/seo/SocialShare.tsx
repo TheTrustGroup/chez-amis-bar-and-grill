@@ -45,8 +45,7 @@ export function SocialShare({
           url: shareUrl,
         })
       } catch (err) {
-        // User cancelled or error occurred
-        console.log('Share cancelled')
+        // User cancelled or error occurred - silently handle
       }
     }
   }

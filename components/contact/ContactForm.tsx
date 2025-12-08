@@ -28,9 +28,6 @@ export function ContactForm() {
 
     // In production, this would submit to your backend
     // In production, this would send to your API
-    if (process.env.NODE_ENV === "development") {
-      console.log("Contact form submitted:", formData)
-    }
 
     // Simulate API call
     await new Promise((resolve) => setTimeout(resolve, 1000))

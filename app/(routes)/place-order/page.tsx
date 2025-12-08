@@ -55,13 +55,6 @@ export default function PlaceOrderPage() {
       .padStart(4, "0")}`
 
     // In production, this would submit to your backend
-    console.log("Placing order:", {
-      orderId,
-      orderType,
-      paymentMethod,
-      formData,
-      items,
-    })
 
     // Navigate to confirmation
     router.push(`/order-confirmation/${orderId}`)

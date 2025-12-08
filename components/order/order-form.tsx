@@ -43,9 +43,6 @@ export function OrderForm({ cartItems }: OrderFormProps) {
 
   const onSubmit = async (data: OrderFormData) => {
     // In production, this would send the data to an API
-    if (process.env.NODE_ENV === "development") {
-      console.log("Order submitted:", data)
-    }
     alert("Order placed successfully! We'll contact you shortly.")
     reset()
   }

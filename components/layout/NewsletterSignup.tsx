@@ -16,9 +16,6 @@ export function NewsletterSignup() {
 
     // In production, this would submit to your email service
     // In production, this would send to your API
-    if (process.env.NODE_ENV === "development") {
-      console.log("Newsletter signup:", email)
-    }
 
     // Simulate API call
     await new Promise((resolve) => setTimeout(resolve, 1000))

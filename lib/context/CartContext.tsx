@@ -43,7 +43,10 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
         }
       }
     } catch (error) {
-      console.error("Error loading cart from localStorage:", error)
+      // Error loading cart - clear corrupted data
+      if (process.env.NODE_ENV === "development") {
+        console.error("Error loading cart from localStorage:", error)
+      }
       localStorage.removeItem(CART_STORAGE_KEY)
     } finally {
       setIsInitialized(true)
@@ -60,7 +63,10 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
         }
         localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(data))
       } catch (error) {
-        console.error("Error saving cart to localStorage:", error)
+        // Error saving cart - silently fail in production
+        if (process.env.NODE_ENV === "development") {
+          console.error("Error saving cart to localStorage:", error)
+        }
       }
     }
   }, [items, isInitialized])

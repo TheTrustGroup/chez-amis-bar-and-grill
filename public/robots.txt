@@ -1,0 +1,11 @@
+# robots.txt for Chez Amis Bar and Grill
+
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /admin/
+Disallow: /_next/
+Disallow: /order-confirmation/
+
+# Sitemap
+Sitemap: https://chezamis.com/sitemap.xml

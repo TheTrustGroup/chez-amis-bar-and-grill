@@ -27,14 +27,6 @@ export default function OrderSummaryPage() {
 
   const handlePlaceOrder = () => {
     // In production, this would submit the order
-    console.log("Placing order:", {
-      items,
-      orderType,
-      tableNumber,
-      pickupTime,
-      deliveryAddress,
-      specialRequest,
-    })
     // Navigate to confirmation
     alert("Order placed! (In production, this would navigate to confirmation page)")
   }

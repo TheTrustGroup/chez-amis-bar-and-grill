@@ -41,12 +41,6 @@ export function ReservationForm() {
     const reservationNumber = generateReservationNumber()
 
     // In production, this would submit to your backend
-    if (process.env.NODE_ENV === "development") {
-      console.log("Reservation submitted:", {
-        ...formData,
-        reservationNumber,
-      })
-    }
 
     // Simulate API call
     await new Promise((resolve) => setTimeout(resolve, 1000))

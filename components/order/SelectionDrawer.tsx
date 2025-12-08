@@ -33,16 +33,6 @@ export function SelectionDrawer({ isOpen, onClose }: SelectionDrawerProps) {
 
   const handlePlaceOrder = () => {
     // In production, this would submit the order
-    if (process.env.NODE_ENV === "development") {
-      console.log("Placing order:", {
-        items,
-        orderType,
-        tableNumber,
-        pickupTime,
-        deliveryAddress,
-        specialRequest,
-      })
-    }
     // Navigate to order confirmation
     if (typeof window !== "undefined") {
       window.location.href = "/order-summary"

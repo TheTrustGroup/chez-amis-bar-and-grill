@@ -34,9 +34,6 @@ export function EventRequestForm() {
 
     // In production, this would submit to your backend
     // In production, this would send to your API
-    if (process.env.NODE_ENV === "development") {
-      console.log("Event request submitted:", formData)
-    }
 
     // Simulate API call
     await new Promise((resolve) => setTimeout(resolve, 1000))

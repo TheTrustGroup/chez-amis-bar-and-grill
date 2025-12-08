@@ -25,7 +25,7 @@ export function Hero() {
       {/* Background Image with Overlay */}
       <div className="absolute inset-0 z-0">
         {/* Placeholder background - in production, replace with actual image using Next.js Image */}
-        {/* Example: <Image src="/images/hero-bg.jpg" alt="" fill className="object-cover" priority /> */}
+        {/* Example: <Image src="/images/hero-bg.jpg" alt="Chez Amis Bar and Grill restaurant interior" fill className="object-cover" priority /> */}
         <div className="absolute inset-0 bg-gradient-to-br from-charcoal-900 via-charcoal-800 to-charcoal-900">
           {/* Decorative pattern overlay for texture */}
           <div className="absolute inset-0 opacity-10 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmYiIGZpbGwtb3BhY2l0eT0iMC4wNSI+PHBhdGggZD0iTTM2IDM0VjI2aDR2OGgtNHptMCAxNnYtOGg0djhoLTR6TTIwIDM0VjI2aDR2OGgtNHptMCAxNnYtOGg0djhoLTR6Ii8+PC9nPjwvZz48L3N2Zz4=')]"></div>
