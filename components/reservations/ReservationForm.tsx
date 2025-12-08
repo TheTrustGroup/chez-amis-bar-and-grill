@@ -37,22 +37,32 @@ export function ReservationForm() {
     e.preventDefault()
     setIsSubmitting(true)
 
-    // Generate reservation number
-    const reservationNumber = generateReservationNumber()
+    try {
+      // Generate reservation number
+      const reservationNumber = generateReservationNumber()
 
-    // In production, this would submit to your backend
-    if (process.env.NODE_ENV === "development") {
-      console.log("Reservation submitted:", {
-        ...formData,
-        reservationNumber,
-      })
+      // In production, this would submit to your backend
+      if (process.env.NODE_ENV === "development") {
+        console.log("Reservation submitted:", {
+          ...formData,
+          reservationNumber,
+        })
+      }
+
+      // Simulate API call
+      await new Promise((resolve) => setTimeout(resolve, 1000))
+
+      // Navigate to confirmation
+      router.push(`/reservations/confirmation?number=${reservationNumber}`)
+    } catch (error) {
+      // Handle any errors
+      console.error("Reservation submission error:", error)
+      alert("Failed to submit reservation. Please try again or call us directly.")
+    } finally {
+      // Always reset submitting state, even if navigation occurs
+      // This ensures the button is re-enabled if user navigates back or navigation fails
+      setIsSubmitting(false)
     }
-
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 1000))
-
-    // Navigate to confirmation
-    router.push(`/reservations/confirmation?number=${reservationNumber}`)
   }
 
   const isFormValid =
