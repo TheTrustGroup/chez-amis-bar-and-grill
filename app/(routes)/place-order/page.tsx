@@ -131,12 +131,34 @@ export default function PlaceOrderPage() {
         throw new Error(result.error || 'Failed to place order')
       }
 
-      // Navigate to confirmation with notification status
+      // Navigate to confirmation with notification status and order details
       // API returns notifications.customer.email.sent and notifications.customer.sms.sent
       const emailStatus = result.notifications?.customer?.email?.sent ? 'sent' : 'failed'
       const smsStatus = result.notifications?.customer?.sms?.sent ? 'sent' : 'failed'
       
-      router.push(`/order-confirmation/${orderId}?email=${emailStatus}&sms=${smsStatus}`)
+      // Build URL with order details
+      const params = new URLSearchParams({
+        email: emailStatus,
+        sms: smsStatus,
+        orderType: orderType!,
+        customerName: formData.fullName!,
+        ...(orderType === 'dine-in' && {
+          tableNumber: formData.tableNumber || '',
+          date: formData.date || '',
+          time: formData.time || '',
+          guests: formData.guests || '',
+        }),
+        ...(orderType === 'takeaway' && {
+          pickupTime: formData.pickupTime || '',
+        }),
+        ...(orderType === 'delivery' && {
+          deliveryAddress: formData.deliveryAddress || '',
+          deliveryTime: formData.deliveryTime || 'asap',
+          ...(formData.scheduledTime && { scheduledTime: formData.scheduledTime }),
+        }),
+      })
+      
+      router.push(`/order-confirmation/${orderId}?${params.toString()}`)
     } catch (error) {
       console.error('Order submission error:', error)
       setSubmitError(error instanceof Error ? error.message : 'Failed to place order. Please try again.')

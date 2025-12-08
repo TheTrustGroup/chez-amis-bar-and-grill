@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useState, useMemo } from "react"
 import { useParams, useRouter, useSearchParams } from "next/navigation"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
@@ -16,19 +16,109 @@ export default function OrderConfirmationPage() {
   const [isAnimating, setIsAnimating] = useState(true)
   const orderId = params.orderId as string
   
-  // Get notification status from URL params
+  // Get notification status and order details from URL params
   const emailStatus = searchParams.get('email')
   const smsStatus = searchParams.get('sms')
+  
+  // Get order data from URL parameters (passed from place-order page)
+  const orderTypeParam = searchParams.get('orderType') as OrderType | null
+  const customerNameParam = searchParams.get('customerName')
+  const tableNumberParam = searchParams.get('tableNumber')
+  const dateParam = searchParams.get('date')
+  const timeParam = searchParams.get('time')
+  const guestsParam = searchParams.get('guests')
+  const pickupTimeParam = searchParams.get('pickupTime')
+  const deliveryAddressParam = searchParams.get('deliveryAddress')
+  const deliveryTimeParam = searchParams.get('deliveryTime')
+  const scheduledTimeParam = searchParams.get('scheduledTime')
 
-  // Simulate order data (in production, fetch from API)
-  const [orderData] = useState({
-    orderType: "dine-in" as OrderType,
-    customerName: "Sarah Mensah",
-    expectedTime: "7:30 PM",
-    tableNumber: "12",
-    deliveryAddress: null as string | null,
-    pickupTime: null as string | null,
-  })
+  // Format time for display
+  const formatTime = (timeString: string | null): string => {
+    if (!timeString) return ''
+    // If it's already formatted (e.g., "7:30 PM"), return as is
+    if (timeString.includes('PM') || timeString.includes('AM')) return timeString
+    // If it's in HH:MM format, convert to readable format
+    try {
+      const [hours, minutes] = timeString.split(':')
+      const hour = parseInt(hours)
+      const ampm = hour >= 12 ? 'PM' : 'AM'
+      const displayHour = hour > 12 ? hour - 12 : hour === 0 ? 12 : hour
+      return `${displayHour}:${minutes} ${ampm}`
+    } catch {
+      return timeString
+    }
+  }
+
+  // Format date for display
+  const formatDate = (dateString: string | null): string => {
+    if (!dateString) return ''
+    try {
+      const date = new Date(dateString)
+      return date.toLocaleDateString('en-US', { 
+        weekday: 'long', 
+        year: 'numeric', 
+        month: 'long', 
+        day: 'numeric' 
+      })
+    } catch {
+      return dateString
+    }
+  }
+
+  // Format datetime-local to time
+  const formatDateTimeToTime = (dateTimeString: string | null): string => {
+    if (!dateTimeString) return ''
+    try {
+      const date = new Date(dateTimeString)
+      return formatTime(date.toTimeString().slice(0, 5))
+    } catch {
+      return dateTimeString
+    }
+  }
+
+  // Build order data from URL parameters using useMemo
+  const orderData = useMemo(() => {
+    const orderType = (orderTypeParam || "dine-in") as OrderType
+    
+    // Get expected time based on order type
+    let expectedTime = 'Soon'
+    if (orderType === 'dine-in' && timeParam) {
+      expectedTime = formatTime(timeParam)
+    } else if (orderType === 'takeaway' && pickupTimeParam) {
+      expectedTime = formatDateTimeToTime(pickupTimeParam)
+    } else if (orderType === 'delivery') {
+      if (deliveryTimeParam === 'scheduled' && scheduledTimeParam) {
+        expectedTime = formatDateTimeToTime(scheduledTimeParam)
+      } else {
+        expectedTime = '35-45 minutes'
+      }
+    }
+
+    return {
+      orderType,
+      customerName: customerNameParam || "Guest",
+      expectedTime,
+      tableNumber: tableNumberParam || null,
+      date: dateParam ? formatDate(dateParam) : null,
+      time: timeParam ? formatTime(timeParam) : null,
+      guests: guestsParam || null,
+      deliveryAddress: deliveryAddressParam || null,
+      pickupTime: pickupTimeParam ? formatDateTimeToTime(pickupTimeParam) : null,
+      deliveryTime: deliveryTimeParam || null,
+      scheduledTime: scheduledTimeParam ? formatDateTimeToTime(scheduledTimeParam) : null,
+    }
+  }, [
+    orderTypeParam,
+    customerNameParam,
+    tableNumberParam,
+    dateParam,
+    timeParam,
+    guestsParam,
+    pickupTimeParam,
+    deliveryAddressParam,
+    deliveryTimeParam,
+    scheduledTimeParam,
+  ])
 
   useEffect(() => {
     // Clear cart after successful order
@@ -65,17 +155,23 @@ export default function OrderConfirmationPage() {
       case "dine-in":
         return {
           title: "We look forward to welcoming you",
-          description: `Your table is reserved for ${orderData.expectedTime}. We'll see you soon!`,
+          description: orderData.time 
+            ? `Your table is reserved for ${orderData.time}${orderData.date ? ` on ${orderData.date}` : ''}. We'll see you soon!`
+            : "We'll see you soon!",
         }
       case "takeaway":
         return {
           title: "We'll notify you when ready",
-          description: `Your order will be ready for pickup at ${orderData.pickupTime || orderData.expectedTime}.`,
+          description: orderData.pickupTime
+            ? `Your order will be ready for pickup at ${orderData.pickupTime}. We'll send you a notification when it's ready.`
+            : "We'll prepare your order and notify you when it's ready for pickup.",
         }
       case "delivery":
         return {
           title: "We're preparing your order",
-          description: "Your feast is being prepared and will arrive at your door in 35-45 minutes.",
+          description: orderData.deliveryTime === 'scheduled' && orderData.scheduledTime
+            ? `Your order is scheduled for delivery at ${orderData.scheduledTime}. We'll notify you when it's on the way.`
+            : "Your feast is being prepared and will arrive at your door in 35-45 minutes. We'll send you a notification when it's on the way.",
         }
       default:
         return {
@@ -157,48 +253,123 @@ export default function OrderConfirmationPage() {
               </div>
             </div>
 
-            {/* Order Details */}
+            {/* Order Details - Dynamic based on order type */}
             <div className="space-y-4">
               {orderData.orderType === "dine-in" && (
-                <div className="flex items-start gap-3">
-                  <MapPin className="h-5 w-5 text-muted-foreground mt-0.5" />
-                  <div>
-                    <p className="text-sm text-muted-foreground font-body font-light">
-                      Table {orderData.tableNumber}
-                    </p>
-                    <p className="font-body font-light text-foreground">
-                      Expected arrival: {orderData.expectedTime}
-                    </p>
-                  </div>
-                </div>
+                <>
+                  {orderData.date && (
+                    <div className="flex items-start gap-3">
+                      <Clock className="h-5 w-5 text-muted-foreground mt-0.5" />
+                      <div>
+                        <p className="text-sm text-muted-foreground font-body font-light">
+                          Date
+                        </p>
+                        <p className="font-body font-light text-foreground">
+                          {orderData.date}
+                        </p>
+                      </div>
+                    </div>
+                  )}
+                  {orderData.time && (
+                    <div className="flex items-start gap-3">
+                      <Clock className="h-5 w-5 text-muted-foreground mt-0.5" />
+                      <div>
+                        <p className="text-sm text-muted-foreground font-body font-light">
+                          Time
+                        </p>
+                        <p className="font-body font-light text-foreground">
+                          {orderData.time}
+                        </p>
+                      </div>
+                    </div>
+                  )}
+                  {orderData.guests && (
+                    <div className="flex items-start gap-3">
+                      <UtensilsCrossed className="h-5 w-5 text-muted-foreground mt-0.5" />
+                      <div>
+                        <p className="text-sm text-muted-foreground font-body font-light">
+                          Number of Guests
+                        </p>
+                        <p className="font-body font-light text-foreground">
+                          {orderData.guests} {parseInt(orderData.guests) === 1 ? 'guest' : 'guests'}
+                        </p>
+                      </div>
+                    </div>
+                  )}
+                  {orderData.tableNumber && (
+                    <div className="flex items-start gap-3">
+                      <MapPin className="h-5 w-5 text-muted-foreground mt-0.5" />
+                      <div>
+                        <p className="text-sm text-muted-foreground font-body font-light">
+                          Table Number
+                        </p>
+                        <p className="font-body font-light text-foreground">
+                          Table {orderData.tableNumber}
+                        </p>
+                      </div>
+                    </div>
+                  )}
+                </>
               )}
 
-              {orderData.orderType === "delivery" && orderData.deliveryAddress && (
-                <div className="flex items-start gap-3">
-                  <MapPin className="h-5 w-5 text-muted-foreground mt-0.5" />
-                  <div>
-                    <p className="text-sm text-muted-foreground font-body font-light">
-                      Delivery Address
-                    </p>
-                    <p className="font-body font-light text-foreground">
-                      {orderData.deliveryAddress}
-                    </p>
+              {orderData.orderType === "delivery" && (
+                <>
+                  {orderData.deliveryAddress && (
+                    <div className="flex items-start gap-3">
+                      <MapPin className="h-5 w-5 text-muted-foreground mt-0.5" />
+                      <div>
+                        <p className="text-sm text-muted-foreground font-body font-light">
+                          Delivery Address
+                        </p>
+                        <p className="font-body font-light text-foreground">
+                          {orderData.deliveryAddress}
+                        </p>
+                      </div>
+                    </div>
+                  )}
+                  <div className="flex items-start gap-3">
+                    <Truck className="h-5 w-5 text-muted-foreground mt-0.5" />
+                    <div>
+                      <p className="text-sm text-muted-foreground font-body font-light">
+                        Delivery Time
+                      </p>
+                      <p className="font-body font-light text-foreground">
+                        {orderData.deliveryTime === 'scheduled' && orderData.scheduledTime
+                          ? `Scheduled for ${orderData.scheduledTime}`
+                          : 'ASAP (35-45 minutes)'}
+                      </p>
+                    </div>
                   </div>
-                </div>
+                </>
               )}
 
               {orderData.orderType === "takeaway" && (
-                <div className="flex items-start gap-3">
-                  <Clock className="h-5 w-5 text-muted-foreground mt-0.5" />
-                  <div>
-                    <p className="text-sm text-muted-foreground font-body font-light">
-                      Pickup Time
-                    </p>
-                    <p className="font-body font-light text-foreground">
-                      {orderData.pickupTime || orderData.expectedTime}
-                    </p>
+                <>
+                  {orderData.pickupTime && (
+                    <div className="flex items-start gap-3">
+                      <Clock className="h-5 w-5 text-muted-foreground mt-0.5" />
+                      <div>
+                        <p className="text-sm text-muted-foreground font-body font-light">
+                          Pickup Time
+                        </p>
+                        <p className="font-body font-light text-foreground">
+                          {orderData.pickupTime}
+                        </p>
+                      </div>
+                    </div>
+                  )}
+                  <div className="flex items-start gap-3">
+                    <ShoppingBag className="h-5 w-5 text-muted-foreground mt-0.5" />
+                    <div>
+                      <p className="text-sm text-muted-foreground font-body font-light">
+                        Pickup Location
+                      </p>
+                      <p className="font-body font-light text-foreground">
+                        Chez Amis Bar and Grill
+                      </p>
+                    </div>
                   </div>
-                </div>
+                </>
               )}
             </div>
 
