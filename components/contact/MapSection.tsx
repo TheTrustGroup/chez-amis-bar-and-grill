@@ -1,11 +1,22 @@
 "use client"
 
 import { MapPin, Navigation, Phone, Clock } from "lucide-react"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { cn } from "@/lib/utils"
+import { isRestaurantOpen, getRestaurantHours, getRestaurantStatus } from "@/lib/utils/restaurantHours"
 
 export function MapSection() {
   const [isHovered, setIsHovered] = useState(false)
+  const [restaurantStatus, setRestaurantStatus] = useState(getRestaurantStatus())
+
+  // Update status every minute to keep it accurate
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setRestaurantStatus(getRestaurantStatus())
+    }, 60000) // Update every minute
+
+    return () => clearInterval(interval)
+  }, [])
 
   // Chez Amis Bar and Grill location
   const restaurantAddress = "40 Boundary Rd, Accra, Ghana"
@@ -52,11 +63,15 @@ export function MapSection() {
             {/* Elegant border overlay */}
             <div className="absolute inset-0 border-2 border-gold-500/20 rounded-xl pointer-events-none"></div>
 
-            {/* Floating "Open Now" indicator */}
+            {/* Floating Status indicator - Dynamic based on current time */}
             <div className="absolute top-4 left-4 bg-white rounded-full px-4 py-2 shadow-lg z-10">
               <div className="flex items-center gap-2">
-                <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
-                <span className="text-sm font-medium text-foreground">Open Now</span>
+                <span 
+                  className={`w-2 h-2 rounded-full ${restaurantStatus.isOpen ? 'bg-green-500 animate-pulse' : 'bg-red-500'}`}
+                ></span>
+                <span className={`text-sm font-medium ${restaurantStatus.isOpen ? 'text-green-600' : 'text-red-600'}`}>
+                  {restaurantStatus.text}
+                </span>
               </div>
             </div>
 
@@ -129,13 +144,17 @@ export function MapSection() {
                   <div className="space-y-2 text-sm font-body font-light">
                     <div className="flex justify-between">
                       <span className="text-muted-foreground">Daily</span>
-                      <span className="font-medium text-foreground">9:30 AM - 12:00 AM</span>
+                      <span className="font-medium text-foreground">{getRestaurantHours()}</span>
                     </div>
                   </div>
                   <div className="mt-4 pt-4 border-t border-border/30">
-                    <span className="inline-flex items-center gap-2 text-green-600 text-sm font-medium">
-                      <span className="w-2 h-2 bg-green-600 rounded-full animate-pulse"></span>
-                      Open Now
+                    <span className={`inline-flex items-center gap-2 text-sm font-medium ${
+                      restaurantStatus.isOpen ? 'text-green-600' : 'text-red-600'
+                    }`}>
+                      <span className={`w-2 h-2 rounded-full ${
+                        restaurantStatus.isOpen ? 'bg-green-600 animate-pulse' : 'bg-red-600'
+                      }`}></span>
+                      {restaurantStatus.text}
                     </span>
                   </div>
                 </div>
