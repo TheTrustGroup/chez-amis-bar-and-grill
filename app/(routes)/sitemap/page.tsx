@@ -1,46 +1,31 @@
-"use client"
-
+import { Metadata } from "next"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
-import { ArrowLeft, ExternalLink } from "lucide-react"
+import { ArrowLeft } from "lucide-react"
+
+export const metadata: Metadata = {
+  title: "Sitemap - Chez Amis Bar and Grill",
+  description: "Site map and navigation guide for Chez Amis Bar and Grill website.",
+  robots: {
+    index: false,
+    follow: false,
+  },
+}
 
 export default function SitemapPage() {
-  const siteStructure = [
-    {
-      category: "Main Pages",
-      links: [
-        { name: "Home", href: "/" },
-        { name: "About Our Story", href: "/about" },
-        { name: "Menu", href: "/menu" },
-        { name: "Beverages", href: "/beverages" },
-      ],
-    },
-    {
-      category: "Dining & Services",
-      links: [
-        { name: "Reservations", href: "/reservations" },
-        { name: "Private Dining & Events", href: "/private-events" },
-        { name: "Catering", href: "/catering" },
-        { name: "Order for Delivery", href: "/order-summary" },
-      ],
-    },
-    {
-      category: "Information",
-      links: [
-        { name: "Contact Us", href: "/contact" },
-        { name: "FAQs", href: "/faq" },
-        { name: "Press & Media", href: "/press" },
-        { name: "Careers", href: "/careers" },
-      ],
-    },
-    {
-      category: "Legal",
-      links: [
-        { name: "Privacy Policy", href: "/privacy" },
-        { name: "Terms of Service", href: "/terms" },
-        { name: "Sitemap", href: "/sitemap" },
-      ],
-    },
+  const pages = [
+    { href: "/", label: "Home" },
+    { href: "/menu", label: "Menu" },
+    { href: "/reservations", label: "Reservations" },
+    { href: "/private-events", label: "Private Events" },
+    { href: "/catering", label: "Catering" },
+    { href: "/about", label: "About" },
+    { href: "/contact", label: "Contact" },
+    { href: "/careers", label: "Careers" },
+    { href: "/press", label: "Press & Media" },
+    { href: "/faq", label: "FAQ" },
+    { href: "/privacy", label: "Privacy Policy" },
+    { href: "/terms", label: "Terms of Service" },
   ]
 
   return (
@@ -53,7 +38,7 @@ export default function SitemapPage() {
               Sitemap
             </h1>
             <p className="text-lg md:text-xl font-body font-light text-cream-200/80">
-              Find everything you need on our website
+              Navigate our website easily
             </p>
           </div>
         </div>
@@ -62,77 +47,27 @@ export default function SitemapPage() {
       {/* Main Content */}
       <section className="section-padding">
         <div className="container-custom">
-          <div className="max-w-4xl mx-auto">
-            <div className="bg-cream-50 rounded-lg border border-charcoal-200/20 p-8 md:p-12">
-              <div className="space-y-8">
-                {siteStructure.map((section, index) => (
-                  <div key={index} className="space-y-4">
-                    <h2 className="text-2xl md:text-3xl font-display font-light text-foreground border-b border-charcoal-200/20 pb-2">
-                      {section.category}
-                    </h2>
-                    <nav className="space-y-2" aria-label={`${section.category} navigation`}>
-                      {section.links.map((link, linkIndex) => (
-                        <Link
-                          key={linkIndex}
-                          href={link.href}
-                          className="flex items-center gap-2 text-muted-foreground hover:text-gold-600 transition-colors font-body font-light group"
-                        >
-                          <span className="w-2 h-2 rounded-full bg-gold-500/30 group-hover:bg-gold-500 transition-colors"></span>
-                          <span>{link.name}</span>
-                          <ExternalLink className="h-3 w-3 opacity-0 group-hover:opacity-50 transition-opacity" />
-                        </Link>
-                      ))}
-                    </nav>
-                  </div>
+          <div className="max-w-3xl mx-auto space-y-8">
+            <div className="bg-cream-50 rounded-lg p-8 md:p-12">
+              <h2 className="text-2xl md:text-3xl font-display font-light text-foreground mb-6">
+                All Pages
+              </h2>
+              <ul className="space-y-3">
+                {pages.map((page) => (
+                  <li key={page.href}>
+                    <Link
+                      href={page.href}
+                      className="text-gold-600 hover:text-gold-700 font-body font-light transition-colors underline underline-offset-2"
+                    >
+                      {page.label}
+                    </Link>
+                  </li>
                 ))}
-              </div>
-
-              {/* Contact Information */}
-              <div className="mt-12 pt-8 border-t border-charcoal-200/20">
-                <h2 className="text-2xl md:text-3xl font-display font-light text-foreground mb-6">
-                  Contact Information
-                </h2>
-                <div className="bg-charcoal-900/5 rounded-lg p-6 space-y-3 text-foreground">
-                  <p className="font-body font-light">
-                    <strong className="font-medium">Chez Amis Bar and Grill</strong>
-                  </p>
-                  <p className="font-body font-light">
-                    40 Boundary Rd, Accra, Ghana
-                  </p>
-                  <p className="font-body font-light">
-                    Email:{" "}
-                    <a
-                      href="mailto:chez@chezamisrestaurant.com"
-                      className="text-gold-600 hover:text-gold-700 underline"
-                    >
-                      chez@chezamisrestaurant.com
-                    </a>
-                  </p>
-                  <p className="font-body font-light">
-                    Phone:{" "}
-                    <a
-                      href="tel:+233243952339"
-                      className="text-gold-600 hover:text-gold-700 underline"
-                    >
-                      024 395 2339
-                    </a>{" "}
-                    /{" "}
-                    <a
-                      href="tel:+233502432037"
-                      className="text-gold-600 hover:text-gold-700 underline"
-                    >
-                      050 243 2037
-                    </a>
-                  </p>
-                  <p className="font-body font-light">
-                    Hours: Daily 9:30 AM - 12:00 AM
-                  </p>
-                </div>
-              </div>
+              </ul>
             </div>
 
             {/* Back Button */}
-            <div className="mt-12 text-center">
+            <div className="pt-8">
               <Link href="/">
                 <Button
                   variant="outline"
@@ -149,4 +84,3 @@ export default function SitemapPage() {
     </div>
   )
 }
-
