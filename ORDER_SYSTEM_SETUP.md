@@ -56,10 +56,21 @@ RESEND_FROM_EMAIL=Chez Amis <noreply@chezamis.com>
 3. Find your **Auth Token** (click to reveal)
 
 ### Step 3: Get Phone Number
+
+**Option A: Use Trial Number (For Testing) ✅ RECOMMENDED TO START**
+1. Twilio automatically provides a trial number when you sign up
+2. Go to **Phone Numbers** → **Manage** → **Active numbers**
+3. You'll see your trial number (format: `+1234567890`)
+4. **Important:** Trial numbers can ONLY send SMS to verified phone numbers
+5. To verify numbers: Go to **Phone Numbers** → **Verified Caller IDs** → **Add a new Caller ID**
+6. Add the phone numbers you want to test with (must verify each one)
+
+**Option B: Buy a Real Number (For Production)**
 1. Go to **Phone Numbers** → **Buy a number**
 2. Select **Ghana** (+233) as country
-3. Choose a number (or use trial number for testing)
+3. Choose a number
 4. Copy the phone number (format: `+1234567890`)
+5. **Note:** Real numbers work with any phone number (no verification needed)
 
 ### Step 4: Set Environment Variables
 Add to your `.env.local` or Vercel environment variables:
@@ -67,10 +78,28 @@ Add to your `.env.local` or Vercel environment variables:
 ```bash
 TWILIO_ACCOUNT_SID=ACxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 TWILIO_AUTH_TOKEN=your_auth_token_here
-TWILIO_PHONE_NUMBER=+1234567890
+TWILIO_PHONE_NUMBER=+1234567890  # Use your trial number or purchased number
 ```
 
 **Free Trial:** $15.50 credit, supports Ghana numbers
+
+### ⚠️ Trial Number Limitations
+
+**What Works:**
+- ✅ Send SMS to verified phone numbers
+- ✅ Test the order system
+- ✅ Verify SMS functionality
+- ✅ Perfect for development and testing
+
+**What Doesn't Work:**
+- ❌ Send SMS to unverified numbers
+- ❌ Use in production with real customers
+- ❌ Send to any random phone number
+
+**For Production:**
+- Upgrade to a paid Twilio account
+- Purchase a real phone number (supports Ghana +233)
+- Real numbers can send to any phone number
 
 ---
 
