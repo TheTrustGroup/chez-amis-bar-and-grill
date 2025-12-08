@@ -157,12 +157,15 @@ export async function sendReservationReminder(
 
 /**
  * Send admin notification (Email + SMS)
+ * All orders and reservations are sent to: chez@chezamisrestaurant.com
  */
 export async function sendAdminNotification(
   type: 'order' | 'reservation',
   data: OrderData | ReservationData
 ): Promise<NotificationResult> {
-  const adminEmail = process.env.ADMIN_EMAIL || process.env.NEXT_PUBLIC_EMAIL || 'chez@chezamisrestaurant.com'
+  // Admin email: All orders go to chez@chezamisrestaurant.com
+  // Can be overridden with ADMIN_EMAIL env variable, but defaults to restaurant email
+  const adminEmail = process.env.ADMIN_EMAIL || 'chez@chezamisrestaurant.com'
   const adminPhone = process.env.ADMIN_PHONE || process.env.NEXT_PUBLIC_PHONE || '+233502432037'
 
   const results: NotificationResult = {
