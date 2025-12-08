@@ -15,7 +15,6 @@ export function FeaturedGallerySection() {
   const openModal = (media: FeaturedMediaItem) => {
     setSelectedMedia(media)
     setIsModalOpen(true)
-    // Prevent body scroll when modal is open
     document.body.style.overflow = "hidden"
   }
 
@@ -66,21 +65,25 @@ export function FeaturedGallerySection() {
                   "bg-charcoal-900" // Fallback background
                 )}
               >
-                {/* Thumbnail/Poster Image */}
-                {item.type === "video" && item.poster ? (
-                  <Image
-                    src={item.poster}
-                    alt={item.alt}
-                    fill
-                    sizes="(max-width: 768px) 50vw, 25vw"
-                    className="object-cover transition-transform duration-500 group-hover:scale-110"
-                    loading="lazy"
-                    onError={(e) => {
-                      // Fallback to gradient background if poster fails
-                      e.currentTarget.style.display = "none"
-                    }}
-                  />
-                ) : item.type === "image" ? (
+                {/* Video Thumbnail - Use video element to show first frame */}
+                {item.type === "video" ? (
+                  <>
+                    <video
+                      src={item.src}
+                      className="absolute inset-0 w-full h-full object-cover"
+                      muted
+                      playsInline
+                      preload="metadata"
+                      onLoadedMetadata={(e) => {
+                        // Seek to first frame for thumbnail
+                        const video = e.currentTarget
+                        video.currentTime = 0.1
+                      }}
+                    />
+                    {/* Fallback gradient overlay */}
+                    <div className="absolute inset-0 bg-gradient-to-br from-charcoal-900/80 via-charcoal-800/60 to-burgundy-900/80" />
+                  </>
+                ) : (
                   <Image
                     src={item.src}
                     alt={item.alt}
@@ -89,13 +92,10 @@ export function FeaturedGallerySection() {
                     className="object-cover transition-transform duration-500 group-hover:scale-110"
                     loading="lazy"
                     onError={(e) => {
-                      // Fallback to gradient background if image fails
+                      // Hide image on error, show fallback gradient
                       e.currentTarget.style.display = "none"
                     }}
                   />
-                ) : (
-                  // Fallback gradient for videos without poster
-                  <div className="absolute inset-0 bg-gradient-to-br from-charcoal-900 via-charcoal-800 to-burgundy-900" />
                 )}
 
                 {/* Overlay */}
@@ -136,7 +136,7 @@ export function FeaturedGallerySection() {
         </div>
       </section>
 
-      {/* LIGHTBOX MODAL for Videos and Images */}
+      {/* LIGHTBOX MODAL for Videos */}
       {isModalOpen && selectedMedia && (
         <div
           className="fixed inset-0 bg-black/95 z-50 flex items-center justify-center p-4 animate-fade-in"
@@ -175,7 +175,6 @@ export function FeaturedGallerySection() {
                   controls
                   autoPlay
                   className="w-full max-h-[80vh] rounded-lg"
-                  poster={selectedMedia.poster}
                   playsInline
                 >
                   <source src={selectedMedia.src} type="video/mp4" />
@@ -201,3 +200,4 @@ export function FeaturedGallerySection() {
     </>
   )
 }
+

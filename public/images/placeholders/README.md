@@ -1,66 +1,106 @@
-# Video Poster Placeholders
+# Image Placeholders Directory
 
-This directory contains placeholder images for video posters.
+This directory contains placeholder images organized by section. Replace these with professional photography when available.
 
-## Current Status
+## Image Specifications
 
-Video poster images need to be created for the following videos:
+### Homepage
+- **Hero video/image**: 1920x1080px minimum
+  - Restaurant ambiance (candles, plated dishes being served)
+  - Warm, natural lighting
+  - Professional video or high-quality image
 
-1. `/media/videos/filtered-B59B103F-F34D-4B58-A62D-C66524AD5ACE.MP4`
-   - Poster needed: `video-poster-1.jpg`
-   - Suggested: Screenshot from video showing kitchen/chef
+- **Welcome section**: 1200x800px
+  - Restaurant interior, warm and inviting
+  - Showcase ambiance
 
-2. `/media/videos/filtered-A59206D7-3709-4278-9712-9F5B1F6DC8BF.MP4`
-   - Poster needed: `video-poster-2.jpg`
-   - Suggested: Screenshot showing food preparation
+- **Signature dishes**: 800x800px (square)
+  - 6-8 beautifully plated dishes
+  - Consistent lighting and backgrounds
 
-3. `/media/videos/CE5847CE-3349-4C26-8792-C56BFAF29FDA.MP4`
-   - Poster needed: `video-poster-3.jpg`
-   - Suggested: Screenshot showing restaurant ambiance
+- **Private dining room**: 1200x800px
+  - Elegant, intimate setting
 
-4. `/media/videos/IMG_6983.MOV`
-   - Poster needed: `video-poster-4.jpg`
-   - Suggested: Screenshot from video
+- **Team photo**: 600x600px (square)
+  - Chef at work or team photo
 
-5. `/media/videos/IMG_0025.MOV`
-   - Poster needed: `video-poster-5.jpg`
-   - Suggested: Screenshot from video
+### Menu Page
+- **Dish photos**: 800x800px (square)
+  - 20-30 high-quality dish photos
+  - Each dish professionally styled
+  - Consistent lighting and backgrounds
+  - Minimum 800x800px
 
-## How to Create Video Posters
+### About Page
+- **Founder/chef portrait**: 600x600px (square)
+  - Professional portrait
 
-### Option 1: Using FFmpeg (Recommended)
+- **Team photos**: 600x600px (square)
+  - 5-6 team members
 
-```bash
-# Extract first frame as poster
-ffmpeg -i /path/to/video.MP4 -ss 00:00:01 -vframes 1 -q:v 2 video-poster-1.jpg
+- **Kitchen behind-the-scenes**: 1200x800px
+  - Action shots, preparation
 
-# Or extract a frame from a specific time
-ffmpeg -i /path/to/video.MP4 -ss 00:00:05 -vframes 1 -q:v 2 video-poster-1.jpg
-```
+- **Restaurant spaces**: 1200x800px
+  - 5-6 different angles
 
-### Option 2: Using Online Tools
+- **Historical photos**: 1200x800px (if available)
 
-1. Upload video to https://www.freeconvert.com/video-to-jpg
-2. Extract frame at desired timestamp
-3. Download and save as `video-poster-X.jpg`
+### Private Events
+- **Venue spaces**: 1200x800px
+  - 3-4 photos per venue
 
-### Option 3: Manual Screenshot
+- **Past events**: 1200x800px
+  - With permission from clients
 
-1. Play video in video player
-2. Pause at desired frame
-3. Take screenshot
-4. Save as `video-poster-X.jpg`
+- **Setup variations**: 1200x800px
+  - Different table configurations
 
-## Recommended Specifications
+### Contact Page
+- **Restaurant exterior**: 1200x800px
+  - Warm, inviting exterior shot
 
-- **Size**: 1200x675px (16:9 aspect ratio)
-- **Format**: JPEG
-- **Quality**: 85%
-- **File size**: < 200KB
-- **Content**: Should represent the video content clearly
+### Reservations
+- **Dining room**: 1200x800px
+  - Elegant dining room interior
 
-## After Creating Posters
+## Color Grading Guidelines
 
-1. Save posters to this directory: `/public/images/placeholders/`
-2. Update paths in `/lib/data/galleryMedia.ts` if needed
-3. Test video playback to ensure posters display correctly
+- Warm tones preferred
+- Slight desaturation for elegance
+- Consistent across all images
+- Avoid overly saturated colors
+- Gold/amber tones for warmth
+
+## Placeholder Sources
+
+Until professional photos are available, use:
+- Unsplash (unsplash.com)
+- Pexels (pexels.com)
+
+Search terms:
+- "fine dining"
+- "plated food"
+- "restaurant interior"
+- "chef cooking"
+- "elegant dining"
+- "gourmet food"
+
+## File Naming Convention
+
+Use descriptive, kebab-case names:
+- `hero-ambiance.jpg`
+- `signature-dish-1.jpg`
+- `chef-portrait.jpg`
+- `dining-room-interior.jpg`
+
+## Image Optimization
+
+Before uploading:
+1. Compress images (use tools like TinyPNG or ImageOptim)
+2. Ensure proper dimensions
+3. Use WebP format when possible
+4. Add alt text for accessibility
+
+
+

@@ -19,14 +19,14 @@ export interface MediaItem {
   dishName?: string // For menu integration
 }
 
-// Gallery media items - Updated with videos and placeholder handling
+// Gallery media items - Using actual uploaded videos
 export const galleryMedia: MediaItem[] = [
   // Videos - Behind the Scenes
   {
     id: 'video-behind-scenes-1',
     type: 'video',
     src: '/media/videos/filtered-B59B103F-F34D-4B58-A62D-C66524AD5ACE.MP4',
-    thumbnail: '/images/placeholders/video-poster-1.jpg',
+    thumbnail: '/media/videos/filtered-B59B103F-F34D-4B58-A62D-C66524AD5ACE.MP4', // Video will use first frame
     alt: 'Chef preparing signature dishes at Chez Amis',
     category: 'behind-scenes',
     title: 'Behind the Scenes: Kitchen Excellence',
@@ -36,7 +36,7 @@ export const galleryMedia: MediaItem[] = [
     id: 'video-cooking-1',
     type: 'video',
     src: '/media/videos/filtered-A59206D7-3709-4278-9712-9F5B1F6DC8BF.MP4',
-    thumbnail: '/images/placeholders/video-poster-2.jpg',
+    thumbnail: '/media/videos/filtered-A59206D7-3709-4278-9712-9F5B1F6DC8BF.MP4',
     alt: 'Culinary artistry in action',
     category: 'behind-scenes',
     title: 'Culinary Artistry',
@@ -46,7 +46,7 @@ export const galleryMedia: MediaItem[] = [
     id: 'video-ambiance-1',
     type: 'video',
     src: '/media/videos/CE5847CE-3349-4C26-8792-C56BFAF29FDA.MP4',
-    thumbnail: '/images/placeholders/video-poster-3.jpg',
+    thumbnail: '/media/videos/CE5847CE-3349-4C26-8792-C56BFAF29FDA.MP4',
     alt: 'Experience the ambiance of Chez Amis',
     category: 'restaurant-ambiance',
     title: 'Restaurant Ambiance',
@@ -56,7 +56,7 @@ export const galleryMedia: MediaItem[] = [
     id: 'video-experience-1',
     type: 'video',
     src: '/media/videos/IMG_6983.MOV',
-    thumbnail: '/images/placeholders/video-poster-4.jpg',
+    thumbnail: '/media/videos/IMG_6983.MOV',
     alt: 'A taste of what awaits at Chez Amis',
     category: 'restaurant-ambiance',
     title: 'A Taste of Excellence',
@@ -66,15 +66,12 @@ export const galleryMedia: MediaItem[] = [
     id: 'video-additional-1',
     type: 'video',
     src: '/media/videos/IMG_0025.MOV',
-    thumbnail: '/images/placeholders/video-poster-5.jpg',
+    thumbnail: '/media/videos/IMG_0025.MOV',
     alt: 'Additional restaurant content',
     category: 'behind-scenes',
     title: 'More from Chez Amis',
     description: 'Additional behind-the-scenes content from our kitchen',
   },
-  
-  // Note: Image items removed until actual images are uploaded
-  // When images are uploaded, add them here with proper paths
 ]
 
 // Gallery categories
@@ -87,12 +84,12 @@ export const galleryCategories = [
   { id: 'events' as MediaCategory, label: 'Events & Promotions' },
 ]
 
-// Featured media for home page - Updated with actual videos
+// Featured media for home page - Using actual videos
 export interface FeaturedMediaItem {
   id: string
   type: MediaType
   src: string
-  poster?: string // For videos
+  poster?: string // For videos - will use video first frame if not provided
   alt: string
   title?: string
 }
@@ -103,7 +100,6 @@ export const featuredMedia: FeaturedMediaItem[] = [
     id: 'video-1',
     type: 'video',
     src: '/media/videos/filtered-B59B103F-F34D-4B58-A62D-C66524AD5ACE.MP4',
-    poster: '/images/placeholders/video-poster-1.jpg', // Placeholder until poster created
     alt: 'Chef preparing signature dishes at Chez Amis',
     title: 'Behind the Scenes',
   },
@@ -112,7 +108,6 @@ export const featuredMedia: FeaturedMediaItem[] = [
     id: 'video-2',
     type: 'video',
     src: '/media/videos/filtered-A59206D7-3709-4278-9712-9F5B1F6DC8BF.MP4',
-    poster: '/images/placeholders/video-poster-2.jpg',
     alt: 'Culinary artistry in action',
     title: 'Culinary Excellence',
   },
@@ -121,7 +116,6 @@ export const featuredMedia: FeaturedMediaItem[] = [
     id: 'video-3',
     type: 'video',
     src: '/media/videos/CE5847CE-3349-4C26-8792-C56BFAF29FDA.MP4',
-    poster: '/images/placeholders/video-poster-3.jpg',
     alt: 'Experience the ambiance of Chez Amis',
     title: 'Restaurant Ambiance',
   },
@@ -130,7 +124,6 @@ export const featuredMedia: FeaturedMediaItem[] = [
     id: 'video-4',
     type: 'video',
     src: '/media/videos/IMG_6983.MOV',
-    poster: '/images/placeholders/video-poster-4.jpg',
     alt: 'A taste of what awaits at Chez Amis',
     title: 'A Taste of Excellence',
   },
