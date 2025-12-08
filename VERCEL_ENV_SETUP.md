@@ -30,30 +30,29 @@ Click **Add New** and add these variables:
 
 ---
 
-## ⏳ SMS Service (Twilio) - PENDING
+## ✅ SMS Service (Twilio) - READY TO DEPLOY
 
-To enable SMS confirmations, add Twilio credentials:
+Your Twilio SMS service is configured. Add these to Vercel:
 
 **Variable 1:**
 - **Key:** `TWILIO_ACCOUNT_SID`
-- **Value:** `ACxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx`
-- **Environment:** Production, Preview, Development
+- **Value:** Your Twilio Account SID (starts with `AC`)
+- **Environment:** Production, Preview, Development (select all)
 
 **Variable 2:**
 - **Key:** `TWILIO_AUTH_TOKEN`
-- **Value:** `your_auth_token_here`
-- **Environment:** Production, Preview, Development
+- **Value:** Your Twilio Auth Token
+- **Environment:** Production, Preview, Development (select all)
 
 **Variable 3:**
 - **Key:** `TWILIO_PHONE_NUMBER`
-- **Value:** `+1234567890` (your Twilio phone number)
-- **Environment:** Production, Preview, Development
+- **Value:** Your Twilio phone number (e.g., `+15204754558` for trial, or `+233XXXXXXXXX` for Ghana)
+- **Environment:** Production, Preview, Development (select all)
 
-**Get Twilio credentials:**
-1. Sign up at https://www.twilio.com
-2. Go to Console Dashboard
-3. Find Account SID and Auth Token
-4. Buy a phone number (supports Ghana +233)
+**Your Credentials:**
+- Check your `.env.local` file locally for the actual values
+- Or get from Twilio Console Dashboard
+- **Note:** Your Twilio number is a trial number - verify recipient numbers for testing
 
 ---
 
@@ -78,9 +77,10 @@ To enable SMS confirmations, add Twilio credentials:
 ## 📊 Current Status
 
 - ✅ **Email Service:** Configured and ready
-- ⏳ **SMS Service:** Pending Twilio setup
+- ✅ **SMS Service:** Configured and ready (trial number)
 - ✅ **Order API:** Implemented
 - ✅ **Confirmation Page:** Shows notification status
+- ✅ **Local Setup:** `.env.local` created with all credentials
 
 ---
 
