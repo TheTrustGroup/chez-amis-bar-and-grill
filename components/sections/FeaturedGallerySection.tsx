@@ -1,76 +1,203 @@
 "use client"
 
+import { useState, useEffect } from "react"
 import Image from "next/image"
 import Link from "next/link"
-import { Play, ArrowRight } from "lucide-react"
+import { Play, ArrowRight, X } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { featuredMedia } from "@/lib/data/galleryMedia"
+import { featuredMedia, type FeaturedMediaItem } from "@/lib/data/galleryMedia"
 import { cn } from "@/lib/utils"
 
 export function FeaturedGallerySection() {
+  const [selectedMedia, setSelectedMedia] = useState<FeaturedMediaItem | null>(null)
+  const [isModalOpen, setIsModalOpen] = useState(false)
+
+  const openModal = (media: FeaturedMediaItem) => {
+    setSelectedMedia(media)
+    setIsModalOpen(true)
+    // Prevent body scroll when modal is open
+    document.body.style.overflow = "hidden"
+  }
+
+  const closeModal = () => {
+    setIsModalOpen(false)
+    setSelectedMedia(null)
+    document.body.style.overflow = "unset"
+  }
+
+  // Handle escape key
+  useEffect(() => {
+    if (!isModalOpen) return
+
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        closeModal()
+      }
+    }
+
+    window.addEventListener("keydown", handleEscape)
+    return () => window.removeEventListener("keydown", handleEscape)
+  }, [isModalOpen])
+
   return (
-    <section className="section-padding bg-background">
-      <div className="container-custom">
-        {/* Section Header */}
-        <div className="text-center mb-12 md:mb-16">
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-light text-foreground mb-4">
-            A Taste of What Awaits
-          </h2>
-          <div className="w-24 h-px bg-gold-500 mx-auto mb-6" />
-          <p className="text-lg md:text-xl text-muted-foreground font-body font-light max-w-2xl mx-auto">
-            Explore our visual story of culinary excellence, crafted with passion and served with pride
-          </p>
-        </div>
+    <>
+      <section className="section-padding bg-background">
+        <div className="container-custom">
+          {/* Section Header */}
+          <div className="text-center mb-12 md:mb-16">
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-light text-foreground mb-4">
+              A Taste of What Awaits
+            </h2>
+            <div className="w-24 h-px bg-gold-500 mx-auto mb-6" />
+            <p className="text-lg md:text-xl text-muted-foreground font-body font-light max-w-2xl mx-auto">
+              Explore our visual story of culinary excellence, crafted with passion and served with pride
+            </p>
+          </div>
 
-        {/* Featured Media Grid */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8 md:mb-12">
-          {featuredMedia.map((item, index) => (
-            <div
-              key={index}
-              className={cn(
-                "group relative aspect-square rounded-lg overflow-hidden cursor-pointer",
-                "shadow-lg hover:shadow-xl transition-all duration-300"
-              )}
-            >
-              <Image
-                src={item.src}
-                alt={item.alt}
-                fill
-                className="object-cover transition-transform duration-500 group-hover:scale-110"
-                sizes="(max-width: 768px) 50vw, 25vw"
-                loading={index < 2 ? "eager" : "lazy"}
-              />
+          {/* Featured Media Grid */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8 md:mb-12">
+            {featuredMedia.map((item) => (
+              <div
+                key={item.id}
+                onClick={() => openModal(item)}
+                className={cn(
+                  "group relative aspect-square rounded-lg overflow-hidden cursor-pointer",
+                  "shadow-lg hover:shadow-xl transition-all duration-300",
+                  "bg-charcoal-900" // Fallback background
+                )}
+              >
+                {/* Thumbnail/Poster Image */}
+                {item.type === "video" && item.poster ? (
+                  <Image
+                    src={item.poster}
+                    alt={item.alt}
+                    fill
+                    sizes="(max-width: 768px) 50vw, 25vw"
+                    className="object-cover transition-transform duration-500 group-hover:scale-110"
+                    loading="lazy"
+                    onError={(e) => {
+                      // Fallback to gradient background if poster fails
+                      e.currentTarget.style.display = "none"
+                    }}
+                  />
+                ) : item.type === "image" ? (
+                  <Image
+                    src={item.src}
+                    alt={item.alt}
+                    fill
+                    sizes="(max-width: 768px) 50vw, 25vw"
+                    className="object-cover transition-transform duration-500 group-hover:scale-110"
+                    loading="lazy"
+                    onError={(e) => {
+                      // Fallback to gradient background if image fails
+                      e.currentTarget.style.display = "none"
+                    }}
+                  />
+                ) : (
+                  // Fallback gradient for videos without poster
+                  <div className="absolute inset-0 bg-gradient-to-br from-charcoal-900 via-charcoal-800 to-burgundy-900" />
+                )}
 
-              {/* Overlay */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                {/* Overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
-              {/* Video Play Button */}
-              {item.type === "video" && (
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="w-12 h-12 bg-gold-500/90 backdrop-blur-sm rounded-full flex items-center justify-center group-hover:scale-110 transition-transform shadow-lg">
-                    <Play className="w-6 h-6 text-white ml-0.5" fill="white" />
+                {/* Video Play Button */}
+                {item.type === "video" && (
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <div className="w-12 h-12 md:w-16 md:h-16 bg-gold-500/90 backdrop-blur-sm rounded-full flex items-center justify-center group-hover:scale-110 transition-transform shadow-lg">
+                      <Play className="w-6 h-6 md:w-8 md:h-8 text-white ml-1" fill="white" />
+                    </div>
                   </div>
-                </div>
+                )}
+
+                {/* Title Overlay (for videos) */}
+                {item.type === "video" && item.title && (
+                  <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/80 to-transparent">
+                    <p className="text-white text-sm font-heading font-medium">{item.title}</p>
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+
+          {/* View All Button */}
+          <div className="text-center">
+            <Link href="/gallery">
+              <Button
+                variant="outline"
+                size="lg"
+                className="font-heading font-light tracking-wide border-2 border-gold-500/60 text-foreground hover:bg-gold-500/10 hover:border-gold-500 min-h-[48px] px-8"
+              >
+                View Full Gallery
+                <ArrowRight className="w-5 h-5 ml-2" />
+              </Button>
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* LIGHTBOX MODAL for Videos and Images */}
+      {isModalOpen && selectedMedia && (
+        <div
+          className="fixed inset-0 bg-black/95 z-50 flex items-center justify-center p-4 animate-fade-in"
+          onClick={closeModal}
+        >
+          {/* Close Button */}
+          <button
+            onClick={closeModal}
+            className="absolute top-4 right-4 z-50 bg-white/10 backdrop-blur-sm p-3 rounded-full hover:bg-white/20 transition-colors min-h-[44px] min-w-[44px] flex items-center justify-center"
+            aria-label="Close"
+          >
+            <X className="w-6 h-6 text-white" />
+          </button>
+
+          {/* Media Content */}
+          <div
+            className="max-w-6xl max-h-[90vh] w-full"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {selectedMedia.type === "image" ? (
+              // Display Image
+              <div className="relative w-full h-full flex items-center justify-center">
+                <Image
+                  src={selectedMedia.src}
+                  alt={selectedMedia.alt}
+                  width={1200}
+                  height={800}
+                  className="max-w-full max-h-[80vh] w-auto h-auto object-contain rounded-lg"
+                />
+              </div>
+            ) : (
+              // Display Video
+              <div className="relative w-full">
+                <video
+                  src={selectedMedia.src}
+                  controls
+                  autoPlay
+                  className="w-full max-h-[80vh] rounded-lg"
+                  poster={selectedMedia.poster}
+                  playsInline
+                >
+                  <source src={selectedMedia.src} type="video/mp4" />
+                  Your browser does not support the video tag.
+                </video>
+              </div>
+            )}
+
+            {/* Media Info */}
+            <div className="mt-4 text-center text-white">
+              <h3 className="text-xl font-display font-light mb-2">
+                {selectedMedia.title || selectedMedia.alt}
+              </h3>
+              {selectedMedia.title && (
+                <p className="text-cream-200/80 font-body font-light text-sm">
+                  {selectedMedia.alt}
+                </p>
               )}
             </div>
-          ))}
+          </div>
         </div>
-
-        {/* View All Button */}
-        <div className="text-center">
-          <Link href="/gallery">
-            <Button
-              variant="outline"
-              size="lg"
-              className="font-heading font-light tracking-wide border-2 border-gold-500/60 text-foreground hover:bg-gold-500/10 hover:border-gold-500 min-h-[48px] px-8"
-            >
-              View Full Gallery
-              <ArrowRight className="w-5 h-5 ml-2" />
-            </Button>
-          </Link>
-        </div>
-      </div>
-    </section>
+      )}
+    </>
   )
 }
-

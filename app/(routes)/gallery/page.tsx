@@ -130,7 +130,13 @@ export default function GalleryPage() {
                     className="object-cover transition-transform duration-500 group-hover:scale-110"
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                     loading="lazy"
+                    onError={(e) => {
+                      // Fallback to gradient background if image fails
+                      e.currentTarget.style.display = "none"
+                    }}
                   />
+                  {/* Fallback gradient if image fails to load */}
+                  <div className="absolute inset-0 bg-gradient-to-br from-charcoal-900 via-charcoal-800 to-burgundy-900 -z-10" />
 
                   {/* Overlay */}
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
@@ -249,7 +255,16 @@ export default function GalleryPage() {
                   height={800}
                   className="max-w-full max-h-[80vh] object-contain rounded-lg"
                   priority
+                  onError={(e) => {
+                    // Show error message if image fails
+                    e.currentTarget.style.display = "none"
+                  }}
                 />
+                {/* Fallback message if image fails */}
+                <div className="text-white text-center p-8">
+                  <p className="text-lg mb-2">Image unavailable</p>
+                  <p className="text-sm text-cream-200/60">{filteredMedia[currentMediaIndex].alt}</p>
+                </div>
               </div>
             ) : (
               <video
@@ -258,7 +273,11 @@ export default function GalleryPage() {
                 autoPlay
                 className="w-full max-h-[80vh] object-contain rounded-lg"
                 poster={filteredMedia[currentMediaIndex].thumbnail}
-              />
+                playsInline
+              >
+                <source src={filteredMedia[currentMediaIndex].src} type="video/mp4" />
+                Your browser does not support the video tag.
+              </video>
             )}
 
             {/* Media Info */}

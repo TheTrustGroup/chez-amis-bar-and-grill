@@ -19,111 +19,62 @@ export interface MediaItem {
   dishName?: string // For menu integration
 }
 
-// Gallery media items - Populated from uploaded images
+// Gallery media items - Updated with videos and placeholder handling
 export const galleryMedia: MediaItem[] = [
-  // Signature Attieke Dishes
+  // Videos - Behind the Scenes
   {
-    id: 'attieke-tilapia-001',
-    type: 'image',
-    src: '/media/images/dishes/attieke/attieke-grilled-tilapia-001.jpg',
-    thumbnail: '/media/images/dishes/attieke/attieke-grilled-tilapia-001-thumb.jpg',
-    alt: 'Signature Attieke with Grilled Tilapia - Traditional Ivorian couscous with perfectly grilled whole tilapia',
-    category: 'signature-dishes',
-    title: 'Attieke with Grilled Tilapia',
-    description: 'Our signature dish - fermented cassava couscous with perfectly grilled whole tilapia, house-made pepper sauce, and fresh tomato salsa',
-    dishName: 'Attieke with Grilled Tilapia',
+    id: 'video-behind-scenes-1',
+    type: 'video',
+    src: '/media/videos/filtered-B59B103F-F34D-4B58-A62D-C66524AD5ACE.MP4',
+    thumbnail: '/images/placeholders/video-poster-1.jpg',
+    alt: 'Chef preparing signature dishes at Chez Amis',
+    category: 'behind-scenes',
+    title: 'Behind the Scenes: Kitchen Excellence',
+    description: 'Watch our talented chefs craft our signature dishes with passion and precision',
   },
   {
-    id: 'attieke-fish-platter-001',
-    type: 'image',
-    src: '/media/images/dishes/attieke/attieke-fish-platter-001.jpg',
-    thumbnail: '/media/images/dishes/attieke/attieke-fish-platter-001-thumb.jpg',
-    alt: 'Attieke with fried fish platter - Traditional meal with whole fried fish and accompaniments',
-    category: 'signature-dishes',
-    title: 'Attieke with Fried Fish Platter',
-    description: 'Traditional Attieke served with crispy whole fried fish, hard-boiled eggs, and fresh condiments',
-    dishName: 'Attieke with Fried Fish',
+    id: 'video-cooking-1',
+    type: 'video',
+    src: '/media/videos/filtered-A59206D7-3709-4278-9712-9F5B1F6DC8BF.MP4',
+    thumbnail: '/images/placeholders/video-poster-2.jpg',
+    alt: 'Culinary artistry in action',
+    category: 'behind-scenes',
+    title: 'Culinary Artistry',
+    description: 'Experience the skill and dedication that goes into every dish',
   },
   {
-    id: 'acheke-promo-001',
-    type: 'image',
-    src: '/media/images/dishes/attieke/acheke-promo-001.jpg',
-    thumbnail: '/media/images/dishes/attieke/acheke-promo-001-thumb.jpg',
-    alt: 'Acheke promotional image - Signature dish with fried fish, plantains, and fresh salad',
-    category: 'signature-dishes',
-    title: 'Acheke - Our Signature Dish',
-    description: 'Experience our famous Acheke with perfectly grilled fish, fried plantains, and fresh vegetables',
-    dishName: 'Acheke',
-  },
-  
-  // Grill Specialties
-  {
-    id: 'grilled-fish-001',
-    type: 'image',
-    src: '/media/images/dishes/grill/grilled-fish-001.jpg',
-    thumbnail: '/media/images/dishes/grill/grilled-fish-001-thumb.jpg',
-    alt: 'Grilled whole fish with traditional accompaniments',
-    category: 'grill-specialties',
-    title: 'Grilled Whole Fish',
-    description: 'Perfectly grilled whole fish with traditional West African spices, served with fresh vegetables and condiments',
-    dishName: 'Grilled Whole Fish',
-  },
-  {
-    id: 'mixed-grill-001',
-    type: 'image',
-    src: '/media/images/dishes/grill/mixed-grill-001.jpg',
-    thumbnail: '/media/images/dishes/grill/mixed-grill-001-thumb.jpg',
-    alt: 'Mixed grill platter with grilled meat, plantains, and couscous',
-    category: 'grill-specialties',
-    title: 'Mixed Grill Platter',
-    description: 'A hearty combination of grilled meat chops, fried plantains, and light couscous with fresh vegetable salsa',
-    dishName: 'Mixed Grill',
-  },
-  {
-    id: 'grilled-fish-board-001',
-    type: 'image',
-    src: '/media/images/dishes/grill/grilled-fish-board-001.jpg',
-    thumbnail: '/media/images/dishes/grill/grilled-fish-board-001-thumb.jpg',
-    alt: 'Grilled fish on wooden board with fresh accompaniments',
-    category: 'grill-specialties',
-    title: 'Grilled Fish Special',
-    description: 'Two large grilled fish pieces with green herb marinade, served with fresh onions, peppers, and couscous',
-    dishName: 'Grilled Fish Special',
-  },
-  
-  // Restaurant Ambiance
-  {
-    id: 'takeaway-packaging-001',
-    type: 'image',
-    src: '/media/images/restaurant/ambiance/takeaway-packaging-001.jpg',
-    thumbnail: '/media/images/restaurant/ambiance/takeaway-packaging-001-thumb.jpg',
-    alt: 'Professional takeaway packaging with Chez Amis branding',
+    id: 'video-ambiance-1',
+    type: 'video',
+    src: '/media/videos/CE5847CE-3349-4C26-8792-C56BFAF29FDA.MP4',
+    thumbnail: '/images/placeholders/video-poster-3.jpg',
+    alt: 'Experience the ambiance of Chez Amis',
     category: 'restaurant-ambiance',
-    title: 'Professional Takeaway Service',
-    description: 'Our meals are carefully packaged for takeaway and delivery, maintaining quality and presentation',
+    title: 'Restaurant Ambiance',
+    description: 'Immerse yourself in the warm and inviting atmosphere of Chez Amis',
+  },
+  {
+    id: 'video-experience-1',
+    type: 'video',
+    src: '/media/videos/IMG_6983.MOV',
+    thumbnail: '/images/placeholders/video-poster-4.jpg',
+    alt: 'A taste of what awaits at Chez Amis',
+    category: 'restaurant-ambiance',
+    title: 'A Taste of Excellence',
+    description: 'Discover the exceptional dining experience that awaits you',
+  },
+  {
+    id: 'video-additional-1',
+    type: 'video',
+    src: '/media/videos/IMG_0025.MOV',
+    thumbnail: '/images/placeholders/video-poster-5.jpg',
+    alt: 'Additional restaurant content',
+    category: 'behind-scenes',
+    title: 'More from Chez Amis',
+    description: 'Additional behind-the-scenes content from our kitchen',
   },
   
-  // Events & Promotions
-  {
-    id: 'promo-acheke-001',
-    type: 'image',
-    src: '/media/images/events/promo-acheke-001.jpg',
-    thumbnail: '/media/images/events/promo-acheke-001-thumb.jpg',
-    alt: 'Acheke promotional advertisement with delivery information',
-    category: 'events',
-    title: 'Acheke Promotion',
-    description: 'Special promotion featuring our signature Acheke dish - "Obiaa wor ne taste! But go and taste Acheke from Chez Amis and see!"',
-  },
-  {
-    id: 'promo-general-001',
-    type: 'image',
-    src: '/media/images/events/promo-general-001.jpg',
-    thumbnail: '/media/images/events/promo-general-001-thumb.jpg',
-    alt: 'General restaurant promotion with food images',
-    category: 'events',
-    title: 'A Good Meal is a Good Deal',
-    description: 'Experience the best of West African cuisine at Chez Amis Bar and Grill',
-  },
+  // Note: Image items removed until actual images are uploaded
+  // When images are uploaded, add them here with proper paths
 ]
 
 // Gallery categories
@@ -136,27 +87,52 @@ export const galleryCategories = [
   { id: 'events' as MediaCategory, label: 'Events & Promotions' },
 ]
 
-// Featured media for home page
-export const featuredMedia = [
+// Featured media for home page - Updated with actual videos
+export interface FeaturedMediaItem {
+  id: string
+  type: MediaType
+  src: string
+  poster?: string // For videos
+  alt: string
+  title?: string
+}
+
+export const featuredMedia: FeaturedMediaItem[] = [
+  // Video 1: Restaurant ambiance/cooking
   {
-    type: 'image' as MediaType,
-    src: '/media/images/dishes/attieke/attieke-grilled-tilapia-001.jpg',
-    alt: 'Signature Attieke with Grilled Tilapia',
+    id: 'video-1',
+    type: 'video',
+    src: '/media/videos/filtered-B59B103F-F34D-4B58-A62D-C66524AD5ACE.MP4',
+    poster: '/images/placeholders/video-poster-1.jpg', // Placeholder until poster created
+    alt: 'Chef preparing signature dishes at Chez Amis',
+    title: 'Behind the Scenes',
   },
+  // Video 2: Food preparation
   {
-    type: 'image' as MediaType,
-    src: '/media/images/dishes/grill/mixed-grill-001.jpg',
-    alt: 'Mixed Grill Platter',
+    id: 'video-2',
+    type: 'video',
+    src: '/media/videos/filtered-A59206D7-3709-4278-9712-9F5B1F6DC8BF.MP4',
+    poster: '/images/placeholders/video-poster-2.jpg',
+    alt: 'Culinary artistry in action',
+    title: 'Culinary Excellence',
   },
+  // Video 3: Restaurant experience
   {
-    type: 'image' as MediaType,
-    src: '/media/images/dishes/grill/grilled-fish-001.jpg',
-    alt: 'Grilled Whole Fish',
+    id: 'video-3',
+    type: 'video',
+    src: '/media/videos/CE5847CE-3349-4C26-8792-C56BFAF29FDA.MP4',
+    poster: '/images/placeholders/video-poster-3.jpg',
+    alt: 'Experience the ambiance of Chez Amis',
+    title: 'Restaurant Ambiance',
   },
+  // Video 4: Additional content
   {
-    type: 'image' as MediaType,
-    src: '/media/images/restaurant/ambiance/takeaway-packaging-001.jpg',
-    alt: 'Professional Takeaway Service',
+    id: 'video-4',
+    type: 'video',
+    src: '/media/videos/IMG_6983.MOV',
+    poster: '/images/placeholders/video-poster-4.jpg',
+    alt: 'A taste of what awaits at Chez Amis',
+    title: 'A Taste of Excellence',
   },
 ]
 
