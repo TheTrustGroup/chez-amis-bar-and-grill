@@ -85,6 +85,34 @@ export function EventRequestForm() {
     formData.email &&
     formData.phone
 
+  if (isSubmitted) {
+    return (
+      <div className="text-center py-12 space-y-4">
+        <div className="w-16 h-16 rounded-full bg-gold-500/10 flex items-center justify-center mx-auto">
+          <svg
+            className="w-8 h-8 text-gold-600"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M5 13l4 4L19 7"
+            />
+          </svg>
+        </div>
+        <h3 className="text-2xl font-display font-light text-foreground">
+          Thank You for Your Event Request
+        </h3>
+        <p className="text-muted-foreground font-body font-light">
+          We&apos;ve received your event request and will contact you within 24 hours to discuss your event.
+        </p>
+      </div>
+    )
+  }
+
   return (
     <form onSubmit={handleSubmit} className="space-y-8">
       <div>
