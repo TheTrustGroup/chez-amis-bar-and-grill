@@ -41,7 +41,7 @@ export default function PlaceOrderPage() {
     orderType === "dine-in"
       ? !!(formData.date && formData.time && formData.guests)
       : orderType === "takeaway"
-      ? !!(formData.pickupTime && formData.phone)
+      ? !!(formData.pickupTime)
       : orderType === "delivery"
       ? !!(formData.deliveryAddress && formData.deliveryTime && (formData.deliveryTime === "asap" || formData.scheduledTime))
       : false
