@@ -1,19 +1,24 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { useParams, useRouter } from "next/navigation"
+import { useParams, useRouter, useSearchParams } from "next/navigation"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
-import { CheckCircle2, Clock, MapPin, UtensilsCrossed, ShoppingBag, Truck } from "lucide-react"
+import { CheckCircle2, Clock, MapPin, UtensilsCrossed, ShoppingBag, Truck, Mail, MessageSquare, CheckCircle, XCircle } from "lucide-react"
 import { useCartContext } from "@/lib/context/CartContext"
 import { OrderType } from "@/components/order/OrderTypeSelector"
 
 export default function OrderConfirmationPage() {
   const params = useParams()
   const router = useRouter()
+  const searchParams = useSearchParams()
   const { items, clearCart, getSubtotal, getTax, getDeliveryFee, getGrandTotal } = useCartContext()
   const [isAnimating, setIsAnimating] = useState(true)
   const orderId = params.orderId as string
+  
+  // Get notification status from URL params
+  const emailStatus = searchParams.get('email')
+  const smsStatus = searchParams.get('sms')
 
   // Simulate order data (in production, fetch from API)
   const [orderData] = useState({
@@ -241,9 +246,58 @@ export default function OrderConfirmationPage() {
             <p className="text-sm text-muted-foreground font-body font-light">
               {nextSteps.description}
             </p>
-            <p className="text-sm text-muted-foreground font-body font-light mt-4">
-              A confirmation email has been sent to your email address.
-            </p>
+            {/* Notification Status */}
+            <div className="mt-6 space-y-3">
+              <div className="flex items-center gap-3 text-sm">
+                {emailStatus === 'sent' ? (
+                  <>
+                    <CheckCircle className="h-5 w-5 text-green-600" />
+                    <span className="text-muted-foreground font-body font-light">
+                      Confirmation email sent to your email address
+                    </span>
+                  </>
+                ) : emailStatus === 'failed' ? (
+                  <>
+                    <XCircle className="h-5 w-5 text-amber-600" />
+                    <span className="text-muted-foreground font-body font-light">
+                      Email confirmation could not be sent, but your order is confirmed
+                    </span>
+                  </>
+                ) : (
+                  <>
+                    <Mail className="h-5 w-5 text-muted-foreground" />
+                    <span className="text-muted-foreground font-body font-light">
+                      Confirmation email will be sent shortly
+                    </span>
+                  </>
+                )}
+              </div>
+              
+              <div className="flex items-center gap-3 text-sm">
+                {smsStatus === 'sent' ? (
+                  <>
+                    <CheckCircle className="h-5 w-5 text-green-600" />
+                    <span className="text-muted-foreground font-body font-light">
+                      Confirmation SMS sent to your phone
+                    </span>
+                  </>
+                ) : smsStatus === 'failed' ? (
+                  <>
+                    <XCircle className="h-5 w-5 text-amber-600" />
+                    <span className="text-muted-foreground font-body font-light">
+                      SMS confirmation could not be sent, but your order is confirmed
+                    </span>
+                  </>
+                ) : (
+                  <>
+                    <MessageSquare className="h-5 w-5 text-muted-foreground" />
+                    <span className="text-muted-foreground font-body font-light">
+                      Confirmation SMS will be sent shortly
+                    </span>
+                  </>
+                )}
+              </div>
+            </div>
           </div>
 
           {/* Action Buttons */}

@@ -18,6 +18,8 @@ export default function PlaceOrderPage() {
   const [orderType, setOrderType] = useState<OrderType | null>(null)
   const [paymentMethod, setPaymentMethod] = useState<PaymentMethod | null>(null)
   const [formData, setFormData] = useState<Record<string, string>>({})
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [submitError, setSubmitError] = useState<string | null>(null)
 
   const handleFieldChange = (field: string, value: string) => {
     setFormData((prev) => ({ ...prev, [field]: value }))
@@ -46,18 +48,88 @@ export default function PlaceOrderPage() {
     formData.email &&
     paymentMethod !== null
 
-  const handlePlaceOrder = () => {
-    if (!canPlaceOrder) return
+  const handlePlaceOrder = async () => {
+    if (!canPlaceOrder || isSubmitting) return
 
-    // Generate order ID
-    const orderId = `CAG-${new Date().getFullYear()}-${Math.floor(Math.random() * 10000)
-      .toString()
-      .padStart(4, "0")}`
+    setIsSubmitting(true)
+    setSubmitError(null)
 
-    // In production, this would submit to your backend
+    try {
+      // Generate order ID
+      const orderId = `CAG-${new Date().getFullYear()}-${Math.floor(Math.random() * 10000)
+        .toString()
+        .padStart(4, "0")}`
 
-    // Navigate to confirmation
-    router.push(`/order-confirmation/${orderId}`)
+      // Calculate totals
+      const subtotal = items.reduce((sum, item) => sum + item.menuItem.price * item.quantity, 0)
+      const tax = subtotal * 0.15 // 15% VAT
+      const deliveryFee = orderType === "delivery" ? (subtotal >= 100 ? 0 : 15) : 0
+      const serviceCharge = orderType === "dine-in" ? subtotal * 0.1 : 0
+      const total = subtotal + tax + deliveryFee + serviceCharge
+
+      // Prepare order data
+      const orderData = {
+        orderId,
+        orderType: orderType!,
+        customer: {
+          fullName: formData.fullName!,
+          email: formData.email!,
+          phone: formData.phone!,
+        },
+        items: items.map((item) => ({
+          id: item.id,
+          name: item.menuItem.name,
+          quantity: item.quantity,
+          price: item.menuItem.price,
+          specialInstructions: item.customizations?.specialInstructions,
+        })),
+        orderDetails: {
+          ...(orderType === "dine-in" && {
+            tableNumber: formData.tableNumber,
+            date: formData.date,
+            time: formData.time,
+            guests: formData.guests,
+          }),
+          ...(orderType === "takeaway" && {
+            pickupTime: formData.pickupTime,
+          }),
+          ...(orderType === "delivery" && {
+            deliveryAddress: formData.deliveryAddress,
+          }),
+          specialRequests: formData.specialRequests,
+        },
+        payment: {
+          subtotal,
+          tax,
+          deliveryFee,
+          serviceCharge,
+          total,
+          method: paymentMethod!,
+        },
+      }
+
+      // Submit order to API
+      const response = await fetch('/api/orders', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(orderData),
+      })
+
+      const result = await response.json()
+
+      if (!response.ok) {
+        throw new Error(result.error || 'Failed to place order')
+      }
+
+      // Navigate to confirmation with notification status
+      router.push(`/order-confirmation/${orderId}?email=${result.notifications.email.sent ? 'sent' : 'failed'}&sms=${result.notifications.sms.sent ? 'sent' : 'failed'}`)
+    } catch (error) {
+      console.error('Order submission error:', error)
+      setSubmitError(error instanceof Error ? error.message : 'Failed to place order. Please try again.')
+      setIsSubmitting(false)
+    }
   }
 
   if (items.length === 0) {
@@ -158,13 +230,18 @@ export default function PlaceOrderPage() {
                   </a>
                 </p>
 
+                {submitError && (
+                  <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-4">
+                    <p className="text-sm text-red-800 font-body font-light">{submitError}</p>
+                  </div>
+                )}
                 <Button
                   onClick={handlePlaceOrder}
-                  disabled={!canPlaceOrder}
+                  disabled={!canPlaceOrder || isSubmitting}
                   size="lg"
                   className="w-full md:w-auto min-w-[200px] font-heading font-light tracking-wide bg-foreground text-background hover:bg-foreground/90 text-lg px-8 py-7"
                 >
-                  Place Order
+                  {isSubmitting ? 'Placing Order...' : 'Place Order'}
                 </Button>
               </div>
             )}
