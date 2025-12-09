@@ -100,7 +100,7 @@ export const galleryMedia: MediaItem[] = [
     src: '/media/videos/12-09-2025 00-46-49_1.mov',
     thumbnail: '/media/videos/12-09-2025 00-46-49_1.mov',
     alt: 'Restaurant ambiance and dining atmosphere',
-    category: 'restaurant-ambiance',
+    category: 'behind-scenes',
     title: 'Warm Ambiance',
     description: 'Immerse yourself in our warm and inviting dining atmosphere',
   },
