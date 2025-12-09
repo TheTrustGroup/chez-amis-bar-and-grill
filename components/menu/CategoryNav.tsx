@@ -41,47 +41,37 @@ export function CategoryNav({
 
   return (
     <aside className="sticky top-24 h-fit">
-      <nav className="space-y-1">
-        <h3 className="text-sm font-semibold tracking-wider uppercase text-gray-500 mb-4">
-          Menu Categories
-        </h3>
+      <nav className="space-y-0.5">
         {menuCategories.map((category) => (
           <button
             key={category.id}
             onClick={() => scrollToCategory(category.id)}
             className={cn(
-              "block w-full text-left px-4 py-2 text-sm transition-colors rounded-md",
+              "block w-full text-left px-3 py-2 text-sm transition-colors rounded",
               activeCategory === category.id
-                ? "bg-amber-50 text-amber-700 font-medium"
-                : "text-gray-700 hover:bg-gray-50"
+                ? "text-amber-700 font-medium bg-amber-50/50"
+                : "text-gray-600 hover:text-gray-900 hover:bg-gray-50/50"
             )}
           >
-            <span>{category.name}</span>
-            <span className="text-xs text-gray-500 ml-2">
-              ({category.items.length})
-            </span>
+            {category.name}
           </button>
         ))}
 
-        {/* Dietary Filters */}
-        <div className="mt-8 pt-8 border-t border-gray-200">
-          <h4 className="text-xs font-semibold tracking-wider uppercase text-gray-500 mb-3">
-            Dietary Preferences
-          </h4>
-          <div className="space-y-2">
+        {/* Dietary Filters - Minimal */}
+        <div className="mt-6 pt-6 border-t border-gray-100">
+          <div className="space-y-1.5">
             {dietaryFilters.map((filter) => (
               <label
                 key={filter.id}
-                className="flex items-center gap-2 cursor-pointer"
+                className="flex items-center gap-2 cursor-pointer text-xs text-gray-600 hover:text-gray-900"
               >
                 <input
                   type="checkbox"
                   checked={activeDietaryFilters.includes(filter.id)}
                   onChange={() => onToggleDietaryFilter(filter.id)}
-                  className="rounded text-amber-600 focus:ring-amber-500"
+                  className="w-3.5 h-3.5 rounded border-gray-300 text-amber-600 focus:ring-amber-500"
                 />
-                <span className="text-sm text-gray-700">{filter.label}</span>
-                <span className="text-xl">{filter.icon}</span>
+                <span>{filter.label}</span>
               </label>
             ))}
           </div>

@@ -1,7 +1,6 @@
 "use client"
 
 import { useState } from "react"
-import { Clock, Wine } from "lucide-react"
 import { MenuItem } from "@/lib/data/menuData"
 import { useOrder } from "@/lib/hooks/useOrder"
 import { useLazyLoad } from "@/lib/hooks/useLazyLoad"
@@ -55,103 +54,65 @@ export function PremiumMenuItem({ item }: PremiumMenuItemProps) {
 
   return (
     <article ref={elementRef} className="group relative">
-      <div className="flex gap-6 items-start">
-        {/* Item Image */}
-        <div className="relative w-32 h-32 flex-shrink-0 rounded-lg overflow-hidden">
+      <div className="flex gap-5 items-start">
+        {/* Item Image - Smaller, cleaner */}
+        <div className="relative w-24 h-24 flex-shrink-0 rounded-md overflow-hidden bg-gray-100">
           {isVisible && (
             <ImageWithFallback
               src={item.image}
               alt={item.name}
               fill
-              className="object-cover transition-transform duration-300 group-hover:scale-110"
-              sizes="128px"
+              className="object-cover transition-transform duration-300 group-hover:scale-105"
+              sizes="96px"
               priority={false}
             />
           )}
-          {/* Overlay badges */}
-          <div className="absolute top-2 left-2 flex gap-1 flex-wrap">
-            {item.tags?.includes("signature") && (
-              <span className="bg-amber-600 text-white text-xs px-2 py-1 rounded font-medium">
-                Signature
+          {/* Minimal badge - only show signature */}
+          {item.tags?.includes("signature") && (
+            <div className="absolute top-1 right-1">
+              <span className="bg-amber-500 text-white text-[10px] px-1.5 py-0.5 rounded font-medium">
+                ★
               </span>
-            )}
-            {item.tags?.includes("chef-special") && (
-              <span className="bg-amber-500 text-white text-xs px-2 py-1 rounded">
-                Chef&apos;s Special
-              </span>
-            )}
-            {item.tags?.includes("new") && (
-              <span className="bg-green-500 text-white text-xs px-2 py-1 rounded">
-                New
-              </span>
-            )}
-            {item.tags?.includes("house-favorite") && (
-              <span className="bg-burgundy-600 text-white text-xs px-2 py-1 rounded">
-                House Favorite
-              </span>
-            )}
-          </div>
+            </div>
+          )}
         </div>
 
-        {/* Item Details */}
+        {/* Item Details - Cleaner */}
         <div className="flex-1 min-w-0">
-          <div className="flex items-start justify-between gap-4 mb-2">
-            <div>
-              <h3 className="text-xl font-serif text-gray-900 mb-1">
+          <div className="flex items-start justify-between gap-4 mb-1">
+            <div className="flex-1 min-w-0">
+              <h3 className="text-lg font-display font-light text-gray-900 mb-0.5">
                 {item.name}
-                {/* Dietary Icons */}
-                <span className="ml-2 inline-flex gap-1">
-                  {item.dietary?.includes("vegetarian") && (
-                    <span className="text-green-600" title="Vegetarian">
-                      🌱
-                    </span>
-                  )}
-                  {item.dietary?.includes("gluten-free") && (
-                    <span className="text-amber-600" title="Gluten-Free">
-                      🌾
-                    </span>
-                  )}
-                  {item.spicyLevel && item.spicyLevel > 0 && (
-                    <span
-                      className="text-red-500 text-xs font-medium"
-                      title={`Spicy Level ${item.spicyLevel}`}
-                    >
-                      Spicy
-                    </span>
-                  )}
-                </span>
               </h3>
+              {/* Minimal dietary indicators */}
+              <div className="flex items-center gap-1.5 text-xs text-gray-500">
+                {item.dietary?.includes("vegetarian") && (
+                  <span title="Vegetarian">🌱</span>
+                )}
+                {item.dietary?.includes("gluten-free") && (
+                  <span title="Gluten-Free">GF</span>
+                )}
+                {item.spicyLevel && item.spicyLevel > 0 && (
+                  <span className="text-red-500" title={`Spicy Level ${item.spicyLevel}`}>
+                    🔥
+                  </span>
+                )}
+              </div>
             </div>
             <div className="text-right flex-shrink-0">
-              <p className="text-xl font-medium text-gray-900">
+              <p className="text-lg font-medium text-gray-900">
                 {formatPrice(getDisplayPrice())}
               </p>
             </div>
           </div>
 
-          <p className="text-gray-600 text-sm leading-relaxed mb-3 font-light">
+          <p className="text-gray-600 text-sm leading-relaxed mb-3 font-body font-light">
             {item.description}
           </p>
 
-          {/* Additional Info */}
-          <div className="flex items-center gap-4 text-xs text-gray-500">
-            {item.preparationTime && (
-              <span className="flex items-center gap-1">
-                <Clock className="w-3 h-3" />
-                {item.preparationTime}
-              </span>
-            )}
-            {item.pairingSuggestion && (
-              <span className="flex items-center gap-1">
-                <Wine className="w-3 h-3" />
-                Pairs with: {item.pairingSuggestion}
-              </span>
-            )}
-          </div>
-
-          {/* Portion Sizes (if applicable) */}
+          {/* Portion Sizes - Minimal */}
           {item.portionSizes && item.portionSizes.length > 0 && (
-            <div className="flex gap-2 mt-3">
+            <div className="flex gap-2 mt-2 mb-3">
               {item.portionSizes.map((portion) => (
                 <button
                   key={portion.size}
@@ -161,10 +122,10 @@ export function PremiumMenuItem({ item }: PremiumMenuItemProps) {
                     )
                   }
                   className={cn(
-                    "text-xs px-3 py-1 border rounded-full transition-colors",
+                    "text-xs px-2.5 py-1 border rounded transition-colors",
                     selectedPortion === portion.size
                       ? "border-amber-500 text-amber-700 bg-amber-50"
-                      : "border-gray-300 hover:border-amber-500 hover:text-amber-700"
+                      : "border-gray-200 hover:border-amber-400 text-gray-600"
                   )}
                 >
                   {portion.size} - {formatPrice(portion.price)}
@@ -173,26 +134,25 @@ export function PremiumMenuItem({ item }: PremiumMenuItemProps) {
             </div>
           )}
 
-          {/* Add to Order Button */}
-          <Button
+          {/* Add to Order Button - Minimal */}
+          <button
             onClick={handleAddToOrderClick}
             disabled={item.available === false}
             aria-label={`Add ${item.name} to order`}
-            aria-pressed={false}
             className={cn(
-              "mt-4 px-6 py-2 border-2 rounded-md transition-all duration-200",
+              "mt-3 text-sm px-4 py-2 border rounded transition-all duration-200",
               item.available !== false
                 ? "border-amber-500 text-amber-700 hover:bg-amber-500 hover:text-white"
                 : "border-gray-300 text-gray-400 cursor-not-allowed"
             )}
           >
-            {item.available !== false ? "Add to Order" : "Currently Unavailable"}
-          </Button>
+            {item.available !== false ? "Add to Order" : "Unavailable"}
+          </button>
         </div>
       </div>
 
-      {/* Divider */}
-      <div className="mt-8 h-px bg-gradient-to-r from-transparent via-gray-200 to-transparent" />
+      {/* Minimal Divider */}
+      <div className="mt-6 h-px bg-gray-100" />
     </article>
   )
 }

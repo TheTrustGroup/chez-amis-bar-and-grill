@@ -43,54 +43,54 @@ export function OrderSummary() {
 
   return (
     <aside className="sticky top-24 h-fit">
-      <div className="bg-gray-50 rounded-lg p-6 border border-gray-200">
-        <h3 className="text-lg font-serif text-gray-900 mb-4">Your Selection</h3>
+      <div className="bg-gray-50 rounded-lg p-5 border border-gray-100">
+        <h3 className="text-base font-display font-light text-gray-900 mb-4">Your Selection</h3>
 
         {items.length === 0 ? (
-          <div className="text-center py-8">
-            <ShoppingBag className="w-12 h-12 mx-auto text-gray-300 mb-3" />
-            <p className="text-sm text-gray-500">Your selection is empty</p>
+          <div className="text-center py-6">
+            <ShoppingBag className="w-8 h-8 mx-auto text-gray-300 mb-2" />
+            <p className="text-xs text-gray-500">Empty</p>
           </div>
         ) : (
           <>
-            {/* Order Items */}
-            <div className="space-y-3 mb-6 max-h-[400px] overflow-y-auto">
+            {/* Order Items - Cleaner */}
+            <div className="space-y-2.5 mb-5 max-h-[350px] overflow-y-auto">
               {items.map((item) => (
-                <div key={item.id} className="flex gap-3">
-                  <div className="w-12 h-12 rounded overflow-hidden flex-shrink-0">
+                <div key={item.id} className="flex gap-2.5">
+                  <div className="w-10 h-10 rounded overflow-hidden flex-shrink-0 bg-gray-200">
                     <ImageWithFallback
                       src={item.menuItem.image}
                       alt={item.menuItem.name}
-                      width={48}
-                      height={48}
+                      width={40}
+                      height={40}
                       className="object-cover"
                     />
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p className="text-sm font-medium text-gray-900 truncate">
+                    <p className="text-xs font-medium text-gray-900 truncate mb-1">
                       {item.menuItem.name}
                     </p>
-                    <div className="flex items-center justify-between mt-1">
-                      <div className="flex items-center gap-2">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-1.5">
                         <button
                           onClick={() => decreaseQuantity(item.id)}
-                          className="w-6 h-6 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-100 transition-colors"
+                          className="w-5 h-5 rounded border border-gray-300 flex items-center justify-center hover:bg-gray-100 transition-colors"
                           aria-label="Decrease quantity"
                         >
-                          <Minus className="w-3 h-3" />
+                          <Minus className="w-2.5 h-2.5" />
                         </button>
-                        <span className="text-sm font-medium w-8 text-center">
+                        <span className="text-xs font-medium w-6 text-center">
                           {item.quantity}
                         </span>
                         <button
                           onClick={() => increaseQuantity(item.id)}
-                          className="w-6 h-6 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-100 transition-colors"
+                          className="w-5 h-5 rounded border border-gray-300 flex items-center justify-center hover:bg-gray-100 transition-colors"
                           aria-label="Increase quantity"
                         >
-                          <Plus className="w-3 h-3" />
+                          <Plus className="w-2.5 h-2.5" />
                         </button>
                       </div>
-                      <p className="text-sm font-medium text-gray-900">
+                      <p className="text-xs font-medium text-gray-900">
                         {formatPrice(item.subtotal)}
                       </p>
                     </div>
@@ -99,37 +99,36 @@ export function OrderSummary() {
               ))}
             </div>
 
-            {/* Order Summary */}
-            <div className="border-t border-gray-200 pt-4 space-y-2">
-              <div className="flex justify-between text-sm">
+            {/* Order Summary - Minimal */}
+            <div className="border-t border-gray-200 pt-3 space-y-1.5">
+              <div className="flex justify-between text-xs">
                 <span className="text-gray-600">Subtotal</span>
                 <span className="font-medium">{formatPrice(subtotal)}</span>
               </div>
-              <div className="flex justify-between text-sm">
-                <span className="text-gray-600">Tax (15%)</span>
+              <div className="flex justify-between text-xs">
+                <span className="text-gray-600">Tax</span>
                 <span className="font-medium">{formatPrice(tax)}</span>
               </div>
-              <div className="flex justify-between text-base font-semibold border-t border-gray-200 pt-2">
+              <div className="flex justify-between text-sm font-medium border-t border-gray-200 pt-2 mt-2">
                 <span>Total</span>
                 <span className="text-amber-700">{formatPrice(total)}</span>
               </div>
             </div>
 
-            {/* Action Buttons */}
-            <div className="mt-6 space-y-2">
-              <Button
+            {/* Action Buttons - Minimal */}
+            <div className="mt-4 space-y-2">
+              <button
                 onClick={() => router.push("/place-order")}
-                className="w-full bg-amber-500 text-white py-3 rounded-md hover:bg-amber-600 transition-colors font-medium"
+                className="w-full bg-amber-500 text-white py-2.5 rounded text-sm hover:bg-amber-600 transition-colors font-medium"
               >
                 Place Order
-              </Button>
-              <Button
+              </button>
+              <button
                 onClick={() => router.push("/reservations")}
-                variant="outline"
-                className="w-full border-2 border-amber-500 text-amber-700 py-3 rounded-md hover:bg-amber-50 transition-colors font-medium"
+                className="w-full border border-amber-500 text-amber-700 py-2.5 rounded text-sm hover:bg-amber-50 transition-colors font-medium"
               >
-                Reserve a Table
-              </Button>
+                Reserve Table
+              </button>
             </div>
           </>
         )}

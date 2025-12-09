@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect, useRef, Suspense } from "react"
-import { Search, Award, Wine, ShoppingBag, AlertCircle } from "lucide-react"
+import { Search, ShoppingBag, AlertCircle } from "lucide-react"
 import { menuCategories } from "@/lib/data/menuData"
 import { PremiumMenuItem } from "@/components/menu/PremiumMenuItem"
 import { CategoryNav } from "@/components/menu/CategoryNav"
@@ -9,7 +9,6 @@ import { OrderSummary } from "@/components/menu/OrderSummary"
 import { MobileCart } from "@/components/menu/MobileCart"
 import { PrintMenu } from "@/components/menu/PrintMenu"
 import { AllergenInfo } from "@/components/menu/AllergenInfo"
-import { SeasonalSpecials } from "@/components/menu/SeasonalSpecials"
 import { MenuItemSkeleton } from "@/components/ui/skeleton"
 import { useMenuFilters } from "@/lib/hooks/useMenuFilters"
 import { useOrder } from "@/lib/hooks/useOrder"
@@ -120,28 +119,25 @@ export default function MenuPage() {
       </section>
 
       {/* Main Content */}
-      <div className="container mx-auto px-6 md:px-12 lg:px-20 py-12 md:py-16">
-        {/* Print Menu & Allergen Info */}
-        <div className="flex items-center justify-between mb-8 print-menu-buttons">
-          <PrintMenu />
+      <div className="container mx-auto px-6 md:px-12 lg:px-20 py-8 md:py-12">
+        {/* Print Menu & Allergen Info - Minimal */}
+        <div className="flex items-center justify-end gap-4 mb-6 print-menu-buttons">
           <button
             onClick={() => setShowAllergenInfo(true)}
-            className="flex items-center gap-2 text-sm text-gray-600 hover:text-amber-700 transition-colors"
+            className="text-xs text-gray-500 hover:text-gray-700 transition-colors"
           >
-            <AlertCircle className="w-4 h-4" />
-            <span>Allergen Information</span>
+            Allergen Info
           </button>
+          <PrintMenu />
         </div>
 
-        {/* Mobile Category Tabs */}
-        <div className="lg:hidden sticky top-20 bg-white border-b border-gray-200 z-30 mb-8">
-          <div className="overflow-x-auto scrollbar-hide px-4 py-4 -mx-4 px-4">
-            <div className="flex gap-3 min-w-max pb-2">
+        {/* Mobile Category Tabs - Cleaner */}
+        <div className="lg:hidden sticky top-20 bg-white border-b border-gray-100 z-30 mb-6">
+          <div className="overflow-x-auto scrollbar-hide px-4 py-3">
+            <div className="flex gap-2 min-w-max">
               {menuCategories.map((category) => {
-                // Shortened names for mobile to prevent clustering
                 const getShortName = (name: string) => {
                   if (name.length <= 12) return name
-                  // Map long names to shorter versions
                   const shortMap: { [key: string]: string } = {
                     'Pasta & Rice Dishes': 'Pasta & Rice',
                     'Main Course / Entrées': 'Main Course',
@@ -159,11 +155,10 @@ export default function MenuPage() {
                     key={category.id}
                     onClick={() => scrollToCategory(category.id)}
                     className={cn(
-                      "px-5 py-3 rounded-full whitespace-nowrap text-sm font-medium transition-all flex-shrink-0 min-h-[44px] touch-manipulation",
-                      "shadow-sm hover:shadow-md active:scale-95",
+                      "px-4 py-2 rounded-md whitespace-nowrap text-xs font-medium transition-all flex-shrink-0 min-h-[36px]",
                       activeCategory === category.id
-                        ? "bg-amber-500 text-white shadow-md scale-105"
-                        : "bg-gray-100 text-gray-700 hover:bg-gray-200 active:bg-gray-300"
+                        ? "bg-amber-500 text-white"
+                        : "bg-gray-50 text-gray-600 hover:bg-gray-100"
                     )}
                     title={category.name}
                   >
@@ -175,16 +170,16 @@ export default function MenuPage() {
           </div>
         </div>
 
-        {/* Search Functionality */}
-        <div className="mb-8">
-          <div className="relative max-w-md">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
+        {/* Search Functionality - Minimal */}
+        <div className="mb-6">
+          <div className="relative max-w-sm">
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
             <input
               type="text"
-              placeholder="Search menu items..."
+              placeholder="Search..."
               value={filters.searchQuery}
               onChange={(e) => updateSearchQuery(e.target.value)}
-              className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent"
+              className="w-full pl-9 pr-4 py-2 text-sm border-b border-gray-300 focus:outline-none focus:border-amber-500 transition-colors bg-transparent"
             />
           </div>
         </div>
@@ -224,59 +219,16 @@ export default function MenuPage() {
                   }}
                   className="mb-16 scroll-mt-24"
                 >
-                  {/* Category Header */}
-                  <div className="mb-8">
-                    <h2 className="text-4xl font-light font-serif text-gray-900 mb-2">
+                  {/* Category Header - Minimal */}
+                  <div className="mb-6">
+                    <h2 className="text-2xl md:text-3xl font-light font-display text-gray-900 mb-1">
                       {category.name}
                     </h2>
-                    {category.description && (
-                      <p className="text-gray-600 text-lg font-light max-w-2xl">
-                        {category.description}
-                      </p>
-                    )}
-                    <div className="w-24 h-px bg-gradient-to-r from-amber-500 to-transparent mt-4" />
+                    <div className="w-16 h-px bg-amber-500 mt-3" />
                   </div>
 
-                  {/* Seasonal Specials Section */}
-                  {category.id === "main-course-entrees" && (
-                    <SeasonalSpecials />
-                  )}
-
-                  {/* Chef's Recommendations Section */}
-                  {category.id === "main-course-entrees" && (
-                    <div className="my-12 bg-gradient-to-r from-amber-50 to-orange-50 rounded-lg p-8 border border-amber-200">
-                      <div className="flex items-center gap-3 mb-4">
-                        <Award className="w-6 h-6 text-amber-600" />
-                        <h3 className="text-2xl font-serif text-gray-900">
-                          Chef&apos;s Recommendations
-                        </h3>
-                      </div>
-                      <p className="text-gray-600 mb-6">
-                        Our culinary team&apos;s favorite creations, crafted
-                        with seasonal ingredients
-                      </p>
-                    </div>
-                  )}
-
-                  {/* Wine Pairing Section */}
-                  {category.id === "main-course-entrees" && (
-                    <div className="my-12 bg-gray-900 text-white rounded-lg p-8">
-                      <div className="flex items-center gap-3 mb-4">
-                        <Wine className="w-6 h-6 text-amber-400" />
-                        <h3 className="text-2xl font-serif">Perfect Pairings</h3>
-                      </div>
-                      <p className="text-gray-300 mb-6">
-                        Enhance your dining experience with our sommelier&apos;s
-                        wine recommendations
-                      </p>
-                      <button className="border border-amber-400 text-amber-400 px-6 py-2 rounded-md hover:bg-amber-400 hover:text-gray-900 transition-colors">
-                        View Wine List
-                      </button>
-                    </div>
-                  )}
-
-                  {/* Menu Items */}
-                  <div className="space-y-8 menu-section">
+                  {/* Menu Items - Cleaner spacing */}
+                  <div className="space-y-6 menu-section">
                     {isLoading ? (
                       <>
                         <MenuItemSkeleton />
