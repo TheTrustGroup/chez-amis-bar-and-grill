@@ -137,23 +137,27 @@ export default function GalleryPage() {
                       }}
                     />
                   ) : (
-                    <Image
-                      src={item.thumbnail || item.src}
-                      alt={item.alt}
-                      fill
-                      className="object-cover transition-transform duration-500 group-hover:scale-110 z-10"
-                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                      loading="lazy"
-                      quality={90}
-                      onError={(e) => {
-                        console.error('Gallery image failed to load:', item.src)
-                        // Hide broken image, show fallback gradient
-                        e.currentTarget.style.display = "none"
-                      }}
-                      onLoad={() => {
-                        console.log('Gallery image loaded successfully:', item.src)
-                      }}
-                    />
+                    <div className="absolute inset-0 z-10">
+                      <Image
+                        src={item.thumbnail || item.src}
+                        alt={item.alt}
+                        fill
+                        className="object-cover transition-transform duration-500 group-hover:scale-110"
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                        loading="lazy"
+                        quality={90}
+                        unoptimized={item.src.includes(' ') || item.thumbnail?.includes(' ')}
+                        onError={(e) => {
+                          console.error('Gallery image failed to load:', item.src)
+                          // Hide broken image, show fallback gradient
+                          const target = e.currentTarget as HTMLImageElement
+                          target.style.display = "none"
+                        }}
+                        onLoad={() => {
+                          console.log('Gallery image loaded successfully:', item.src)
+                        }}
+                      />
+                    </div>
                   )}
 
                   {/* Overlay */}

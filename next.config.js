@@ -4,11 +4,21 @@ const nextConfig = {
     domains: [
       'localhost',
       'images.unsplash.com',
+      'www.chezamisrestaurant.com',
+      'chezamisrestaurant.com',
     ],
     remotePatterns: [
       {
         protocol: 'https',
         hostname: '**.unsplash.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'www.chezamisrestaurant.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'chezamisrestaurant.com',
       },
     ],
     formats: ['image/avif', 'image/webp'],
@@ -17,6 +27,9 @@ const nextConfig = {
     minimumCacheTTL: 60,
     // Allow unoptimized images for local files with special characters
     unoptimized: false,
+    // Enable image optimization for local files
+    dangerouslyAllowSVG: true,
+    contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
   },
   // Production optimizations
   compress: true,
