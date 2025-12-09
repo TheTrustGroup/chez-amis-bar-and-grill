@@ -1,0 +1,41 @@
+import { NextRequest, NextResponse } from 'next/server'
+import { getAllOrders, getOrdersByStatus, getRecentOrders, getOrdersCountByStatus } from '@/lib/services/order-storage'
+
+/**
+ * GET /api/orders/list
+ * Get all orders or filter by status
+ * 
+ * Query parameters:
+ * - status: Filter by status (pending, preparing, ready, out-for-delivery, delivered, cancelled)
+ * - limit: Limit number of results (default: 50)
+ */
+export async function GET(request: NextRequest) {
+  try {
+    const searchParams = request.nextUrl.searchParams
+    const status = searchParams.get('status') as 'pending' | 'preparing' | 'ready' | 'out-for-delivery' | 'delivered' | 'cancelled' | null
+    const limit = parseInt(searchParams.get('limit') || '50')
+
+    let orders
+    if (status) {
+      orders = getOrdersByStatus(status)
+    } else {
+      orders = getRecentOrders(limit)
+    }
+
+    const counts = getOrdersCountByStatus()
+
+    return NextResponse.json({
+      success: true,
+      orders,
+      counts,
+      total: orders.length,
+    })
+  } catch (error) {
+    console.error('Error fetching orders:', error)
+    return NextResponse.json(
+      { error: 'Failed to fetch orders', message: error instanceof Error ? error.message : 'Unknown error' },
+      { status: 500 }
+    )
+  }
+}
+

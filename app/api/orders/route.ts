@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { sendOrderConfirmation, sendAdminNotification } from '@/lib/services/notification.service'
+import { saveOrder } from '@/lib/services/order-storage'
 import type { OrderData } from '@/lib/types/notifications'
 
 export interface OrderRequest {
@@ -86,6 +87,9 @@ export async function POST(request: NextRequest) {
           sms: { sent: false, error: adminResult.reason instanceof Error ? adminResult.reason.message : 'Unknown error' } 
         }
 
+    // Save order to storage
+    const savedOrder = saveOrder(orderData)
+
     // Log notification results for debugging
     console.log('Order notifications:', {
       customer: customerNotifications,
@@ -97,6 +101,7 @@ export async function POST(request: NextRequest) {
       success: true,
       orderId: orderData.orderId,
       message: 'Order placed successfully',
+      order: savedOrder,
       notifications: {
         customer: customerNotifications,
         admin: adminNotifications,

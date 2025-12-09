@@ -1,6 +1,7 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
+import { useSearchParams } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -11,6 +12,7 @@ type OrderStatus = "preparing" | "ready" | "out-for-delivery" | "delivered" | "c
 type OrderType = "dine-in" | "takeaway" | "delivery"
 
 export default function OrderStatusPage() {
+  const searchParams = useSearchParams()
   const [orderId, setOrderId] = useState("")
   const [status, setStatus] = useState<OrderStatus>("preparing")
   const [customerPhone, setCustomerPhone] = useState("")
@@ -19,8 +21,41 @@ export default function OrderStatusPage() {
   const [orderType, setOrderType] = useState<OrderType>("delivery")
   const [estimatedTime, setEstimatedTime] = useState("")
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [isLoadingOrder, setIsLoadingOrder] = useState(false)
   const [result, setResult] = useState<any>(null)
   const [error, setError] = useState<string | null>(null)
+
+  // Load order data if orderId is provided in URL
+  useEffect(() => {
+    const urlOrderId = searchParams.get('orderId')
+    if (urlOrderId) {
+      setOrderId(urlOrderId)
+      loadOrderData(urlOrderId)
+    }
+  }, [searchParams])
+
+  const loadOrderData = async (id: string) => {
+    setIsLoadingOrder(true)
+    try {
+      const response = await fetch('/api/orders/list')
+      const data = await response.json()
+      
+      if (data.success && data.orders) {
+        const order = data.orders.find((o: any) => o.orderId === id || o.id === id)
+        if (order) {
+          setCustomerName(order.customer.fullName)
+          setCustomerPhone(order.customer.phone)
+          setCustomerEmail(order.customer.email)
+          setOrderType(order.orderType)
+          setStatus(order.status || 'pending')
+        }
+      }
+    } catch (err) {
+      console.error('Error loading order:', err)
+    } finally {
+      setIsLoadingOrder(false)
+    }
+  }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
