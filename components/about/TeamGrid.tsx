@@ -1,7 +1,6 @@
 "use client"
 
 import { useState } from "react"
-import Image from "next/image"
 import { Card, CardContent } from "@/components/ui/card"
 import { X } from "lucide-react"
 import { cn } from "@/lib/utils"
@@ -20,7 +19,7 @@ const teamMembers: TeamMember[] = [
     id: "1",
     name: "Chez Amis",
     role: "Chez Amis",
-    bio: "Trained in Paris under Michelin-starred chefs, Chef Kwame brings over 20 years of culinary excellence to Chez Amis. His innovative approach to combining French techniques with local Ghanaian flavors has earned him recognition as one of Accra's most celebrated chefs.",
+    bio: "Trained in Paris under Michelin-starred chefs, Chef Chez Amis brings over 20 years of culinary excellence to Chez Amis Restaurant. Her innovative approach to combining French techniques with local Ghanaian flavors has earned her recognition as one of Accra's most celebrated chefs.",
     specialty: "Ivorian - Ghanaian fusion",
     image: "/images/team/head-chef.jpg",
   },
@@ -87,25 +86,20 @@ export function TeamGrid() {
               onClick={() => setSelectedMember(member)}
             >
               <div className="relative w-full h-[300px] md:h-[350px] overflow-hidden">
-                {/* Background gradient fallback */}
-                <div className="absolute inset-0 bg-gradient-to-br from-charcoal-900 via-charcoal-800 to-burgundy-900 z-0" />
-                {/* Member Image */}
+                {/* Background Image */}
                 <Image
                   src={member.image}
                   alt={member.name}
                   fill
-                  className="object-cover transition-transform duration-500 group-hover:scale-110 z-10"
+                  className="object-cover transition-transform duration-500 group-hover:scale-110"
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                  quality={90}
                   priority={member.id === "1"}
-                  onError={(e) => {
-                    console.error('Team member image failed to load:', member.image)
-                    const target = e.currentTarget as HTMLImageElement
-                    target.style.display = "none"
-                  }}
+                  quality={90}
                 />
+                {/* Fallback gradient background */}
+                <div className="absolute inset-0 bg-gradient-to-br from-charcoal-900 via-charcoal-800 to-burgundy-900 -z-10" />
                 {/* Overlay on hover */}
-                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/60 transition-colors duration-500 flex items-center justify-center z-20">
+                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/60 transition-colors duration-500 flex items-center justify-center">
                   <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-500 text-center px-6">
                     <p className="text-cream-100 font-body font-light text-sm leading-relaxed line-clamp-4">
                       {member.bio}
@@ -153,23 +147,16 @@ export function TeamGrid() {
 
                   {/* Member Image */}
                   <div className="relative w-full h-[300px] md:h-[400px]">
-                    {/* Background gradient fallback */}
-                    <div className="absolute inset-0 bg-gradient-to-br from-charcoal-900 via-charcoal-800 to-burgundy-900 z-0" />
-                    {/* Member Image */}
                     <Image
                       src={selectedMember.image}
                       alt={selectedMember.name}
                       fill
-                      className="object-cover z-10"
+                      className="object-cover"
                       sizes="(max-width: 768px) 100vw, 800px"
                       quality={90}
-                      priority
-                      onError={(e) => {
-                        console.error('Team member modal image failed to load:', selectedMember.image)
-                        const target = e.currentTarget as HTMLImageElement
-                        target.style.display = "none"
-                      }}
                     />
+                    {/* Fallback gradient background */}
+                    <div className="absolute inset-0 bg-gradient-to-br from-charcoal-900 via-charcoal-800 to-burgundy-900 -z-10" />
                   </div>
 
                   {/* Member Details */}
