@@ -1,6 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getAllOrders, getOrdersByStatus, getRecentOrders, getOrdersCountByStatus } from '@/lib/services/order-storage'
 
+// Force dynamic rendering
+export const dynamic = 'force-dynamic'
+
 /**
  * GET /api/orders/list
  * Get all orders or filter by status

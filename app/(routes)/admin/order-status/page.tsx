@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, Suspense } from "react"
 import { useSearchParams } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -11,7 +11,7 @@ import { CheckCircle2, Clock, Truck, Package, XCircle, AlertCircle } from "lucid
 type OrderStatus = "preparing" | "ready" | "out-for-delivery" | "delivered" | "cancelled"
 type OrderType = "dine-in" | "takeaway" | "delivery"
 
-export default function OrderStatusPage() {
+function OrderStatusPageContent() {
   const searchParams = useSearchParams()
   const [orderId, setOrderId] = useState("")
   const [status, setStatus] = useState<OrderStatus>("preparing")
@@ -380,6 +380,20 @@ export default function OrderStatusPage() {
         </Card>
       </div>
     </div>
+  )
+}
+
+export default function OrderStatusPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-cream-50 py-12 px-6 flex items-center justify-center">
+        <div className="text-center">
+          <p className="text-muted-foreground font-body font-light">Loading...</p>
+        </div>
+      </div>
+    }>
+      <OrderStatusPageContent />
+    </Suspense>
   )
 }
 
