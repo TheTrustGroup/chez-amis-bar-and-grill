@@ -135,8 +135,8 @@ export default function MenuPage() {
 
         {/* Mobile Category Tabs */}
         <div className="lg:hidden sticky top-20 bg-white border-b border-gray-200 z-30 mb-8">
-          <div className="overflow-x-auto scrollbar-hide px-4 py-4">
-            <div className="flex gap-3 min-w-max">
+          <div className="overflow-x-auto scrollbar-hide px-4 py-4 -mx-4 px-4">
+            <div className="flex gap-3 min-w-max pb-2">
               {menuCategories.map((category) => {
                 // Shortened names for mobile to prevent clustering
                 const getShortName = (name: string) => {
@@ -159,11 +159,11 @@ export default function MenuPage() {
                     key={category.id}
                     onClick={() => scrollToCategory(category.id)}
                     className={cn(
-                      "px-4 py-2.5 rounded-full whitespace-nowrap text-xs font-medium transition-all flex-shrink-0",
-                      "shadow-sm hover:shadow-md",
+                      "px-5 py-3 rounded-full whitespace-nowrap text-sm font-medium transition-all flex-shrink-0 min-h-[44px] touch-manipulation",
+                      "shadow-sm hover:shadow-md active:scale-95",
                       activeCategory === category.id
                         ? "bg-amber-500 text-white shadow-md scale-105"
-                        : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                        : "bg-gray-100 text-gray-700 hover:bg-gray-200 active:bg-gray-300"
                     )}
                     title={category.name}
                   >
