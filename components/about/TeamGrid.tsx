@@ -87,22 +87,31 @@ export function TeamGrid() {
               onClick={() => setSelectedMember(member)}
             >
               <div className="relative w-full h-[300px] md:h-[350px] overflow-hidden">
-                {/* Background Image */}
+                {/* Background Image - Optimized for visibility */}
                 <Image
                   src={member.image}
                   alt={member.name}
                   fill
-                  className="object-cover transition-transform duration-500 group-hover:scale-110"
+                  className={cn(
+                    "transition-transform duration-500 group-hover:scale-105",
+                    member.id === "1" 
+                      ? "object-cover object-center" 
+                      : "object-cover"
+                  )}
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                   priority={member.id === "1"}
-                  quality={90}
+                  quality={95}
+                  style={{
+                    objectFit: 'cover',
+                    objectPosition: member.id === "1" ? 'center center' : 'center',
+                  }}
                 />
                 {/* Fallback gradient background */}
                 <div className="absolute inset-0 bg-gradient-to-br from-charcoal-900 via-charcoal-800 to-burgundy-900 -z-10" />
-                {/* Overlay on hover */}
-                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/60 transition-colors duration-500 flex items-center justify-center">
+                {/* Lighter overlay on hover - less intrusive */}
+                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-colors duration-500 flex items-center justify-center">
                   <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-500 text-center px-6">
-                    <p className="text-cream-100 font-body font-light text-sm leading-relaxed line-clamp-4">
+                    <p className="text-cream-100 font-body font-light text-sm leading-relaxed line-clamp-4 drop-shadow-lg">
                       {member.bio}
                     </p>
                   </div>
@@ -146,15 +155,22 @@ export function TeamGrid() {
                     <X className="h-5 w-5" />
                   </button>
 
-                  {/* Member Image */}
+                  {/* Member Image - Optimized for visibility */}
                   <div className="relative w-full h-[300px] md:h-[400px]">
                     <Image
                       src={selectedMember.image}
                       alt={selectedMember.name}
                       fill
-                      className="object-cover"
+                      className={cn(
+                        "object-cover",
+                        selectedMember.id === "1" ? "object-center" : ""
+                      )}
                       sizes="(max-width: 768px) 100vw, 800px"
-                      quality={90}
+                      quality={95}
+                      style={{
+                        objectFit: 'cover',
+                        objectPosition: selectedMember.id === "1" ? 'center center' : 'center',
+                      }}
                     />
                     {/* Fallback gradient background */}
                     <div className="absolute inset-0 bg-gradient-to-br from-charcoal-900 via-charcoal-800 to-burgundy-900 -z-10" />
