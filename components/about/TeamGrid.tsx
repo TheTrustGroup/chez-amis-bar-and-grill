@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import Image from "next/image"
 import { Card, CardContent } from "@/components/ui/card"
 import { X } from "lucide-react"
 import { cn } from "@/lib/utils"
@@ -86,20 +87,25 @@ export function TeamGrid() {
               onClick={() => setSelectedMember(member)}
             >
               <div className="relative w-full h-[300px] md:h-[350px] overflow-hidden">
-                <div className="absolute inset-0 bg-gradient-to-br from-charcoal-900 via-charcoal-800 to-burgundy-900">
-                  {/* In production, use Next.js Image */}
-                  {/* <Image
-                    src={member.image}
-                    alt={member.name}
-                    fill
-                    className="object-cover transition-transform duration-500 group-hover:scale-110"
-                  /> */}
-                  <div className="absolute inset-0 flex items-center justify-center text-cream-200/30 font-display text-xl">
-                    {member.name}
-                  </div>
-                </div>
+                {/* Background gradient fallback */}
+                <div className="absolute inset-0 bg-gradient-to-br from-charcoal-900 via-charcoal-800 to-burgundy-900 z-0" />
+                {/* Member Image */}
+                <Image
+                  src={member.image}
+                  alt={member.name}
+                  fill
+                  className="object-cover transition-transform duration-500 group-hover:scale-110 z-10"
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                  quality={90}
+                  priority={member.id === "1"}
+                  onError={(e) => {
+                    console.error('Team member image failed to load:', member.image)
+                    const target = e.currentTarget as HTMLImageElement
+                    target.style.display = "none"
+                  }}
+                />
                 {/* Overlay on hover */}
-                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/60 transition-colors duration-500 flex items-center justify-center">
+                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/60 transition-colors duration-500 flex items-center justify-center z-20">
                   <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-500 text-center px-6">
                     <p className="text-cream-100 font-body font-light text-sm leading-relaxed line-clamp-4">
                       {member.bio}
@@ -147,12 +153,23 @@ export function TeamGrid() {
 
                   {/* Member Image */}
                   <div className="relative w-full h-[300px] md:h-[400px]">
-                    <div className="absolute inset-0 bg-gradient-to-br from-charcoal-900 via-charcoal-800 to-burgundy-900">
-                      {/* In production, use Next.js Image */}
-                      <div className="absolute inset-0 flex items-center justify-center text-cream-200/30 font-display text-2xl">
-                        {selectedMember.name}
-                      </div>
-                    </div>
+                    {/* Background gradient fallback */}
+                    <div className="absolute inset-0 bg-gradient-to-br from-charcoal-900 via-charcoal-800 to-burgundy-900 z-0" />
+                    {/* Member Image */}
+                    <Image
+                      src={selectedMember.image}
+                      alt={selectedMember.name}
+                      fill
+                      className="object-cover z-10"
+                      sizes="(max-width: 768px) 100vw, 800px"
+                      quality={90}
+                      priority
+                      onError={(e) => {
+                        console.error('Team member modal image failed to load:', selectedMember.image)
+                        const target = e.currentTarget as HTMLImageElement
+                        target.style.display = "none"
+                      }}
+                    />
                   </div>
 
                   {/* Member Details */}
