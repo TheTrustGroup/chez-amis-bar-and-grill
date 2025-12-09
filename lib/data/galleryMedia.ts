@@ -19,7 +19,7 @@ export interface MediaItem {
   dishName?: string // For menu integration
 }
 
-// Gallery media items - Using actual uploaded videos
+// Gallery media items - Videos and uploaded images
 export const galleryMedia: MediaItem[] = [
   // Videos - Behind the Scenes
   {
@@ -72,6 +72,88 @@ export const galleryMedia: MediaItem[] = [
     title: 'More from Chez Amis',
     description: 'Additional behind-the-scenes content from our kitchen',
   },
+  
+  // Uploaded Images - Signature Dishes
+  {
+    id: 'image-0821',
+    type: 'image',
+    src: '/media/images/IMG_0821%202.JPG',
+    thumbnail: '/media/images/IMG_0821%202.JPG',
+    alt: 'Signature dish presentation at Chez Amis',
+    category: 'signature-dishes',
+    title: 'Signature Dish',
+    description: 'Our expertly crafted signature dish, prepared with passion and attention to detail',
+  },
+  {
+    id: 'image-0822',
+    type: 'image',
+    src: '/media/images/IMG_0822%202.JPG',
+    thumbnail: '/media/images/IMG_0822%202.JPG',
+    alt: 'Chef special preparation',
+    category: 'signature-dishes',
+    title: 'Chef Special',
+    description: 'A special creation from our kitchen, showcasing our culinary expertise',
+  },
+  {
+    id: 'image-0863',
+    type: 'image',
+    src: '/media/images/IMG_0863.JPG',
+    thumbnail: '/media/images/IMG_0863.JPG',
+    alt: 'Grilled specialty dish',
+    category: 'grill-specialties',
+    title: 'Grilled Specialty',
+    description: 'Perfectly grilled to perfection, our specialty from the grill',
+  },
+  {
+    id: 'image-0864',
+    type: 'image',
+    src: '/media/images/IMG_0864.JPG',
+    thumbnail: '/media/images/IMG_0864.JPG',
+    alt: 'Grilled dish presentation',
+    category: 'grill-specialties',
+    title: 'From the Grill',
+    description: 'Expertly grilled with aromatic spices and traditional techniques',
+  },
+  {
+    id: 'image-6740',
+    type: 'image',
+    src: '/media/images/IMG_6740.jpg',
+    thumbnail: '/media/images/IMG_6740.jpg',
+    alt: 'Restaurant ambiance and dining experience',
+    category: 'restaurant-ambiance',
+    title: 'Dining Experience',
+    description: 'Experience the warm and inviting atmosphere of Chez Amis',
+  },
+  {
+    id: 'image-7141',
+    type: 'image',
+    src: '/media/images/IMG_7141.JPG',
+    thumbnail: '/media/images/IMG_7141.JPG',
+    alt: 'Restaurant interior and ambiance',
+    category: 'restaurant-ambiance',
+    title: 'Restaurant Ambiance',
+    description: 'The elegant and welcoming atmosphere of our dining space',
+  },
+  {
+    id: 'image-7189',
+    type: 'image',
+    src: '/media/images/IMG_7189.JPG',
+    thumbnail: '/media/images/IMG_7189.JPG',
+    alt: 'Signature dish presentation',
+    category: 'signature-dishes',
+    title: 'Culinary Excellence',
+    description: 'A beautifully presented dish showcasing our commitment to excellence',
+  },
+  {
+    id: 'image-8021',
+    type: 'image',
+    src: '/media/images/IMG_8021.JPG',
+    thumbnail: '/media/images/IMG_8021.JPG',
+    alt: 'Grilled dish specialty',
+    category: 'grill-specialties',
+    title: 'Grill Masterpiece',
+    description: 'A masterpiece from our grill, cooked to perfection',
+  },
 ]
 
 // Gallery categories
@@ -95,7 +177,7 @@ export interface FeaturedMediaItem {
 }
 
 export const featuredMedia: FeaturedMediaItem[] = [
-  // Video 1: Restaurant ambiance/cooking
+  // Mix of videos and images for variety
   {
     id: 'video-1',
     type: 'video',
@@ -103,29 +185,26 @@ export const featuredMedia: FeaturedMediaItem[] = [
     alt: 'Chef preparing signature dishes at Chez Amis',
     title: 'Behind the Scenes',
   },
-  // Video 2: Food preparation
+  {
+    id: 'image-7189',
+    type: 'image',
+    src: '/media/images/IMG_7189.JPG',
+    alt: 'Culinary excellence at Chez Amis',
+    title: 'Culinary Excellence',
+  },
   {
     id: 'video-2',
     type: 'video',
     src: '/media/videos/filtered-A59206D7-3709-4278-9712-9F5B1F6DC8BF.MP4',
     alt: 'Culinary artistry in action',
-    title: 'Culinary Excellence',
+    title: 'Culinary Artistry',
   },
-  // Video 3: Restaurant experience
   {
-    id: 'video-3',
-    type: 'video',
-    src: '/media/videos/CE5847CE-3349-4C26-8792-C56BFAF29FDA.MP4',
-    alt: 'Experience the ambiance of Chez Amis',
-    title: 'Restaurant Ambiance',
-  },
-  // Video 4: Additional content
-  {
-    id: 'video-4',
-    type: 'video',
-    src: '/media/videos/IMG_6983.MOV',
-    alt: 'A taste of what awaits at Chez Amis',
-    title: 'A Taste of Excellence',
+    id: 'image-0863',
+    type: 'image',
+    src: '/media/images/IMG_0863.JPG',
+    alt: 'Grilled specialty dish',
+    title: 'From the Grill',
   },
 ]
 

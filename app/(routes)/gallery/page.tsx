@@ -138,7 +138,7 @@ export default function GalleryPage() {
                     />
                   ) : (
                     <Image
-                      src={item.thumbnail || item.src}
+                      src={decodeURIComponent(item.thumbnail || item.src)}
                       alt={item.alt}
                       fill
                       className="object-cover transition-transform duration-500 group-hover:scale-110"
@@ -266,7 +266,7 @@ export default function GalleryPage() {
             {filteredMedia[currentMediaIndex].type === "image" ? (
               <div className="relative w-full h-full flex items-center justify-center">
                 <Image
-                  src={filteredMedia[currentMediaIndex].src}
+                  src={decodeURIComponent(filteredMedia[currentMediaIndex].src)}
                   alt={filteredMedia[currentMediaIndex].alt}
                   width={1200}
                   height={800}

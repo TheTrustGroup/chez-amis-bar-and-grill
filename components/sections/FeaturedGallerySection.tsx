@@ -85,7 +85,7 @@ export function FeaturedGallerySection() {
                   </>
                 ) : (
                   <Image
-                    src={item.src}
+                    src={decodeURIComponent(item.src)}
                     alt={item.alt}
                     fill
                     sizes="(max-width: 768px) 50vw, 25vw"
@@ -160,7 +160,7 @@ export function FeaturedGallerySection() {
               // Display Image
               <div className="relative w-full h-full flex items-center justify-center">
                 <Image
-                  src={selectedMedia.src}
+                  src={decodeURIComponent(selectedMedia.src)}
                   alt={selectedMedia.alt}
                   width={1200}
                   height={800}
