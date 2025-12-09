@@ -41,16 +41,33 @@ export function ReservationForm() {
       // Generate reservation number
       const reservationNumber = generateReservationNumber()
 
-      // In production, this would submit to your backend
-      if (process.env.NODE_ENV === "development") {
-        console.log("Reservation submitted:", {
-          ...formData,
+      // Submit to API route
+      const response = await fetch('/api/reservations', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
           reservationNumber,
-        })
-      }
+          customer: {
+            fullName: formData.name,
+            email: formData.email,
+            phone: formData.phone,
+          },
+          date: formData.date,
+          time: formData.time,
+          guests: parseInt(formData.partySize),
+          seatingPreference: formData.seating,
+          occasion: formData.occasion || undefined,
+          specialRequests: formData.specialRequests || formData.specialOccasionRequest || undefined,
+        }),
+      })
 
-      // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 1000))
+      const result = await response.json()
+
+      if (!response.ok) {
+        throw new Error(result.error || 'Failed to submit reservation')
+      }
 
       // Navigate to confirmation
       router.push(`/reservations/confirmation?number=${reservationNumber}`)
@@ -58,9 +75,6 @@ export function ReservationForm() {
       // Handle any errors
       console.error("Reservation submission error:", error)
       alert("Failed to submit reservation. Please try again or call us directly.")
-    } finally {
-      // Always reset submitting state, even if navigation occurs
-      // This ensures the button is re-enabled if user navigates back or navigation fails
       setIsSubmitting(false)
     }
   }
