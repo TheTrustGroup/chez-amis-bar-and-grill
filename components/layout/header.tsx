@@ -12,8 +12,8 @@ const navItems = [
   { href: "/", label: "Home" },
   { href: "/menu", label: "Our Menu" },
   { href: "/gallery", label: "Gallery" },
-  { href: "/#experience", label: "Experience" },
-  { href: "/#private-dining", label: "Private Dining" },
+  { href: "/about", label: "Experience" },
+  { href: "/private-events", label: "Private Dining" },
   { href: "/contact", label: "Contact" },
 ]
 
