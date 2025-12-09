@@ -220,7 +220,7 @@ export function HeroSection() {
             <p className="text-xs sm:text-sm md:text-base text-gray-300 text-center leading-relaxed">
               <span className="block sm:inline">Walk-ins welcome</span>
               <span className="hidden sm:inline"> | </span>
-              <span className="block sm:inline mt-1 sm:mt-0">Open daily 9:30 am - 12 am</span>
+              <span className="block sm:inline mt-1 sm:mt-0">We&apos;re now open 24/7</span>
             </p>
           </div>
 
