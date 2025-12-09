@@ -144,7 +144,7 @@ export default function GalleryPage() {
                       className="object-cover transition-transform duration-500 group-hover:scale-110 z-10"
                       sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                       loading="lazy"
-                      unoptimized={false}
+                      quality={90}
                       onError={(e) => {
                         console.error('Gallery image failed to load:', item.src)
                         // Hide broken image, show fallback gradient
