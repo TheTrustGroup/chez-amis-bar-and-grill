@@ -46,26 +46,8 @@ export function HeroSection() {
     >
       {/* Background Image with Overlay */}
       <div className="absolute inset-0 z-0">
-        {/* Background Image - Optimized with Next.js Image */}
-        <div className="absolute inset-0">
-          {/* Fallback gradient if image doesn't load */}
-          <div className="absolute inset-0 bg-gradient-to-br from-charcoal-950 via-charcoal-900 to-burgundy-900"></div>
-          <Image
-            src="/images/hero-background.jpg"
-            alt="Chez Amis Bar and Grill elegant dining ambiance"
-            fill
-            priority
-            className="object-cover"
-            sizes="100vw"
-            quality={85}
-            placeholder="blur"
-            blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q=="
-            onError={(e) => {
-              // Hide image on error, show gradient fallback
-              e.currentTarget.style.display = 'none'
-            }}
-          />
-        </div>
+        {/* Background Gradient - Elegant fallback that works perfectly */}
+        <div className="absolute inset-0 bg-gradient-to-br from-charcoal-950 via-charcoal-900 to-burgundy-900"></div>
         
         {/* Dark Overlay - rgba(0, 0, 0, 0.6) for text readability */}
         <div className="absolute inset-0 bg-black/60" aria-hidden="true"></div>

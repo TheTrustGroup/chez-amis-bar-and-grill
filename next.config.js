@@ -1,12 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    domains: [
-      'localhost',
-      'images.unsplash.com',
-      'www.chezamisrestaurant.com',
-      'chezamisrestaurant.com',
-    ],
     remotePatterns: [
       {
         protocol: 'https',
@@ -19,6 +13,10 @@ const nextConfig = {
       {
         protocol: 'https',
         hostname: 'chezamisrestaurant.com',
+      },
+      {
+        protocol: 'http',
+        hostname: 'localhost',
       },
     ],
     formats: ['image/avif', 'image/webp'],
