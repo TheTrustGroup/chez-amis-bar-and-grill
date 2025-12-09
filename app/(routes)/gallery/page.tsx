@@ -117,11 +117,16 @@ export default function GalleryPage() {
                   onClick={() => openLightbox(index)}
                   className="group relative aspect-square rounded-lg overflow-hidden cursor-pointer bg-cream-100 shadow-lg hover:shadow-xl transition-all duration-300"
                 >
+                  {/* Fallback gradient for broken images - Behind everything */}
+                  {item.type === "image" && (
+                    <div className="absolute inset-0 bg-gradient-to-br from-charcoal-900 via-charcoal-800 to-burgundy-900 z-0" />
+                  )}
+                  
                   {/* Thumbnail - Handle videos and images differently */}
                   {item.type === "video" ? (
                     <video
                       src={item.src}
-                      className="absolute inset-0 w-full h-full object-cover"
+                      className="absolute inset-0 w-full h-full object-cover z-10"
                       muted
                       playsInline
                       preload="metadata"
@@ -136,18 +141,19 @@ export default function GalleryPage() {
                       src={item.thumbnail || item.src}
                       alt={item.alt}
                       fill
-                      className="object-cover transition-transform duration-500 group-hover:scale-110"
+                      className="object-cover transition-transform duration-500 group-hover:scale-110 z-10 relative"
                       sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                       loading="lazy"
+                      unoptimized={false}
                       onError={(e) => {
-                        // Hide broken image, show fallback
+                        console.error('Gallery image failed to load:', item.src)
+                        // Hide broken image, show fallback gradient
                         e.currentTarget.style.display = "none"
                       }}
+                      onLoad={() => {
+                        console.log('Gallery image loaded successfully:', item.src)
+                      }}
                     />
-                  )}
-                  {/* Fallback gradient for broken images */}
-                  {item.type === "image" && (
-                    <div className="absolute inset-0 bg-gradient-to-br from-charcoal-900 via-charcoal-800 to-burgundy-900 -z-10" />
                   )}
 
                   {/* Overlay */}
