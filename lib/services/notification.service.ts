@@ -7,6 +7,7 @@
 import { sendEmail } from './email.service'
 import { sendSMS } from './sms.service'
 import type { OrderData, ReservationData, NotificationResult } from '@/lib/types/notifications'
+import type { OrderStatusUpdateData } from '@/lib/templates/emails/order-status-update'
 
 /**
  * Send order confirmation notifications (Email + SMS)
@@ -79,16 +80,34 @@ export async function sendReservationConfirmation(
 }
 
 /**
- * Send order ready for pickup notification (SMS only)
+ * Send order ready for pickup notification (Email + SMS)
  */
 export async function sendOrderReadyNotification(
   orderId: string,
   customerPhone: string,
   customerName: string,
+  customerEmail: string,
   orderType: 'takeaway' | 'delivery'
-): Promise<{ sent: boolean; error: string | null }> {
-  try {
-    await sendSMS({
+): Promise<{ email: { sent: boolean; error: string | null }; sms: { sent: boolean; error: string | null } }> {
+  const results = {
+    email: { sent: false, error: null as string | null },
+    sms: { sent: false, error: null as string | null },
+  }
+
+  // Send email and SMS in parallel
+  const [emailResult, smsResult] = await Promise.allSettled([
+    sendEmail({
+      to: customerEmail,
+      subject: `Order Ready #${orderId} - Chez Amis Bar and Grill`,
+      template: 'order-ready',
+      data: {
+        orderId,
+        customerName,
+        orderType,
+        status: 'ready',
+      },
+    }),
+    sendSMS({
       to: customerPhone,
       template: 'order-ready',
       data: {
@@ -96,27 +115,48 @@ export async function sendOrderReadyNotification(
         customerName,
         orderType,
       },
-    })
-    return { sent: true, error: null }
-  } catch (error) {
-    return {
-      sent: false,
-      error: error instanceof Error ? error.message : 'Unknown error',
-    }
-  }
+    }),
+  ])
+
+  results.email.sent = emailResult.status === 'fulfilled'
+  results.email.error = emailResult.status === 'rejected' ? (emailResult.reason as Error).message : null
+
+  results.sms.sent = smsResult.status === 'fulfilled'
+  results.sms.error = smsResult.status === 'rejected' ? (smsResult.reason as Error).message : null
+
+  return results
 }
 
 /**
- * Send order out for delivery notification (SMS only)
+ * Send order out for delivery notification (Email + SMS)
  */
 export async function sendOrderOutForDeliveryNotification(
   orderId: string,
   customerPhone: string,
   customerName: string,
+  customerEmail: string,
   estimatedTime: string
-): Promise<{ sent: boolean; error: string | null }> {
-  try {
-    await sendSMS({
+): Promise<{ email: { sent: boolean; error: string | null }; sms: { sent: boolean; error: string | null } }> {
+  const results = {
+    email: { sent: false, error: null as string | null },
+    sms: { sent: false, error: null as string | null },
+  }
+
+  // Send email and SMS in parallel
+  const [emailResult, smsResult] = await Promise.allSettled([
+    sendEmail({
+      to: customerEmail,
+      subject: `Order Out for Delivery #${orderId} - Chez Amis Bar and Grill`,
+      template: 'order-out-for-delivery',
+      data: {
+        orderId,
+        customerName,
+        orderType: 'delivery',
+        status: 'out-for-delivery',
+        estimatedTime,
+      },
+    }),
+    sendSMS({
       to: customerPhone,
       template: 'order-out-for-delivery',
       data: {
@@ -124,14 +164,16 @@ export async function sendOrderOutForDeliveryNotification(
         customerName,
         estimatedTime,
       },
-    })
-    return { sent: true, error: null }
-  } catch (error) {
-    return {
-      sent: false,
-      error: error instanceof Error ? error.message : 'Unknown error',
-    }
-  }
+    }),
+  ])
+
+  results.email.sent = emailResult.status === 'fulfilled'
+  results.email.error = emailResult.status === 'rejected' ? (emailResult.reason as Error).message : null
+
+  results.sms.sent = smsResult.status === 'fulfilled'
+  results.sms.error = smsResult.status === 'rejected' ? (smsResult.reason as Error).message : null
+
+  return results
 }
 
 /**

@@ -8,12 +8,13 @@ import { renderOrderConfirmationEmail } from '@/lib/templates/emails/order-confi
 import { renderReservationConfirmationEmail } from '@/lib/templates/emails/reservation-confirmation'
 import { renderAdminOrderEmail } from '@/lib/templates/emails/admin-order'
 import { renderAdminReservationEmail } from '@/lib/templates/emails/admin-reservation'
+import { renderOrderInProgressEmail, renderOrderReadyEmail, renderOrderOutForDeliveryEmail, type OrderStatusUpdateData } from '@/lib/templates/emails/order-status-update'
 
 interface SendEmailParams {
   to: string
   subject: string
   template: EmailTemplate
-  data: OrderData | ReservationData
+  data: OrderData | ReservationData | OrderStatusUpdateData
 }
 
 export async function sendEmail({ to, subject, template, data }: SendEmailParams): Promise<void> {
@@ -44,6 +45,15 @@ export async function sendEmail({ to, subject, template, data }: SendEmailParams
         break
       case 'admin-reservation':
         html = renderAdminReservationEmail(data as ReservationData)
+        break
+      case 'order-in-progress':
+        html = renderOrderInProgressEmail(data as OrderStatusUpdateData)
+        break
+      case 'order-ready':
+        html = renderOrderReadyEmail(data as OrderStatusUpdateData)
+        break
+      case 'order-out-for-delivery':
+        html = renderOrderOutForDeliveryEmail(data as OrderStatusUpdateData)
         break
       default:
         throw new Error(`Unknown email template: ${template}`)

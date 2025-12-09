@@ -68,6 +68,9 @@ export type EmailTemplate =
   | 'reservation-confirmation'
   | 'admin-order'
   | 'admin-reservation'
+  | 'order-in-progress'
+  | 'order-ready'
+  | 'order-out-for-delivery'
 
 export type SMSTemplate =
   | 'order-confirmation'
