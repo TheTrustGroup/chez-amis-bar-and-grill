@@ -169,7 +169,7 @@ export function Header() {
 
             {/* Right Side Actions */}
             <div className="flex items-center gap-4 md:gap-6">
-              {/* Your Selection Link */}
+              {/* Your Selection Link - Icon Only */}
               <button
                 onClick={() => {
                   if (typeof window !== "undefined") {
@@ -177,30 +177,29 @@ export function Header() {
                   }
                 }}
                 className={cn(
-                  "hidden lg:flex items-center gap-2 transition-colors duration-300",
-                  "focus:outline-none focus:ring-2 focus:ring-gold-500 focus:ring-offset-2 focus:ring-offset-transparent rounded-sm px-2 py-1 min-h-[44px]",
+                  "hidden lg:flex items-center justify-center transition-colors duration-300",
+                  "focus:outline-none focus:ring-2 focus:ring-gold-500 focus:ring-offset-2 focus:ring-offset-transparent rounded-sm px-2 py-1 min-h-[44px] min-w-[44px]",
                   isScrolled
                     ? "text-muted-foreground hover:text-foreground"
                     : "text-white/90 hover:text-white"
                 )}
                 aria-label={`Your selection${cartItemCount > 0 ? ` (${cartItemCount} items)` : ""}`}
               >
-                <ShoppingBag className="h-5 w-5" aria-hidden="true" />
-                <span className="text-sm font-heading font-light tracking-wide">
-                  Your Selection
-                </span>
-                {cartItemCount > 0 && (
-                  <span
-                    className={cn(
-                      "text-xs font-body font-light px-1.5 py-0.5 rounded ml-1",
-                      isScrolled
-                        ? "text-muted-foreground bg-muted"
-                        : "text-white/70 bg-white/10"
-                    )}
-                  >
-                    ({cartItemCount})
-                  </span>
-                )}
+                <div className="relative">
+                  <ShoppingBag className="h-5 w-5" aria-hidden="true" />
+                  {cartItemCount > 0 && (
+                    <span
+                      className={cn(
+                        "absolute -top-2 -right-2 text-xs font-body font-medium px-1.5 py-0.5 rounded-full min-w-[20px] text-center",
+                        isScrolled
+                          ? "text-white bg-gold-500"
+                          : "text-white bg-gold-500"
+                      )}
+                    >
+                      {cartItemCount}
+                    </span>
+                  )}
+                </div>
               </button>
 
               {/* Reserve a Table Button - Desktop */}
