@@ -1,9 +1,8 @@
 "use client"
 
-import { MapPin, Navigation, Phone, Clock } from "lucide-react"
-import { useState, useEffect } from "react"
+import { MapPin, Navigation, Phone } from "lucide-react"
+import { useState } from "react"
 import { cn } from "@/lib/utils"
-import { isRestaurantOpen, getRestaurantHours, getRestaurantStatus } from "@/lib/utils/restaurantHours"
 
 export function MapSection() {
   const [isHovered, setIsHovered] = useState(false)
