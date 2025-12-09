@@ -336,7 +336,7 @@ export default function OrderStatusPage() {
               <strong className="text-foreground">2. Select Status:</strong> Choose the new order status from the dropdown.
             </p>
             <p>
-              <strong className="text-foreground">3. Update Status:</strong> Click "Update Order Status" to send notifications to the customer.
+              <strong className="text-foreground">3. Update Status:</strong> Click &quot;Update Order Status&quot; to send notifications to the customer.
             </p>
             <p>
               <strong className="text-foreground">Note:</strong> Customers will receive email and/or SMS notifications based on the status selected.
