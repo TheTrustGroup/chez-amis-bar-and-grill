@@ -26,13 +26,6 @@ export function QuickActions({ variant = "inline", className }: QuickActionsProp
       action: "directions",
       className: "bg-charcoal-900 text-cream-100 hover:bg-charcoal-800",
     },
-    {
-      label: "WhatsApp",
-      icon: MessageCircle,
-      href: "https://wa.me/233243952339",
-      action: "whatsapp",
-      className: "bg-green-600 text-white hover:bg-green-700",
-    },
   ]
 
   if (variant === "floating") {
@@ -46,16 +39,6 @@ export function QuickActions({ variant = "inline", className }: QuickActionsProp
           >
             <Phone className="h-5 w-5" />
             <span className="text-sm">Call Now</span>
-          </a>
-          <a
-            href="https://wa.me/233243952339"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-lg bg-green-600 text-white font-heading font-light tracking-wide shadow-lg active:scale-95 transition-transform"
-            aria-label="WhatsApp us"
-          >
-            <MessageCircle className="h-5 w-5" />
-            <span className="text-sm">WhatsApp</span>
           </a>
         </div>
       </div>
