@@ -1,57 +1,12 @@
 "use client"
 
-import Link from "next/link"
-import { MapPin, Phone, Mail, Clock } from "lucide-react"
+import { Phone, Mail, Clock } from "lucide-react"
 import { Card, CardContent } from "@/components/ui/card"
 import { cn } from "@/lib/utils"
 
 export function ContactInfo() {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 lg:gap-10 max-w-7xl mx-auto">
-      {/* Visit Us */}
-      <Card className="border border-border/30 bg-background hover:shadow-elegant hover:border-gold-500/30 transition-all duration-500 h-full flex flex-col">
-        <CardContent className="p-6 md:p-8 lg:p-10 space-y-6 flex-1 flex flex-col">
-          <div className="flex items-center gap-3 mb-6">
-            <div className="p-3 rounded-lg bg-gold-500/10 flex-shrink-0">
-              <MapPin className="h-6 w-6 text-gold-600" />
-            </div>
-            <h3 className="text-xl md:text-2xl font-display font-light text-foreground">
-              Visit Us
-            </h3>
-          </div>
-
-          <div className="space-y-2 text-base text-foreground font-body font-light leading-relaxed">
-            <p>40 Boundary Rd</p>
-            <p>Accra, Ghana</p>
-          </div>
-
-          <Link
-            href="https://maps.google.com/?q=40+Boundary+Rd+Accra+Ghana"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 text-sm font-heading font-light tracking-wide text-gold-600 hover:text-gold-700 underline underline-offset-2 transition-colors min-h-[44px]"
-          >
-            Get Directions
-          </Link>
-
-          {/* Exterior Photo */}
-          <div className="relative w-full h-[200px] md:h-[240px] lg:h-[260px] rounded-lg overflow-hidden mt-auto border border-border/30">
-            <div className="absolute inset-0 bg-gradient-to-br from-charcoal-900 via-charcoal-800 to-burgundy-900">
-              {/* In production, use Next.js Image */}
-              {/* <Image
-                src="/images/restaurant-exterior.jpg"
-                alt="Chez Amis exterior"
-                fill
-                className="object-cover"
-              /> */}
-              <div className="absolute inset-0 flex items-center justify-center text-cream-200/30 font-display text-lg">
-                Restaurant Exterior
-              </div>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
-
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 lg:gap-10 max-w-5xl mx-auto">
       {/* Reach Us */}
       <Card className="border border-border/30 bg-background hover:shadow-elegant hover:border-gold-500/30 transition-all duration-500 h-full flex flex-col">
         <CardContent className="p-6 md:p-8 lg:p-10 space-y-6 flex-1 flex flex-col">
