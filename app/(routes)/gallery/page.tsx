@@ -280,8 +280,13 @@ export default function GalleryPage() {
                 autoPlay
                 className="w-full max-h-[80vh] object-contain rounded-lg"
                 playsInline
+                onError={(e) => {
+                  console.error('Lightbox video failed to load:', filteredMedia[currentMediaIndex].src)
+                  // Optionally show error message to user
+                }}
               >
                 <source src={filteredMedia[currentMediaIndex].src} type="video/mp4" />
+                <source src={filteredMedia[currentMediaIndex].src} type="video/quicktime" />
                 Your browser does not support the video tag.
               </video>
             )}
