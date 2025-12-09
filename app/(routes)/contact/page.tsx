@@ -5,7 +5,7 @@ import { ContactInfo } from "@/components/contact/ContactInfo"
 import { ContactForm } from "@/components/contact/ContactForm"
 import { MapSection } from "@/components/contact/MapSection"
 import { Button } from "@/components/ui/button"
-import { Phone, MessageCircle, Instagram } from "lucide-react"
+import { Phone, Instagram } from "lucide-react"
 import { SnapchatIcon } from "@/components/ui/snapchat-icon"
 
 export default function ContactPage() {
@@ -155,26 +155,17 @@ export default function ContactPage() {
                 Prefer to Speak With Us?
               </h2>
               <p className="text-base md:text-lg text-muted-foreground font-body font-light">
-                We&apos;re just a call or message away
+                We&apos;re just a call away
               </p>
             </div>
 
-            <div className="flex flex-col sm:flex-row gap-3 md:gap-4 justify-center">
+            <div className="flex justify-center">
               <a
                 href="tel:+233243952339"
-                className="flex items-center justify-center gap-3 px-6 md:px-8 py-4 md:py-6 rounded-lg border-2 border-gold-500/60 text-foreground hover:bg-gold-500/10 transition-all font-heading font-light tracking-wide text-base md:text-lg min-h-[48px] md:min-h-[56px]"
+                className="flex items-center justify-center gap-3 px-8 md:px-12 py-4 md:py-6 rounded-lg border-2 border-gold-500/60 text-foreground hover:bg-gold-500/10 transition-all font-heading font-light tracking-wide text-base md:text-lg min-h-[48px] md:min-h-[56px]"
               >
                 <Phone className="h-5 w-5" />
                 Call Us
-              </a>
-              <a
-                href="https://wa.me/233243952339"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center justify-center gap-3 px-6 md:px-8 py-4 md:py-6 rounded-lg border-2 border-gold-500/60 text-foreground hover:bg-gold-500/10 transition-all font-heading font-light tracking-wide text-base md:text-lg min-h-[48px] md:min-h-[56px]"
-              >
-                <MessageCircle className="h-5 w-5" />
-                WhatsApp
               </a>
             </div>
 
