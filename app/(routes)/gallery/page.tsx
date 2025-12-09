@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback } from "react"
 import Image from "next/image"
 import Link from "next/link"
-import { X, Play, ChevronLeft, ChevronRight, ArrowRight } from "lucide-react"
+import { X, Play, ChevronLeft, ChevronRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { galleryMedia, galleryCategories, type MediaCategory } from "@/lib/data/galleryMedia"
 import { cn } from "@/lib/utils"
@@ -67,17 +67,6 @@ export default function GalleryPage() {
       <section className="relative h-[50vh] min-h-[400px] bg-charcoal-900 overflow-hidden">
         <div className="absolute inset-0">
           <div className="absolute inset-0 bg-gradient-to-br from-charcoal-950 via-charcoal-900 to-burgundy-900"></div>
-          <Image
-            src="/media/images/IMG_7141.JPG"
-            alt="Gallery Hero"
-            fill
-            className="object-cover opacity-40"
-            priority
-            sizes="100vw"
-            onError={(e) => {
-              e.currentTarget.style.display = 'none'
-            }}
-          />
         </div>
         <div className="relative z-10 h-full flex items-center justify-center text-center px-6">
           <div>
