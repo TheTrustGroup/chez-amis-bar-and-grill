@@ -222,10 +222,10 @@ export const galleryMedia: MediaItem[] = [
     type: 'image',
     src: '/media/images/IMG_8209.jpg',
     thumbnail: '/media/images/IMG_8209.jpg',
-    alt: 'Beautifully crafted dish at Chez Amis',
-    category: 'signature-dishes',
-    title: 'Culinary Artistry',
-    description: 'A beautifully crafted dish showcasing our commitment to culinary excellence',
+    alt: 'The Culinary Artist behind our exquisite dishes',
+    category: 'behind-scenes',
+    title: 'The Culinary Artist',
+    description: 'The mastermind behind every delightful creation, crafting culinary excellence with passion and precision',
   },
 ]
 
