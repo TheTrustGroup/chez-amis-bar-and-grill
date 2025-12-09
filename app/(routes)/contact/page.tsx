@@ -40,6 +40,17 @@ export default function ContactPage() {
       {/* Contact Information - Three Columns */}
       <section className="section-padding bg-cream-50" aria-labelledby="contact-info-heading">
         <div className="container-custom">
+          <div className="mb-8 md:mb-12 text-center">
+            <h2
+              id="contact-info-heading"
+              className="text-3xl md:text-4xl lg:text-5xl font-display font-light text-foreground mb-4"
+            >
+              Get in Touch
+            </h2>
+            <p className="text-lg md:text-xl text-muted-foreground font-body font-light max-w-2xl mx-auto">
+              We&apos;re here to help and look forward to connecting with you
+            </p>
+          </div>
           <ContactInfo />
         </div>
       </section>

@@ -7,12 +7,12 @@ import { cn } from "@/lib/utils"
 
 export function ContactInfo() {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 lg:gap-10 max-w-7xl mx-auto">
       {/* Visit Us */}
-      <Card className="border-0 bg-background hover:shadow-elegant transition-all duration-500">
-        <CardContent className="p-6 md:p-8 space-y-6">
-          <div className="flex items-center gap-3 mb-4">
-            <div className="p-3 rounded-lg bg-gold-500/10">
+      <Card className="border border-border/30 bg-background hover:shadow-elegant hover:border-gold-500/30 transition-all duration-500 h-full flex flex-col">
+        <CardContent className="p-6 md:p-8 lg:p-10 space-y-6 flex-1 flex flex-col">
+          <div className="flex items-center gap-3 mb-6">
+            <div className="p-3 rounded-lg bg-gold-500/10 flex-shrink-0">
               <MapPin className="h-6 w-6 text-gold-600" />
             </div>
             <h3 className="text-xl md:text-2xl font-display font-light text-foreground">
@@ -29,13 +29,13 @@ export function ContactInfo() {
             href="https://maps.google.com/?q=40+Boundary+Rd+Accra+Ghana"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-block text-sm font-heading font-light tracking-wide text-gold-600 hover:text-gold-700 underline underline-offset-2 transition-colors"
+            className="inline-flex items-center gap-2 text-sm font-heading font-light tracking-wide text-gold-600 hover:text-gold-700 underline underline-offset-2 transition-colors min-h-[44px]"
           >
             Get Directions
           </Link>
 
           {/* Exterior Photo */}
-          <div className="relative w-full h-[200px] rounded-lg overflow-hidden mt-6 border border-border/30">
+          <div className="relative w-full h-[200px] md:h-[240px] lg:h-[260px] rounded-lg overflow-hidden mt-auto border border-border/30">
             <div className="absolute inset-0 bg-gradient-to-br from-charcoal-900 via-charcoal-800 to-burgundy-900">
               {/* In production, use Next.js Image */}
               {/* <Image
@@ -53,10 +53,10 @@ export function ContactInfo() {
       </Card>
 
       {/* Reach Us */}
-      <Card className="border-0 bg-background hover:shadow-elegant transition-all duration-500">
-        <CardContent className="p-6 md:p-8 space-y-6">
-          <div className="flex items-center gap-3 mb-4">
-            <div className="p-3 rounded-lg bg-gold-500/10">
+      <Card className="border border-border/30 bg-background hover:shadow-elegant hover:border-gold-500/30 transition-all duration-500 h-full flex flex-col">
+        <CardContent className="p-6 md:p-8 lg:p-10 space-y-6 flex-1 flex flex-col">
+          <div className="flex items-center gap-3 mb-6">
+            <div className="p-3 rounded-lg bg-gold-500/10 flex-shrink-0">
               <Phone className="h-6 w-6 text-gold-600" />
             </div>
             <h3 className="text-xl md:text-2xl font-display font-light text-foreground">
@@ -64,23 +64,28 @@ export function ContactInfo() {
             </h3>
           </div>
 
-          <div className="space-y-6">
+          <div className="space-y-6 flex-1">
             {/* Phone */}
             <div>
               <p className="text-sm text-muted-foreground font-body font-light mb-2">Phone</p>
-              <a
-                href="tel:+233243952339"
-                className="text-base md:text-lg text-foreground font-body font-light hover:text-gold-600 transition-colors"
-              >
-                024 395 2339
-              </a>
-              <p className="text-sm text-muted-foreground font-body font-light mt-1">
-                050 243 2037
-              </p>
-              <p className="mt-1">
+              <div className="space-y-1">
                 <a
                   href="tel:+233243952339"
-                  className="text-sm font-heading font-light tracking-wide text-gold-600 hover:text-gold-700 underline underline-offset-2 transition-colors"
+                  className="block text-base md:text-lg text-foreground font-body font-light hover:text-gold-600 transition-colors"
+                >
+                  024 395 2339
+                </a>
+                <a
+                  href="tel:+233502432037"
+                  className="block text-base md:text-lg text-foreground font-body font-light hover:text-gold-600 transition-colors"
+                >
+                  050 243 2037
+                </a>
+              </div>
+              <p className="mt-3">
+                <a
+                  href="tel:+233243952339"
+                  className="inline-flex items-center gap-2 text-sm font-heading font-light tracking-wide text-gold-600 hover:text-gold-700 underline underline-offset-2 transition-colors min-h-[44px]"
                 >
                   Call us
                 </a>
@@ -90,21 +95,21 @@ export function ContactInfo() {
             {/* Email */}
             <div>
               <div className="flex items-center gap-2 mb-3">
-                <Mail className="h-4 w-4 text-muted-foreground" />
+                <Mail className="h-4 w-4 text-muted-foreground flex-shrink-0" />
                 <p className="text-sm text-muted-foreground font-body font-light">Email</p>
               </div>
-              <div className="space-y-2">
+              <div className="space-y-2 mb-3">
                 <a
                   href="mailto:chez@chezamisrestaurant.com"
-                  className="block text-base text-foreground font-body font-light hover:text-gold-600 transition-colors"
+                  className="block text-base text-foreground font-body font-light hover:text-gold-600 transition-colors break-words"
                 >
                   chez@chezamisrestaurant.com
                 </a>
               </div>
-              <p className="mt-2">
+              <p>
                 <a
                   href="mailto:chez@chezamisrestaurant.com"
-                  className="text-sm font-heading font-light tracking-wide text-gold-600 hover:text-gold-700 underline underline-offset-2 transition-colors"
+                  className="inline-flex items-center gap-2 text-sm font-heading font-light tracking-wide text-gold-600 hover:text-gold-700 underline underline-offset-2 transition-colors min-h-[44px]"
                 >
                   Send email
                 </a>
@@ -115,10 +120,10 @@ export function ContactInfo() {
       </Card>
 
       {/* Hours */}
-      <Card className="border-0 bg-background hover:shadow-elegant transition-all duration-500">
-        <CardContent className="p-6 md:p-8 space-y-6">
-          <div className="flex items-center gap-3 mb-4">
-            <div className="p-3 rounded-lg bg-gold-500/10">
+      <Card className="border border-border/30 bg-background hover:shadow-elegant hover:border-gold-500/30 transition-all duration-500 h-full flex flex-col">
+        <CardContent className="p-6 md:p-8 lg:p-10 space-y-6 flex-1 flex flex-col">
+          <div className="flex items-center gap-3 mb-6">
+            <div className="p-3 rounded-lg bg-gold-500/10 flex-shrink-0">
               <Clock className="h-6 w-6 text-gold-600" />
             </div>
             <h3 className="text-xl md:text-2xl font-display font-light text-foreground">
