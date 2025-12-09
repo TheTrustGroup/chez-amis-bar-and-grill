@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { sendOrderReadyNotification, sendOrderOutForDeliveryNotification } from '@/lib/services/notification.service'
+import { updateOrderStatus } from '@/lib/services/order-storage'
 import { sendEmail } from '@/lib/services/email.service'
 
 export interface OrderStatusUpdateRequest {
@@ -146,6 +147,9 @@ export async function POST(
       }
     }
 
+    // Update order status in storage
+    const updatedOrder = updateOrderStatus(orderId, updateData.status)
+
     // Log status update
     console.log(`Order ${orderId} status updated to: ${updateData.status}`, {
       customer: updateData.customerName,
@@ -162,6 +166,7 @@ export async function POST(
       orderId,
       status: updateData.status,
       message: `Order status updated to ${updateData.status}`,
+      order: updatedOrder,
       notification: results,
     })
   } catch (error) {
