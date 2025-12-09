@@ -81,18 +81,9 @@ export function PremiumMenuItem({ item }: PremiumMenuItemProps) {
         <div className="flex-1 min-w-0">
           <div className="flex items-start justify-between gap-4 mb-1">
             <div className="flex-1 min-w-0">
-              <h3 className="text-lg font-display font-light text-gray-900 mb-0.5">
+              <h3 className="text-lg font-display font-light text-gray-900">
                 {item.name}
               </h3>
-              {/* Minimal dietary indicators */}
-              <div className="flex items-center gap-1.5 text-xs text-gray-500">
-                {item.dietary?.includes("vegetarian") && (
-                  <span title="Vegetarian">🌱</span>
-                )}
-                {item.dietary?.includes("gluten-free") && (
-                  <span title="Gluten-Free">GF</span>
-                )}
-              </div>
             </div>
             <div className="text-right flex-shrink-0">
               <p className="text-lg font-medium text-gray-900">
