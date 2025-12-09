@@ -1,7 +1,7 @@
 "use client"
 
 import Link from "next/link"
-import { Phone, MapPin, Clock, MessageCircle } from "lucide-react"
+import { Phone, MapPin, MessageCircle } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 
@@ -25,13 +25,6 @@ export function QuickActions({ variant = "inline", className }: QuickActionsProp
       href: "https://maps.google.com/?q=40+Boundary+Rd+Accra+Ghana",
       action: "directions",
       className: "bg-charcoal-900 text-cream-100 hover:bg-charcoal-800",
-    },
-    {
-      label: "View Hours",
-      icon: Clock,
-      href: "/contact#hours",
-      action: "hours",
-      className: "bg-cream-200 text-charcoal-900 hover:bg-cream-300",
     },
     {
       label: "WhatsApp",
