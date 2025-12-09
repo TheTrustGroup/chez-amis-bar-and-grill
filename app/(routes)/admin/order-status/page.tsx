@@ -128,13 +128,37 @@ function OrderStatusPageContent() {
     <div className="min-h-screen bg-cream-50 py-12 px-6">
       <div className="max-w-4xl mx-auto">
         {/* Header */}
-        <div className="mb-8">
-          <h1 className="text-4xl font-display font-light text-foreground mb-2">
-            Update Order Status
-          </h1>
-          <p className="text-muted-foreground font-body font-light">
-            Update order status and send customer notifications
-          </p>
+        <div className="mb-8 flex items-center justify-between">
+          <div>
+            <h1 className="text-4xl font-display font-light text-foreground mb-2">
+              Update Order Status
+            </h1>
+            <p className="text-muted-foreground font-body font-light">
+              Update order status and send customer notifications
+            </p>
+          </div>
+          <div className="flex gap-4">
+            <Link href="/admin/orders" className="hidden md:block">
+              <Button variant="outline" className="font-heading font-light">
+                View Orders
+              </Button>
+            </Link>
+            <Button
+              onClick={async () => {
+                try {
+                  await fetch('/api/admin/logout', { method: 'POST' })
+                  router.push('/admin/login')
+                } catch {
+                  router.push('/admin/login')
+                }
+              }}
+              variant="outline"
+              className="font-heading font-light"
+            >
+              <LogOut className="w-4 h-4 mr-2" />
+              Logout
+            </Button>
+          </div>
         </div>
 
         {/* Form Card */}
