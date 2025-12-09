@@ -65,7 +65,10 @@ export async function POST(request: NextRequest) {
       specialRequests: 'Need cake service',
     }
 
-    const results: any = {
+    const results: {
+      email: { sent: boolean; error: string | null }
+      sms: { sent: boolean; error: string | null }
+    } = {
       email: { sent: false, error: null },
       sms: { sent: false, error: null },
     }

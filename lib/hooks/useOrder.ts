@@ -18,7 +18,11 @@ export function useOrder() {
       id: item.id,
       name: item.name,
       description: item.description,
-      price: 'price' in item ? (item.price || (item as any).portionSizes?.[0]?.price || 0) : item.price,
+      price: 'price' in item 
+        ? (item.price || ('portionSizes' in item && Array.isArray(item.portionSizes) && item.portionSizes.length > 0 
+          ? (item.portionSizes[0]?.price ?? 0)
+          : 0)) 
+        : (item.price ?? 0),
       category: item.category,
       image: item.image || "/images/placeholder-dish.jpg",
       tags: 'tags' in item ? (item.tags || []) : [],

@@ -46,7 +46,7 @@ export function useMenuFilters() {
       items = items.filter((item) => {
         if (!item.dietary) return false
         return filters.dietaryFilters.some((filter) =>
-          item.dietary?.includes(filter as any)
+          item.dietary?.includes(filter as 'vegetarian' | 'vegan' | 'gluten-free' | 'dairy-free')
         )
       })
     }

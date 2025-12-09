@@ -35,7 +35,7 @@ export function BeverageCard({ beverage }: BeverageCardProps) {
 
   const handleAddToOrderClick = () => {
     // Convert Beverage to cart format
-    const cartItem: any = {
+    const cartItem = {
       id: beverage.id,
       name: beverage.name,
       description: beverage.description,

@@ -14,10 +14,17 @@ import {
   getAdminReservationSMS,
 } from '@/lib/templates/sms/notifications'
 
+interface OrderStatusUpdateData {
+  orderId: string
+  customerName: string
+  orderType?: 'takeaway' | 'delivery'
+  estimatedTime?: string
+}
+
 interface SendSMSParams {
   to: string
   template: SMSTemplate
-  data: OrderData | ReservationData | any
+  data: OrderData | ReservationData | OrderStatusUpdateData
 }
 
 /**
@@ -70,10 +77,18 @@ export async function sendSMS({ to, template, data }: SendSMSParams): Promise<vo
         message = getReservationConfirmationSMS(data as ReservationData)
         break
       case 'order-ready':
-        message = getOrderReadySMS(data)
+        message = getOrderReadySMS({
+          orderId: (data as any).orderId,
+          customerName: (data as any).customerName,
+          orderType: (data as any).orderType || 'takeaway'
+        })
         break
       case 'order-out-for-delivery':
-        message = getOrderOutForDeliverySMS(data)
+        message = getOrderOutForDeliverySMS({
+          orderId: (data as any).orderId,
+          customerName: (data as any).customerName,
+          estimatedTime: (data as any).estimatedTime || '30 minutes'
+        })
         break
       case 'reservation-reminder':
         message = getReservationReminderSMS(data as ReservationData)

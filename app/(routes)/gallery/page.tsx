@@ -153,7 +153,9 @@ export default function GalleryPage() {
                         target.style.display = "none"
                       }}
                       onLoad={() => {
-                        console.log('Gallery image loaded successfully:', item.src)
+                        if (process.env.NODE_ENV === 'development') {
+                          console.log('Gallery image loaded successfully:', item.src)
+                        }
                       }}
                     />
                   )}

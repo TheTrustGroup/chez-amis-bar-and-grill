@@ -85,7 +85,9 @@ export async function POST(request: NextRequest) {
     }
 
     if (process.env.NODE_ENV === 'development') {
-      console.log('✅ Event request sent successfully to:', adminEmail)
+      if (process.env.NODE_ENV === 'development') {
+        console.log('✅ Event request sent successfully to:', adminEmail)
+      }
     }
 
     return NextResponse.json({

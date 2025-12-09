@@ -150,16 +150,18 @@ export async function POST(
     // Update order status in storage
     const updatedOrder = updateOrderStatus(orderId, updateData.status)
 
-    // Log status update
-    console.log(`Order ${orderId} status updated to: ${updateData.status}`, {
-      customer: updateData.customerName,
-      phone: updateData.customerPhone,
-      email: updateData.customerEmail,
-      notifications: {
-        email: results.notification.email.sent,
-        sms: results.notification.sms.sent,
-      },
-    })
+    // Log status update (dev only)
+    if (process.env.NODE_ENV === 'development') {
+      console.log(`Order ${orderId} status updated to: ${updateData.status}`, {
+        customer: updateData.customerName,
+        phone: updateData.customerPhone,
+        email: updateData.customerEmail,
+        notifications: {
+          email: results.notification.email.sent,
+          sms: results.notification.sms.sent,
+        },
+      })
+    }
 
     return NextResponse.json({
       success: true,

@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { CheckCircle2, Clock, Truck, Package, XCircle, AlertCircle, LogOut } from "lucide-react"
+import type { StoredOrder } from "@/lib/services/order-storage"
 
 type OrderStatus = "preparing" | "ready" | "out-for-delivery" | "delivered" | "cancelled"
 type OrderType = "dine-in" | "takeaway" | "delivery"
@@ -24,7 +25,16 @@ function OrderStatusPageContent() {
   const [estimatedTime, setEstimatedTime] = useState("")
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isLoadingOrder, setIsLoadingOrder] = useState(false)
-  const [result, setResult] = useState<any>(null)
+  const [result, setResult] = useState<{
+    success: boolean
+    orderId: string
+    status: OrderStatus
+    message: string
+    notification?: {
+      email: { sent: boolean; error: string | null }
+      sms: { sent: boolean; error: string | null }
+    }
+  } | null>(null)
   const [error, setError] = useState<string | null>(null)
 
   // Load order data if orderId is provided in URL
@@ -43,12 +53,12 @@ function OrderStatusPageContent() {
       const data = await response.json()
       
       if (data.success && data.orders) {
-        const order = data.orders.find((o: any) => o.orderId === id || o.id === id)
+        const order = data.orders.find((o: StoredOrder) => o.orderId === id || o.id === id)
         if (order) {
-          setCustomerName(order.customer.fullName)
-          setCustomerPhone(order.customer.phone)
-          setCustomerEmail(order.customer.email)
-          setOrderType(order.orderType)
+          setCustomerName(order.customerInfo?.fullName || '')
+          setCustomerPhone(order.customerInfo?.phone || '')
+          setCustomerEmail(order.customerInfo?.email || '')
+          setOrderType(order.orderType || 'delivery')
           setStatus(order.status || 'pending')
         }
       }

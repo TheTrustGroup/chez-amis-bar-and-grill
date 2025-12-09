@@ -90,11 +90,13 @@ export async function POST(request: NextRequest) {
     // Save order to storage
     const savedOrder = saveOrder(orderData)
 
-    // Log notification results for debugging
-    console.log('Order notifications:', {
-      customer: customerNotifications,
-      admin: adminNotifications,
-    })
+    // Log notification results for debugging (dev only)
+    if (process.env.NODE_ENV === 'development') {
+      console.log('Order notifications:', {
+        customer: customerNotifications,
+        admin: adminNotifications,
+      })
+    }
 
     // Return success even if notifications fail (order is still placed)
     return NextResponse.json({
