@@ -70,10 +70,10 @@ export function MobileCart({ isOpen, onClose }: MobileCartProps) {
             <h2 className="text-lg font-serif text-gray-900">Your Selection</h2>
             <button
               onClick={onClose}
-              className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+              className="p-2 min-w-[44px] min-h-[44px] flex items-center justify-center hover:bg-gray-100 active:bg-gray-200 rounded-full transition-colors touch-manipulation"
               aria-label="Close cart"
             >
-              <X className="w-5 h-5" />
+              <X className="w-6 h-6" />
             </button>
           </div>
 
@@ -107,20 +107,20 @@ export function MobileCart({ isOpen, onClose }: MobileCartProps) {
                           <div className="flex items-center gap-2">
                             <button
                               onClick={() => decreaseQuantity(item.id)}
-                              className="w-6 h-6 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-100 transition-colors"
+                              className="w-11 h-11 min-w-[44px] min-h-[44px] rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-100 active:bg-gray-200 transition-colors touch-manipulation"
                               aria-label="Decrease quantity"
                             >
-                              <Minus className="w-3 h-3" />
+                              <Minus className="w-5 h-5" />
                             </button>
-                            <span className="text-sm font-medium w-8 text-center">
+                            <span className="text-base font-medium w-10 text-center">
                               {item.quantity}
                             </span>
                             <button
                               onClick={() => increaseQuantity(item.id)}
-                              className="w-6 h-6 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-100 transition-colors"
+                              className="w-11 h-11 min-w-[44px] min-h-[44px] rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-100 active:bg-gray-200 transition-colors touch-manipulation"
                               aria-label="Increase quantity"
                             >
-                              <Plus className="w-3 h-3" />
+                              <Plus className="w-5 h-5" />
                             </button>
                           </div>
                           <p className="text-sm font-medium text-gray-900">
@@ -155,7 +155,7 @@ export function MobileCart({ isOpen, onClose }: MobileCartProps) {
                       router.push("/place-order")
                       onClose()
                     }}
-                    className="w-full bg-amber-500 text-white py-3 rounded-md hover:bg-amber-600 transition-colors font-medium"
+                    className="w-full bg-amber-500 text-white py-4 rounded-md hover:bg-amber-600 active:bg-amber-700 transition-colors font-medium min-h-[48px] text-base touch-manipulation"
                   >
                     Place Order
                   </Button>
@@ -165,7 +165,7 @@ export function MobileCart({ isOpen, onClose }: MobileCartProps) {
                       onClose()
                     }}
                     variant="outline"
-                    className="w-full border-2 border-amber-500 text-amber-700 py-3 rounded-md hover:bg-amber-50 transition-colors font-medium"
+                    className="w-full border-2 border-amber-500 text-amber-700 py-4 rounded-md hover:bg-amber-50 active:bg-amber-100 transition-colors font-medium min-h-[48px] text-base touch-manipulation"
                   >
                     Reserve a Table
                   </Button>

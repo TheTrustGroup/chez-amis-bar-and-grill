@@ -307,10 +307,11 @@ export default function MenuPage() {
       {itemCount > 0 && (
         <button
           onClick={() => setShowMobileCart(true)}
-          className="lg:hidden fixed bottom-6 right-6 bg-amber-500 text-white p-4 rounded-full shadow-lg z-40 flex items-center gap-2"
+          className="lg:hidden fixed bottom-6 right-6 bg-amber-500 text-white p-4 rounded-full shadow-lg z-40 flex items-center gap-2 min-w-[56px] min-h-[56px] touch-manipulation active:scale-95 transition-transform"
+          aria-label={`View your selection (${itemCount} items)`}
         >
-          <ShoppingBag className="w-5 h-5" />
-          <span className="font-medium">{itemCount}</span>
+          <ShoppingBag className="w-6 h-6" />
+          <span className="font-medium text-base">{itemCount}</span>
         </button>
       )}
 

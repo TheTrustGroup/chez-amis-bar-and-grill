@@ -103,7 +103,7 @@ export function ReservationForm() {
           id="partySize"
           value={formData.partySize}
           onChange={(e) => handleFieldChange("partySize", e.target.value)}
-          className="w-full h-10 rounded-md border border-border/50 bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-gold-500 focus:ring-offset-1"
+          className="w-full h-12 md:h-10 rounded-md border border-border/50 bg-background px-3 py-2 text-base md:text-sm focus:outline-none focus:ring-2 focus:ring-gold-500 focus:ring-offset-1 min-h-[44px]"
           required
         >
           <option value="">Select number of guests</option>
@@ -145,7 +145,7 @@ export function ReservationForm() {
           id="occasion"
           value={formData.occasion}
           onChange={(e) => handleFieldChange("occasion", e.target.value)}
-          className="w-full h-10 rounded-md border border-border/50 bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-gold-500 focus:ring-offset-1"
+          className="w-full h-12 md:h-10 rounded-md border border-border/50 bg-background px-3 py-2 text-base md:text-sm focus:outline-none focus:ring-2 focus:ring-gold-500 focus:ring-offset-1 min-h-[44px]"
         >
           <option value="">None</option>
           <option value="birthday">Birthday</option>

@@ -296,8 +296,8 @@ export function Header() {
                       }}
                       className={cn(
                         "text-2xl font-heading font-light tracking-wide text-white",
-                        "transition-all duration-300 hover:text-gold-500",
-                        "focus:outline-none focus:ring-2 focus:ring-gold-500 focus:ring-offset-2 focus:ring-offset-transparent rounded-sm px-4 py-2 min-h-[44px]",
+                        "transition-all duration-300 hover:text-gold-500 active:text-gold-400",
+                        "focus:outline-none focus:ring-2 focus:ring-gold-500 focus:ring-offset-2 focus:ring-offset-transparent rounded-sm px-6 py-4 min-h-[56px] touch-manipulation",
                         isActive && "text-gold-500"
                       )}
                       aria-current={isActive ? "page" : undefined}
@@ -315,16 +315,16 @@ export function Header() {
                   {/* Your Selection */}
                   <Link
                     href="/order-summary"
-                    className="flex items-center gap-3 text-white/90 hover:text-white transition-colors min-h-[44px]"
+                    className="flex items-center gap-3 text-white/90 hover:text-white active:text-white/80 transition-colors min-h-[56px] px-4 py-3 rounded-lg hover:bg-white/5 active:bg-white/10 touch-manipulation"
                     onClick={() => setIsMobileMenuOpen(false)}
                     aria-label={`Your selection${cartItemCount > 0 ? ` (${cartItemCount} items)` : ""}`}
                   >
-                    <ShoppingBag className="h-5 w-5" aria-hidden="true" />
-                    <span className="font-heading font-light tracking-wide">
+                    <ShoppingBag className="h-6 w-6" aria-hidden="true" />
+                    <span className="font-heading font-light tracking-wide text-lg">
                       Your Selection
                     </span>
                     {cartItemCount > 0 && (
-                      <span className="text-xs font-body font-light px-1.5 py-0.5 rounded text-white/70 bg-white/10 ml-1">
+                      <span className="text-sm font-body font-light px-2 py-1 rounded text-white/70 bg-white/10 ml-1">
                         ({cartItemCount})
                       </span>
                     )}
@@ -335,7 +335,7 @@ export function Header() {
                     <Button
                       variant="outline"
                       size="lg"
-                      className="w-full font-heading font-light tracking-wide border-2 border-white/60 text-white hover:bg-white/10 hover:border-white transition-all duration-300 min-h-[44px]"
+                      className="w-full font-heading font-light tracking-wide border-2 border-white/60 text-white hover:bg-white/10 hover:border-white active:bg-white/20 active:border-white/80 transition-all duration-300 min-h-[56px] text-lg touch-manipulation"
                       aria-label="Reserve a Table"
                     >
                       Reserve a Table

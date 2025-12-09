@@ -53,12 +53,12 @@ export function NewsletterSignup() {
             onChange={(e) => setEmail(e.target.value)}
             placeholder="your.email@example.com"
             required
-            className="flex-1 bg-charcoal-800/50 border-charcoal-700 text-cream-100 placeholder:text-cream-200/40 focus:border-gold-500/50 focus:ring-gold-500/20 font-body"
+            className="flex-1 bg-charcoal-800/50 border-charcoal-700 text-cream-100 placeholder:text-cream-200/40 focus:border-gold-500/50 focus:ring-gold-500/20 font-body min-h-[44px]"
           />
           <Button
             type="submit"
             disabled={isSubmitting}
-            className="bg-gold-500 text-charcoal-900 hover:bg-gold-600 font-heading font-light tracking-wide px-6"
+            className="bg-gold-500 text-charcoal-900 hover:bg-gold-600 active:bg-gold-700 font-heading font-light tracking-wide px-6 min-h-[44px] touch-manipulation"
           >
             {isSubmitting ? "..." : "Subscribe"}
           </Button>

@@ -86,37 +86,37 @@ export function Footer() {
             <nav className="space-y-3" aria-label="Footer navigation">
               <Link
                 href="/about"
-                className="block text-sm font-body font-light text-cream-200/70 hover:text-gold-500 transition-colors"
+                className="block text-sm font-body font-light text-cream-200/70 hover:text-gold-500 transition-colors py-2 min-h-[44px] md:min-h-0 md:py-0 flex items-center"
               >
                 About Our Story
               </Link>
               <Link
                 href="/menu"
-                className="block text-sm font-body font-light text-cream-200/70 hover:text-gold-500 transition-colors"
+                className="block text-sm font-body font-light text-cream-200/70 hover:text-gold-500 transition-colors py-2 min-h-[44px] md:min-h-0 md:py-0 flex items-center"
               >
                 View Menu
               </Link>
               <Link
                 href="/reservations"
-                className="block text-sm font-body font-light text-cream-200/70 hover:text-gold-500 transition-colors"
+                className="block text-sm font-body font-light text-cream-200/70 hover:text-gold-500 transition-colors py-2 min-h-[44px] md:min-h-0 md:py-0 flex items-center"
               >
                 Reservations
               </Link>
               <Link
                 href="/private-events"
-                className="block text-sm font-body font-light text-cream-200/70 hover:text-gold-500 transition-colors"
+                className="block text-sm font-body font-light text-cream-200/70 hover:text-gold-500 transition-colors py-2 min-h-[44px] md:min-h-0 md:py-0 flex items-center"
               >
                 Private Dining
               </Link>
               <Link
                 href="/careers"
-                className="block text-sm font-body font-light text-cream-200/70 hover:text-gold-500 transition-colors"
+                className="block text-sm font-body font-light text-cream-200/70 hover:text-gold-500 transition-colors py-2 min-h-[44px] md:min-h-0 md:py-0 flex items-center"
               >
                 Careers
               </Link>
               <Link
                 href="/press"
-                className="block text-sm font-body font-light text-cream-200/70 hover:text-gold-500 transition-colors"
+                className="block text-sm font-body font-light text-cream-200/70 hover:text-gold-500 transition-colors py-2 min-h-[44px] md:min-h-0 md:py-0 flex items-center"
               >
                 Press & Media
               </Link>
@@ -131,19 +131,19 @@ export function Footer() {
             <nav className="space-y-3" aria-label="Guest services navigation">
               <Link
                 href="/contact"
-                className="block text-sm font-body font-light text-cream-200/70 hover:text-gold-500 transition-colors"
+                className="block text-sm font-body font-light text-cream-200/70 hover:text-gold-500 transition-colors py-2 min-h-[44px] md:min-h-0 md:py-0 flex items-center"
               >
                 Contact Us
               </Link>
               <Link
                 href="/faq"
-                className="block text-sm font-body font-light text-cream-200/70 hover:text-gold-500 transition-colors"
+                className="block text-sm font-body font-light text-cream-200/70 hover:text-gold-500 transition-colors py-2 min-h-[44px] md:min-h-0 md:py-0 flex items-center"
               >
                 FAQs
               </Link>
               <Link
                 href="/catering"
-                className="block text-sm font-body font-light text-cream-200/70 hover:text-gold-500 transition-colors"
+                className="block text-sm font-body font-light text-cream-200/70 hover:text-gold-500 transition-colors py-2 min-h-[44px] md:min-h-0 md:py-0 flex items-center"
               >
                 Catering
               </Link>

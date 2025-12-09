@@ -21,7 +21,7 @@ export function FounderStory() {
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 600px"
                 quality={90}
                 style={{
-                  filter: 'brightness(1.05) contrast(1.1) saturate(1.1)',
+                  filter: 'brightness(1.15) contrast(1.15) saturate(1.15)',
                 }}
               />
               {/* Subtle overlay for text readability */}
