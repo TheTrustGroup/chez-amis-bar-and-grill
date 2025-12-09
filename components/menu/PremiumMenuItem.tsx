@@ -92,11 +92,6 @@ export function PremiumMenuItem({ item }: PremiumMenuItemProps) {
                 {item.dietary?.includes("gluten-free") && (
                   <span title="Gluten-Free">GF</span>
                 )}
-                {item.spicyLevel && item.spicyLevel > 0 && (
-                  <span className="text-red-500" title={`Spicy Level ${item.spicyLevel}`}>
-                    🔥
-                  </span>
-                )}
               </div>
             </div>
             <div className="text-right flex-shrink-0">
