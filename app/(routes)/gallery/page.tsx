@@ -68,12 +68,15 @@ export default function GalleryPage() {
         <div className="absolute inset-0">
           <div className="absolute inset-0 bg-gradient-to-br from-charcoal-950 via-charcoal-900 to-burgundy-900"></div>
           <Image
-            src="/media/images/dishes/attieke/attieke-grilled-tilapia-001.jpg"
+            src="/media/images/IMG_7141.JPG"
             alt="Gallery Hero"
             fill
             className="object-cover opacity-40"
             priority
             sizes="100vw"
+            onError={(e) => {
+              e.currentTarget.style.display = 'none'
+            }}
           />
         </div>
         <div className="relative z-10 h-full flex items-center justify-center text-center px-6">
@@ -92,21 +95,24 @@ export default function GalleryPage() {
       {/* Filter Tabs */}
       <section className="bg-cream-50 border-b border-border/50 sticky top-20 z-40">
         <div className="container-custom">
-          <div className="flex gap-2 overflow-x-auto py-4 scrollbar-hide">
-            {galleryCategories.map((category) => (
-              <button
-                key={category.id}
-                onClick={() => setSelectedCategory(category.id)}
-                className={cn(
-                  "px-6 py-2 rounded-full whitespace-nowrap font-heading font-medium transition-all duration-300 min-h-[44px]",
-                  selectedCategory === category.id
-                    ? "bg-gold-500 text-foreground shadow-md"
-                    : "bg-white text-muted-foreground hover:bg-cream-100 border border-border/30"
-                )}
-              >
-                {category.label}
-              </button>
-            ))}
+          <div className="flex gap-3 overflow-x-auto py-4 scrollbar-hide -mx-6 px-6 md:mx-0 md:px-0">
+            <div className="flex gap-3 min-w-max">
+              {galleryCategories.map((category) => (
+                <button
+                  key={category.id}
+                  onClick={() => setSelectedCategory(category.id)}
+                  className={cn(
+                    "px-5 py-2.5 rounded-full whitespace-nowrap font-heading font-medium transition-all duration-300 min-h-[44px] flex-shrink-0 touch-manipulation",
+                    "text-sm md:text-base",
+                    selectedCategory === category.id
+                      ? "bg-gold-500 text-foreground shadow-md scale-105"
+                      : "bg-white text-muted-foreground hover:bg-cream-100 active:bg-cream-200 border border-border/30"
+                  )}
+                >
+                  {category.label}
+                </button>
+              ))}
+            </div>
           </div>
         </div>
       </section>
@@ -138,7 +144,7 @@ export default function GalleryPage() {
                     />
                   ) : (
                     <Image
-                      src={decodeURIComponent(item.thumbnail || item.src)}
+                      src={item.thumbnail || item.src}
                       alt={item.alt}
                       fill
                       className="object-cover transition-transform duration-500 group-hover:scale-110"
@@ -266,12 +272,16 @@ export default function GalleryPage() {
             {filteredMedia[currentMediaIndex].type === "image" ? (
               <div className="relative w-full h-full flex items-center justify-center">
                 <Image
-                  src={decodeURIComponent(filteredMedia[currentMediaIndex].src)}
+                  src={filteredMedia[currentMediaIndex].src}
                   alt={filteredMedia[currentMediaIndex].alt}
                   width={1200}
                   height={800}
                   className="max-w-full max-h-[80vh] object-contain rounded-lg"
                   priority
+                  onError={(e) => {
+                    console.error('Lightbox image failed to load:', filteredMedia[currentMediaIndex].src)
+                    e.currentTarget.style.display = 'none'
+                  }}
                 />
               </div>
             ) : (

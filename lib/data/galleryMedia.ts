@@ -77,8 +77,8 @@ export const galleryMedia: MediaItem[] = [
   {
     id: 'image-0821',
     type: 'image',
-    src: '/media/images/IMG_0821%202.JPG',
-    thumbnail: '/media/images/IMG_0821%202.JPG',
+    src: '/media/images/IMG_0821 2.JPG',
+    thumbnail: '/media/images/IMG_0821 2.JPG',
     alt: 'Signature dish presentation at Chez Amis',
     category: 'signature-dishes',
     title: 'Signature Dish',
@@ -87,8 +87,8 @@ export const galleryMedia: MediaItem[] = [
   {
     id: 'image-0822',
     type: 'image',
-    src: '/media/images/IMG_0822%202.JPG',
-    thumbnail: '/media/images/IMG_0822%202.JPG',
+    src: '/media/images/IMG_0822 2.JPG',
+    thumbnail: '/media/images/IMG_0822 2.JPG',
     alt: 'Chef special preparation',
     category: 'signature-dishes',
     title: 'Chef Special',

@@ -85,7 +85,7 @@ export function FeaturedGallerySection() {
                   </>
                 ) : (
                   <Image
-                    src={decodeURIComponent(item.src)}
+                    src={item.src}
                     alt={item.alt}
                     fill
                     sizes="(max-width: 768px) 50vw, 25vw"
@@ -160,11 +160,15 @@ export function FeaturedGallerySection() {
               // Display Image
               <div className="relative w-full h-full flex items-center justify-center">
                 <Image
-                  src={decodeURIComponent(selectedMedia.src)}
+                  src={selectedMedia.src}
                   alt={selectedMedia.alt}
                   width={1200}
                   height={800}
                   className="max-w-full max-h-[80vh] w-auto h-auto object-contain rounded-lg"
+                  onError={(e) => {
+                    console.error('Featured modal image failed to load:', selectedMedia.src)
+                    e.currentTarget.style.display = 'none'
+                  }}
                 />
               </div>
             ) : (
