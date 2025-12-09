@@ -1,7 +1,7 @@
 "use client"
 
 import Link from "next/link"
-import { Phone, MapPin, MessageCircle } from "lucide-react"
+import { Phone, MapPin } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 
