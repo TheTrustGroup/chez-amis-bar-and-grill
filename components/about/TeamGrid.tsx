@@ -22,7 +22,7 @@ const teamMembers: TeamMember[] = [
     role: "Chez Amis",
     bio: "Trained in Paris under Michelin-starred chefs, Chef Chez Amis brings over 20 years of culinary excellence to Chez Amis Restaurant. Her innovative approach to combining French techniques with local Ghanaian flavors has earned her recognition as one of Accra's most celebrated chefs.",
     specialty: "Ivorian - Ghanaian fusion",
-    image: "/images/team/head-chef.jpg",
+    image: "/media/images/IMG_8209.jpg",
   },
   {
     id: "2",
