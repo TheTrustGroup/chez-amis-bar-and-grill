@@ -73,6 +73,68 @@ export const galleryMedia: MediaItem[] = [
     description: 'Additional behind-the-scenes content from our kitchen',
   },
   
+  // New Videos - Recently Uploaded
+  {
+    id: 'video-new-1',
+    type: 'video',
+    src: '/media/videos/12-09-2025 00-43-33_1.mov',
+    thumbnail: '/media/videos/12-09-2025 00-43-33_1.mov',
+    alt: 'Culinary showcase at Chez Amis',
+    category: 'signature-dishes',
+    title: 'Signature Dish Showcase',
+    description: 'Experience our signature dishes in action',
+  },
+  {
+    id: 'video-new-2',
+    type: 'video',
+    src: '/media/videos/12-09-2025 00-44-04_1.mov',
+    thumbnail: '/media/videos/12-09-2025 00-44-04_1.mov',
+    alt: 'Grill specialties preparation',
+    category: 'grill-specialties',
+    title: 'From the Grill',
+    description: 'Watch our grill masters create perfection',
+  },
+  {
+    id: 'video-new-3',
+    type: 'video',
+    src: '/media/videos/12-09-2025 00-46-49_1.mov',
+    thumbnail: '/media/videos/12-09-2025 00-46-49_1.mov',
+    alt: 'Restaurant ambiance and atmosphere',
+    category: 'restaurant-ambiance',
+    title: 'Restaurant Ambiance',
+    description: 'Immerse yourself in our warm and inviting atmosphere',
+  },
+  {
+    id: 'video-new-4',
+    type: 'video',
+    src: '/media/videos/12-09-2025 00-46-49_1 2.mov',
+    thumbnail: '/media/videos/12-09-2025 00-46-49_1 2.mov',
+    alt: 'Behind the scenes kitchen action',
+    category: 'behind-scenes',
+    title: 'Kitchen in Action',
+    description: 'A glimpse into our bustling kitchen',
+  },
+  {
+    id: 'video-new-5',
+    type: 'video',
+    src: '/media/videos/12-09-2025 00-46-49_1 3.mov',
+    thumbnail: '/media/videos/12-09-2025 00-46-49_1 3.mov',
+    alt: 'Special event at Chez Amis',
+    category: 'events',
+    title: 'Special Events',
+    description: 'Celebrating special moments at Chez Amis',
+  },
+  {
+    id: 'video-new-6',
+    type: 'video',
+    src: '/media/videos/12-09-2025 01-03-49_1.mov',
+    thumbnail: '/media/videos/12-09-2025 01-03-49_1.mov',
+    alt: 'Culinary excellence showcase',
+    category: 'signature-dishes',
+    title: 'Culinary Excellence',
+    description: 'Showcasing our commitment to culinary perfection',
+  },
+  
   // Uploaded Images - Signature Dishes
   {
     id: 'image-0821',
@@ -153,6 +215,17 @@ export const galleryMedia: MediaItem[] = [
     category: 'grill-specialties',
     title: 'Grill Masterpiece',
     description: 'A masterpiece from our grill, cooked to perfection',
+  },
+  // New Image - Recently Uploaded
+  {
+    id: 'image-8209',
+    type: 'image',
+    src: '/media/images/IMG_8209.jpg',
+    thumbnail: '/media/images/IMG_8209.jpg',
+    alt: 'Chez Amis culinary presentation',
+    category: 'signature-dishes',
+    title: 'Culinary Presentation',
+    description: 'A beautifully crafted dish showcasing our culinary artistry',
   },
 ]
 
