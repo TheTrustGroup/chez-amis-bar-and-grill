@@ -2,9 +2,10 @@
 
 import { useState, useEffect } from "react"
 import Link from "next/link"
+import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Clock, CheckCircle2, Truck, Package, XCircle, RefreshCw, AlertCircle, UtensilsCrossed } from "lucide-react"
+import { Clock, CheckCircle2, Truck, Package, XCircle, RefreshCw, AlertCircle, UtensilsCrossed, LogOut } from "lucide-react"
 import { cn } from "@/lib/utils"
 
 interface Order {
@@ -55,11 +56,22 @@ interface OrdersCount {
 }
 
 export default function AdminOrdersPage() {
+  const router = useRouter()
   const [orders, setOrders] = useState<Order[]>([])
   const [counts, setCounts] = useState<OrdersCount | null>(null)
   const [selectedStatus, setSelectedStatus] = useState<string | null>(null)
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+
+  const handleLogout = async () => {
+    try {
+      await fetch('/api/admin/logout', { method: 'POST' })
+      router.push('/admin/login')
+    } catch (err) {
+      console.error('Logout error:', err)
+      router.push('/admin/login')
+    }
+  }
 
   const fetchOrders = async (status?: string) => {
     setIsLoading(true)
@@ -194,6 +206,14 @@ export default function AdminOrdersPage() {
                 Update Status
               </Button>
             </Link>
+            <Button
+              onClick={handleLogout}
+              variant="outline"
+              className="font-heading font-light"
+            >
+              <LogOut className="w-4 h-4 mr-2" />
+              Logout
+            </Button>
           </div>
         </div>
 

@@ -1,17 +1,18 @@
 "use client"
 
 import { useState, useEffect, Suspense } from "react"
-import { useSearchParams } from "next/navigation"
+import { useSearchParams, useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { CheckCircle2, Clock, Truck, Package, XCircle, AlertCircle } from "lucide-react"
+import { CheckCircle2, Clock, Truck, Package, XCircle, AlertCircle, LogOut } from "lucide-react"
 
 type OrderStatus = "preparing" | "ready" | "out-for-delivery" | "delivered" | "cancelled"
 type OrderType = "dine-in" | "takeaway" | "delivery"
 
 function OrderStatusPageContent() {
+  const router = useRouter()
   const searchParams = useSearchParams()
   const [orderId, setOrderId] = useState("")
   const [status, setStatus] = useState<OrderStatus>("preparing")
