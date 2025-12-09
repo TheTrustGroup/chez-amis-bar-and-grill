@@ -135,23 +135,23 @@ export default function ContactPage() {
         </div>
       </section>
 
-      {/* Bottom CTA Section */}
+      {/* Bottom CTA Section - Simplified, no duplicate buttons */}
       <section className="section-padding bg-background">
         <div className="container-custom">
-          <div className="max-w-3xl mx-auto text-center space-y-8">
+          <div className="max-w-3xl mx-auto text-center space-y-6 md:space-y-8">
             <div>
-              <h2 className="text-3xl md:text-4xl font-display font-light text-foreground mb-4">
+              <h2 className="text-2xl md:text-3xl lg:text-4xl font-display font-light text-foreground mb-3 md:mb-4">
                 Prefer to Speak With Us?
               </h2>
-              <p className="text-lg text-muted-foreground font-body font-light">
+              <p className="text-base md:text-lg text-muted-foreground font-body font-light">
                 We&apos;re just a call or message away
               </p>
             </div>
 
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <div className="flex flex-col sm:flex-row gap-3 md:gap-4 justify-center">
               <a
                 href="tel:+233243952339"
-                className="flex items-center justify-center gap-3 px-8 py-6 rounded-lg border-2 border-gold-500/60 text-foreground hover:bg-gold-500/10 transition-all font-heading font-light tracking-wide text-lg"
+                className="flex items-center justify-center gap-3 px-6 md:px-8 py-4 md:py-6 rounded-lg border-2 border-gold-500/60 text-foreground hover:bg-gold-500/10 transition-all font-heading font-light tracking-wide text-base md:text-lg min-h-[48px] md:min-h-[56px]"
               >
                 <Phone className="h-5 w-5" />
                 Call Us
@@ -160,14 +160,14 @@ export default function ContactPage() {
                 href="https://wa.me/233243952339"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center justify-center gap-3 px-8 py-6 rounded-lg border-2 border-gold-500/60 text-foreground hover:bg-gold-500/10 transition-all font-heading font-light tracking-wide text-lg"
+                className="flex items-center justify-center gap-3 px-6 md:px-8 py-4 md:py-6 rounded-lg border-2 border-gold-500/60 text-foreground hover:bg-gold-500/10 transition-all font-heading font-light tracking-wide text-base md:text-lg min-h-[48px] md:min-h-[56px]"
               >
                 <MessageCircle className="h-5 w-5" />
                 WhatsApp
               </a>
             </div>
 
-            <p className="text-base text-muted-foreground font-body font-light italic pt-4 border-t border-border/30">
+            <p className="text-sm md:text-base text-muted-foreground font-body font-light italic pt-4 border-t border-border/30">
               Your satisfaction is our priority
             </p>
           </div>
