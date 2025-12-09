@@ -199,9 +199,9 @@ export function HeroSection() {
             style={{ animationDelay: "0.6s" }}
           >
             <p className="text-xs sm:text-sm md:text-base text-gray-300 text-center leading-relaxed">
-              <span className="block sm:inline">Walk-ins welcome</span>
-              <span className="hidden sm:inline"> | </span>
-              <span className="block sm:inline mt-1 sm:mt-0">We&apos;re now open 24/7</span>
+              <span className="inline">Walk-ins welcome</span>
+              <span className="inline"> | </span>
+              <span className="inline">We&apos;re now open 24/7</span>
             </p>
           </div>
 
