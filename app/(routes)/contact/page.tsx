@@ -22,9 +22,6 @@ export default function ContactPage() {
             className="object-cover"
             priority
           /> */}
-          <div className="absolute inset-0 flex items-center justify-center text-cream-200/20 font-display text-4xl">
-            Warm Restaurant Interior
-          </div>
         </div>
         <div className="absolute inset-0 bg-black/40"></div>
         <div className="relative z-10 text-center px-6">
