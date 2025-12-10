@@ -85,13 +85,14 @@ export function TestimonialsCarousel() {
   return (
     <section className="section-padding bg-cream-50" aria-labelledby="testimonials-heading">
       <div className="container-custom">
-        <div className="text-center mb-16 md:mb-20">
+        <div className="text-center mb-12 md:mb-16">
           <h2
             id="testimonials-heading"
             className="text-4xl md:text-5xl lg:text-6xl font-display font-light text-foreground mb-4"
           >
             Guest Testimonials
           </h2>
+          <div className="w-20 h-px bg-gold-500 mx-auto mb-6"></div>
         </div>
 
         {/* Carousel Container */}

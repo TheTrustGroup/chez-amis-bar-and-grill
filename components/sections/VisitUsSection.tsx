@@ -40,12 +40,15 @@ export function VisitUsSection() {
 
           {/* Right: Contact Information */}
           <div className="space-y-8 md:space-y-10">
-            <h2
-              id="visit-heading"
-              className="text-4xl md:text-5xl lg:text-6xl font-display font-light text-foreground"
-            >
-              We&apos;re Ready to Welcome You
-            </h2>
+            <div>
+              <h2
+                id="visit-heading"
+                className="text-4xl md:text-5xl lg:text-6xl font-display font-light text-foreground mb-4"
+              >
+                We&apos;re Ready to Welcome You
+              </h2>
+              <div className="w-20 h-px bg-gold-500 mb-6"></div>
+            </div>
 
             <div className="space-y-6 md:space-y-8">
               {/* Address */}
@@ -92,8 +95,7 @@ export function VisitUsSection() {
                     Hours
                   </h3>
                   <p className="text-base md:text-lg text-muted-foreground font-body font-light leading-relaxed">
-                    Monday - Sunday<br />
-                    9:30 AM - 12:00 AM
+                    We&apos;re Open 24/7
                   </p>
                 </div>
               </div>

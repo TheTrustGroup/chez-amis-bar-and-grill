@@ -9,34 +9,23 @@ export function PrivateEventsSection() {
     <section className="relative min-h-[500px] md:min-h-[600px] flex items-center justify-center overflow-hidden" aria-labelledby="private-events-heading">
       {/* Background Image */}
       <div className="absolute inset-0 z-0">
-        <div className="absolute inset-0 bg-gradient-to-br from-charcoal-950 via-charcoal-900 to-burgundy-900">
-          {/* In production, use Next.js Image */}
-          {/* <Image
-            src="/images/private-dining-room.jpg"
-            alt="Private dining room"
-            fill
-            className="object-cover"
-          /> */}
-          <div className="absolute inset-0 flex items-center justify-center text-cream-200/20 font-display text-4xl">
-            Private Dining Room
-          </div>
-        </div>
+        <div className="absolute inset-0 bg-gradient-to-br from-charcoal-950 via-charcoal-900 to-burgundy-900"></div>
         {/* Dark overlay */}
-        <div className="absolute inset-0 bg-black/50"></div>
+        <div className="absolute inset-0 bg-black/40"></div>
       </div>
 
       {/* Centered Content Box */}
       <div className="relative z-10 container-custom">
         <div className="max-w-3xl mx-auto">
-          <div className="bg-black/60 backdrop-blur-md rounded-lg p-8 md:p-12 lg:p-16 border border-cream-200/10">
+          <div className="bg-black/50 backdrop-blur-md rounded-lg p-8 md:p-12 lg:p-16 border border-cream-200/10">
             <h2
               id="private-events-heading"
-              className="text-3xl md:text-4xl lg:text-5xl font-display font-light text-cream-100 mb-6 md:mb-8 text-center"
+              className="text-3xl md:text-4xl lg:text-5xl font-display font-light text-cream-100 mb-4 md:mb-6 text-center"
             >
               Host Your Special Occasion
             </h2>
-
-            <p className="text-lg md:text-xl text-cream-200/90 font-body font-light leading-relaxed text-center mb-10 md:mb-12 max-w-2xl mx-auto">
+            <div className="w-20 h-px bg-gold-500 mx-auto mb-6 md:mb-8"></div>
+            <p className="text-lg md:text-xl text-cream-200/90 font-body font-light leading-relaxed text-center mb-8 md:mb-10 max-w-2xl mx-auto">
               From intimate dinners to grand celebrations, our private spaces accommodate 10-100 guests. Let us create an unforgettable experience tailored to your vision.
             </p>
 
