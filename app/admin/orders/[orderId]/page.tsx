@@ -43,6 +43,8 @@ export default function OrderDetailsPage() {
   const orderId = params.orderId as string;
   const [order, setOrder] = useState<Order | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [isUpdating, setIsUpdating] = useState(false);
+  const [updateMessage, setUpdateMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
 
   const fetchOrderDetails = async () => {
     try {
@@ -63,24 +65,56 @@ export default function OrderDetailsPage() {
 
   useEffect(() => {
     fetchOrderDetails();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [orderId]);
 
   const updateStatus = async (newStatus: string) => {
+    if (!order) return;
+    
+    setIsUpdating(true);
+    setUpdateMessage(null);
+
     try {
       const response = await fetch(`/api/orders/${orderId}/status`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ status: newStatus }),
+        body: JSON.stringify({
+          status: newStatus,
+          customerPhone: order.customer.phone,
+          customerName: order.customer.fullName,
+          customerEmail: order.customer.email,
+          orderType: order.orderType,
+          estimatedTime: newStatus === 'out-for-delivery' ? '30-40 minutes' : undefined,
+        }),
       });
 
+      const data = await response.json();
+
       if (response.ok) {
+        setUpdateMessage({
+          type: 'success',
+          text: `Order status updated to ${newStatus}. ${data.notification?.email?.sent ? 'Email sent.' : ''} ${data.notification?.sms?.sent ? 'SMS sent.' : ''}`,
+        });
         // Refresh order details
-        fetchOrderDetails();
+        await fetchOrderDetails();
+        // Clear message after 5 seconds
+        setTimeout(() => setUpdateMessage(null), 5000);
+      } else {
+        setUpdateMessage({
+          type: 'error',
+          text: data.error || 'Failed to update order status',
+        });
       }
     } catch (error) {
       console.error('Error updating order status:', error);
+      setUpdateMessage({
+        type: 'error',
+        text: 'Failed to update order status. Please try again.',
+      });
+    } finally {
+      setIsUpdating(false);
     }
   };
 
@@ -142,20 +176,45 @@ export default function OrderDetailsPage() {
           {/* Status Update */}
           <div className="bg-white rounded-lg shadow p-6">
             <h2 className="text-lg font-semibold text-gray-900 mb-4">Update Status</h2>
+            
+            {/* Status Update Message */}
+            {updateMessage && (
+              <div className={`mb-4 p-3 rounded-md ${
+                updateMessage.type === 'success' 
+                  ? 'bg-green-50 border border-green-200 text-green-800' 
+                  : 'bg-red-50 border border-red-200 text-red-800'
+              }`}>
+                <p className="text-sm">{updateMessage.text}</p>
+              </div>
+            )}
+
             <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
               {['pending', 'preparing', 'ready', 'out-for-delivery', 'delivered', 'cancelled'].map((status) => (
                 <button
                   key={status}
                   onClick={() => updateStatus(status)}
+                  disabled={isUpdating || order.status === status}
                   className={`px-4 py-2 border-2 rounded-md font-medium capitalize transition-colors ${
                     order.status === status
-                      ? 'border-amber-500 bg-amber-50 text-amber-700'
+                      ? 'border-amber-500 bg-amber-50 text-amber-700 cursor-default'
+                      : isUpdating
+                      ? 'border-gray-200 text-gray-400 cursor-not-allowed'
                       : 'border-gray-200 hover:border-amber-500 hover:bg-amber-50'
                   }`}
                 >
                   {status.replace('-', ' ')}
                 </button>
               ))}
+            </div>
+            
+            {/* Notification Info */}
+            <div className="mt-4 p-3 bg-blue-50 border border-blue-200 rounded-md">
+              <p className="text-xs text-blue-800">
+                <strong>Note:</strong> Customers will receive email and SMS notifications when status changes to:
+                <br />• <strong>Preparing</strong> - Email notification
+                <br />• <strong>Ready</strong> - Email + SMS (for takeaway/delivery)
+                <br />• <strong>Out for Delivery</strong> - Email + SMS (for delivery orders)
+              </p>
             </div>
           </div>
 

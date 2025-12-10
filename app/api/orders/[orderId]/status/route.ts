@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { sendOrderReadyNotification, sendOrderOutForDeliveryNotification } from '@/lib/services/notification.service'
 import { updateOrderStatus } from '@/lib/services/order-storage'
 import { sendEmail } from '@/lib/services/email.service'
+import { sendSMS } from '@/lib/services/sms.service'
 
 export interface OrderStatusUpdateRequest {
   status: 'preparing' | 'ready' | 'out-for-delivery' | 'delivered' | 'cancelled'
@@ -72,8 +73,8 @@ export async function POST(
         case 'preparing':
           // Send "order in progress" notification (Email + SMS)
           if (updateData.customerEmail) {
-            try {
-              await sendEmail({
+            const [emailResult, smsResult] = await Promise.allSettled([
+              sendEmail({
                 to: updateData.customerEmail,
                 subject: `Order In Progress #${orderId} - Chez Amis Bar and Grill`,
                 template: 'order-in-progress',
@@ -83,11 +84,21 @@ export async function POST(
                   orderType: updateData.orderType,
                   status: 'preparing',
                 },
-              })
-              results.notification.email.sent = true
-            } catch (emailError) {
-              results.notification.email.error = emailError instanceof Error ? emailError.message : 'Unknown error'
-            }
+              }),
+              sendSMS({
+                to: updateData.customerPhone,
+                template: 'order-in-progress',
+                data: {
+                  orderId,
+                  customerName: updateData.customerName,
+                  orderType: updateData.orderType,
+                },
+              }),
+            ])
+            results.notification.email.sent = emailResult.status === 'fulfilled'
+            results.notification.email.error = emailResult.status === 'rejected' ? (emailResult.reason as Error).message : null
+            results.notification.sms.sent = smsResult.status === 'fulfilled'
+            results.notification.sms.error = smsResult.status === 'rejected' ? (smsResult.reason as Error).message : null
           }
           results.notificationType = 'order-in-progress'
           break

@@ -62,6 +62,15 @@ export function getReservationConfirmationSMS(reservationData: ReservationData):
 }
 
 /**
+ * Order In Progress SMS
+ */
+export function getOrderInProgressSMS(data: { orderId: string; customerName: string; orderType: 'dine-in' | 'takeaway' | 'delivery' }): string {
+  const firstName = data.customerName.split(' ')[0]
+
+  return `Hi ${firstName}! Your order #${data.orderId} is being prepared at ${RESTAURANT_NAME}. We'll notify you when it's ready!`
+}
+
+/**
  * Order Ready for Pickup SMS
  */
 export function getOrderReadySMS(data: { orderId: string; customerName: string; orderType: 'takeaway' | 'delivery' }): string {

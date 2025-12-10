@@ -75,6 +75,7 @@ export type EmailTemplate =
 export type SMSTemplate =
   | 'order-confirmation'
   | 'reservation-confirmation'
+  | 'order-in-progress'
   | 'order-ready'
   | 'order-out-for-delivery'
   | 'reservation-reminder'

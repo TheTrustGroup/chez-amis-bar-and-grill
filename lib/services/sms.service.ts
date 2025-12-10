@@ -7,6 +7,7 @@ import type { SMSTemplate, OrderData, ReservationData } from '@/lib/types/notifi
 import {
   getOrderConfirmationSMS,
   getReservationConfirmationSMS,
+  getOrderInProgressSMS,
   getOrderReadySMS,
   getOrderOutForDeliverySMS,
   getReservationReminderSMS,
@@ -17,7 +18,7 @@ import {
 interface OrderStatusUpdateData {
   orderId: string
   customerName: string
-  orderType?: 'takeaway' | 'delivery'
+  orderType?: 'dine-in' | 'takeaway' | 'delivery'
   estimatedTime?: string
 }
 
@@ -75,6 +76,13 @@ export async function sendSMS({ to, template, data }: SendSMSParams): Promise<vo
         break
       case 'reservation-confirmation':
         message = getReservationConfirmationSMS(data as ReservationData)
+        break
+      case 'order-in-progress':
+        message = getOrderInProgressSMS({
+          orderId: (data as any).orderId,
+          customerName: (data as any).customerName,
+          orderType: (data as any).orderType || 'takeaway'
+        } as { orderId: string; customerName: string; orderType: 'dine-in' | 'takeaway' | 'delivery' })
         break
       case 'order-ready':
         message = getOrderReadySMS({
