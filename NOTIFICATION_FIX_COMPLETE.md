@@ -174,3 +174,4 @@ ADMIN_PHONE=+233502432037
 
 The notification error is fixed. Ensure environment variables are set for notifications to be sent.
 
+

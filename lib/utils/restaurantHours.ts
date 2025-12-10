@@ -54,3 +54,4 @@ export function getRestaurantStatus(): { text: string; isOpen: boolean; color: s
   }
 }
 
+

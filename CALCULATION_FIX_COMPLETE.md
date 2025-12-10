@@ -236,3 +236,4 @@ Total:           GH₵ 138.00
 
 **Result:** All subtotal and total calculations are now accurate, consistent, and order-type-aware across the entire order flow.
 
+

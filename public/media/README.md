@@ -102,3 +102,4 @@ This directory contains all media assets for the Chez Amis Bar and Grill website
 5. Verify mobile responsiveness
 6. Check loading performance
 
+

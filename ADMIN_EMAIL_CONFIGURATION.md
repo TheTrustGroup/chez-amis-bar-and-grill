@@ -154,3 +154,4 @@ ADMIN_PHONE=+1234567890
 
 **Result:** Every order and reservation placed on the website will automatically send an email notification to `chez@chezamisrestaurant.com` with complete details.
 
+

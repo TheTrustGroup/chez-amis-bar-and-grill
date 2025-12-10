@@ -105,3 +105,4 @@ Your `.env.local` file is configured. The email service will work when you:
 
 **Status:** ✅ Email confirmations are ready to use!
 
+
