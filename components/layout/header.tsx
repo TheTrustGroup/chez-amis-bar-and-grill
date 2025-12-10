@@ -225,21 +225,52 @@ export function Header() {
                 variant="ghost"
                 size="icon"
                 className={cn(
-                  "lg:hidden transition-colors duration-300 min-h-[44px] min-w-[44px]",
+                  "lg:hidden relative",
+                  "min-h-[44px] min-w-[44px]",
+                  "transition-all duration-200 ease-out",
+                  "active:scale-95",
+                  "will-change-transform",
                   isScrolled
-                    ? "text-foreground hover:bg-muted"
-                    : "text-white hover:bg-white/10"
+                    ? "text-foreground hover:bg-muted active:bg-muted/80"
+                    : "text-white hover:bg-white/10 active:bg-white/20"
                 )}
+                style={{
+                  transform: "translateZ(0)",
+                  WebkitTransform: "translateZ(0)",
+                }}
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
                 aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
                 aria-expanded={isMobileMenuOpen}
                 aria-controls="mobile-menu"
               >
-                {isMobileMenuOpen ? (
-                  <X className="h-6 w-6" aria-hidden="true" />
-                ) : (
-                  <Menu className="h-6 w-6" aria-hidden="true" />
-                )}
+                <span className="relative inline-flex items-center justify-center w-6 h-6">
+                  <span
+                    className={cn(
+                      "absolute inset-0 flex items-center justify-center transition-all duration-200 ease-out",
+                      "will-change-transform",
+                      isMobileMenuOpen ? "opacity-0 rotate-90 scale-0" : "opacity-100 rotate-0 scale-100"
+                    )}
+                    style={{
+                      transform: "translateZ(0)",
+                      WebkitTransform: "translateZ(0)",
+                    }}
+                  >
+                    <Menu className="h-6 w-6" aria-hidden="true" />
+                  </span>
+                  <span
+                    className={cn(
+                      "absolute inset-0 flex items-center justify-center transition-all duration-200 ease-out",
+                      "will-change-transform",
+                      isMobileMenuOpen ? "opacity-100 rotate-0 scale-100" : "opacity-0 -rotate-90 scale-0"
+                    )}
+                    style={{
+                      transform: "translateZ(0)",
+                      WebkitTransform: "translateZ(0)",
+                    }}
+                  >
+                    <X className="h-6 w-6" aria-hidden="true" />
+                  </span>
+                </span>
               </Button>
             </div>
           </div>
