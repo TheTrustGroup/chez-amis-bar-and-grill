@@ -15,15 +15,15 @@ export function MapSection() {
     <section className="section-padding bg-cream-50" aria-labelledby="location-heading">
       <div className="container-custom">
         {/* Section Header */}
-        <div className="text-center mb-12 md:mb-16">
+        <div className="text-center mb-10 md:mb-12">
           <h2
             id="location-heading"
-            className="text-4xl md:text-5xl lg:text-6xl font-display font-light text-foreground mb-4"
+            className="text-3xl md:text-4xl lg:text-5xl font-display font-light text-foreground mb-3"
           >
             Visit Us
           </h2>
-          <div className="w-24 h-px bg-gold-500 mx-auto mb-4" />
-          <p className="text-lg md:text-xl text-muted-foreground font-body font-light max-w-2xl mx-auto">
+          <div className="w-20 h-px bg-gold-500 mx-auto mb-4" />
+          <p className="text-base md:text-lg text-muted-foreground font-body font-light max-w-2xl mx-auto">
             Experience exceptional dining in the heart of Accra
           </p>
         </div>

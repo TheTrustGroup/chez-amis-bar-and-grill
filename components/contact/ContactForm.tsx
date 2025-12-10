@@ -92,8 +92,8 @@ export function ContactForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <form onSubmit={handleSubmit} className="space-y-5 md:space-y-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-6">
         <div>
           <Label htmlFor="name" className="font-heading font-light text-foreground mb-2 block">
             Your Name
@@ -166,22 +166,22 @@ export function ContactForm() {
           id="message"
           value={formData.message}
           onChange={(e) => handleFieldChange("message", e.target.value)}
-          className="border-border/50 focus:border-gold-500/50 min-h-[150px]"
+          className="border-border/50 focus:border-gold-500/50 min-h-[140px] md:min-h-[150px] resize-none"
           placeholder="Tell us how we can help you..."
           required
         />
       </div>
 
-      <div className="pt-4">
+      <div className="pt-2">
         <Button
           type="submit"
           disabled={isSubmitting}
           size="lg"
-          className="w-full font-heading font-light tracking-wide bg-foreground text-background hover:bg-foreground/90 text-lg px-8 py-7"
+          className="w-full font-heading font-light tracking-wide bg-foreground text-background hover:bg-foreground/90 min-h-[48px] md:min-h-[52px] text-base md:text-lg"
         >
           {isSubmitting ? "Sending..." : "Send Message"}
         </Button>
-        <p className="mt-4 text-sm text-muted-foreground font-body font-light text-center">
+        <p className="mt-3 text-xs md:text-sm text-muted-foreground font-body font-light text-center">
           We typically respond within 24 hours
         </p>
       </div>
