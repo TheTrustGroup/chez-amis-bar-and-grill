@@ -28,10 +28,6 @@ const nextConfig = {
     // Enable image optimization for local files
     dangerouslyAllowSVG: true,
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
-    // Optimize image loading
-    loader: 'default',
-    // Enable quality optimization
-    quality: 85,
   },
   // Production optimizations
   compress: true,
