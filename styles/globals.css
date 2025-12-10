@@ -98,6 +98,15 @@
     overflow-x: hidden;
     max-width: 100vw;
   }
+
+  /* Prevent body scroll when mobile menu is open */
+  body.menu-open {
+    overflow: hidden !important;
+    position: fixed !important;
+    width: 100% !important;
+    height: 100% !important;
+    touch-action: none !important;
+  }
   
   /* Mobile touch optimization */
   button, a, input, select, textarea {

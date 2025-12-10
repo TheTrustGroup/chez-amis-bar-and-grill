@@ -42,7 +42,7 @@ export function BottomNavigation() {
 
   return (
     <nav
-      className="fixed bottom-0 left-0 right-0 z-50 bg-cream-100 border-t border-cream-200 shadow-lg lg:hidden safe-area-bottom"
+      className="fixed bottom-0 left-0 right-0 z-[90] bg-cream-100 border-t border-cream-200 shadow-lg lg:hidden safe-area-bottom"
       role="navigation"
       aria-label="Bottom navigation"
     >

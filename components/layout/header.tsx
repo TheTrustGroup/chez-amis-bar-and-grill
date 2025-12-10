@@ -36,12 +36,30 @@ export function Header() {
   // Prevent body scroll when mobile menu is open
   useEffect(() => {
     if (isMobileMenuOpen) {
-      document.body.style.overflow = "hidden"
+      // Store current scroll position
+      const scrollY = window.scrollY
+      // Add class to body
+      document.body.classList.add("menu-open")
+      // Prevent body scroll and maintain scroll position
+      document.body.style.top = `-${scrollY}px`
+      // Prevent iOS bounce scroll
+      document.body.style.touchAction = "none"
     } else {
-      document.body.style.overflow = "unset"
+      // Remove class from body
+      document.body.classList.remove("menu-open")
+      // Restore scroll position
+      const scrollY = document.body.style.top
+      document.body.style.top = ""
+      document.body.style.touchAction = ""
+      if (scrollY) {
+        window.scrollTo(0, parseInt(scrollY || "0") * -1)
+      }
     }
     return () => {
-      document.body.style.overflow = "unset"
+      // Cleanup
+      document.body.classList.remove("menu-open")
+      document.body.style.top = ""
+      document.body.style.touchAction = ""
     }
   }, [isMobileMenuOpen])
 
@@ -84,7 +102,7 @@ export function Header() {
       {/* Main Header */}
       <header
         className={cn(
-          "fixed top-0 left-0 right-0 z-50 w-full transition-all duration-300",
+          "fixed top-0 left-0 right-0 z-[100] w-full transition-all duration-300",
           "h-20 md:h-24",
           isScrolled
             ? "bg-white/90 backdrop-blur-md shadow-md"
@@ -281,7 +299,7 @@ export function Header() {
           <>
             {/* Backdrop */}
             <div
-              className="fixed inset-0 bg-gray-900/95 backdrop-blur-lg z-40 lg:hidden animate-fade-in"
+              className="fixed inset-0 bg-gray-900/95 backdrop-blur-lg z-[60] lg:hidden"
               onClick={() => setIsMobileMenuOpen(false)}
               aria-hidden="true"
             />
@@ -290,18 +308,24 @@ export function Header() {
             <nav
               id="mobile-menu"
               className={cn(
-                "fixed inset-0 bg-gray-900/95 backdrop-blur-lg z-50 lg:hidden",
+                "fixed inset-0 bg-gray-900/95 backdrop-blur-lg z-[70] lg:hidden",
                 "flex flex-col items-center justify-center",
+                "overflow-y-auto overscroll-contain",
+                "-webkit-overflow-scrolling: touch",
                 "animate-fade-in"
               )}
               role="navigation"
               aria-label="Mobile navigation"
+              style={{
+                WebkitOverflowScrolling: "touch",
+                overscrollBehavior: "contain",
+              }}
             >
               {/* Close Button - Top Right */}
               <Button
                 variant="ghost"
                 size="icon"
-                className="absolute top-6 right-6 text-white hover:bg-white/10 transition-colors min-h-[44px] min-w-[44px]"
+                className="absolute top-4 right-4 md:top-6 md:right-6 text-white hover:bg-white/10 active:bg-white/20 transition-colors min-h-[44px] min-w-[44px] z-10 touch-manipulation"
                 onClick={() => setIsMobileMenuOpen(false)}
                 aria-label="Close menu"
               >
@@ -309,7 +333,7 @@ export function Header() {
               </Button>
 
               {/* Centered Navigation Links */}
-              <div className="flex flex-col items-center gap-8 md:gap-12 px-6">
+              <div className="flex flex-col items-center gap-6 md:gap-8 px-6 py-20 w-full max-w-md mx-auto">
                 {navItems.map((item, index) => {
                   const isActive = pathname === item.href || (item.href === "/" && pathname === "/")
                   return (
@@ -341,7 +365,7 @@ export function Header() {
                 })}
 
                 {/* Mobile Actions */}
-                <div className="flex flex-col items-center gap-4 mt-8 pt-8 border-t border-white/10 w-full max-w-xs">
+                <div className="flex flex-col items-center gap-4 mt-6 pt-6 border-t border-white/10 w-full max-w-xs">
                   {/* Your Selection */}
                   <Link
                     href="/order-summary"
