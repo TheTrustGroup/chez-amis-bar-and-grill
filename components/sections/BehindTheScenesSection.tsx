@@ -7,11 +7,11 @@ export function BehindTheScenesSection() {
   return (
     <section className="section-padding bg-cream-50">
       <div className="container-custom">
-        <div className="text-center mb-12 md:mb-16">
+        <div className="text-center mb-10 md:mb-12">
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-light text-foreground mb-4">
             Behind the Scenes
           </h2>
-          <div className="w-24 h-px bg-gold-500 mx-auto mb-6" />
+          <div className="w-20 h-px bg-gold-500 mx-auto mb-4" />
           <p className="text-lg md:text-xl text-muted-foreground font-body font-light max-w-2xl mx-auto">
             Step into our kitchen and see the passion, precision, and artistry that goes into every dish
           </p>

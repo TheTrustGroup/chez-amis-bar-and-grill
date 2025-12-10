@@ -73,13 +73,14 @@ export function SpaceGallery() {
   return (
     <section className="section-padding bg-cream-50" aria-labelledby="space-heading">
       <div className="container-custom">
-        <div className="text-center mb-16 md:mb-20">
+        <div className="text-center mb-12 md:mb-16">
           <h2
             id="space-heading"
             className="text-4xl md:text-5xl lg:text-6xl font-display font-light text-foreground mb-4"
           >
             Our Space
           </h2>
+          <div className="w-20 h-px bg-gold-500 mx-auto mb-4"></div>
           <p className="text-lg md:text-xl text-muted-foreground font-body font-light max-w-2xl mx-auto">
             Each area thoughtfully designed to create the perfect atmosphere for your dining
             experience
@@ -93,18 +94,7 @@ export function SpaceGallery() {
               className="group relative w-full h-[300px] md:h-[350px] rounded-lg overflow-hidden cursor-pointer"
               onClick={() => openLightbox(space, index)}
             >
-              <div className="absolute inset-0 bg-gradient-to-br from-charcoal-900 via-charcoal-800 to-burgundy-900">
-                {/* In production, use Next.js Image */}
-                {/* <Image
-                  src={space.image}
-                  alt={space.name}
-                  fill
-                  className="object-cover transition-transform duration-500 group-hover:scale-110"
-                /> */}
-                <div className="absolute inset-0 flex items-center justify-center text-cream-200/30 font-display text-xl">
-                  {space.name}
-                </div>
-              </div>
+              <div className="absolute inset-0 bg-gradient-to-br from-charcoal-900 via-charcoal-800 to-burgundy-900"></div>
               {/* Gradient Overlay */}
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
               {/* Content */}
@@ -166,12 +156,7 @@ export function SpaceGallery() {
 
                 {/* Image */}
                 <div className="relative w-full h-[60vh] rounded-lg overflow-hidden mb-4">
-                  <div className="absolute inset-0 bg-gradient-to-br from-charcoal-900 via-charcoal-800 to-burgundy-900">
-                    {/* In production, use Next.js Image */}
-                    <div className="absolute inset-0 flex items-center justify-center text-cream-200/30 font-display text-3xl">
-                      {selectedSpace.name}
-                    </div>
-                  </div>
+                  <div className="absolute inset-0 bg-gradient-to-br from-charcoal-900 via-charcoal-800 to-burgundy-900"></div>
                 </div>
 
                 {/* Caption */}
