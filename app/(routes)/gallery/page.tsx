@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback } from "react"
 import Image from "next/image"
 import Link from "next/link"
-import { X, Play, ChevronLeft, ChevronRight } from "lucide-react"
+import { X, Play, ChevronLeft, ChevronRight, Loader2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { galleryMedia, galleryCategories, type MediaCategory } from "@/lib/data/galleryMedia"
 import { cn } from "@/lib/utils"
@@ -13,6 +13,14 @@ export default function GalleryPage() {
   const [lightboxOpen, setLightboxOpen] = useState(false)
   const [currentMediaIndex, setCurrentMediaIndex] = useState(0)
   const [isMobile, setIsMobile] = useState(false)
+  const [loadingStates, setLoadingStates] = useState<{ [key: string]: boolean }>({})
+  const [errorStates, setErrorStates] = useState<{ [key: string]: boolean }>({})
+  const [videoPosters, setVideoPosters] = useState<{ [key: string]: string }>({})
+
+  const filteredMedia =
+    selectedCategory === "all"
+      ? galleryMedia
+      : galleryMedia.filter((item) => item.category === selectedCategory)
 
   useEffect(() => {
     const checkMobile = () => {
@@ -23,10 +31,67 @@ export default function GalleryPage() {
     return () => window.removeEventListener("resize", checkMobile)
   }, [])
 
-  const filteredMedia =
-    selectedCategory === "all"
-      ? galleryMedia
-      : galleryMedia.filter((item) => item.category === selectedCategory)
+  // Initialize loading states for all media
+  useEffect(() => {
+    const initialLoading: { [key: string]: boolean } = {}
+    filteredMedia.forEach(item => {
+      initialLoading[item.id] = true
+    })
+    setLoadingStates(initialLoading)
+    // Reset error states when category changes
+    setErrorStates({})
+  }, [selectedCategory, filteredMedia.length])
+
+  // Generate video poster from first frame
+  const generateVideoPoster = useCallback((videoSrc: string, videoId: string) => {
+    try {
+      const video = document.createElement('video')
+      video.src = videoSrc
+      video.crossOrigin = 'anonymous'
+      video.preload = 'metadata'
+      video.muted = true
+      
+      const handleLoadedMetadata = () => {
+        video.currentTime = 0.5 // Seek to 0.5 seconds for better thumbnail
+      }
+      
+      const handleSeeked = () => {
+        try {
+          const canvas = document.createElement('canvas')
+          canvas.width = video.videoWidth || 800
+          canvas.height = video.videoHeight || 600
+          const ctx = canvas.getContext('2d')
+          if (ctx) {
+            ctx.drawImage(video, 0, 0, canvas.width, canvas.height)
+            const posterUrl = canvas.toDataURL('image/jpeg', 0.85)
+            setVideoPosters(prev => ({ ...prev, [videoId]: posterUrl }))
+            setLoadingStates(prev => ({ ...prev, [videoId]: false }))
+          }
+        } catch (error) {
+          console.error('Error generating video poster:', error)
+          setLoadingStates(prev => ({ ...prev, [videoId]: false }))
+        }
+        video.removeEventListener('loadedmetadata', handleLoadedMetadata)
+        video.removeEventListener('seeked', handleSeeked)
+        video.removeEventListener('error', handleError)
+      }
+      
+      const handleError = () => {
+        setErrorStates(prev => ({ ...prev, [videoId]: true }))
+        setLoadingStates(prev => ({ ...prev, [videoId]: false }))
+        video.removeEventListener('loadedmetadata', handleLoadedMetadata)
+        video.removeEventListener('seeked', handleSeeked)
+        video.removeEventListener('error', handleError)
+      }
+      
+      video.addEventListener('loadedmetadata', handleLoadedMetadata)
+      video.addEventListener('seeked', handleSeeked)
+      video.addEventListener('error', handleError)
+    } catch (error) {
+      console.error('Error setting up video poster generation:', error)
+      setLoadingStates(prev => ({ ...prev, [videoId]: false }))
+    }
+  }, [])
 
   const openLightbox = (index: number) => {
     setCurrentMediaIndex(index)
@@ -111,84 +176,142 @@ export default function GalleryPage() {
         <div className="container-custom">
           {filteredMedia.length > 0 ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {filteredMedia.map((item, index) => (
-                <div
-                  key={item.id}
-                  onClick={() => openLightbox(index)}
-                  className="group relative aspect-square rounded-lg overflow-hidden cursor-pointer bg-cream-100 shadow-lg hover:shadow-xl transition-all duration-300"
-                >
-                  {/* Fallback gradient for broken images - Behind everything */}
-                  {item.type === "image" && (
-                    <div className="absolute inset-0 bg-gradient-to-br from-charcoal-900 via-charcoal-800 to-burgundy-900 z-0" />
-                  )}
-                  
-                  {/* Thumbnail - Handle videos and images differently */}
-                  {item.type === "video" ? (
-                    <video
-                      src={item.src}
-                      className="absolute inset-0 w-full h-full object-cover z-10"
-                      muted
-                      playsInline
-                      preload="metadata"
-                      onLoadedMetadata={(e) => {
-                        // Seek to first frame for thumbnail
-                        const video = e.currentTarget
-                        video.currentTime = 0.1
-                      }}
-                    />
-                  ) : (
-                    <Image
-                      src={item.thumbnail || item.src}
-                      alt={item.alt}
-                      fill
-                      className="object-cover transition-transform duration-500 group-hover:scale-110 z-10"
-                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                      loading="lazy"
-                      quality={90}
-                      priority={index < 6}
-                      onError={(e) => {
-                        console.error('Gallery image failed to load:', item.src)
-                        // Hide broken image, show fallback gradient
-                        const target = e.currentTarget as HTMLImageElement
-                        target.style.display = "none"
-                      }}
-                      onLoad={() => {
-                        if (process.env.NODE_ENV === 'development') {
-                          console.log('Gallery image loaded successfully:', item.src)
-                        }
-                      }}
-                    />
-                  )}
-
-                  {/* Overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20">
-                    <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
-                      <h3 className="font-display font-light text-xl mb-2">{item.title}</h3>
-                      {item.description && (
-                        <p className="text-sm text-cream-200/90 font-body font-light line-clamp-2">
-                          {item.description}
-                        </p>
-                      )}
-                    </div>
-                  </div>
-
-                  {/* Video Play Icon */}
-                  {item.type === "video" && (
-                    <div className="absolute inset-0 flex items-center justify-center z-30">
-                      <div className="w-16 h-16 bg-gold-500/90 backdrop-blur-sm rounded-full flex items-center justify-center group-hover:scale-110 transition-transform shadow-lg">
-                        <Play className="w-8 h-8 text-white ml-1" fill="white" />
+              {filteredMedia.map((item, index) => {
+                const isLoading = loadingStates[item.id] !== false
+                const hasError = errorStates[item.id]
+                const videoPoster = videoPosters[item.id]
+                
+                return (
+                  <div
+                    key={item.id}
+                    onClick={() => openLightbox(index)}
+                    className="group relative aspect-square rounded-lg overflow-hidden cursor-pointer bg-cream-100 shadow-lg hover:shadow-xl transition-all duration-300"
+                  >
+                    {/* Loading State */}
+                    {isLoading && !hasError && (
+                      <div className="absolute inset-0 flex items-center justify-center bg-cream-100 z-20">
+                        <Loader2 className="w-8 h-8 text-gold-500 animate-spin" />
                       </div>
-                    </div>
-                  )}
+                    )}
 
-                  {/* Category Badge */}
-                  <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-sm px-3 py-1.5 rounded-full shadow-md z-30">
-                    <span className="text-xs font-heading font-medium text-foreground">
-                      {galleryCategories.find((c) => c.id === item.category)?.label}
-                    </span>
+                    {/* Error State */}
+                    {hasError && (
+                      <div className="absolute inset-0 flex items-center justify-center bg-cream-100 z-20">
+                        <div className="text-center p-6">
+                          <div className="text-5xl mb-3">🍽️</div>
+                          <p className="text-sm font-medium text-gray-700">Media Unavailable</p>
+                          <p className="text-xs text-gray-500 mt-2">{item.title}</p>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Thumbnail - Handle videos and images differently */}
+                    {!hasError && (
+                      <>
+                        {item.type === "video" ? (
+                          <div className="relative w-full h-full">
+                            {videoPoster ? (
+                              <Image
+                                src={videoPoster}
+                                alt={item.alt}
+                                fill
+                                className="object-cover transition-transform duration-500 group-hover:scale-110"
+                                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                                quality={85}
+                                priority={index < 6}
+                                onLoad={() => {
+                                  setLoadingStates(prev => ({ ...prev, [item.id]: false }))
+                                }}
+                                onError={() => {
+                                  setErrorStates(prev => ({ ...prev, [item.id]: true }))
+                                  setLoadingStates(prev => ({ ...prev, [item.id]: false }))
+                                }}
+                              />
+                            ) : (
+                              <video
+                                src={item.src}
+                                className="absolute inset-0 w-full h-full object-cover"
+                                muted
+                                playsInline
+                                preload="metadata"
+                                onLoadedMetadata={(e) => {
+                                  const video = e.currentTarget
+                                  video.currentTime = 0.5
+                                  generateVideoPoster(item.src, item.id)
+                                }}
+                                onError={() => {
+                                  setErrorStates(prev => ({ ...prev, [item.id]: true }))
+                                  setLoadingStates(prev => ({ ...prev, [item.id]: false }))
+                                }}
+                                style={{ display: isLoading ? 'none' : 'block' }}
+                              />
+                            )}
+                          </div>
+                        ) : (
+                          <Image
+                            src={item.thumbnail || item.src}
+                            alt={item.alt}
+                            fill
+                            className="object-cover transition-transform duration-500 group-hover:scale-110"
+                            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                            loading={index < 6 ? "eager" : "lazy"}
+                            quality={85}
+                            priority={index < 6}
+                            onError={() => {
+                              console.error('Gallery image failed to load:', item.src)
+                              setErrorStates(prev => ({ ...prev, [item.id]: true }))
+                              setLoadingStates(prev => ({ ...prev, [item.id]: false }))
+                            }}
+                            onLoad={() => {
+                              setLoadingStates(prev => ({ ...prev, [item.id]: false }))
+                              if (process.env.NODE_ENV === 'development') {
+                                console.log('Gallery image loaded successfully:', item.src)
+                              }
+                            }}
+                          />
+                        )}
+                      </>
+                    )}
+
+                    {/* Overlay */}
+                    {!hasError && (
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-30">
+                        <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
+                          <h3 className="font-display font-light text-xl mb-2">{item.title}</h3>
+                          {item.description && (
+                            <p className="text-sm text-cream-200/90 font-body font-light line-clamp-2">
+                              {item.description}
+                            </p>
+                          )}
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Video Play Icon */}
+                    {item.type === "video" && !hasError && (
+                      <div className="absolute inset-0 flex items-center justify-center z-30 pointer-events-none">
+                        <div className="w-16 h-16 bg-gold-500/90 backdrop-blur-sm rounded-full flex items-center justify-center group-hover:scale-110 transition-transform shadow-lg">
+                          <Play className="w-8 h-8 text-white ml-1" fill="white" />
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Category Badge */}
+                    {!hasError && (
+                      <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-sm px-3 py-1.5 rounded-full shadow-md z-30">
+                        <span className="text-xs font-heading font-medium text-foreground">
+                          {galleryCategories.find((c) => c.id === item.category)?.label}
+                        </span>
+                      </div>
+                    )}
+
+                    {/* Hover Ring Effect */}
+                    {!hasError && (
+                      <div className="absolute inset-0 border-4 border-gold-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-lg z-20 pointer-events-none" />
+                    )}
                   </div>
-                </div>
-              ))}
+                )
+              })}
             </div>
           ) : (
             <div className="text-center py-20">
@@ -277,6 +400,7 @@ export default function GalleryPage() {
                   height={800}
                   className="max-w-full max-h-[80vh] object-contain rounded-lg"
                   priority
+                  quality={95}
                   onError={(e) => {
                     console.error('Lightbox image failed to load:', filteredMedia[currentMediaIndex].src)
                     e.currentTarget.style.display = 'none'
@@ -290,9 +414,9 @@ export default function GalleryPage() {
                 autoPlay
                 className="w-full max-h-[80vh] object-contain rounded-lg"
                 playsInline
+                poster={videoPosters[filteredMedia[currentMediaIndex].id] || filteredMedia[currentMediaIndex].thumbnail}
                 onError={(e) => {
                   console.error('Lightbox video failed to load:', filteredMedia[currentMediaIndex].src)
-                  // Optionally show error message to user
                 }}
               >
                 <source src={filteredMedia[currentMediaIndex].src} type="video/mp4" />
@@ -321,4 +445,3 @@ export default function GalleryPage() {
     </div>
   )
 }
-
