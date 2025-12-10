@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Search, Filter, Download, Eye, Check, X, Clock } from 'lucide-react';
+import { Search, Filter, Download, Eye, Check, X, Clock, RefreshCw } from 'lucide-react';
 import Link from 'next/link';
 
 interface Order {
@@ -36,6 +36,7 @@ export default function OrdersPage() {
   const [statusFilter, setStatusFilter] = useState('all');
   const [typeFilter, setTypeFilter] = useState('all');
   const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     fetchOrders();
@@ -45,14 +46,22 @@ export default function OrdersPage() {
   }, []);
 
   const fetchOrders = async () => {
+    setIsLoading(true);
+    setError(null);
+    
     try {
       const response = await fetch('/api/orders/list');
       const data = await response.json();
-      if (response.ok) {
+      
+      if (response.ok && data.success) {
         setOrders(data.orders || []);
+        console.log('✅ Loaded orders:', data.total || data.orders?.length || 0);
+      } else {
+        setError('Failed to load orders');
       }
-    } catch (error) {
-      console.error('Error fetching orders:', error);
+    } catch (err) {
+      console.error('Error fetching orders:', err);
+      setError('Failed to connect to server');
     } finally {
       setIsLoading(false);
     }
@@ -106,13 +115,32 @@ export default function OrdersPage() {
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
           <h1 className="text-2xl font-semibold text-gray-900">Orders Management</h1>
-          <p className="text-gray-600 mt-1">Manage and track all customer orders</p>
+          <p className="text-gray-600 mt-1">
+            {isLoading ? 'Loading...' : `${orders.length} total orders`}
+          </p>
         </div>
-        <button className="inline-flex items-center gap-2 px-4 py-2 bg-amber-600 text-white rounded-md hover:bg-amber-700 transition-colors">
-          <Download className="w-4 h-4" />
-          Export Orders
-        </button>
+        <div className="flex gap-3">
+          <button
+            onClick={fetchOrders}
+            disabled={isLoading}
+            className="inline-flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-md hover:bg-gray-50 transition-colors disabled:opacity-50"
+          >
+            <RefreshCw className={`w-4 h-4 ${isLoading ? 'animate-spin' : ''}`} />
+            Refresh
+          </button>
+          <button className="inline-flex items-center gap-2 px-4 py-2 bg-amber-600 text-white rounded-md hover:bg-amber-700 transition-colors">
+            <Download className="w-4 h-4" />
+            Export Orders
+          </button>
+        </div>
       </div>
+
+      {/* Error Message */}
+      {error && (
+        <div className="bg-red-50 border border-red-200 rounded-lg p-4">
+          <p className="text-red-800">{error}</p>
+        </div>
+      )}
 
       {/* Filters */}
       <div className="bg-white rounded-lg shadow p-6">
@@ -161,7 +189,13 @@ export default function OrdersPage() {
 
       {/* Orders Table */}
       <div className="bg-white rounded-lg shadow overflow-hidden">
-        <div className="overflow-x-auto">
+        {isLoading ? (
+          <div className="flex items-center justify-center py-12">
+            <RefreshCw className="w-8 h-8 text-amber-600 animate-spin" />
+            <span className="ml-3 text-gray-600">Loading orders...</span>
+          </div>
+        ) : (
+          <div className="overflow-x-auto">
           <table className="w-full">
             <thead className="bg-gray-50 border-b border-gray-200">
               <tr>
@@ -251,13 +285,19 @@ export default function OrdersPage() {
               })}
             </tbody>
           </table>
-        </div>
 
-        {/* Empty State */}
-        {filteredOrders.length === 0 && (
-          <div className="text-center py-12">
-            <p className="text-gray-500">No orders found</p>
-          </div>
+          {/* Empty State */}
+          {filteredOrders.length === 0 && !isLoading && (
+            <div className="text-center py-12">
+              <p className="text-gray-500 text-lg">No orders found</p>
+              <p className="text-gray-400 text-sm mt-2">
+                {searchQuery || statusFilter !== 'all' || typeFilter !== 'all' 
+                  ? 'Try adjusting your filters' 
+                  : 'Orders will appear here when customers place them'}
+              </p>
+            </div>
+          )}
+        </div>
         )}
       </div>
     </div>

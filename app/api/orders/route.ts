@@ -1,7 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { sendOrderConfirmation, sendAdminNotification } from '@/lib/services/notification.service'
-import { saveOrder } from '@/lib/services/order-storage'
+import { saveOrder, getAllOrders } from '@/lib/services/order-storage'
 import type { OrderData } from '@/lib/types/notifications'
+
+// Force dynamic rendering
+export const dynamic = 'force-dynamic'
 
 export interface OrderRequest {
   orderId: string
@@ -118,4 +121,22 @@ export async function POST(request: NextRequest) {
   }
 }
 
+// GET endpoint to fetch all orders (for admin)
+export async function GET(request: NextRequest) {
+  try {
+    const orders = getAllOrders()
+    
+    return NextResponse.json({
+      success: true,
+      orders: orders,
+      count: orders.length
+    })
+  } catch (error) {
+    console.error('Error fetching orders:', error)
+    return NextResponse.json(
+      { success: false, error: 'Failed to fetch orders' },
+      { status: 500 }
+    )
+  }
+}
 
