@@ -41,37 +41,40 @@ export function CategoryNav({
 
   return (
     <aside className="sticky top-24 h-fit">
-      <nav className="space-y-0.5">
+      <nav className="space-y-1">
         {menuCategories.map((category) => (
           <button
             key={category.id}
             onClick={() => scrollToCategory(category.id)}
             className={cn(
-              "block w-full text-left px-3 py-2 text-sm transition-colors rounded",
+              "block w-full text-left px-3 py-2.5 text-sm transition-all duration-200 rounded-md",
               activeCategory === category.id
-                ? "text-amber-700 font-medium bg-amber-50/50"
-                : "text-gray-600 hover:text-gray-900 hover:bg-gray-50/50"
+                ? "text-amber-700 font-medium bg-amber-50 border-l-2 border-amber-500"
+                : "text-gray-600 hover:text-gray-900 hover:bg-gray-50"
             )}
+            aria-label={`View ${category.name} category`}
           >
             {category.name}
           </button>
         ))}
 
         {/* Dietary Filters - Minimal */}
-        <div className="mt-6 pt-6 border-t border-gray-100">
-          <div className="space-y-1.5">
+        <div className="mt-6 pt-6 border-t border-gray-200">
+          <p className="text-xs font-medium text-gray-500 mb-3 uppercase tracking-wide">Filters</p>
+          <div className="space-y-2">
             {dietaryFilters.map((filter) => (
               <label
                 key={filter.id}
-                className="flex items-center gap-2 cursor-pointer text-xs text-gray-600 hover:text-gray-900"
+                className="flex items-center gap-2.5 cursor-pointer text-xs text-gray-600 hover:text-gray-900 transition-colors min-h-[32px]"
               >
                 <input
                   type="checkbox"
                   checked={activeDietaryFilters.includes(filter.id)}
                   onChange={() => onToggleDietaryFilter(filter.id)}
-                  className="w-3.5 h-3.5 rounded border-gray-300 text-amber-600 focus:ring-amber-500"
+                  className="w-4 h-4 rounded border-gray-300 text-amber-600 focus:ring-amber-500 focus:ring-1 cursor-pointer"
+                  aria-label={`Filter by ${filter.label}`}
                 />
-                <span>{filter.label}</span>
+                <span className="select-none">{filter.label}</span>
               </label>
             ))}
           </div>

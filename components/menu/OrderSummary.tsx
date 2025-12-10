@@ -43,8 +43,8 @@ export function OrderSummary() {
 
   return (
     <aside className="sticky top-24 h-fit">
-      <div className="bg-gray-50 rounded-lg p-5 border border-gray-100">
-        <h3 className="text-base font-display font-light text-gray-900 mb-4">Your Selection</h3>
+      <div className="bg-gray-50 rounded-lg p-5 md:p-6 border border-gray-200 shadow-sm">
+        <h3 className="text-base md:text-lg font-display font-light text-gray-900 mb-5">Your Selection</h3>
 
         {items.length === 0 ? (
           <div className="text-center py-6">
@@ -116,16 +116,18 @@ export function OrderSummary() {
             </div>
 
             {/* Action Buttons - Minimal */}
-            <div className="mt-4 space-y-2">
+            <div className="mt-5 space-y-2.5">
               <button
                 onClick={() => router.push("/place-order")}
-                className="w-full bg-amber-500 text-white py-2.5 rounded text-sm hover:bg-amber-600 transition-colors font-medium"
+                className="w-full bg-amber-500 text-white py-2.5 md:py-3 rounded-md text-sm md:text-base hover:bg-amber-600 transition-all duration-200 font-medium shadow-sm hover:shadow-md active:scale-95 min-h-[44px]"
+                aria-label="Place your order"
               >
                 Place Order
               </button>
               <button
                 onClick={() => router.push("/reservations")}
-                className="w-full border border-amber-500 text-amber-700 py-2.5 rounded text-sm hover:bg-amber-50 transition-colors font-medium"
+                className="w-full border border-amber-500 text-amber-700 py-2.5 md:py-3 rounded-md text-sm md:text-base hover:bg-amber-50 transition-all duration-200 font-medium min-h-[44px]"
+                aria-label="Reserve a table"
               >
                 Reserve Table
               </button>

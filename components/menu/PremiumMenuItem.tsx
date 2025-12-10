@@ -54,23 +54,23 @@ export function PremiumMenuItem({ item }: PremiumMenuItemProps) {
 
   return (
     <article ref={elementRef} className="group relative">
-      <div className="flex gap-5 items-start">
+      <div className="flex gap-4 md:gap-5 items-start">
         {/* Item Image - Smaller, cleaner */}
-        <div className="relative w-24 h-24 flex-shrink-0 rounded-md overflow-hidden bg-gray-100">
+        <div className="relative w-20 h-20 md:w-24 md:h-24 flex-shrink-0 rounded-md overflow-hidden bg-gray-100 shadow-sm">
           {isVisible && (
             <ImageWithFallback
               src={item.image}
               alt={item.name}
               fill
               className="object-cover transition-transform duration-300 group-hover:scale-105"
-              sizes="96px"
+              sizes="(max-width: 768px) 80px, 96px"
               priority={false}
             />
           )}
           {/* Minimal badge - only show signature */}
           {item.tags?.includes("signature") && (
             <div className="absolute top-1 right-1">
-              <span className="bg-amber-500 text-white text-[10px] px-1.5 py-0.5 rounded font-medium">
+              <span className="bg-amber-500 text-white text-[10px] px-1.5 py-0.5 rounded font-medium shadow-sm">
                 ★
               </span>
             </div>
@@ -79,26 +79,26 @@ export function PremiumMenuItem({ item }: PremiumMenuItemProps) {
 
         {/* Item Details - Cleaner */}
         <div className="flex-1 min-w-0">
-          <div className="flex items-start justify-between gap-4 mb-1">
+          <div className="flex items-start justify-between gap-4 mb-2">
             <div className="flex-1 min-w-0">
-              <h3 className="text-lg font-display font-light text-gray-900">
+              <h3 className="text-base md:text-lg font-display font-light text-gray-900 leading-tight">
                 {item.name}
               </h3>
             </div>
             <div className="text-right flex-shrink-0">
-              <p className="text-lg font-medium text-gray-900">
+              <p className="text-base md:text-lg font-medium text-gray-900 whitespace-nowrap">
                 {formatPrice(getDisplayPrice())}
               </p>
             </div>
           </div>
 
-          <p className="text-gray-600 text-sm leading-relaxed mb-3 font-body font-light">
+          <p className="text-gray-600 text-sm md:text-base leading-relaxed mb-3 font-body font-light">
             {item.description}
           </p>
 
           {/* Portion Sizes - Minimal */}
           {item.portionSizes && item.portionSizes.length > 0 && (
-            <div className="flex gap-2 mt-2 mb-3">
+            <div className="flex flex-wrap gap-2 mt-2 mb-3">
               {item.portionSizes.map((portion) => (
                 <button
                   key={portion.size}
@@ -108,11 +108,12 @@ export function PremiumMenuItem({ item }: PremiumMenuItemProps) {
                     )
                   }
                   className={cn(
-                    "text-xs px-2.5 py-1 border rounded transition-colors",
+                    "text-xs px-3 py-1.5 border rounded-md transition-all duration-200 min-h-[32px] touch-manipulation",
                     selectedPortion === portion.size
-                      ? "border-amber-500 text-amber-700 bg-amber-50"
-                      : "border-gray-200 hover:border-amber-400 text-gray-600"
+                      ? "border-amber-500 text-amber-700 bg-amber-50 shadow-sm"
+                      : "border-gray-200 hover:border-amber-400 text-gray-600 hover:bg-gray-50"
                   )}
+                  aria-label={`Select ${portion.size} size`}
                 >
                   {portion.size} - {formatPrice(portion.price)}
                 </button>
@@ -126,9 +127,9 @@ export function PremiumMenuItem({ item }: PremiumMenuItemProps) {
             disabled={item.available === false}
             aria-label={`Add ${item.name} to order`}
             className={cn(
-              "mt-3 text-sm px-4 py-2 border rounded transition-all duration-200",
+              "mt-3 text-sm px-5 py-2.5 border rounded-md transition-all duration-200 font-medium min-h-[40px] touch-manipulation",
               item.available !== false
-                ? "border-amber-500 text-amber-700 hover:bg-amber-500 hover:text-white"
+                ? "border-amber-500 text-amber-700 hover:bg-amber-500 hover:text-white hover:shadow-sm active:scale-95"
                 : "border-gray-300 text-gray-400 cursor-not-allowed"
             )}
           >
@@ -138,7 +139,7 @@ export function PremiumMenuItem({ item }: PremiumMenuItemProps) {
       </div>
 
       {/* Minimal Divider */}
-      <div className="mt-6 h-px bg-gray-100" />
+      <div className="mt-8 md:mt-10 h-px bg-gray-100" />
     </article>
   )
 }

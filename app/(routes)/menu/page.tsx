@@ -97,34 +97,28 @@ export default function MenuPage() {
   return (
     <div className="min-h-screen bg-white">
       {/* Hero Section */}
-      <section className="relative h-[40vh] min-h-[400px] flex items-center justify-center overflow-hidden">
-        <div className="absolute inset-0">
-          <div className="absolute inset-0 bg-gradient-to-br from-charcoal-950 via-charcoal-900 to-burgundy-900">
-            {/* In production, use actual food photography */}
-            <div className="absolute inset-0 flex items-center justify-center text-cream-200/20 font-display text-4xl">
-              Beautiful Plated Dish
-            </div>
-          </div>
-          <div className="absolute inset-0 bg-black/40" />
-        </div>
-        <div className="relative z-10 text-center px-6">
-          <h1 className="text-5xl md:text-6xl font-display font-light text-cream-100 mb-4">
+      <section className="relative h-[35vh] md:h-[40vh] min-h-[350px] md:min-h-[400px] flex items-center justify-center overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-br from-charcoal-950 via-charcoal-900 to-burgundy-900"></div>
+        <div className="absolute inset-0 bg-black/30"></div>
+        <div className="relative z-10 text-center px-6 max-w-4xl mx-auto">
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-light text-cream-100 mb-4">
             Our Menu
           </h1>
-          <p className="text-lg md:text-xl text-cream-200/90 font-body font-light mb-6">
+          <div className="w-20 h-px bg-gold-500 mx-auto mb-4"></div>
+          <p className="text-base md:text-lg text-cream-200/90 font-body font-light max-w-2xl mx-auto">
             Seasonal selections, crafted with passion
           </p>
-          <div className="w-24 h-px bg-gold-500 mx-auto" />
         </div>
       </section>
 
       {/* Main Content */}
-      <div className="container mx-auto px-6 md:px-12 lg:px-20 py-8 md:py-12">
+      <div className="container mx-auto px-6 md:px-12 lg:px-20 py-10 md:py-16">
         {/* Print Menu & Allergen Info - Minimal */}
-        <div className="flex items-center justify-end gap-4 mb-6 print-menu-buttons">
+        <div className="flex items-center justify-end gap-4 mb-8 print-menu-buttons">
           <button
             onClick={() => setShowAllergenInfo(true)}
-            className="text-xs text-gray-500 hover:text-gray-700 transition-colors"
+            className="text-xs md:text-sm text-gray-500 hover:text-gray-700 transition-colors min-h-[32px] px-2"
+            aria-label="View allergen information"
           >
             Allergen Info
           </button>
@@ -132,7 +126,7 @@ export default function MenuPage() {
         </div>
 
         {/* Mobile Category Tabs - Cleaner */}
-        <div className="lg:hidden sticky top-20 bg-white border-b border-gray-100 z-30 mb-6">
+        <div className="lg:hidden sticky top-20 bg-white border-b border-gray-100 z-30 mb-8 shadow-sm">
           <div className="overflow-x-auto scrollbar-hide px-4 py-3">
             <div className="flex gap-2 min-w-max">
               {menuCategories.map((category) => {
@@ -155,12 +149,13 @@ export default function MenuPage() {
                     key={category.id}
                     onClick={() => scrollToCategory(category.id)}
                     className={cn(
-                      "px-4 py-2 rounded-md whitespace-nowrap text-xs font-medium transition-all flex-shrink-0 min-h-[36px]",
+                      "px-4 py-2.5 rounded-full whitespace-nowrap text-xs font-medium transition-all flex-shrink-0 min-h-[40px] touch-manipulation",
                       activeCategory === category.id
-                        ? "bg-amber-500 text-white"
-                        : "bg-gray-50 text-gray-600 hover:bg-gray-100"
+                        ? "bg-amber-500 text-white shadow-sm"
+                        : "bg-gray-50 text-gray-600 hover:bg-gray-100 active:bg-gray-200"
                     )}
                     title={category.name}
+                    aria-label={`View ${category.name} category`}
                   >
                     {getShortName(category.name)}
                   </button>
@@ -171,15 +166,16 @@ export default function MenuPage() {
         </div>
 
         {/* Search Functionality - Minimal */}
-        <div className="mb-6">
+        <div className="mb-8">
           <div className="relative max-w-sm">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 md:w-5 md:h-5 text-gray-400" />
             <input
               type="text"
-              placeholder="Search..."
+              placeholder="Search menu items..."
               value={filters.searchQuery}
               onChange={(e) => updateSearchQuery(e.target.value)}
-              className="w-full pl-9 pr-4 py-2 text-sm border-b border-gray-300 focus:outline-none focus:border-amber-500 transition-colors bg-transparent"
+              className="w-full pl-10 md:pl-12 pr-4 py-2.5 md:py-3 text-sm md:text-base border-b-2 border-gray-200 focus:outline-none focus:border-amber-500 transition-colors bg-transparent placeholder:text-gray-400 min-h-[44px]"
+              aria-label="Search menu items"
             />
           </div>
         </div>
@@ -220,15 +216,15 @@ export default function MenuPage() {
                   className="mb-16 scroll-mt-24"
                 >
                   {/* Category Header - Minimal */}
-                  <div className="mb-6">
-                    <h2 className="text-2xl md:text-3xl font-light font-display text-gray-900 mb-1">
+                  <div className="mb-8">
+                    <h2 className="text-2xl md:text-3xl font-light font-display text-gray-900 mb-2">
                       {category.name}
                     </h2>
-                    <div className="w-16 h-px bg-amber-500 mt-3" />
+                    <div className="w-20 h-px bg-amber-500" />
                   </div>
 
                   {/* Menu Items - Cleaner spacing */}
-                  <div className="space-y-6 menu-section">
+                  <div className="space-y-8 md:space-y-10 menu-section">
                     {isLoading ? (
                       <>
                         <MenuItemSkeleton />
