@@ -53,18 +53,7 @@ export function VenueCard({ venue }: { venue: Venue }) {
   return (
     <Card className="group relative overflow-hidden border-0 bg-card/50 backdrop-blur-sm hover:shadow-elegant transition-all duration-500 h-full">
       <div className="relative w-full h-[300px] md:h-[350px] overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-charcoal-900 via-charcoal-800 to-burgundy-900">
-          {/* In production, use Next.js Image */}
-          {/* <Image
-            src={venue.image}
-            alt={venue.name}
-            fill
-            className="object-cover transition-transform duration-500 group-hover:scale-110"
-          /> */}
-          <div className="absolute inset-0 flex items-center justify-center text-cream-200/30 font-display text-2xl">
-            {venue.name}
-          </div>
-        </div>
+        <div className="absolute inset-0 bg-gradient-to-br from-charcoal-900 via-charcoal-800 to-burgundy-900"></div>
         {/* Gradient Overlay */}
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
         {/* Icon Badge */}
@@ -130,13 +119,14 @@ export function VenueGrid() {
   return (
     <section className="section-padding bg-background" aria-labelledby="venues-heading">
       <div className="container-custom">
-        <div className="text-center mb-16 md:mb-20">
+        <div className="text-center mb-12 md:mb-16">
           <h2
             id="venues-heading"
             className="text-4xl md:text-5xl lg:text-6xl font-display font-light text-foreground mb-4"
           >
             Venue Spaces
           </h2>
+          <div className="w-20 h-px bg-gold-500 mx-auto mb-4"></div>
           <p className="text-lg md:text-xl text-muted-foreground font-body font-light max-w-2xl mx-auto">
             Each space thoughtfully designed for different occasions and group sizes
           </p>

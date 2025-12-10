@@ -55,13 +55,14 @@ export function MenuPackages() {
   return (
     <section className="section-padding bg-cream-50" aria-labelledby="menus-heading">
       <div className="container-custom">
-        <div className="text-center mb-16 md:mb-20">
+        <div className="text-center mb-12 md:mb-16">
           <h2
             id="menus-heading"
             className="text-4xl md:text-5xl lg:text-6xl font-display font-light text-foreground mb-4"
           >
             Sample Menus
           </h2>
+          <div className="w-20 h-px bg-gold-500 mx-auto mb-4"></div>
           <p className="text-lg md:text-xl text-muted-foreground font-body font-light max-w-2xl mx-auto">
             Three curated packages, each fully customizable to your preferences
           </p>

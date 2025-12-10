@@ -127,26 +127,15 @@ export default function PrivateEventsPage() {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="relative h-[500px] md:h-[600px] flex items-center justify-center overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-charcoal-950 via-charcoal-900 to-burgundy-900">
-          {/* In production, use Next.js Image */}
-          {/* <Image
-            src="/images/private-dining-room.jpg"
-            alt="Private dining room"
-            fill
-            className="object-cover"
-            priority
-          /> */}
-          <div className="absolute inset-0 flex items-center justify-center text-cream-200/20 font-display text-4xl">
-            Private Dining Room
-          </div>
-        </div>
-        <div className="absolute inset-0 bg-black/50"></div>
-        <div className="relative z-10 text-center px-6">
-          <h1 className="text-5xl md:text-6xl lg:text-7xl font-display font-light text-cream-100 mb-4">
+      <section className="relative h-[35vh] md:h-[40vh] min-h-[350px] md:min-h-[400px] flex items-center justify-center overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-br from-charcoal-950 via-charcoal-900 to-burgundy-900"></div>
+        <div className="absolute inset-0 bg-black/30"></div>
+        <div className="relative z-10 text-center px-6 max-w-4xl mx-auto">
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-light text-cream-100 mb-4">
             Private Dining & Special Events
           </h1>
-          <p className="text-lg md:text-xl text-cream-200/90 font-body font-light">
+          <div className="w-20 h-px bg-gold-500 mx-auto mb-4"></div>
+          <p className="text-base md:text-lg text-cream-200/90 font-body font-light max-w-2xl mx-auto">
             Intimate gatherings. Grand celebrations. Unforgettable moments.
           </p>
         </div>
@@ -158,10 +147,11 @@ export default function PrivateEventsPage() {
           <div className="max-w-3xl mx-auto text-center space-y-6">
             <h2
               id="overview-heading"
-              className="text-4xl md:text-5xl lg:text-6xl font-display font-light text-foreground"
+              className="text-4xl md:text-5xl lg:text-6xl font-display font-light text-foreground mb-4"
             >
               Your Exclusive Space
             </h2>
+            <div className="w-20 h-px bg-gold-500 mx-auto mb-6"></div>
             <p className="text-lg md:text-xl text-muted-foreground font-body font-light leading-relaxed">
               At Chez Amis, we believe that every celebration deserves a setting as special as the
               occasion itself. Our private dining spaces are designed to provide an intimate,
@@ -203,13 +193,14 @@ export default function PrivateEventsPage() {
       {/* Occasion Ideas */}
       <section className="section-padding bg-cream-50" aria-labelledby="occasions-heading">
         <div className="container-custom">
-          <div className="text-center mb-16 md:mb-20">
+          <div className="text-center mb-12 md:mb-16">
             <h2
               id="occasions-heading"
               className="text-4xl md:text-5xl lg:text-6xl font-display font-light text-foreground mb-4"
             >
               Occasion Ideas
             </h2>
+            <div className="w-20 h-px bg-gold-500 mx-auto mb-4"></div>
             <p className="text-lg md:text-xl text-muted-foreground font-body font-light max-w-2xl mx-auto">
               We&apos;ve hosted countless celebrations, each one unique and memorable
             </p>
@@ -246,13 +237,14 @@ export default function PrivateEventsPage() {
       {/* What's Included */}
       <section className="section-padding bg-background" aria-labelledby="included-heading">
         <div className="container-custom">
-          <div className="text-center mb-16 md:mb-20">
+          <div className="text-center mb-12 md:mb-16">
             <h2
               id="included-heading"
               className="text-4xl md:text-5xl lg:text-6xl font-display font-light text-foreground mb-4"
             >
               What&apos;s Included
             </h2>
+            <div className="w-20 h-px bg-gold-500 mx-auto mb-4"></div>
             <p className="text-lg md:text-xl text-muted-foreground font-body font-light max-w-2xl mx-auto">
               Every detail thoughtfully arranged for your event
             </p>
@@ -293,13 +285,14 @@ export default function PrivateEventsPage() {
       {/* Testimonials */}
       <section className="section-padding bg-cream-50" aria-labelledby="testimonials-heading">
         <div className="container-custom">
-          <div className="text-center mb-16 md:mb-20">
+          <div className="text-center mb-12 md:mb-16">
             <h2
               id="testimonials-heading"
               className="text-4xl md:text-5xl lg:text-6xl font-display font-light text-foreground mb-4"
             >
               Our Clients&apos; Celebrations
             </h2>
+            <div className="w-20 h-px bg-gold-500 mx-auto mb-6"></div>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 max-w-5xl mx-auto">
@@ -335,13 +328,14 @@ export default function PrivateEventsPage() {
       {/* FAQ Section */}
       <section className="section-padding bg-background" aria-labelledby="faq-heading">
         <div className="container-custom">
-          <div className="text-center mb-16 md:mb-20">
+          <div className="text-center mb-12 md:mb-16">
             <h2
               id="faq-heading"
               className="text-4xl md:text-5xl lg:text-6xl font-display font-light text-foreground mb-4"
             >
               Frequently Asked Questions
             </h2>
+            <div className="w-20 h-px bg-gold-500 mx-auto mb-6"></div>
           </div>
 
           <div className="max-w-3xl mx-auto space-y-4">
@@ -382,9 +376,10 @@ export default function PrivateEventsPage() {
       <section className="section-padding bg-cream-50">
         <div className="container-custom">
           <div className="max-w-2xl mx-auto text-center space-y-6">
-            <h2 className="text-3xl md:text-4xl font-display font-light text-foreground">
+            <h2 className="text-3xl md:text-4xl font-display font-light text-foreground mb-4">
               Ready to Plan Your Event?
             </h2>
+            <div className="w-20 h-px bg-gold-500 mx-auto mb-4"></div>
             <p className="text-lg text-muted-foreground font-body font-light">
               Let&apos;s discuss how we can make your celebration unforgettable
             </p>
@@ -392,14 +387,15 @@ export default function PrivateEventsPage() {
               <Link href="#request-form">
                 <Button
                   size="lg"
-                  className="font-heading font-light tracking-wide bg-foreground text-background hover:bg-foreground/90 text-lg px-8 py-7"
+                  className="font-heading font-light tracking-wide bg-foreground text-background hover:bg-foreground/90 text-base md:text-lg px-8 py-3 md:py-4 min-h-[48px] md:min-h-[52px]"
                 >
                   Request Proposal
                 </Button>
               </Link>
               <a
                 href="tel:+233243952339"
-                className="flex items-center justify-center gap-2 px-8 py-7 rounded-lg border-2 border-gold-500/60 text-foreground hover:bg-gold-500/10 transition-all font-heading font-light tracking-wide"
+                className="flex items-center justify-center gap-2 px-8 py-3 md:py-4 rounded-lg border-2 border-gold-500/60 text-foreground hover:bg-gold-500/10 transition-all font-heading font-light tracking-wide min-h-[48px] md:min-h-[52px]"
+                aria-label="Call us to plan your event"
               >
                 <Phone className="h-5 w-5" />
                 Call Us

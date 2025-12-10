@@ -116,10 +116,11 @@ export function EventRequestForm() {
   return (
     <form onSubmit={handleSubmit} className="space-y-8">
       <div>
-        <h3 className="text-2xl md:text-3xl font-display font-light text-foreground mb-6">
+        <h3 className="text-xl md:text-2xl font-display font-light text-foreground mb-4">
           Plan Your Event
         </h3>
-        <p className="text-muted-foreground font-body font-light mb-8">
+        <div className="w-20 h-px bg-gold-500 mb-4"></div>
+        <p className="text-muted-foreground font-body font-light mb-6 md:mb-8">
           Tell us about your vision, and we&apos;ll create a proposal tailored to your needs
         </p>
       </div>
@@ -312,16 +313,16 @@ export function EventRequestForm() {
       </div>
 
       {/* Submit Button */}
-      <div className="pt-6">
+      <div className="pt-4">
         <Button
           type="submit"
           disabled={!isFormValid || isSubmitting}
           size="lg"
-          className="w-full font-heading font-light tracking-wide bg-foreground text-background hover:bg-foreground/90 text-lg px-8 py-7"
+          className="w-full font-heading font-light tracking-wide bg-foreground text-background hover:bg-foreground/90 text-base md:text-lg px-8 py-3 md:py-4 min-h-[48px] md:min-h-[52px]"
         >
           {isSubmitting ? "Submitting..." : "Request Proposal"}
         </Button>
-        <p className="mt-4 text-sm text-muted-foreground font-body font-light text-center">
+        <p className="mt-3 text-xs md:text-sm text-muted-foreground font-body font-light text-center">
           We&apos;ll respond within 24 hours with a customized proposal
         </p>
       </div>
