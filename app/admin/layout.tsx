@@ -103,6 +103,7 @@ export default function AdminLayout({
         fixed top-0 left-0 z-50 h-full w-64 bg-gray-900 text-white transform transition-transform duration-300 ease-in-out
         ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}
         lg:translate-x-0
+        overflow-y-auto
       `}>
         
         {/* Logo */}
@@ -159,26 +160,27 @@ export default function AdminLayout({
       <div className="lg:ml-64">
         
         {/* Top Bar */}
-        <header className="h-16 bg-white border-b border-gray-200 flex items-center justify-between px-6">
+        <header className="sticky top-0 z-30 h-16 bg-white border-b border-gray-200 flex items-center justify-between px-4 sm:px-6">
           <button
             onClick={() => setSidebarOpen(true)}
             className="lg:hidden text-gray-600 hover:text-gray-900"
+            aria-label="Open menu"
           >
             <MenuIcon className="w-6 h-6" />
           </button>
 
-          <div className="flex-1 lg:flex-none">
-            <h2 className="text-lg font-semibold text-gray-900">
+          <div className="flex-1 lg:flex-none ml-4 lg:ml-0">
+            <h2 className="text-base sm:text-lg font-semibold text-gray-900 truncate">
               {navigation.find(item => item.href === pathname)?.name || 'Dashboard'}
             </h2>
           </div>
 
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2 sm:gap-4">
             <div className="text-right hidden sm:block">
               <p className="text-sm font-medium text-gray-900">Admin User</p>
               <p className="text-xs text-gray-500">admin@chezamis.com</p>
             </div>
-            <div className="w-10 h-10 bg-amber-100 rounded-full flex items-center justify-center">
+            <div className="w-10 h-10 bg-amber-100 rounded-full flex items-center justify-center flex-shrink-0">
               <span className="text-amber-700 font-semibold">A</span>
             </div>
           </div>

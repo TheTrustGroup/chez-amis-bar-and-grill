@@ -9,6 +9,7 @@ import { Footer } from "@/components/layout/footer"
 import { BottomNavigation } from "@/components/mobile/BottomNavigation"
 import { CartProvider } from "@/lib/context/CartContext"
 import { ToastContainer } from "@/components/ui/toast"
+import { ConditionalLayout } from "@/components/layout/ConditionalLayout"
 
 const cormorantGaramond = Cormorant_Garamond({
   weight: ["300", "400", "500", "600", "700"],
@@ -154,10 +155,9 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${cormorantGaramond.variable} ${montserrat.variable} ${lora.variable} ${italiana.variable} font-body`}>
         <CartProvider>
-          <Header />
-          <main id="main-content" className="min-h-screen mobile-bottom-padding">{children}</main>
-          <Footer />
-          <BottomNavigation />
+          <ConditionalLayout>
+            {children}
+          </ConditionalLayout>
           <ToastContainer />
         </CartProvider>
       </body>
