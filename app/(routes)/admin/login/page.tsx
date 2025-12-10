@@ -26,9 +26,9 @@ function LoginPageContent() {
         const data = await response.json()
         
         if (data.authenticated) {
-          // Already logged in, redirect to orders dashboard
+          // Already logged in, redirect to orders dashboard with full page reload
           const redirectTo = searchParams.get('redirect') || '/admin/orders'
-          router.push(redirectTo)
+          window.location.href = redirectTo
         } else {
           setIsCheckingAuth(false)
         }
@@ -60,9 +60,23 @@ function LoginPageContent() {
         throw new Error(data.error || 'Login failed')
       }
 
-      // Login successful, redirect
+      // Login successful, verify authentication then redirect with full page reload
+      // This ensures the cookie is properly set before navigation
       const redirectTo = searchParams.get('redirect') || '/admin/orders'
-      router.push(redirectTo)
+      
+      // Wait a moment for cookie to be set, then verify and redirect
+      await new Promise(resolve => setTimeout(resolve, 100))
+      
+      // Verify authentication before redirecting
+      const authCheck = await fetch('/api/admin/login')
+      const authData = await authCheck.json()
+      
+      if (authData.authenticated) {
+        // Use window.location for full page reload to ensure cookie is available
+        window.location.href = redirectTo
+      } else {
+        throw new Error('Authentication failed. Please try again.')
+      }
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Login failed. Please try again.')
     } finally {
