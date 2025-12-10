@@ -369,19 +369,18 @@ export function Header() {
                   {/* Your Selection */}
                   <Link
                     href="/order-summary"
-                    className="flex items-center gap-3 text-white/90 hover:text-white active:text-white/80 transition-colors min-h-[56px] px-4 py-3 rounded-lg hover:bg-white/5 active:bg-white/10 touch-manipulation"
+                    className="flex items-center justify-center text-white/90 hover:text-white active:text-white/80 transition-colors min-h-[56px] min-w-[56px] rounded-lg hover:bg-white/5 active:bg-white/10 touch-manipulation"
                     onClick={() => setIsMobileMenuOpen(false)}
                     aria-label={`Your selection${cartItemCount > 0 ? ` (${cartItemCount} items)` : ""}`}
                   >
-                    <ShoppingBag className="h-6 w-6" aria-hidden="true" />
-                    <span className="font-heading font-light tracking-wide text-lg">
-                      Your Selection
-                    </span>
-                    {cartItemCount > 0 && (
-                      <span className="text-sm font-body font-light px-2 py-1 rounded text-white/70 bg-white/10 ml-1">
-                        ({cartItemCount})
-                      </span>
-                    )}
+                    <div className="relative">
+                      <ShoppingBag className="h-6 w-6" aria-hidden="true" />
+                      {cartItemCount > 0 && (
+                        <span className="absolute -top-2 -right-2 text-xs font-body font-medium px-1.5 py-0.5 rounded-full min-w-[20px] text-center text-white bg-gold-500">
+                          {cartItemCount}
+                        </span>
+                      )}
+                    </div>
                   </Link>
 
                   {/* Reserve Button */}
