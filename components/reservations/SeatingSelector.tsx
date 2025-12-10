@@ -48,10 +48,10 @@ export function SeatingSelector({
 
   return (
     <div className="space-y-4">
-      <Label className="font-heading font-light text-foreground mb-4 block">
+      <Label className="font-heading font-light text-foreground mb-4 block text-sm md:text-base">
         Seating Preference
       </Label>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
         {seatingOptions.map((option) => {
           const Icon = option.icon
           const isSelected = selectedSeating === option.id
@@ -63,12 +63,13 @@ export function SeatingSelector({
               type="button"
               onClick={() => onSelect(option.id)}
               className={cn(
-                "group relative p-4 rounded-lg border-2 transition-all duration-300 text-left",
-                "focus:outline-none focus:ring-2 focus:ring-gold-500 focus:ring-offset-2",
+                "group relative p-4 md:p-5 rounded-lg border-2 transition-all duration-200 text-left min-h-[80px] touch-manipulation",
+                "focus:outline-none focus:ring-2 focus:ring-gold-500 focus:ring-offset-1",
                 isSelected
-                  ? "border-gold-500 bg-gold-500/5"
-                  : "border-border/50 hover:border-gold-500/50 hover:bg-gold-500/5"
+                  ? "border-gold-500 bg-gold-500/5 shadow-sm"
+                  : "border-border/50 hover:border-gold-500/50 hover:bg-gold-500/5 active:scale-[0.98]"
               )}
+              aria-label={`Select ${option.title} seating`}
             >
               <div className="flex items-start gap-3">
                 <div

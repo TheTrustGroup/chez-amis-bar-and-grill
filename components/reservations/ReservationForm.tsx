@@ -94,10 +94,10 @@ export function ReservationForm() {
     formData.occasion === "birthday" || formData.occasion === "anniversary"
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-8">
+    <form onSubmit={handleSubmit} className="space-y-6 md:space-y-8">
       {/* Date & Time Selection */}
       <div>
-        <h3 className="text-xl font-display font-light text-foreground mb-6">
+        <h3 className="text-lg md:text-xl font-display font-light text-foreground mb-5">
           Date & Time
         </h3>
         <DateTimePicker
@@ -110,7 +110,7 @@ export function ReservationForm() {
 
       {/* Party Size */}
       <div>
-        <Label htmlFor="partySize" className="font-heading font-light text-foreground mb-3 block">
+        <Label htmlFor="partySize" className="font-heading font-light text-foreground mb-2.5 block text-sm md:text-base">
           Number of Guests
         </Label>
         <select
@@ -152,7 +152,7 @@ export function ReservationForm() {
 
       {/* Occasion */}
       <div>
-        <Label htmlFor="occasion" className="font-heading font-light text-foreground mb-3 block">
+        <Label htmlFor="occasion" className="font-heading font-light text-foreground mb-2.5 block text-sm md:text-base">
           Special Occasion (Optional)
         </Label>
         <select
@@ -173,7 +173,7 @@ export function ReservationForm() {
           <div className="mt-4">
             <Label
               htmlFor="specialOccasionRequest"
-              className="font-heading font-light text-foreground mb-2 block"
+              className="font-heading font-light text-foreground mb-2 block text-sm md:text-base"
             >
               We&apos;d love to make it special! Any requests?
             </Label>
@@ -190,12 +190,12 @@ export function ReservationForm() {
 
       {/* Guest Information */}
       <div className="pt-6 border-t border-border/50">
-        <h3 className="text-xl font-display font-light text-foreground mb-6">
+        <h3 className="text-lg md:text-xl font-display font-light text-foreground mb-5">
           Your Information
         </h3>
-        <div className="space-y-4">
+        <div className="space-y-5">
           <div>
-            <Label htmlFor="name" className="font-heading font-light text-foreground">
+            <Label htmlFor="name" className="font-heading font-light text-foreground mb-2 block text-sm md:text-base">
               Full Name
             </Label>
             <Input
@@ -203,13 +203,14 @@ export function ReservationForm() {
               type="text"
               value={formData.name}
               onChange={(e) => handleFieldChange("name", e.target.value)}
-              className="mt-2 border-border/50 focus:border-gold-500/50"
+              className="border-border/50 focus:border-gold-500/50 min-h-[44px]"
               required
+              aria-label="Enter your full name"
             />
           </div>
 
           <div>
-            <Label htmlFor="phone" className="font-heading font-light text-foreground">
+            <Label htmlFor="phone" className="font-heading font-light text-foreground mb-2 block text-sm md:text-base">
               Phone Number
             </Label>
             <Input
@@ -217,14 +218,15 @@ export function ReservationForm() {
               type="tel"
               value={formData.phone}
               onChange={(e) => handleFieldChange("phone", e.target.value)}
-              className="mt-2 border-border/50 focus:border-gold-500/50"
+              className="border-border/50 focus:border-gold-500/50 min-h-[44px]"
               placeholder="024 395 2339"
               required
+              aria-label="Enter your phone number"
             />
           </div>
 
           <div>
-            <Label htmlFor="email" className="font-heading font-light text-foreground">
+            <Label htmlFor="email" className="font-heading font-light text-foreground mb-2 block text-sm md:text-base">
               Email Address
             </Label>
             <Input
@@ -232,47 +234,53 @@ export function ReservationForm() {
               type="email"
               value={formData.email}
               onChange={(e) => handleFieldChange("email", e.target.value)}
-              className="mt-2 border-border/50 focus:border-gold-500/50"
+              className="border-border/50 focus:border-gold-500/50 min-h-[44px]"
               required
+              aria-label="Enter your email address"
             />
           </div>
 
           <div>
-            <Label htmlFor="specialRequests" className="font-heading font-light text-foreground">
+            <Label htmlFor="specialRequests" className="font-heading font-light text-foreground mb-2 block text-sm md:text-base">
               Special Requests (Optional)
             </Label>
             <Textarea
               id="specialRequests"
               value={formData.specialRequests}
               onChange={(e) => handleFieldChange("specialRequests", e.target.value)}
-              className="mt-2 border-border/50 focus:border-gold-500/50 min-h-[100px]"
+              className="border-border/50 focus:border-gold-500/50 min-h-[100px] resize-none"
               placeholder="Dietary restrictions, accessibility needs, or any other preferences..."
+              aria-label="Enter any special requests"
             />
           </div>
         </div>
       </div>
 
       {/* Submit Button */}
-      <div className="pt-6">
+      <div className="pt-4">
         <Button
           type="submit"
           disabled={!isFormValid || isSubmitting}
           size="lg"
-          className="w-full font-heading font-light tracking-wide bg-foreground text-background hover:bg-foreground/90 text-lg px-8 py-7"
+          className="w-full font-heading font-light tracking-wide bg-foreground text-background hover:bg-foreground/90 text-base md:text-lg px-8 py-3 md:py-4 min-h-[48px] md:min-h-[52px]"
         >
           {isSubmitting ? "Confirming..." : "Confirm Reservation"}
         </Button>
+        <p className="mt-3 text-xs md:text-sm text-muted-foreground font-body font-light text-center">
+          You&apos;ll receive a confirmation email shortly
+        </p>
       </div>
 
       {/* Alternative Booking Options */}
-      <div className="pt-6 border-t border-border/50">
-        <p className="text-sm text-muted-foreground font-body font-light mb-4 text-center">
+      <div className="pt-5 border-t border-border/50">
+        <p className="text-xs md:text-sm text-muted-foreground font-body font-light mb-4 text-center">
           Prefer to book another way?
         </p>
-        <div className="flex flex-col sm:flex-row gap-4 justify-center">
+        <div className="flex flex-col sm:flex-row gap-3 justify-center">
           <a
             href="tel:+233243952339"
-            className="flex items-center justify-center gap-2 px-4 py-2 rounded-lg border border-border/50 hover:border-gold-500/50 hover:bg-gold-500/5 transition-all text-sm font-body font-light"
+            className="flex items-center justify-center gap-2 px-5 py-2.5 rounded-lg border border-border/50 hover:border-gold-500/50 hover:bg-gold-500/5 transition-all text-sm font-body font-light min-h-[44px]"
+            aria-label="Call us to make a reservation"
           >
             <Phone className="h-4 w-4" />
             Call Us
@@ -281,10 +289,11 @@ export function ReservationForm() {
             href="https://wa.me/233243952339"
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center justify-center gap-2 px-4 py-2 rounded-lg border border-border/50 hover:border-gold-500/50 hover:bg-gold-500/5 transition-all text-sm font-body font-light"
+            className="flex items-center justify-center gap-2 px-5 py-2.5 rounded-lg border border-border/50 hover:border-gold-500/50 hover:bg-gold-500/5 transition-all text-sm font-body font-light min-h-[44px]"
+            aria-label="Reserve via WhatsApp"
           >
             <MessageCircle className="h-4 w-4" />
-            WhatsApp Reservation
+            WhatsApp
           </a>
         </div>
       </div>
