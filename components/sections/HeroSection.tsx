@@ -201,7 +201,7 @@ export function HeroSection() {
             <p className="text-xs sm:text-sm md:text-base text-gray-300 text-center leading-relaxed">
               <span className="inline">Walk-ins welcome</span>
               <span className="inline"> | </span>
-              <span className="inline">We&apos;re now open 24/7</span>
+              <span className="inline">We&apos;re open 24/7</span>
             </p>
           </div>
 
