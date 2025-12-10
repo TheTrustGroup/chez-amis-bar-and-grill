@@ -12,7 +12,7 @@ export const heroCopy = {
   description: "Experience exceptional culinary artistry and warm hospitality. Every meal is a celebration of flavor, crafted with care and served with genuine warmth.",
   ctaPrimary: "Reserve a Table",
   ctaSecondary: "Order for Delivery",
-  footerText: "Walk-ins welcome | Open daily 9:30 am - 12 am",
+  footerText: "Walk-ins welcome | We're Open 24/7",
   socialProof: {
     rating: "Rated Accra's finest",
     guests: "2,500+ satisfied guests",

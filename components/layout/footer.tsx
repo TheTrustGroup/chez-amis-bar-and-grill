@@ -204,7 +204,7 @@ export function Footer() {
             <span className="hidden md:inline text-gold-500/30">|</span>
             <div className="flex items-center gap-2">
               <Clock className="h-4 w-4" />
-              <span>Daily 9:30 am - 12 am</span>
+              <span>We&apos;re Open 24/7</span>
             </div>
           </div>
         </div>
