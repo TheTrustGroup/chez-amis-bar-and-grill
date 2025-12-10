@@ -36,8 +36,6 @@ const nextConfig = {
   swcMinify: true,
   // Optimize fonts
   optimizeFonts: true,
-  // Enable static page generation
-  output: 'standalone',
   // Remove console logs in production
   compiler: {
     removeConsole: process.env.NODE_ENV === 'production' ? {
