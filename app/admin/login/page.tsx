@@ -144,7 +144,7 @@ export default function AdminLoginPage() {
           {/* Help Text */}
           <div className="mt-6 text-center">
             <p className="text-xs text-gray-500">
-              Default: admin@chezamis.com / admin123
+              Contact administrator for access credentials
             </p>
           </div>
         </div>

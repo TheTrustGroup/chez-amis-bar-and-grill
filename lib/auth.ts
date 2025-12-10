@@ -5,8 +5,8 @@
 
 import { cookies } from 'next/headers'
 
-const ADMIN_USERNAME = process.env.ADMIN_USERNAME || 'admin'
-const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'admin123' // Change this in production!
+const ADMIN_USERNAME = process.env.ADMIN_USERNAME || 'chezamis_admin'
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'ChezAmis2024!Secure' // Change this in production!
 const SESSION_COOKIE_NAME = 'admin_session'
 const SESSION_DURATION = 8 * 60 * 60 * 1000 // 8 hours
 
