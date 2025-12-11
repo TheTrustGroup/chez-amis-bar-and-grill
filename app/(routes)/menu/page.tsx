@@ -227,9 +227,101 @@ export default function MenuPage() {
           {/* Main Content - Menu Items */}
           <div className="lg:col-span-3">
             {menuCategories.map((category) => {
-              const categoryItems = filteredItems.filter(
-                (item) => item.category === category.name
-              )
+              // Get items from this category
+              // When a category filter is active, only show items from that category
+              // Otherwise, show all items from this category that match other filters
+              let categoryItems: typeof filteredItems = []
+              
+              if (filters.activeCategory) {
+                // Category filter is active - only show this category if it matches
+                if (filters.activeCategory === category.id) {
+                  // Use items directly from category.items (source of truth)
+                  // Then apply other filters (search, dietary, etc.)
+                  categoryItems = category.items.filter((item) => {
+                    // Apply search filter
+                    if (filters.searchQuery.trim()) {
+                      const query = filters.searchQuery.toLowerCase()
+                      if (!item.name.toLowerCase().includes(query) && 
+                          !item.description.toLowerCase().includes(query)) {
+                        return false
+                      }
+                    }
+                    
+                    // Apply dietary filters
+                    if (filters.dietaryFilters.length > 0) {
+                      if (!item.dietary) return false
+                      if (!filters.dietaryFilters.some((filter) =>
+                        item.dietary?.includes(filter as 'vegetarian' | 'vegan' | 'gluten-free' | 'dairy-free')
+                      )) {
+                        return false
+                      }
+                    }
+                    
+                    // Apply spicy level filter
+                    if (filters.spicyLevel !== null && item.spicyLevel !== filters.spicyLevel) {
+                      return false
+                    }
+                    
+                    // Apply price range filter
+                    if (filters.priceRange) {
+                      const price = item.price || (item.portionSizes?.[0]?.price ?? 0)
+                      if (price < filters.priceRange[0] || price > filters.priceRange[1]) {
+                        return false
+                      }
+                    }
+                    
+                    // Filter available items only
+                    return item.available !== false
+                  })
+                } else {
+                  // Don't show items from other categories when a specific category is selected
+                  categoryItems = []
+                }
+              } else {
+                // No category filter active - show all items from this category
+                // Match by both category.id (for menuCategories) and category.name (for item.category field)
+                categoryItems = category.items.filter((item) => {
+                  // Item must belong to this category (match by category name)
+                  const itemBelongsToCategory = item.category === category.name
+                  
+                  if (!itemBelongsToCategory) return false
+                  
+                  // Apply search filter
+                  if (filters.searchQuery.trim()) {
+                    const query = filters.searchQuery.toLowerCase()
+                    if (!item.name.toLowerCase().includes(query) && 
+                        !item.description.toLowerCase().includes(query)) {
+                      return false
+                    }
+                  }
+                  
+                  // Apply dietary filters
+                  if (filters.dietaryFilters.length > 0) {
+                    if (!item.dietary) return false
+                    if (!filters.dietaryFilters.some((filter) =>
+                      item.dietary?.includes(filter as 'vegetarian' | 'vegan' | 'gluten-free' | 'dairy-free')
+                    )) {
+                      return false
+                    }
+                  }
+                  
+                  // Apply spicy level filter
+                  if (filters.spicyLevel !== null && item.spicyLevel !== filters.spicyLevel) {
+                    return false
+                  }
+                  
+                  // Apply price range filter
+                  if (filters.priceRange) {
+                    const price = item.price || (item.portionSizes?.[0]?.price ?? 0)
+                    if (price < filters.priceRange[0] || price > filters.priceRange[1]) {
+                      return false
+                    }
+                  }
+                  
+                  // Filter available items only
+                  return item.available !== false
+                })
+              }
 
               // Always render the section so refs are set and scrolling works
               // Only show items if they exist, but keep the section for navigation

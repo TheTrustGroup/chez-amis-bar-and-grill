@@ -50,18 +50,57 @@ export default function OrdersPage() {
     setError(null);
     
     try {
-      const response = await fetch('/api/orders/list');
-      const data = await response.json();
+      console.log('📥 Fetching orders from /api/orders/list...');
+      const response = await fetch('/api/orders/list', {
+        cache: 'no-store',
+        headers: {
+          'Cache-Control': 'no-cache',
+        },
+      });
       
-      if (response.ok && data.success) {
-        setOrders(data.orders || []);
-        console.log('✅ Loaded orders:', data.total || data.orders?.length || 0);
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error('❌ API response not OK:', response.status, errorText);
+        throw new Error(`API error: ${response.status}`);
+      }
+      
+      const data = await response.json();
+      console.log('📦 API response:', { success: data.success, orderCount: data.orders?.length, total: data.total });
+      
+      if (data.success && Array.isArray(data.orders)) {
+        // Ensure orders have the correct structure
+        const normalizedOrders = data.orders.map((order: any) => ({
+          id: order.id || order.orderId,
+          orderId: order.orderId || order.id,
+          orderType: order.orderType || 'delivery',
+          status: order.status || 'pending',
+          customer: {
+            fullName: order.customer?.fullName || order.customer?.name || 'Unknown',
+            email: order.customer?.email || '',
+            phone: order.customer?.phone || '',
+          },
+          payment: {
+            total: order.payment?.total || 0,
+            subtotal: order.payment?.subtotal || 0,
+            tax: order.payment?.tax || 0,
+            deliveryFee: order.payment?.deliveryFee || 0,
+            serviceCharge: order.payment?.serviceCharge || 0,
+          },
+          createdAt: order.createdAt || new Date().toISOString(),
+          updatedAt: order.updatedAt || order.createdAt || new Date().toISOString(),
+        }));
+        
+        setOrders(normalizedOrders);
+        console.log('✅ Loaded and normalized orders:', normalizedOrders.length);
       } else {
-        setError('Failed to load orders');
+        console.warn('⚠️ Invalid response structure:', data);
+        setError(data.error || 'Invalid response from server');
+        setOrders([]);
       }
     } catch (err) {
-      console.error('Error fetching orders:', err);
-      setError('Failed to connect to server');
+      console.error('❌ Error fetching orders:', err);
+      setError(err instanceof Error ? err.message : 'Failed to connect to server');
+      setOrders([]);
     } finally {
       setIsLoading(false);
     }

@@ -22,7 +22,9 @@ export async function GET(request: NextRequest) {
     if (status) {
       orders = await getOrdersByStatus(status)
     } else {
-      orders = await getRecentOrders(limit)
+      // Get all orders, then limit if needed
+      const allOrders = await getAllOrders()
+      orders = limit > 0 ? allOrders.slice(0, limit) : allOrders
     }
 
     const counts = await getOrdersCountByStatus()
