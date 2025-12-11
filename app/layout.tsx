@@ -15,28 +15,36 @@ const cormorantGaramond = Cormorant_Garamond({
   weight: ["300", "400", "500", "600", "700"],
   subsets: ["latin"],
   variable: "--font-display",
-  display: "swap",
+  display: "swap", // Ensures fonts load while showing fallback
+  preload: true,
+  fallback: ["Georgia", "Times New Roman", "serif"],
 })
 
 const montserrat = Montserrat({
   weight: ["300", "400", "500", "600", "700"],
   subsets: ["latin"],
   variable: "--font-heading",
-  display: "swap",
+  display: "swap", // Ensures fonts load while showing fallback
+  preload: true,
+  fallback: ["Arial", "Helvetica", "sans-serif"],
 })
 
 const lora = Lora({
   weight: ["400", "500", "600", "700"],
   subsets: ["latin"],
   variable: "--font-body",
-  display: "swap",
+  display: "swap", // Ensures fonts load while showing fallback
+  preload: true,
+  fallback: ["Georgia", "Times New Roman", "serif"],
 })
 
 const italiana = Italiana({
   weight: ["400"],
   subsets: ["latin"],
   variable: "--font-script",
-  display: "swap",
+  display: "swap", // Ensures fonts load while showing fallback
+  preload: true,
+  fallback: ["Brush Script MT", "cursive"],
 })
 
 export const metadata: Metadata = {
@@ -153,6 +161,23 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+      <head>
+        {/* Preload critical fonts for better performance */}
+        <link
+          rel="preload"
+          href="/_next/static/media/acaa31bcd8de99a2-s.p.woff2"
+          as="font"
+          type="font/woff2"
+          crossOrigin="anonymous"
+        />
+        <link
+          rel="preload"
+          href="/_next/static/media/5c0c2bcbaa4149ca-s.p.woff2"
+          as="font"
+          type="font/woff2"
+          crossOrigin="anonymous"
+        />
+      </head>
       <body className={`${cormorantGaramond.variable} ${montserrat.variable} ${lora.variable} ${italiana.variable} font-body`}>
         <CartProvider>
           <ConditionalLayout>
