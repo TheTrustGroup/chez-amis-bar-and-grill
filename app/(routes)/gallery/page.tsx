@@ -165,7 +165,7 @@ export default function GalleryPage() {
                     className="group relative aspect-square rounded-lg overflow-hidden cursor-pointer bg-cream-100 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-[1.02]"
                   >
                     {/* Thumbnail with robust error handling */}
-                    <div className="relative w-full h-full">
+                    <div className="relative w-full h-full z-0">
                       <GalleryImage
                         src={item.thumbnail || item.src}
                         alt={item.alt}
@@ -176,6 +176,15 @@ export default function GalleryPage() {
                         onImageLoad={() => handleImageLoad(item.id)}
                       />
                     </div>
+
+                    {/* Video Play Button - Must be above everything else */}
+                    {item.type === 'video' && (
+                      <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-50">
+                        <div className="w-16 h-16 md:w-20 md:h-20 bg-gold-500/95 backdrop-blur-sm rounded-full flex items-center justify-center group-hover:scale-110 transition-transform shadow-2xl">
+                          <Play className="w-8 h-8 md:w-10 md:h-10 text-white ml-1" fill="white" />
+                        </div>
+                      </div>
+                    )}
 
                     {/* Gradient Overlay */}
                     <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-30" />
@@ -191,15 +200,6 @@ export default function GalleryPage() {
                         </p>
                       )}
                     </div>
-
-                    {/* Video Play Button */}
-                    {item.type === 'video' && (
-                      <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-20">
-                        <div className="w-16 h-16 md:w-20 md:h-20 bg-gold-500/95 backdrop-blur-sm rounded-full flex items-center justify-center group-hover:scale-110 transition-transform shadow-2xl">
-                          <Play className="w-8 h-8 md:w-10 md:h-10 text-white ml-1" fill="white" />
-                        </div>
-                      </div>
-                    )}
 
                     {/* Category Badge */}
                     <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-sm px-3 py-1.5 rounded-full shadow-md z-30">
