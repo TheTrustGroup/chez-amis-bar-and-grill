@@ -17,6 +17,7 @@ export interface MediaItem {
   title: string
   description?: string
   dishName?: string // For menu integration
+  fallbackType?: 'dish' | 'video' | 'restaurant' // For fallback placeholder
 }
 
 // Gallery media items - Videos and uploaded images
@@ -31,6 +32,7 @@ export const galleryMedia: MediaItem[] = [
     category: 'behind-scenes',
     title: 'Behind the Scenes: Kitchen Excellence',
     description: 'Watch our talented chefs craft our signature dishes with passion and precision',
+    fallbackType: 'video',
   },
   {
     id: 'video-cooking-1',

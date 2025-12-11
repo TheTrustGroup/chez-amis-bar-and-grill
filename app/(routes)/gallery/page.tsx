@@ -1,107 +1,46 @@
-"use client"
+'use client'
 
-import { useState, useEffect, useCallback } from "react"
-import Image from "next/image"
-import Link from "next/link"
-import { X, Play, ChevronLeft, ChevronRight, Loader2 } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { galleryMedia, galleryCategories, type MediaCategory } from "@/lib/data/galleryMedia"
-import { cn } from "@/lib/utils"
+import { useState, useEffect, useCallback } from 'react'
+import { X, Play, ChevronLeft, ChevronRight, AlertCircle } from 'lucide-react'
+import Link from 'next/link'
+import { Button } from '@/components/ui/button'
+import { GalleryImage } from '@/components/gallery/GalleryImage'
+import { galleryMedia, galleryCategories, type MediaCategory, type MediaItem } from '@/lib/data/galleryMedia'
+import { cn } from '@/lib/utils'
+
+// Helper to determine fallback type
+const getFallbackType = (item: MediaItem): 'dish' | 'video' | 'restaurant' => {
+  if (item.fallbackType) return item.fallbackType
+  if (item.type === 'video') return 'video'
+  if (item.category === 'restaurant-ambiance') return 'restaurant'
+  return 'dish'
+}
 
 export default function GalleryPage() {
-  const [selectedCategory, setSelectedCategory] = useState<MediaCategory>("all")
+  const [selectedCategory, setSelectedCategory] = useState<MediaCategory>('all')
   const [lightboxOpen, setLightboxOpen] = useState(false)
   const [currentMediaIndex, setCurrentMediaIndex] = useState(0)
-  const [isMobile, setIsMobile] = useState(false)
-  const [loadingStates, setLoadingStates] = useState<{ [key: string]: boolean }>({})
-  const [errorStates, setErrorStates] = useState<{ [key: string]: boolean }>({})
-  const [videoPosters, setVideoPosters] = useState<{ [key: string]: string }>({})
+  const [loadedImages, setLoadedImages] = useState<Set<string>>(new Set())
 
   const filteredMedia =
-    selectedCategory === "all"
+    selectedCategory === 'all'
       ? galleryMedia
       : galleryMedia.filter((item) => item.category === selectedCategory)
 
+  // Update category counts
   useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768)
-    }
-    checkMobile()
-    window.addEventListener("resize", checkMobile)
-    return () => window.removeEventListener("resize", checkMobile)
-  }, [])
-
-  // Initialize loading states for all media
-  useEffect(() => {
-    const initialLoading: { [key: string]: boolean } = {}
-    filteredMedia.forEach(item => {
-      initialLoading[item.id] = true
-    })
-    setLoadingStates(initialLoading)
-    // Reset error states when category changes
-    setErrorStates({})
-  }, [selectedCategory, filteredMedia.length])
-
-  // Generate video poster from first frame
-  const generateVideoPoster = useCallback((videoSrc: string, videoId: string) => {
-    try {
-      const video = document.createElement('video')
-      video.src = videoSrc
-      video.crossOrigin = 'anonymous'
-      video.preload = 'metadata'
-      video.muted = true
-      
-      const handleLoadedMetadata = () => {
-        video.currentTime = 0.5 // Seek to 0.5 seconds for better thumbnail
-      }
-      
-      const handleSeeked = () => {
-        try {
-          const canvas = document.createElement('canvas')
-          canvas.width = video.videoWidth || 800
-          canvas.height = video.videoHeight || 600
-          const ctx = canvas.getContext('2d')
-          if (ctx) {
-            ctx.drawImage(video, 0, 0, canvas.width, canvas.height)
-            const posterUrl = canvas.toDataURL('image/jpeg', 0.85)
-            setVideoPosters(prev => ({ ...prev, [videoId]: posterUrl }))
-            setLoadingStates(prev => ({ ...prev, [videoId]: false }))
-          }
-        } catch (error) {
-          console.error('Error generating video poster:', error)
-          setLoadingStates(prev => ({ ...prev, [videoId]: false }))
-        }
-        video.removeEventListener('loadedmetadata', handleLoadedMetadata)
-        video.removeEventListener('seeked', handleSeeked)
-        video.removeEventListener('error', handleError)
-      }
-      
-      const handleError = () => {
-        setErrorStates(prev => ({ ...prev, [videoId]: true }))
-        setLoadingStates(prev => ({ ...prev, [videoId]: false }))
-        video.removeEventListener('loadedmetadata', handleLoadedMetadata)
-        video.removeEventListener('seeked', handleSeeked)
-        video.removeEventListener('error', handleError)
-      }
-      
-      video.addEventListener('loadedmetadata', handleLoadedMetadata)
-      video.addEventListener('seeked', handleSeeked)
-      video.addEventListener('error', handleError)
-    } catch (error) {
-      console.error('Error setting up video poster generation:', error)
-      setLoadingStates(prev => ({ ...prev, [videoId]: false }))
-    }
-  }, [])
+    // Counts are calculated dynamically from filteredMedia
+  }, [selectedCategory])
 
   const openLightbox = (index: number) => {
     setCurrentMediaIndex(index)
     setLightboxOpen(true)
-    document.body.style.overflow = "hidden"
+    document.body.style.overflow = 'hidden'
   }
 
   const closeLightbox = useCallback(() => {
     setLightboxOpen(false)
-    document.body.style.overflow = "unset"
+    document.body.style.overflow = 'unset'
   }, [])
 
   const nextMedia = useCallback(() => {
@@ -117,207 +56,198 @@ export default function GalleryPage() {
     if (!lightboxOpen) return
 
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape") closeLightbox()
-      if (e.key === "ArrowRight") nextMedia()
-      if (e.key === "ArrowLeft") prevMedia()
+      switch (e.key) {
+        case 'Escape':
+          closeLightbox()
+          break
+        case 'ArrowLeft':
+          prevMedia()
+          break
+        case 'ArrowRight':
+          nextMedia()
+          break
+      }
     }
 
-    window.addEventListener("keydown", handleKeyDown)
-    return () => window.removeEventListener("keydown", handleKeyDown)
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
   }, [lightboxOpen, nextMedia, prevMedia, closeLightbox])
+
+  const handleImageLoad = (itemId: string) => {
+    setLoadedImages((prev) => new Set([...prev, itemId]))
+  }
 
   return (
     <div className="min-h-screen bg-background">
       {/* Hero Section */}
-      <section className="relative h-[50vh] min-h-[400px] bg-charcoal-900 overflow-hidden">
-        <div className="absolute inset-0">
-          <div className="absolute inset-0 bg-gradient-to-br from-charcoal-950 via-charcoal-900 to-burgundy-900"></div>
-        </div>
+      <section className="relative h-[40vh] min-h-[300px] md:min-h-[400px] bg-gradient-to-br from-charcoal-950 via-charcoal-900 to-burgundy-900 overflow-hidden">
+        <div className="absolute inset-0 bg-black/30"></div>
         <div className="relative z-10 h-full flex items-center justify-center text-center px-6">
-          <div>
-            <h1 className="text-5xl md:text-6xl font-display font-light text-cream-100 mb-4">
+          <div className="max-w-3xl">
+            <h1 className="text-4xl md:text-6xl font-display font-light text-cream-100 mb-4">
               Our Gallery
             </h1>
             <div className="w-24 h-px bg-gold-500 mx-auto mb-6" />
-            <p className="text-lg md:text-xl text-cream-200/90 font-body font-light max-w-2xl mx-auto">
-              A visual journey through our culinary world, from signature dishes to memorable moments
+            <p className="text-lg md:text-xl text-cream-200/90 font-body font-light">
+              A visual journey through our culinary excellence and warm hospitality
             </p>
           </div>
         </div>
       </section>
 
-      {/* Filter Tabs */}
+      {/* Category Filter Tabs */}
       <section className="bg-cream-50 border-b border-border/50 sticky top-20 z-40">
         <div className="container-custom">
           <div className="flex gap-3 overflow-x-auto py-4 scrollbar-hide -mx-6 px-6 md:mx-0 md:px-0">
             <div className="flex gap-3 min-w-max">
-              {galleryCategories.map((category) => (
-                <button
-                  key={category.id}
-                  onClick={() => setSelectedCategory(category.id)}
-                  className={cn(
-                    "px-5 py-2.5 rounded-full whitespace-nowrap font-heading font-medium transition-all duration-300 min-h-[44px] flex-shrink-0 touch-manipulation",
-                    "text-sm md:text-base",
-                    selectedCategory === category.id
-                      ? "bg-gold-500 text-foreground shadow-md scale-105"
-                      : "bg-white text-muted-foreground hover:bg-cream-100 active:bg-cream-200 border border-border/30"
-                  )}
-                >
-                  {category.label}
-                </button>
-              ))}
+              {galleryCategories.map((category) => {
+                const count =
+                  category.id === 'all'
+                    ? galleryMedia.length
+                    : galleryMedia.filter((item) => item.category === category.id).length
+                return (
+                  <button
+                    key={category.id}
+                    onClick={() => setSelectedCategory(category.id)}
+                    className={cn(
+                      'px-5 py-2.5 rounded-full whitespace-nowrap font-heading font-medium transition-all duration-300 min-h-[44px] flex-shrink-0 touch-manipulation flex items-center gap-2',
+                      'text-sm md:text-base',
+                      selectedCategory === category.id
+                        ? 'bg-gold-500 text-foreground shadow-md scale-105'
+                        : 'bg-white text-muted-foreground hover:bg-cream-100 active:bg-cream-200 border border-border/30'
+                    )}
+                  >
+                    <span>{category.label}</span>
+                    <span
+                      className={cn(
+                        'text-xs px-2 py-0.5 rounded-full',
+                        selectedCategory === category.id
+                          ? 'bg-white/20 text-foreground'
+                          : 'bg-gray-200 text-gray-600'
+                      )}
+                    >
+                      {count}
+                    </span>
+                  </button>
+                )
+              })}
             </div>
           </div>
         </div>
       </section>
 
-      {/* Media Grid */}
+      {/* Gallery Grid */}
       <section className="section-padding">
         <div className="container-custom">
+          {/* Info Banner */}
+          {filteredMedia.length === 0 && galleryMedia.length > 0 && (
+            <div className="mb-8 bg-blue-50 border border-blue-200 rounded-lg p-4 flex items-start gap-3">
+              <AlertCircle className="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" />
+              <div>
+                <p className="text-blue-900 font-medium">No media in this category</p>
+                <p className="text-blue-700 text-sm mt-1">
+                  Try selecting a different category or view all media
+                </p>
+              </div>
+            </div>
+          )}
+
           {filteredMedia.length > 0 ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {filteredMedia.map((item, index) => {
-                const isLoading = loadingStates[item.id] !== false
-                const hasError = errorStates[item.id]
-                const videoPoster = videoPosters[item.id]
-                
+                const fallbackType = getFallbackType(item)
+                const isLoaded = loadedImages.has(item.id)
+
                 return (
                   <div
                     key={item.id}
                     onClick={() => openLightbox(index)}
-                    className="group relative aspect-square rounded-lg overflow-hidden cursor-pointer bg-cream-100 shadow-lg hover:shadow-xl transition-all duration-300"
+                    className="group relative aspect-square rounded-lg overflow-hidden cursor-pointer bg-cream-100 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-[1.02]"
                   >
-                    {/* Loading State */}
-                    {isLoading && !hasError && (
-                      <div className="absolute inset-0 flex items-center justify-center bg-cream-100 z-20">
-                        <Loader2 className="w-8 h-8 text-gold-500 animate-spin" />
-                      </div>
-                    )}
+                    {/* Thumbnail with robust error handling */}
+                    <div className="relative w-full h-full">
+                      <GalleryImage
+                        src={item.thumbnail || item.src}
+                        alt={item.alt}
+                        type={fallbackType}
+                        className="object-cover transition-transform duration-500 group-hover:scale-110"
+                        priority={index < 6}
+                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                        onImageLoad={() => handleImageLoad(item.id)}
+                      />
+                    </div>
 
-                    {/* Error State */}
-                    {hasError && (
-                      <div className="absolute inset-0 flex items-center justify-center bg-cream-100 z-20">
-                        <div className="text-center p-6">
-                          <div className="text-5xl mb-3">🍽️</div>
-                          <p className="text-sm font-medium text-gray-700">Media Unavailable</p>
-                          <p className="text-xs text-gray-500 mt-2">{item.title}</p>
-                        </div>
-                      </div>
-                    )}
+                    {/* Gradient Overlay */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-30" />
 
-                    {/* Thumbnail - Handle videos and images differently */}
-                    {!hasError && (
-                      <>
-                        {item.type === "video" ? (
-                          <div className="relative w-full h-full">
-                            {videoPoster ? (
-                              <Image
-                                src={videoPoster}
-                                alt={item.alt}
-                                fill
-                                className="object-cover transition-transform duration-500 group-hover:scale-110"
-                                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                                quality={85}
-                                priority={index < 6}
-                                onLoad={() => {
-                                  setLoadingStates(prev => ({ ...prev, [item.id]: false }))
-                                }}
-                                onError={() => {
-                                  setErrorStates(prev => ({ ...prev, [item.id]: true }))
-                                  setLoadingStates(prev => ({ ...prev, [item.id]: false }))
-                                }}
-                              />
-                            ) : (
-                              <video
-                                src={item.src}
-                                className="absolute inset-0 w-full h-full object-cover"
-                                muted
-                                playsInline
-                                preload="metadata"
-                                onLoadedMetadata={(e) => {
-                                  const video = e.currentTarget
-                                  video.currentTime = 0.5
-                                  generateVideoPoster(item.src, item.id)
-                                }}
-                                onError={() => {
-                                  setErrorStates(prev => ({ ...prev, [item.id]: true }))
-                                  setLoadingStates(prev => ({ ...prev, [item.id]: false }))
-                                }}
-                                style={{ display: isLoading ? 'none' : 'block' }}
-                              />
-                            )}
-                          </div>
-                        ) : (
-                          <Image
-                            src={item.thumbnail || item.src}
-                            alt={item.alt}
-                            fill
-                            className="object-cover transition-transform duration-500 group-hover:scale-110"
-                            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                            loading={index < 6 ? "eager" : "lazy"}
-                            quality={85}
-                            priority={index < 6}
-                            onError={() => {
-                              console.error('Gallery image failed to load:', item.src)
-                              setErrorStates(prev => ({ ...prev, [item.id]: true }))
-                              setLoadingStates(prev => ({ ...prev, [item.id]: false }))
-                            }}
-                            onLoad={() => {
-                              setLoadingStates(prev => ({ ...prev, [item.id]: false }))
-                              if (process.env.NODE_ENV === 'development') {
-                                console.log('Gallery image loaded successfully:', item.src)
-                              }
-                            }}
-                          />
-                        )}
-                      </>
-                    )}
+                    {/* Content Overlay */}
+                    <div className="absolute inset-0 flex flex-col justify-end p-6 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-30">
+                      <h3 className="text-lg md:text-xl font-display font-light mb-2 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
+                        {item.title}
+                      </h3>
+                      {item.description && (
+                        <p className="text-sm text-cream-200/90 font-body font-light line-clamp-2 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300 delay-75">
+                          {item.description}
+                        </p>
+                      )}
+                    </div>
 
-                    {/* Overlay */}
-                    {!hasError && (
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-30">
-                        <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
-                          <h3 className="font-display font-light text-xl mb-2">{item.title}</h3>
-                          {item.description && (
-                            <p className="text-sm text-cream-200/90 font-body font-light line-clamp-2">
-                              {item.description}
-                            </p>
-                          )}
-                        </div>
-                      </div>
-                    )}
-
-                    {/* Video Play Icon */}
-                    {item.type === "video" && !hasError && (
-                      <div className="absolute inset-0 flex items-center justify-center z-30 pointer-events-none">
-                        <div className="w-16 h-16 bg-gold-500/90 backdrop-blur-sm rounded-full flex items-center justify-center group-hover:scale-110 transition-transform shadow-lg">
-                          <Play className="w-8 h-8 text-white ml-1" fill="white" />
+                    {/* Video Play Button */}
+                    {item.type === 'video' && (
+                      <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-20">
+                        <div className="w-16 h-16 md:w-20 md:h-20 bg-gold-500/95 backdrop-blur-sm rounded-full flex items-center justify-center group-hover:scale-110 transition-transform shadow-2xl">
+                          <Play className="w-8 h-8 md:w-10 md:h-10 text-white ml-1" fill="white" />
                         </div>
                       </div>
                     )}
 
                     {/* Category Badge */}
-                    {!hasError && (
-                      <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-sm px-3 py-1.5 rounded-full shadow-md z-30">
-                        <span className="text-xs font-heading font-medium text-foreground">
-                          {galleryCategories.find((c) => c.id === item.category)?.label}
-                        </span>
+                    <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-sm px-3 py-1.5 rounded-full shadow-md z-30">
+                      <span className="text-xs font-heading font-medium text-foreground">
+                        {galleryCategories.find((c) => c.id === item.category)?.label}
+                      </span>
+                    </div>
+
+                    {/* Load Status Indicator */}
+                    {!isLoaded && (
+                      <div className="absolute top-4 right-4 z-30">
+                        <div className="w-2 h-2 bg-amber-400 rounded-full animate-pulse" />
                       </div>
                     )}
 
-                    {/* Hover Ring Effect */}
-                    {!hasError && (
-                      <div className="absolute inset-0 border-4 border-gold-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-lg z-20 pointer-events-none" />
-                    )}
+                    {/* Hover Border Effect */}
+                    <div className="absolute inset-0 border-4 border-gold-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-lg z-20 pointer-events-none" />
                   </div>
                 )
               })}
             </div>
           ) : (
             <div className="text-center py-20">
-              <p className="text-muted-foreground text-lg font-body font-light">
-                No media found in this category
+              <div className="text-8xl mb-6">📸</div>
+              <h3 className="text-2xl font-semibold text-gray-700 mb-3">Gallery Coming Soon</h3>
+              <p className="text-gray-500 text-lg mb-8 max-w-md mx-auto">
+                We're preparing stunning visuals of our culinary creations. Check back soon!
               </p>
+              <Link href="/menu">
+                <Button className="px-8 py-3 bg-amber-500 text-white rounded-lg hover:bg-amber-600 transition-colors font-medium shadow-lg">
+                  Explore Our Menu
+                </Button>
+              </Link>
+            </div>
+          )}
+
+          {/* Empty Category State */}
+          {filteredMedia.length === 0 && galleryMedia.length > 0 && (
+            <div className="text-center py-20">
+              <div className="text-7xl mb-6">🔍</div>
+              <h3 className="text-xl font-semibold text-gray-700 mb-3">No Media in This Category</h3>
+              <p className="text-gray-500 mb-6">Try viewing all media or select a different category</p>
+              <button
+                onClick={() => setSelectedCategory('all')}
+                className="px-6 py-3 bg-amber-500 text-white rounded-lg hover:bg-amber-600 transition-colors font-medium"
+              >
+                View All Media
+              </button>
             </div>
           )}
         </div>
@@ -343,102 +273,119 @@ export default function GalleryPage() {
         </div>
       </section>
 
-      {/* LIGHTBOX Modal */}
+      {/* Lightbox Modal */}
       {lightboxOpen && filteredMedia[currentMediaIndex] && (
         <div
-          className="fixed inset-0 bg-black/95 z-50 flex items-center justify-center animate-fade-in"
+          className="fixed inset-0 bg-black/98 z-50 flex items-center justify-center p-4 animate-fade-in"
           onClick={closeLightbox}
         >
           {/* Close Button */}
           <button
             onClick={closeLightbox}
-            className="absolute top-4 right-4 z-50 bg-white/10 backdrop-blur-sm p-3 rounded-full hover:bg-white/20 transition-colors min-h-[44px] min-w-[44px] flex items-center justify-center"
-            aria-label="Close lightbox"
+            className="absolute top-6 right-6 z-50 bg-white/10 backdrop-blur-md p-4 rounded-full hover:bg-white/20 transition-all hover:scale-110 hover:rotate-90 min-h-[44px] min-w-[44px] flex items-center justify-center"
+            aria-label="Close gallery"
           >
             <X className="w-6 h-6 text-white" />
           </button>
 
-          {/* Previous Button */}
+          {/* Navigation Buttons */}
           {filteredMedia.length > 1 && (
-            <button
-              onClick={(e) => {
-                e.stopPropagation()
-                prevMedia()
-              }}
-              className="absolute left-4 top-1/2 -translate-y-1/2 z-50 bg-white/10 backdrop-blur-sm p-3 rounded-full hover:bg-white/20 transition-colors min-h-[44px] min-w-[44px] flex items-center justify-center"
-              aria-label="Previous image"
-            >
-              <ChevronLeft className="w-6 h-6 text-white" />
-            </button>
-          )}
+            <>
+              <button
+                onClick={(e) => {
+                  e.stopPropagation()
+                  prevMedia()
+                }}
+                className="absolute left-6 top-1/2 -translate-y-1/2 z-50 bg-white/10 backdrop-blur-md p-4 rounded-full hover:bg-white/20 transition-all hover:scale-110 min-h-[44px] min-w-[44px] flex items-center justify-center"
+                aria-label="Previous image"
+              >
+                <ChevronLeft className="w-7 h-7 text-white" />
+              </button>
 
-          {/* Next Button */}
-          {filteredMedia.length > 1 && (
-            <button
-              onClick={(e) => {
-                e.stopPropagation()
-                nextMedia()
-              }}
-              className="absolute right-4 top-1/2 -translate-y-1/2 z-50 bg-white/10 backdrop-blur-sm p-3 rounded-full hover:bg-white/20 transition-colors min-h-[44px] min-w-[44px] flex items-center justify-center"
-              aria-label="Next image"
-            >
-              <ChevronRight className="w-6 h-6 text-white" />
-            </button>
+              <button
+                onClick={(e) => {
+                  e.stopPropagation()
+                  nextMedia()
+                }}
+                className="absolute right-6 top-1/2 -translate-y-1/2 z-50 bg-white/10 backdrop-blur-md p-4 rounded-full hover:bg-white/20 transition-all hover:scale-110 min-h-[44px] min-w-[44px] flex items-center justify-center"
+                aria-label="Next image"
+              >
+                <ChevronRight className="w-7 h-7 text-white" />
+              </button>
+            </>
           )}
 
           {/* Media Content */}
           <div
-            className="max-w-6xl max-h-[90vh] w-full mx-4"
+            className="max-w-7xl max-h-[90vh] w-full"
             onClick={(e) => e.stopPropagation()}
           >
-            {filteredMedia[currentMediaIndex].type === "image" ? (
+            {filteredMedia[currentMediaIndex].type === 'image' ? (
               <div className="relative w-full h-full flex items-center justify-center">
-                <Image
+                <GalleryImage
                   src={filteredMedia[currentMediaIndex].src}
                   alt={filteredMedia[currentMediaIndex].alt}
-                  width={1200}
-                  height={800}
-                  className="max-w-full max-h-[80vh] object-contain rounded-lg"
+                  type={getFallbackType(filteredMedia[currentMediaIndex])}
+                  fill={false}
+                  width={1400}
+                  height={900}
+                  className="max-w-full max-h-[75vh] w-auto h-auto object-contain rounded-lg shadow-2xl"
                   priority
-                  quality={95}
-                  onError={(e) => {
-                    console.error('Lightbox image failed to load:', filteredMedia[currentMediaIndex].src)
-                    e.currentTarget.style.display = 'none'
-                  }}
                 />
               </div>
             ) : (
-              <video
-                src={filteredMedia[currentMediaIndex].src}
-                controls
-                autoPlay
-                className="w-full max-h-[80vh] object-contain rounded-lg"
-                playsInline
-                poster={videoPosters[filteredMedia[currentMediaIndex].id] || filteredMedia[currentMediaIndex].thumbnail}
-                onError={(e) => {
-                  console.error('Lightbox video failed to load:', filteredMedia[currentMediaIndex].src)
-                }}
-              >
-                <source src={filteredMedia[currentMediaIndex].src} type="video/mp4" />
-                <source src={filteredMedia[currentMediaIndex].src} type="video/quicktime" />
-                Your browser does not support the video tag.
-              </video>
+              <div className="relative w-full">
+                <video
+                  src={filteredMedia[currentMediaIndex].src}
+                  controls
+                  autoPlay
+                  className="w-full max-h-[75vh] rounded-lg shadow-2xl"
+                  playsInline
+                  poster={filteredMedia[currentMediaIndex].thumbnail}
+                  onError={(e) => {
+                    console.error('Lightbox video failed to load:', filteredMedia[currentMediaIndex].src)
+                  }}
+                >
+                  <source src={filteredMedia[currentMediaIndex].src} type="video/mp4" />
+                  <source src={filteredMedia[currentMediaIndex].src} type="video/quicktime" />
+                  Your browser does not support the video tag.
+                </video>
+              </div>
             )}
 
             {/* Media Info */}
-            <div className="mt-6 text-center text-white">
-              <h3 className="text-2xl font-display font-light mb-2">
+            <div className="mt-8 text-center text-white animate-fade-in">
+              <h3 className="text-2xl md:text-3xl font-display font-light mb-3">
                 {filteredMedia[currentMediaIndex].title}
               </h3>
               {filteredMedia[currentMediaIndex].description && (
-                <p className="text-cream-200/80 font-body font-light max-w-2xl mx-auto">
+                <p className="text-cream-200/80 font-body font-light max-w-2xl mx-auto mb-4">
                   {filteredMedia[currentMediaIndex].description}
                 </p>
               )}
-              <p className="text-sm text-cream-200/60 mt-4 font-body font-light">
-                {currentMediaIndex + 1} / {filteredMedia.length}
-              </p>
+              <div className="flex items-center justify-center gap-4 text-sm text-cream-200/60">
+                <span>
+                  {currentMediaIndex + 1} / {filteredMedia.length}
+                </span>
+                <span>•</span>
+                <span className="capitalize">
+                  {filteredMedia[currentMediaIndex].category.replace('-', ' ')}
+                </span>
+              </div>
             </div>
+          </div>
+
+          {/* Keyboard Hint */}
+          <div className="absolute bottom-6 left-1/2 -translate-x-1/2 text-gray-400 text-sm flex items-center gap-6">
+            <span className="flex items-center gap-2">
+              <kbd className="px-2 py-1 bg-white/10 rounded text-xs">←</kbd>
+              <kbd className="px-2 py-1 bg-white/10 rounded text-xs">→</kbd>
+              <span>Navigate</span>
+            </span>
+            <span className="flex items-center gap-2">
+              <kbd className="px-2 py-1 bg-white/10 rounded text-xs">ESC</kbd>
+              <span>Close</span>
+            </span>
           </div>
         </div>
       )}
