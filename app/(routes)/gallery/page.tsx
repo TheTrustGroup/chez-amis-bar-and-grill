@@ -5,6 +5,7 @@ import { X, Play, ChevronLeft, ChevronRight, AlertCircle } from 'lucide-react'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { GalleryImage } from '@/components/gallery/GalleryImage'
+import { VideoThumbnail } from '@/components/gallery/VideoThumbnail'
 import { galleryMedia, galleryCategories, type MediaCategory, type MediaItem } from '@/lib/data/galleryMedia'
 import { cn } from '@/lib/utils'
 
@@ -166,15 +167,26 @@ export default function GalleryPage() {
                   >
                     {/* Thumbnail with robust error handling */}
                     <div className="relative w-full h-full z-0">
-                      <GalleryImage
-                        src={item.thumbnail || item.src}
-                        alt={item.alt}
-                        type={fallbackType}
-                        className="object-cover transition-transform duration-500 group-hover:scale-110"
-                        priority={index < 6}
-                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                        onImageLoad={() => handleImageLoad(item.id)}
-                      />
+                      {item.type === 'video' ? (
+                        <VideoThumbnail
+                          videoSrc={item.src}
+                          alt={item.alt}
+                          className="transition-transform duration-500 group-hover:scale-110"
+                          priority={index < 6}
+                          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                          onThumbnailLoad={() => handleImageLoad(item.id)}
+                        />
+                      ) : (
+                        <GalleryImage
+                          src={item.thumbnail || item.src}
+                          alt={item.alt}
+                          type={fallbackType}
+                          className="object-cover transition-transform duration-500 group-hover:scale-110"
+                          priority={index < 6}
+                          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                          onImageLoad={() => handleImageLoad(item.id)}
+                        />
+                      )}
                     </div>
 
                     {/* Video Play Button - Must be above everything else */}
@@ -276,13 +288,13 @@ export default function GalleryPage() {
       {/* Lightbox Modal */}
       {lightboxOpen && filteredMedia[currentMediaIndex] && (
         <div
-          className="fixed inset-0 bg-black/98 z-50 flex items-center justify-center p-4 animate-fade-in"
+          className="fixed inset-0 bg-black/98 z-50 flex items-center justify-center p-4 animate-fade-in overflow-hidden gallery-lightbox"
           onClick={closeLightbox}
         >
           {/* Close Button */}
           <button
             onClick={closeLightbox}
-            className="absolute top-6 right-6 z-50 bg-white/10 backdrop-blur-md p-4 rounded-full hover:bg-white/20 transition-all hover:scale-110 hover:rotate-90 min-h-[44px] min-w-[44px] flex items-center justify-center"
+            className="absolute top-6 right-6 z-[60] bg-white/10 backdrop-blur-md p-4 rounded-full hover:bg-white/20 transition-all hover:scale-110 hover:rotate-90 min-h-[44px] min-w-[44px] flex items-center justify-center close-button"
             aria-label="Close gallery"
           >
             <X className="w-6 h-6 text-white" />
@@ -296,7 +308,7 @@ export default function GalleryPage() {
                   e.stopPropagation()
                   prevMedia()
                 }}
-                className="absolute left-6 top-1/2 -translate-y-1/2 z-50 bg-white/10 backdrop-blur-md p-4 rounded-full hover:bg-white/20 transition-all hover:scale-110 min-h-[44px] min-w-[44px] flex items-center justify-center"
+                className="absolute left-6 top-1/2 -translate-y-1/2 z-[60] bg-white/10 backdrop-blur-md p-4 rounded-full hover:bg-white/20 transition-all hover:scale-110 min-h-[44px] min-w-[44px] flex items-center justify-center navigation-buttons"
                 aria-label="Previous image"
               >
                 <ChevronLeft className="w-7 h-7 text-white" />
@@ -307,7 +319,7 @@ export default function GalleryPage() {
                   e.stopPropagation()
                   nextMedia()
                 }}
-                className="absolute right-6 top-1/2 -translate-y-1/2 z-50 bg-white/10 backdrop-blur-md p-4 rounded-full hover:bg-white/20 transition-all hover:scale-110 min-h-[44px] min-w-[44px] flex items-center justify-center"
+                className="absolute right-6 top-1/2 -translate-y-1/2 z-[60] bg-white/10 backdrop-blur-md p-4 rounded-full hover:bg-white/20 transition-all hover:scale-110 min-h-[44px] min-w-[44px] flex items-center justify-center navigation-buttons"
                 aria-label="Next image"
               >
                 <ChevronRight className="w-7 h-7 text-white" />
@@ -317,7 +329,7 @@ export default function GalleryPage() {
 
           {/* Media Content */}
           <div
-            className="max-w-7xl max-h-[90vh] w-full"
+            className="max-w-7xl max-h-[90vh] w-full relative"
             onClick={(e) => e.stopPropagation()}
           >
             {filteredMedia[currentMediaIndex].type === 'image' ? (
@@ -334,16 +346,21 @@ export default function GalleryPage() {
                 />
               </div>
             ) : (
-              <div className="relative w-full">
+              <div className="gallery-video-container">
                 <video
                   src={filteredMedia[currentMediaIndex].src}
                   controls
                   autoPlay
-                  className="w-full max-h-[75vh] rounded-lg shadow-2xl"
+                  className="w-full h-auto max-h-[75vh] rounded-lg shadow-2xl"
                   playsInline
-                  poster={filteredMedia[currentMediaIndex].thumbnail}
+                  controlsList="nodownload noplaybackrate"
                   onError={(e) => {
                     console.error('Lightbox video failed to load:', filteredMedia[currentMediaIndex].src)
+                  }}
+                  style={{
+                    maxWidth: '100%',
+                    maxHeight: '75vh',
+                    objectFit: 'contain',
                   }}
                 >
                   <source src={filteredMedia[currentMediaIndex].src} type="video/mp4" />
@@ -353,8 +370,8 @@ export default function GalleryPage() {
               </div>
             )}
 
-            {/* Media Info */}
-            <div className="mt-8 text-center text-white animate-fade-in">
+            {/* Media Info - Positioned below video to avoid overlap */}
+            <div className={`text-center text-white animate-fade-in ${filteredMedia[currentMediaIndex].type === 'video' ? 'mt-4' : 'mt-8'}`}>
               <h3 className="text-2xl md:text-3xl font-display font-light mb-3">
                 {filteredMedia[currentMediaIndex].title}
               </h3>
@@ -375,18 +392,20 @@ export default function GalleryPage() {
             </div>
           </div>
 
-          {/* Keyboard Hint */}
-          <div className="absolute bottom-6 left-1/2 -translate-x-1/2 text-gray-400 text-sm flex items-center gap-6">
-            <span className="flex items-center gap-2">
-              <kbd className="px-2 py-1 bg-white/10 rounded text-xs">←</kbd>
-              <kbd className="px-2 py-1 bg-white/10 rounded text-xs">→</kbd>
-              <span>Navigate</span>
-            </span>
-            <span className="flex items-center gap-2">
-              <kbd className="px-2 py-1 bg-white/10 rounded text-xs">ESC</kbd>
-              <span>Close</span>
-            </span>
-          </div>
+          {/* Keyboard Hint - Only show for images, hide for videos to avoid clutter */}
+          {filteredMedia[currentMediaIndex].type === 'image' && (
+            <div className="absolute bottom-6 left-1/2 -translate-x-1/2 text-gray-400 text-sm flex items-center gap-6 z-50">
+              <span className="flex items-center gap-2">
+                <kbd className="px-2 py-1 bg-white/10 rounded text-xs">←</kbd>
+                <kbd className="px-2 py-1 bg-white/10 rounded text-xs">→</kbd>
+                <span>Navigate</span>
+              </span>
+              <span className="flex items-center gap-2">
+                <kbd className="px-2 py-1 bg-white/10 rounded text-xs">ESC</kbd>
+                <span>Close</span>
+              </span>
+            </div>
+          )}
         </div>
       )}
     </div>
