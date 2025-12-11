@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, memo } from 'react'
 import Image from 'next/image'
 import { ImagePlaceholder } from '@/components/ui/ImagePlaceholder'
 
@@ -17,7 +17,7 @@ interface GalleryImageProps {
   onImageLoad?: () => void
 }
 
-export function GalleryImage({ 
+export const GalleryImage = memo(function GalleryImage({ 
   src, 
   alt, 
   type,
@@ -78,5 +78,5 @@ export function GalleryImage({
       />
     </>
   )
-}
+})
 

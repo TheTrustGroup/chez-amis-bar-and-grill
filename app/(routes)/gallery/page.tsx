@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, useMemo } from 'react'
 import { X, Play, ChevronLeft, ChevronRight, AlertCircle } from 'lucide-react'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
@@ -23,15 +23,23 @@ export default function GalleryPage() {
   const [currentMediaIndex, setCurrentMediaIndex] = useState(0)
   const [loadedImages, setLoadedImages] = useState<Set<string>>(new Set())
 
-  const filteredMedia =
-    selectedCategory === 'all'
-      ? galleryMedia
-      : galleryMedia.filter((item) => item.category === selectedCategory)
+  // Memoize filtered media to prevent unnecessary recalculations
+  const filteredMedia = useMemo(
+    () =>
+      selectedCategory === 'all'
+        ? galleryMedia
+        : galleryMedia.filter((item) => item.category === selectedCategory),
+    [selectedCategory]
+  )
 
-  // Update category counts
-  useEffect(() => {
-    // Counts are calculated dynamically from filteredMedia
-  }, [selectedCategory])
+  // Memoize category counts to prevent unnecessary recalculations
+  const categoryCounts = useMemo(() => {
+    const counts: Record<string, number> = {}
+    galleryMedia.forEach((item) => {
+      counts[item.category] = (counts[item.category] || 0) + 1
+    })
+    return counts
+  }, [])
 
   const openLightbox = (index: number) => {
     setCurrentMediaIndex(index)
@@ -105,7 +113,7 @@ export default function GalleryPage() {
                 const count =
                   category.id === 'all'
                     ? galleryMedia.length
-                    : galleryMedia.filter((item) => item.category === category.id).length
+                    : categoryCounts[category.id] || 0
                 return (
                   <button
                     key={category.id}
@@ -165,14 +173,14 @@ export default function GalleryPage() {
                     onClick={() => openLightbox(index)}
                     className="group relative aspect-square rounded-lg overflow-hidden cursor-pointer bg-cream-100 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-[1.02]"
                   >
-                    {/* Thumbnail with robust error handling */}
+                    {/* Thumbnail with robust error handling - Lazy loading for performance */}
                     <div className="relative w-full h-full z-0">
                       {item.type === 'video' ? (
                         <VideoThumbnail
                           videoSrc={item.src}
                           alt={item.alt}
                           className="transition-transform duration-500 group-hover:scale-110"
-                          priority={index < 6}
+                          priority={index < 6} // Only first 6 load immediately
                           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                           onThumbnailLoad={() => handleImageLoad(item.id)}
                         />
@@ -182,7 +190,7 @@ export default function GalleryPage() {
                           alt={item.alt}
                           type={fallbackType}
                           className="object-cover transition-transform duration-500 group-hover:scale-110"
-                          priority={index < 6}
+                          priority={index < 6} // Only first 6 load immediately
                           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                           onImageLoad={() => handleImageLoad(item.id)}
                         />
