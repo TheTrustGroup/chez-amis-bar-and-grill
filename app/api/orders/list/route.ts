@@ -20,12 +20,14 @@ export async function GET(request: NextRequest) {
 
     let orders
     if (status) {
-      orders = getOrdersByStatus(status)
+      orders = await getOrdersByStatus(status)
     } else {
-      orders = getRecentOrders(limit)
+      orders = await getRecentOrders(limit)
     }
 
-    const counts = getOrdersCountByStatus()
+    const counts = await getOrdersCountByStatus()
+
+    console.log(`📥 GET /api/orders/list: Returning ${orders.length} orders (status: ${status || 'all'})`)
 
     return NextResponse.json({
       success: true,

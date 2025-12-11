@@ -90,8 +90,8 @@ export async function POST(request: NextRequest) {
           sms: { sent: false, error: adminResult.reason instanceof Error ? adminResult.reason.message : 'Unknown error' } 
         }
 
-    // Save order to storage
-    const savedOrder = saveOrder(orderData)
+    // Save order to storage (now async)
+    const savedOrder = await saveOrder(orderData)
 
     // Log notification results for debugging (dev only)
     if (process.env.NODE_ENV === 'development') {
@@ -124,7 +124,9 @@ export async function POST(request: NextRequest) {
 // GET endpoint to fetch all orders (for admin)
 export async function GET(request: NextRequest) {
   try {
-    const orders = getAllOrders()
+    const orders = await getAllOrders()
+    
+    console.log(`📥 GET /api/orders: Returning ${orders.length} orders`)
     
     return NextResponse.json({
       success: true,

@@ -158,8 +158,15 @@ export async function POST(
       }
     }
 
-    // Update order status in storage
-    const updatedOrder = updateOrderStatus(orderId, updateData.status)
+    // Update order status in storage (now async)
+    const updatedOrder = await updateOrderStatus(orderId, updateData.status)
+    
+    if (!updatedOrder) {
+      return NextResponse.json(
+        { error: 'Order not found' },
+        { status: 404 }
+      )
+    }
 
     // Log status update (dev only)
     if (process.env.NODE_ENV === 'development') {
