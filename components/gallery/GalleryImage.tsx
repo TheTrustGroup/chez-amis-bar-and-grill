@@ -79,4 +79,3 @@ export const GalleryImage = memo(function GalleryImage({
     </>
   )
 })
-

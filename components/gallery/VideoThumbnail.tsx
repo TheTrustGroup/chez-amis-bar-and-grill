@@ -27,7 +27,6 @@ export const VideoThumbnail = memo(function VideoThumbnail({
   const [thumbnailUrl, setThumbnailUrl] = useState<string | null>(null)
   const [isLoading, setIsLoading] = useState(true)
   const [hasError, setHasError] = useState(false)
-  const videoRef = useRef<HTMLVideoElement | null>(null)
   const observerRef = useRef<IntersectionObserver | null>(null)
   const containerRef = useRef<HTMLDivElement | null>(null)
 
