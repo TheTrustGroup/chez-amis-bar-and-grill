@@ -59,7 +59,22 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Convert to OrderData format
+    // CRITICAL: Save order to storage FIRST before sending notifications
+    // This ensures order is always recorded even if notifications fail
+    console.log('💾 Saving order to storage:', orderData.orderId)
+    const savedOrder = await saveOrder(orderData)
+    
+    if (!savedOrder) {
+      console.error('❌ CRITICAL: Failed to save order to storage')
+      return NextResponse.json(
+        { error: 'Failed to save order. Please try again.' },
+        { status: 500 }
+      )
+    }
+    
+    console.log('✅ Order saved successfully:', savedOrder.orderId)
+
+    // Convert to OrderData format for notifications
     const notificationData: OrderData = {
       orderId: orderData.orderId,
       orderType: orderData.orderType,
@@ -70,6 +85,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Send customer confirmation and admin notification in parallel
+    // These can fail without affecting order storage
     const [customerResult, adminResult] = await Promise.allSettled([
       sendOrderConfirmation(notificationData),
       sendAdminNotification('order', notificationData),
@@ -89,9 +105,6 @@ export async function POST(request: NextRequest) {
           email: { sent: false, error: adminResult.reason instanceof Error ? adminResult.reason.message : 'Unknown error' }, 
           sms: { sent: false, error: adminResult.reason instanceof Error ? adminResult.reason.message : 'Unknown error' } 
         }
-
-    // Save order to storage (now async)
-    const savedOrder = await saveOrder(orderData)
 
     // Log notification results for debugging (dev only)
     if (process.env.NODE_ENV === 'development') {
