@@ -1152,3 +1152,47 @@
   }
 }
 
+/* Gallery Video Player Styles */
+.gallery-video-container {
+  position: relative;
+  width: 100%;
+  max-height: 75vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
+
+.gallery-video-container video {
+  width: 100%;
+  height: auto;
+  max-height: 75vh;
+  object-fit: contain;
+  display: block;
+}
+
+/* Prevent video controls from overlapping */
+.gallery-video-container video::-webkit-media-controls {
+  display: flex !important;
+}
+
+.gallery-video-container video::-webkit-media-controls-panel {
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(10px);
+}
+
+/* Ensure video controls don't overlap with navigation buttons */
+.gallery-lightbox video {
+  z-index: 1;
+}
+
+.gallery-lightbox .navigation-buttons {
+  z-index: 60;
+}
+
+.gallery-lightbox .close-button {
+  z-index: 60;
+}
+
