@@ -240,6 +240,15 @@ export async function POST(
       }
     }
 
+    // Prevent changing status of delivered orders
+    const existingOrder = await getOrderById(orderId)
+    if (existingOrder && existingOrder.status === 'delivered') {
+      return NextResponse.json(
+        { error: 'Cannot change status of a delivered order' },
+        { status: 400 }
+      )
+    }
+
     // Update order status in storage (now async)
     const updatedOrder = await updateOrderStatus(orderId, updateData.status)
     

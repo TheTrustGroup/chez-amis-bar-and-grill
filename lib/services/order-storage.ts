@@ -39,34 +39,48 @@ async function ensureStorageDir() {
 
 // Read orders from file (with memory fallback)
 async function readOrders(): Promise<StoredOrder[]> {
-  // Try file first
+  // Try file first - FILE IS THE SOURCE OF TRUTH
   try {
     await ensureStorageDir()
     const data = await fs.readFile(STORAGE_FILE, 'utf-8')
     const orders = JSON.parse(data)
-    if (Array.isArray(orders)) {
-      // Merge with memory fallback to ensure no orders are lost
-      const memoryOrderIds = new Set(memoryFallback.map(o => o.orderId))
-      const fileOnlyOrders = orders.filter(o => !memoryOrderIds.has(o.orderId))
-      const mergedOrders = [...memoryFallback, ...fileOnlyOrders]
-      
-      // Update memory fallback with merged data
-      memoryFallback = mergedOrders
-      console.log(`📥 Read ${orders.length} orders from file, ${mergedOrders.length} total (including memory)`)
-      return mergedOrders
+    
+    if (Array.isArray(orders) && orders.length > 0) {
+      // File has orders - use file as source of truth
+      // Update memory fallback with file data
+      memoryFallback = [...orders]
+      console.log(`📥 Read ${orders.length} orders from file (source of truth)`)
+      return orders
+    } else if (Array.isArray(orders)) {
+      // File exists but is empty
+      console.log('📭 Orders file exists but is empty')
+      // If memory has orders, merge them back to file
+      if (memoryFallback.length > 0) {
+        console.log(`📦 Restoring ${memoryFallback.length} orders from memory to file`)
+        await writeOrders(memoryFallback)
+        return memoryFallback
+      }
+      return []
     }
   } catch (error) {
     // File doesn't exist yet or can't be read
     if ((error as NodeJS.ErrnoException).code === 'ENOENT') {
-      // Use memory fallback if available
+      console.log('📭 Orders file does not exist yet')
+      // If memory has orders, write them to file
       if (memoryFallback.length > 0) {
-        console.log('📦 Using memory fallback for orders:', memoryFallback.length)
+        console.log(`📦 Writing ${memoryFallback.length} orders from memory to file`)
+        await writeOrders(memoryFallback)
         return memoryFallback
       }
       console.log('📭 No orders file found, starting fresh')
       return []
     }
     console.error('❌ Error reading orders from file:', error)
+    console.error('❌ Error details:', {
+      code: (error as NodeJS.ErrnoException).code,
+      message: (error as Error).message,
+      path: STORAGE_FILE,
+    })
     // Fallback to memory
     if (memoryFallback.length > 0) {
       console.log('📦 Falling back to memory storage:', memoryFallback.length)
@@ -83,16 +97,30 @@ async function writeOrders(orders: StoredOrder[]): Promise<boolean> {
   // Always update memory fallback first (critical for serverless)
   memoryFallback = [...orders] // Create a copy to avoid reference issues
   
-  // Try to write to file
+  // Try to write to file - CRITICAL: This must succeed for persistence
   try {
     await ensureStorageDir()
-    await fs.writeFile(STORAGE_FILE, JSON.stringify(orders, null, 2), 'utf-8')
-    console.log('✅ Orders written to file:', orders.length, 'orders')
+    
+    // Use atomic write: write to temp file first, then rename (prevents corruption)
+    const tempFile = `${STORAGE_FILE}.tmp`
+    await fs.writeFile(tempFile, JSON.stringify(orders, null, 2), 'utf-8')
+    
+    // Atomic rename (atomic operation - either succeeds or fails, no partial state)
+    await fs.rename(tempFile, STORAGE_FILE)
+    
+    console.log('✅ Orders written to file successfully:', orders.length, 'orders')
+    console.log('📁 Storage file:', STORAGE_FILE)
     return true
   } catch (error) {
-    console.error('❌ Error writing orders to file:', error)
+    console.error('❌ CRITICAL: Error writing orders to file:', error)
+    console.error('❌ Error details:', {
+      code: (error as NodeJS.ErrnoException).code,
+      message: (error as Error).message,
+      path: STORAGE_FILE,
+    })
     // Memory fallback is already updated, so orders are still saved
     console.log('📦 Orders saved to memory fallback (file write failed)')
+    // Still return true because memory fallback succeeded, but log warning
     return true // Return true because memory fallback succeeded
   }
 }
@@ -112,11 +140,8 @@ export async function saveOrder(orderData: OrderRequest): Promise<StoredOrder> {
     status: 'pending',
   }
 
-  // Always save to memory fallback first (guaranteed storage)
-  memoryFallback.push(storedOrder)
-  console.log('📦 Order saved to memory fallback:', storedOrder.orderId)
-
   try {
+    // Read existing orders from file (source of truth)
     const orders = await readOrders()
     
     // Check if order already exists (prevent duplicates)
@@ -134,7 +159,7 @@ export async function saveOrder(orderData: OrderRequest): Promise<StoredOrder> {
     // Keep only last 1000 orders (prevent file from growing too large)
     const trimmedOrders = orders.length > 1000 ? orders.slice(-1000) : orders
     
-    // Try to write to file (non-blocking - memory fallback already has the order)
+    // Write to file - CRITICAL for persistence
     const success = await writeOrders(trimmedOrders)
     
     if (success) {
@@ -143,12 +168,13 @@ export async function saveOrder(orderData: OrderRequest): Promise<StoredOrder> {
       console.warn('⚠️ Failed to save order to file, but order is saved in memory fallback')
     }
     
-    // Always return the stored order (guaranteed to exist in memory)
+    // Always return the stored order
     return storedOrder
   } catch (error) {
-    console.error('❌ Error in saveOrder (non-critical - order saved to memory):', error)
-    // Order is already in memory fallback, so we can still return it
-    console.log('✅ Order preserved in memory fallback despite error')
+    console.error('❌ Error in saveOrder:', error)
+    // Fallback: save to memory
+    memoryFallback.push(storedOrder)
+    console.log('📦 Order saved to memory fallback as fallback')
     return storedOrder
   }
 }

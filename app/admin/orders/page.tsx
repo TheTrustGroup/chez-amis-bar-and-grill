@@ -359,13 +359,23 @@ export default function OrdersPage() {
                             onChange={(e) => {
                               const newStatus = e.target.value;
                               if (newStatus !== order.status) {
+                                // Prevent changing status of delivered orders
+                                if (order.status === 'delivered') {
+                                  alert('Cannot change status of a delivered order.');
+                                  return;
+                                }
                                 if (confirm(`Update order ${order.orderId} status to "${newStatus}"?`)) {
                                   updateOrderStatus(order.orderId, newStatus);
                                 }
                               }
                             }}
-                            className="px-3 py-1.5 text-xs font-medium border border-gray-300 rounded-md focus:ring-2 focus:ring-amber-500 focus:border-transparent bg-white cursor-pointer hover:bg-gray-50 transition-colors"
-                            title="Update Order Status"
+                            disabled={order.status === 'delivered'}
+                            className={`px-3 py-1.5 text-xs font-medium border border-gray-300 rounded-md focus:ring-2 focus:ring-amber-500 focus:border-transparent bg-white transition-colors ${
+                              order.status === 'delivered' 
+                                ? 'cursor-not-allowed opacity-60 bg-gray-50' 
+                                : 'cursor-pointer hover:bg-gray-50'
+                            }`}
+                            title={order.status === 'delivered' ? 'Delivered orders cannot be changed' : 'Update Order Status'}
                           >
                             <option value="pending">Pending</option>
                             <option value="preparing">Preparing</option>
