@@ -48,17 +48,46 @@ export default function MenuPage() {
 
   // Scroll to category
   const scrollToCategory = (categoryId: string) => {
-    const element = categoryRefs.current[categoryId]
+    // First try to get element from ref
+    let element = categoryRefs.current[categoryId]
+    
+    // If ref doesn't exist, try to get by ID (fallback)
+    if (!element) {
+      element = document.getElementById(categoryId)
+    }
+    
     if (element) {
-      const headerOffset = 100
+      // Calculate proper offset for sticky header
+      const headerOffset = 120 // Account for header + mobile category tabs
       const elementPosition = element.getBoundingClientRect().top
       const offsetPosition = elementPosition + window.pageYOffset - headerOffset
 
+      // Ensure we don't scroll to negative position
+      const scrollPosition = Math.max(0, offsetPosition)
+
       window.scrollTo({
-        top: offsetPosition,
+        top: scrollPosition,
         behavior: "smooth",
       })
+    } else {
+      // If element doesn't exist yet, wait for it to render
+      setTimeout(() => {
+        const element = document.getElementById(categoryId)
+        if (element) {
+          const headerOffset = 120
+          const elementPosition = element.getBoundingClientRect().top
+          const offsetPosition = elementPosition + window.pageYOffset - headerOffset
+          const scrollPosition = Math.max(0, offsetPosition)
+          
+          window.scrollTo({
+            top: scrollPosition,
+            behavior: "smooth",
+          })
+        }
+      }, 100)
     }
+    
+    // Always update the filter category
     setFilterCategory(categoryId)
   }
 
@@ -202,9 +231,9 @@ export default function MenuPage() {
                 (item) => item.category === category.name
               )
 
-              if (categoryItems.length === 0 && filters.activeCategory === category.id) {
-                return null
-              }
+              // Always render the section so refs are set and scrolling works
+              // Only show items if they exist, but keep the section for navigation
+              const shouldShowItems = categoryItems.length > 0 || !filters.activeCategory || filters.activeCategory === category.id
 
               return (
                 <section
@@ -224,21 +253,27 @@ export default function MenuPage() {
                   </div>
 
                   {/* Menu Items - Cleaner spacing */}
-                  <div className="space-y-8 md:space-y-10 menu-section">
-                    {isLoading ? (
-                      <>
-                        <MenuItemSkeleton />
-                        <MenuItemSkeleton />
-                        <MenuItemSkeleton />
-                      </>
-                    ) : (
-                      categoryItems.map((item) => (
-                        <div key={item.id} className="menu-item">
-                          <PremiumMenuItem item={item} />
+                  {shouldShowItems && (
+                    <div className="space-y-8 md:space-y-10 menu-section">
+                      {isLoading ? (
+                        <>
+                          <MenuItemSkeleton />
+                          <MenuItemSkeleton />
+                          <MenuItemSkeleton />
+                        </>
+                      ) : categoryItems.length > 0 ? (
+                        categoryItems.map((item) => (
+                          <div key={item.id} className="menu-item">
+                            <PremiumMenuItem item={item} />
+                          </div>
+                        ))
+                      ) : (
+                        <div className="py-8 text-center text-gray-500">
+                          <p className="text-sm">No items found in this category.</p>
                         </div>
-                      ))
-                    )}
-                  </div>
+                      )}
+                    </div>
+                  )}
                 </section>
               )
             })}

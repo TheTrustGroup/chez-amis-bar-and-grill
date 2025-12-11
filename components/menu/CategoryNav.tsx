@@ -27,14 +27,34 @@ export function CategoryNav({
   const scrollToCategory = (categoryId: string) => {
     const element = document.getElementById(categoryId)
     if (element) {
-      const headerOffset = 100
+      // Calculate proper offset for sticky header
+      const headerOffset = 120 // Account for header + mobile category tabs
       const elementPosition = element.getBoundingClientRect().top
       const offsetPosition = elementPosition + window.pageYOffset - headerOffset
 
+      // Ensure we don't scroll to negative position
+      const scrollPosition = Math.max(0, offsetPosition)
+
       window.scrollTo({
-        top: offsetPosition,
+        top: scrollPosition,
         behavior: "smooth",
       })
+    } else {
+      // If element doesn't exist yet, wait for it to render
+      setTimeout(() => {
+        const element = document.getElementById(categoryId)
+        if (element) {
+          const headerOffset = 120
+          const elementPosition = element.getBoundingClientRect().top
+          const offsetPosition = elementPosition + window.pageYOffset - headerOffset
+          const scrollPosition = Math.max(0, offsetPosition)
+          
+          window.scrollTo({
+            top: scrollPosition,
+            behavior: "smooth",
+          })
+        }
+      }, 100)
     }
     onCategoryChange(categoryId)
   }
