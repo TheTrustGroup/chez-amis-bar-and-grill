@@ -1,15 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { sendOrderReadyNotification, sendOrderOutForDeliveryNotification } from '@/lib/services/notification.service'
-import { updateOrderStatus } from '@/lib/services/order-storage'
+import { updateOrderStatus, getOrderById } from '@/lib/services/order-storage'
 import { sendEmail } from '@/lib/services/email.service'
 import { sendSMS } from '@/lib/services/sms.service'
 
 export interface OrderStatusUpdateRequest {
   status: 'preparing' | 'ready' | 'out-for-delivery' | 'delivered' | 'cancelled'
-  customerPhone: string
-  customerName: string
+  customerPhone?: string
+  customerName?: string
   customerEmail?: string
-  orderType: 'dine-in' | 'takeaway' | 'delivery'
+  orderType?: 'dine-in' | 'takeaway' | 'delivery'
   estimatedTime?: string // For "out-for-delivery" status
 }
 
@@ -35,10 +35,49 @@ export async function POST(
     const orderId = params.orderId
     const updateData: OrderStatusUpdateRequest = await request.json()
 
-    // Validate required fields
-    if (!updateData.status || !updateData.customerPhone || !updateData.customerName || !updateData.orderType) {
+    // Validate status
+    if (!updateData.status) {
       return NextResponse.json(
-        { error: 'Missing required fields: status, customerPhone, customerName, orderType' },
+        { error: 'Missing required field: status' },
+        { status: 400 }
+      )
+    }
+
+    // Fetch order from storage if customer details not provided
+    let customerPhone = updateData.customerPhone
+    let customerName = updateData.customerName
+    let customerEmail = updateData.customerEmail
+    let orderType = updateData.orderType
+
+    if (!customerPhone || !customerName || !orderType) {
+      console.log('📦 Fetching order details from storage for:', orderId)
+      const storedOrder = await getOrderById(orderId)
+      
+      if (!storedOrder) {
+        return NextResponse.json(
+          { error: 'Order not found' },
+          { status: 404 }
+        )
+      }
+
+      // Use stored order details if not provided
+      customerPhone = customerPhone || storedOrder.customer?.phone || ''
+      customerName = customerName || (storedOrder.customer as any)?.fullName || (storedOrder.customer as any)?.name || ''
+      customerEmail = customerEmail || storedOrder.customer?.email || ''
+      orderType = orderType || storedOrder.orderType || 'delivery'
+
+      console.log('✅ Retrieved order details:', {
+        customerName,
+        customerPhone,
+        customerEmail,
+        orderType,
+      })
+    }
+
+    // Validate we have all required fields now
+    if (!customerPhone || !customerName || !orderType) {
+      return NextResponse.json(
+        { error: 'Missing required fields: customerPhone, customerName, orderType. Order may be missing customer information.' },
         { status: 400 }
       )
     }
@@ -72,26 +111,26 @@ export async function POST(
       switch (updateData.status) {
         case 'preparing':
           // Send "order in progress" notification (Email + SMS)
-          if (updateData.customerEmail) {
+          if (customerEmail) {
             const [emailResult, smsResult] = await Promise.allSettled([
               sendEmail({
-                to: updateData.customerEmail,
+                to: customerEmail,
                 subject: `Order In Progress #${orderId} - Chez Amis Bar and Grill`,
                 template: 'order-in-progress',
                 data: {
                   orderId,
-                  customerName: updateData.customerName,
-                  orderType: updateData.orderType,
+                  customerName,
+                  orderType,
                   status: 'preparing',
                 },
               }),
               sendSMS({
-                to: updateData.customerPhone,
+                to: customerPhone,
                 template: 'order-in-progress',
                 data: {
                   orderId,
-                  customerName: updateData.customerName,
-                  orderType: updateData.orderType,
+                  customerName,
+                  orderType,
                 },
               }),
             ])
@@ -99,22 +138,51 @@ export async function POST(
             results.notification.email.error = emailResult.status === 'rejected' ? (emailResult.reason as Error).message : null
             results.notification.sms.sent = smsResult.status === 'fulfilled'
             results.notification.sms.error = smsResult.status === 'rejected' ? (smsResult.reason as Error).message : null
+          } else {
+            // Send SMS only if no email
+            const smsResult = await Promise.allSettled([
+              sendSMS({
+                to: customerPhone,
+                template: 'order-in-progress',
+                data: {
+                  orderId,
+                  customerName,
+                  orderType,
+                },
+              }),
+            ])
+            results.notification.sms.sent = smsResult[0].status === 'fulfilled'
+            results.notification.sms.error = smsResult[0].status === 'rejected' ? (smsResult[0].reason as Error).message : null
           }
           results.notificationType = 'order-in-progress'
           break
 
         case 'ready':
           // Send "order ready" notification (Email + SMS)
-          if (updateData.orderType === 'takeaway' || updateData.orderType === 'delivery') {
-            if (!updateData.customerEmail) {
+          if (orderType === 'takeaway' || orderType === 'delivery') {
+            if (!customerEmail) {
               results.notification.email.error = 'Customer email required for ready notification'
+              // Still send SMS
+              const smsResult = await Promise.allSettled([
+                sendSMS({
+                  to: customerPhone,
+                  template: 'order-ready',
+                  data: {
+                    orderId,
+                    customerName,
+                    orderType,
+                  },
+                }),
+              ])
+              results.notification.sms.sent = smsResult[0].status === 'fulfilled'
+              results.notification.sms.error = smsResult[0].status === 'rejected' ? (smsResult[0].reason as Error).message : null
             } else {
               const readyResult = await sendOrderReadyNotification(
                 orderId,
-                updateData.customerPhone,
-                updateData.customerName,
-                updateData.customerEmail,
-                updateData.orderType
+                customerPhone,
+                customerName,
+                customerEmail,
+                orderType
               )
               results.notification = readyResult
               results.notificationType = 'order-ready'
@@ -124,15 +192,29 @@ export async function POST(
 
         case 'out-for-delivery':
           // Send "out for delivery" notification (Email + SMS)
-          if (updateData.orderType === 'delivery') {
-            if (!updateData.customerEmail) {
+          if (orderType === 'delivery') {
+            if (!customerEmail) {
               results.notification.email.error = 'Customer email required for delivery notification'
+              // Still send SMS
+              const smsResult = await Promise.allSettled([
+                sendSMS({
+                  to: customerPhone,
+                  template: 'order-out-for-delivery',
+                  data: {
+                    orderId,
+                    customerName,
+                    estimatedTime: updateData.estimatedTime || '30-40 minutes',
+                  },
+                }),
+              ])
+              results.notification.sms.sent = smsResult[0].status === 'fulfilled'
+              results.notification.sms.error = smsResult[0].status === 'rejected' ? (smsResult[0].reason as Error).message : null
             } else {
               const deliveryResult = await sendOrderOutForDeliveryNotification(
                 orderId,
-                updateData.customerPhone,
-                updateData.customerName,
-                updateData.customerEmail,
+                customerPhone,
+                customerName,
+                customerEmail,
                 updateData.estimatedTime || '30-40 minutes'
               )
               results.notification = deliveryResult
@@ -168,18 +250,19 @@ export async function POST(
       )
     }
 
-    // Log status update (dev only)
-    if (process.env.NODE_ENV === 'development') {
-      console.log(`Order ${orderId} status updated to: ${updateData.status}`, {
-        customer: updateData.customerName,
-        phone: updateData.customerPhone,
-        email: updateData.customerEmail,
-        notifications: {
-          email: results.notification.email.sent,
-          sms: results.notification.sms.sent,
-        },
-      })
-    }
+    // Log status update
+    console.log(`✅ Order ${orderId} status updated to: ${updateData.status}`, {
+      customer: customerName,
+      phone: customerPhone,
+      email: customerEmail,
+      orderType,
+      notifications: {
+        email: results.notification.email.sent,
+        sms: results.notification.sms.sent,
+        emailError: results.notification.email.error,
+        smsError: results.notification.sms.error,
+      },
+    })
 
     return NextResponse.json({
       success: true,

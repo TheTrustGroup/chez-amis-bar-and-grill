@@ -119,20 +119,67 @@ export default function OrdersPage() {
 
   const updateOrderStatus = async (orderId: string, newStatus: string) => {
     try {
+      // Find the order in current state to get customer details
+      const order = orders.find(o => o.orderId === orderId || o.id === orderId);
+      
+      if (!order) {
+        console.error('Order not found:', orderId);
+        alert('Order not found. Please refresh the page.');
+        return;
+      }
+
+      console.log('📝 Updating order status:', { orderId, newStatus, customer: order.customer });
+
+      // Prepare request with all required fields
+      const updateData = {
+        status: newStatus,
+        customerPhone: order.customer.phone,
+        customerName: order.customer.fullName,
+        customerEmail: order.customer.email,
+        orderType: order.orderType,
+      };
+
       const response = await fetch(`/api/orders/${orderId}/status`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ status: newStatus }),
+        body: JSON.stringify(updateData),
       });
 
-      if (response.ok) {
-        // Refresh orders
-        fetchOrders();
+      const result = await response.json();
+
+      if (response.ok && result.success) {
+        console.log('✅ Order status updated:', {
+          orderId,
+          newStatus,
+          notifications: result.notification,
+        });
+        
+        // Show success message with notification status
+        const notificationStatus = result.notification?.notification;
+        if (notificationStatus) {
+          const emailSent = notificationStatus.email?.sent;
+          const smsSent = notificationStatus.sms?.sent;
+          console.log('📧 Notifications sent:', { email: emailSent, sms: smsSent });
+        }
+        
+        // Optimistically update UI
+        setOrders(prev => prev.map(o => 
+          (o.orderId === orderId || o.id === orderId)
+            ? { ...o, status: newStatus as Order['status'], updatedAt: new Date().toISOString() }
+            : o
+        ));
+        
+        // Refresh orders to get latest data
+        setTimeout(() => fetchOrders(), 500);
+      } else {
+        console.error('❌ Failed to update order status:', result.error || result.message);
+        alert(result.error || result.message || 'Failed to update order status');
       }
     } catch (error) {
-      console.error('Error updating order status:', error);
+      console.error('❌ Error updating order status:', error);
+      alert('Failed to update order status. Please try again.');
     }
   };
 
@@ -297,26 +344,39 @@ export default function OrdersPage() {
                     <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                       <div className="flex items-center justify-end gap-2">
                         <Link href={`/admin/orders/${order.orderId}`}>
-                          <button className="p-2 text-blue-600 hover:bg-blue-50 rounded-md transition-colors">
+                          <button 
+                            className="p-2 text-blue-600 hover:bg-blue-50 rounded-md transition-colors"
+                            title="View Order Details"
+                          >
                             <Eye className="w-4 h-4" />
                           </button>
                         </Link>
-                        {order.status === 'pending' && (
-                          <button
-                            onClick={() => updateOrderStatus(order.orderId, 'preparing')}
-                            className="p-2 text-green-600 hover:bg-green-50 rounded-md transition-colors"
+                        
+                        {/* Status Update Dropdown */}
+                        <div className="relative">
+                          <select
+                            value={order.status}
+                            onChange={(e) => {
+                              const newStatus = e.target.value;
+                              if (newStatus !== order.status) {
+                                if (confirm(`Update order ${order.orderId} status to "${newStatus}"?`)) {
+                                  updateOrderStatus(order.orderId, newStatus);
+                                }
+                              }
+                            }}
+                            className="px-3 py-1.5 text-xs font-medium border border-gray-300 rounded-md focus:ring-2 focus:ring-amber-500 focus:border-transparent bg-white cursor-pointer hover:bg-gray-50 transition-colors"
+                            title="Update Order Status"
                           >
-                            <Check className="w-4 h-4" />
-                          </button>
-                        )}
-                        {order.status !== 'cancelled' && (
-                          <button
-                            onClick={() => updateOrderStatus(order.orderId, 'cancelled')}
-                            className="p-2 text-red-600 hover:bg-red-50 rounded-md transition-colors"
-                          >
-                            <X className="w-4 h-4" />
-                          </button>
-                        )}
+                            <option value="pending">Pending</option>
+                            <option value="preparing">Preparing</option>
+                            <option value="ready">Ready</option>
+                            {order.orderType === 'delivery' && (
+                              <option value="out-for-delivery">Out for Delivery</option>
+                            )}
+                            <option value="delivered">Delivered</option>
+                            <option value="cancelled">Cancelled</option>
+                          </select>
+                        </div>
                       </div>
                     </td>
                   </tr>
