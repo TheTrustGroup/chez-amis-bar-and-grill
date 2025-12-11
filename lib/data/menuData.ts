@@ -121,6 +121,30 @@ const createProteinVariations = (
 
 export const menuCategories: MenuCategory[] = [
   {
+    id: 'signature-dishes',
+    name: 'Signature Dishes',
+    description: 'Our chef\'s most celebrated dishes, each a masterpiece of flavor and presentation. Experience our signature Attieke - a traditional Ivorian delicacy that has become our most beloved creation.',
+    items: [
+      // Attieke variations - SIGNATURE DISH
+      ...createProteinVariations(
+        'Attieke',
+        'Our signature Attieke - traditional Ivorian couscous made from fermented cassava with a delicate, slightly tangy flavor that pairs beautifully with grilled proteins. Light, fluffy, and perfectly textured, served with our house-made pepper sauce and fresh accompaniments',
+        'Signature Dishes',
+        [
+          { name: 'Grilled Tilapia', price: 250, portionSizes: [{ size: 'Small', price: 250 }, { size: 'Medium', price: 320 }, { size: 'Large', price: 350 }, { size: 'Extra Large', price: 400 }] },
+          { name: 'Grilled Chicken', price: 250 },
+          { name: 'Grilled Turkey', price: 300 },
+          { name: 'Grilled Salmon', price: 250 },
+          { name: 'Grilled Redfish', price: 250, portionSizes: [{ size: 'Regular', price: 250 }, { size: 'Large', price: 350 }] },
+          { name: 'Grilled And Spicy Catfish', price: 300, portionSizes: [{ size: 'Regular', price: 300 }, { size: 'Large', price: 350 }], spicyLevel: 2 },
+          { name: 'Spicy Goat', price: 400, spicyLevel: 2 },
+          { name: 'Spicy Snails', price: 500, spicyLevel: 2 },
+        ],
+        true // Mark Attieke as signature dish
+      ),
+    ],
+  },
+  {
     id: 'pasta-rice-dishes',
     name: 'Pasta & Rice Dishes',
     description: 'Savor our expertly prepared pasta and rice dishes, crafted with fresh ingredients and rich flavors.',
@@ -235,23 +259,6 @@ export const menuCategories: MenuCategory[] = [
     name: 'From the Grill',
     description: 'Savor our expertly grilled selections, cooked to perfection with aromatic spices.',
     items: [
-      // Attieke variations - SIGNATURE DISH
-      ...createProteinVariations(
-        'Attieke',
-        'Our signature Attieke - traditional Ivorian couscous made from fermented cassava with a delicate, slightly tangy flavor that pairs beautifully with grilled proteins. Light, fluffy, and perfectly textured, served with our house-made pepper sauce and fresh accompaniments',
-        'From the Grill',
-        [
-          { name: 'Grilled Tilapia', price: 250, portionSizes: [{ size: 'Small', price: 250 }, { size: 'Medium', price: 320 }, { size: 'Large', price: 350 }, { size: 'Extra Large', price: 400 }] },
-          { name: 'Grilled Chicken', price: 250 },
-          { name: 'Grilled Turkey', price: 300 },
-          { name: 'Grilled Salmon', price: 250 },
-          { name: 'Grilled Redfish', price: 250, portionSizes: [{ size: 'Regular', price: 250 }, { size: 'Large', price: 350 }] },
-          { name: 'Grilled And Spicy Catfish', price: 300, portionSizes: [{ size: 'Regular', price: 300 }, { size: 'Large', price: 350 }], spicyLevel: 2 },
-          { name: 'Spicy Goat', price: 400, spicyLevel: 2 },
-          { name: 'Spicy Snails', price: 500, spicyLevel: 2 },
-        ],
-        true // Mark Attieke as signature dish
-      ),
       // Banku variations
       ...createProteinVariations(
         'Banku',
