@@ -393,7 +393,7 @@ export default function PrivateEventsPage() {
                 </Button>
               </Link>
               <a
-                href="tel:+233243952339"
+                href="tel:+233557032312"
                 className="flex items-center justify-center gap-2 px-8 py-3 md:py-4 rounded-lg border-2 border-gold-500/60 text-foreground hover:bg-gold-500/10 transition-all font-heading font-light tracking-wide min-h-[48px] md:min-h-[52px]"
                 aria-label="Call us to plan your event"
               >

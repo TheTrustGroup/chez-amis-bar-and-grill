@@ -64,7 +64,7 @@ export function MapSection() {
                 <Navigation className="w-5 h-5 text-amber-600" />
               </a>
               <a
-                href="tel:+233243952339"
+                href="tel:+233557032312"
                 className="bg-white p-3 rounded-full shadow-lg hover:bg-amber-50 transition-colors min-w-[44px] min-h-[44px] flex items-center justify-center"
                 aria-label="Call restaurant"
               >

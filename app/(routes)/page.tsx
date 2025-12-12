@@ -2,12 +2,23 @@ import { HeroSection } from "@/components/sections/HeroSection"
 import { IntroSection } from "@/components/sections/IntroSection"
 import { ExperienceSection } from "@/components/sections/ExperienceSection"
 import { SignatureCreations } from "@/components/sections/SignatureCreations"
-import { PrivateEventsSection } from "@/components/sections/PrivateEventsSection"
-import { TestimonialsCarousel } from "@/components/sections/TestimonialsCarousel"
-import { VisitUsSection } from "@/components/sections/VisitUsSection"
-import { FeaturedGallerySection } from "@/components/sections/FeaturedGallerySection"
 import { Metadata } from "next"
 import { StructuredData } from "@/components/seo/StructuredData"
+import dynamic from "next/dynamic"
+
+// Lazy load below-the-fold components for better initial page load
+const FeaturedGallerySection = dynamic(() => import("@/components/sections/FeaturedGallerySection").then(mod => ({ default: mod.FeaturedGallerySection })), {
+  loading: () => <div className="min-h-[400px] bg-gray-50 animate-pulse" />,
+})
+const PrivateEventsSection = dynamic(() => import("@/components/sections/PrivateEventsSection").then(mod => ({ default: mod.PrivateEventsSection })), {
+  loading: () => <div className="min-h-[400px] bg-gray-50 animate-pulse" />,
+})
+const TestimonialsCarousel = dynamic(() => import("@/components/sections/TestimonialsCarousel").then(mod => ({ default: mod.TestimonialsCarousel })), {
+  loading: () => <div className="min-h-[300px] bg-gray-50 animate-pulse" />,
+})
+const VisitUsSection = dynamic(() => import("@/components/sections/VisitUsSection").then(mod => ({ default: mod.VisitUsSection })), {
+  loading: () => <div className="min-h-[400px] bg-gray-50 animate-pulse" />,
+})
 
 export const metadata: Metadata = {
   title: "Chez Amis Restaurant",

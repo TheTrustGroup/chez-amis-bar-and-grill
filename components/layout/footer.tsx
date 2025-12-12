@@ -186,13 +186,36 @@ export function Footer() {
               <span>40 Boundary Rd, Accra</span>
             </a>
             <span className="hidden md:inline text-gold-500/30">|</span>
-            <a
-              href="tel:+233243952339"
-              className="flex items-center gap-2 hover:text-gold-500 transition-colors"
-            >
+            <div className="flex items-center gap-2 flex-wrap justify-center">
               <Phone className="h-4 w-4" />
-              <span>024 395 2339 / 050 243 2037</span>
-            </a>
+              <a
+                href="tel:+233557032312"
+                className="hover:text-gold-500 transition-colors"
+              >
+                055 703 2312
+              </a>
+              <span className="text-gold-500/30">•</span>
+              <a
+                href="tel:+233557032335"
+                className="hover:text-gold-500 transition-colors"
+              >
+                055 703 2335
+              </a>
+              <span className="text-gold-500/30">•</span>
+              <a
+                href="tel:+233243952339"
+                className="hover:text-gold-500 transition-colors"
+              >
+                024 395 2339
+              </a>
+              <span className="text-gold-500/30">•</span>
+              <a
+                href="tel:+233502432037"
+                className="hover:text-gold-500 transition-colors"
+              >
+                050 243 2037
+              </a>
+            </div>
             <span className="hidden md:inline text-gold-500/30">|</span>
             <a
               href="mailto:chez@chezamisrestaurant.com"

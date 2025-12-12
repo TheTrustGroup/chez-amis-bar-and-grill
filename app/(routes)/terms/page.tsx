@@ -158,7 +158,7 @@ export default function TermsOfServicePage() {
                       Email: <a href="mailto:chez@chezamisrestaurant.com" className="text-gold-600 hover:text-gold-700 underline">chez@chezamisrestaurant.com</a>
                     </p>
                     <p>
-                      Phone: <a href="tel:+233243952339" className="text-gold-600 hover:text-gold-700 underline">024 395 2339</a> / <a href="tel:+233502432037" className="text-gold-600 hover:text-gold-700 underline">050 243 2037</a>
+                      Phone: <a href="tel:+233557032312" className="text-gold-600 hover:text-gold-700 underline">055 703 2312</a> / <a href="tel:+233557032335" className="text-gold-600 hover:text-gold-700 underline">055 703 2335</a> / <a href="tel:+233243952339" className="text-gold-600 hover:text-gold-700 underline">024 395 2339</a> / <a href="tel:+233502432037" className="text-gold-600 hover:text-gold-700 underline">050 243 2037</a>
                     </p>
                   </div>
                 </div>

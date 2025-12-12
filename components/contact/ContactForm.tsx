@@ -133,7 +133,7 @@ export function ContactForm() {
           value={formData.phone}
           onChange={(e) => handleFieldChange("phone", e.target.value)}
           className="border-border/50 focus:border-gold-500/50"
-              placeholder="024 395 2339"
+              placeholder="055 703 2312"
         />
       </div>
 

@@ -15,7 +15,7 @@ export function QuickActions({ variant = "inline", className }: QuickActionsProp
     {
       label: "Call Now",
       icon: Phone,
-      href: "tel:+233243952339",
+      href: "tel:+233557032312",
       action: "call",
       className: "bg-gold-600 text-cream-100 hover:bg-gold-700",
     },
@@ -33,7 +33,7 @@ export function QuickActions({ variant = "inline", className }: QuickActionsProp
       <div className={cn("fixed bottom-20 left-0 right-0 z-40 px-4 lg:hidden safe-area-bottom", className)}>
         <div className="flex gap-2 max-w-md mx-auto">
           <a
-            href="tel:+233243952339"
+            href="tel:+233557032312"
             className="flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-lg bg-gold-600 text-cream-100 font-heading font-light tracking-wide shadow-lg active:scale-95 transition-transform"
             aria-label="Call us now"
           >

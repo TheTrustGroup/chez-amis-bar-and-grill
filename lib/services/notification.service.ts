@@ -208,7 +208,7 @@ export async function sendAdminNotification(
   // Admin email: All orders go to chez@chezamisrestaurant.com
   // Can be overridden with ADMIN_EMAIL env variable, but defaults to restaurant email
   const adminEmail = process.env.ADMIN_EMAIL || 'chez@chezamisrestaurant.com'
-  const adminPhone = process.env.ADMIN_PHONE || process.env.NEXT_PUBLIC_PHONE || '+233502432037'
+  const adminPhone = process.env.ADMIN_PHONE || process.env.NEXT_PUBLIC_PHONE || '+233557032312'
 
   const results: NotificationResult = {
     email: { sent: false, error: null },

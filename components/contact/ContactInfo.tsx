@@ -25,6 +25,18 @@ export function ContactInfo() {
               <p className="text-xs md:text-sm text-muted-foreground font-body font-light mb-2 uppercase tracking-wide">Phone</p>
               <div className="space-y-2 mb-4">
                 <a
+                  href="tel:+233557032312"
+                  className="block text-base md:text-lg text-foreground font-body font-light hover:text-gold-600 transition-colors"
+                >
+                  +233 055 703 2312
+                </a>
+                <a
+                  href="tel:+233557032335"
+                  className="block text-base md:text-lg text-foreground font-body font-light hover:text-gold-600 transition-colors"
+                >
+                  +233 055 703 2335
+                </a>
+                <a
                   href="tel:+233243952339"
                   className="block text-base md:text-lg text-foreground font-body font-light hover:text-gold-600 transition-colors"
                 >

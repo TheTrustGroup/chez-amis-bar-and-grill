@@ -35,15 +35,44 @@ export function CTASection() {
           </p>
 
           {/* Phone Number */}
-          <div className="flex items-center justify-center gap-3 mb-8 md:mb-10">
-            <Phone className="h-5 w-5 md:h-6 md:w-6 text-white" />
-            <a
-              href="tel:+233243952339"
-              className="text-xl md:text-2xl font-semibold text-white hover:text-white/80 transition-colors focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-transparent rounded-sm"
-              aria-label="Call us at 024 395 2339"
-            >
-              024 395 2339 / 050 243 2037
-            </a>
+          <div className="flex flex-col items-center gap-3 mb-8 md:mb-10">
+            <div className="flex items-center gap-3">
+              <Phone className="h-5 w-5 md:h-6 md:w-6 text-white" />
+              <span className="text-xl md:text-2xl font-semibold text-white">Call Us</span>
+            </div>
+            <div className="flex flex-wrap items-center justify-center gap-3 md:gap-4">
+              <a
+                href="tel:+233557032312"
+                className="text-lg md:text-xl font-semibold text-white hover:text-white/80 transition-colors focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-transparent rounded-sm"
+                aria-label="Call us at 055 703 2312"
+              >
+                055 703 2312
+              </a>
+              <span className="text-white/60">•</span>
+              <a
+                href="tel:+233557032335"
+                className="text-lg md:text-xl font-semibold text-white hover:text-white/80 transition-colors focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-transparent rounded-sm"
+                aria-label="Call us at 055 703 2335"
+              >
+                055 703 2335
+              </a>
+              <span className="text-white/60">•</span>
+              <a
+                href="tel:+233243952339"
+                className="text-lg md:text-xl font-semibold text-white hover:text-white/80 transition-colors focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-transparent rounded-sm"
+                aria-label="Call us at 024 395 2339"
+              >
+                024 395 2339
+              </a>
+              <span className="text-white/60">•</span>
+              <a
+                href="tel:+233502432037"
+                className="text-lg md:text-xl font-semibold text-white hover:text-white/80 transition-colors focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-transparent rounded-sm"
+                aria-label="Call us at 050 243 2037"
+              >
+                050 243 2037
+              </a>
+            </div>
           </div>
 
           {/* CTA Buttons */}

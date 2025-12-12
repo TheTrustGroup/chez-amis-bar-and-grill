@@ -122,13 +122,36 @@ export default function ContactPage() {
               <p className="text-sm md:text-base text-muted-foreground font-body font-light mb-4">
                 Prefer to call? We&apos;re just a phone call away
               </p>
-              <a
-                href="tel:+233243952339"
-                className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-lg border border-gold-500/60 text-foreground hover:bg-gold-500/10 transition-all font-heading font-light tracking-wide text-base min-h-[44px]"
-              >
-                <Phone className="h-5 w-5" />
-                Call Us Now
-              </a>
+              <div className="flex flex-wrap items-center justify-center gap-3">
+                <a
+                  href="tel:+233557032312"
+                  className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-lg border border-gold-500/60 text-foreground hover:bg-gold-500/10 transition-all font-heading font-light tracking-wide text-base min-h-[44px]"
+                >
+                  <Phone className="h-5 w-5" />
+                  055 703 2312
+                </a>
+                <a
+                  href="tel:+233557032335"
+                  className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-lg border border-gold-500/60 text-foreground hover:bg-gold-500/10 transition-all font-heading font-light tracking-wide text-base min-h-[44px]"
+                >
+                  <Phone className="h-5 w-5" />
+                  055 703 2335
+                </a>
+                <a
+                  href="tel:+233243952339"
+                  className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-lg border border-gold-500/60 text-foreground hover:bg-gold-500/10 transition-all font-heading font-light tracking-wide text-base min-h-[44px]"
+                >
+                  <Phone className="h-5 w-5" />
+                  024 395 2339
+                </a>
+                <a
+                  href="tel:+233502432037"
+                  className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-lg border border-gold-500/60 text-foreground hover:bg-gold-500/10 transition-all font-heading font-light tracking-wide text-base min-h-[44px]"
+                >
+                  <Phone className="h-5 w-5" />
+                  050 243 2037
+                </a>
+              </div>
             </div>
           </div>
         </div>

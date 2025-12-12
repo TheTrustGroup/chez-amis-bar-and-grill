@@ -399,7 +399,7 @@ export default function MenuPage() {
       {/* Print Header (hidden on screen) */}
       <div className="print-header hidden print:block">
         <h1>Chez Amis Bar and Grill</h1>
-        <p>40 Boundary Rd, Accra | +233 024 395 2339</p>
+        <p>40 Boundary Rd, Accra | +233 055 703 2312 / +233 055 703 2335 / +233 024 395 2339 / +233 050 243 2037</p>
         <p>We&apos;re Open 24/7</p>
       </div>
 

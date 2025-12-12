@@ -50,25 +50,36 @@ export default function OrdersPage() {
     setError(null);
     
     try {
-      console.log('📥 Fetching orders from /api/orders/list...');
-      const response = await fetch('/api/orders/list', {
+      // Use AbortController for request cancellation
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 10000); // 10s timeout
+      
+      const response = await fetch('/api/orders/list?limit=500', {
         cache: 'no-store',
+        signal: controller.signal,
         headers: {
           'Cache-Control': 'no-cache',
         },
       });
       
+      clearTimeout(timeoutId);
+      
       if (!response.ok) {
         const errorText = await response.text();
-        console.error('❌ API response not OK:', response.status, errorText);
+        if (process.env.NODE_ENV === 'development') {
+          console.error('❌ API response not OK:', response.status, errorText);
+        }
         throw new Error(`API error: ${response.status}`);
       }
       
       const data = await response.json();
-      console.log('📦 API response:', { success: data.success, orderCount: data.orders?.length, total: data.total });
+      
+      if (process.env.NODE_ENV === 'development') {
+        console.log('📦 API response:', { success: data.success, orderCount: data.orders?.length, total: data.total });
+      }
       
       if (data.success && Array.isArray(data.orders)) {
-        // Ensure orders have the correct structure
+        // Normalize orders efficiently
         const normalizedOrders = data.orders.map((order: any) => ({
           id: order.id || order.orderId,
           orderId: order.orderId || order.id,
@@ -91,15 +102,26 @@ export default function OrdersPage() {
         }));
         
         setOrders(normalizedOrders);
-        console.log('✅ Loaded and normalized orders:', normalizedOrders.length);
+        
+        if (process.env.NODE_ENV === 'development') {
+          console.log('✅ Loaded and normalized orders:', normalizedOrders.length);
+        }
       } else {
-        console.warn('⚠️ Invalid response structure:', data);
+        if (process.env.NODE_ENV === 'development') {
+          console.warn('⚠️ Invalid response structure:', data);
+        }
         setError(data.error || 'Invalid response from server');
         setOrders([]);
       }
     } catch (err) {
-      console.error('❌ Error fetching orders:', err);
-      setError(err instanceof Error ? err.message : 'Failed to connect to server');
+      if (err instanceof Error && err.name === 'AbortError') {
+        setError('Request timeout. Please try again.');
+      } else {
+        if (process.env.NODE_ENV === 'development') {
+          console.error('❌ Error fetching orders:', err);
+        }
+        setError(err instanceof Error ? err.message : 'Failed to connect to server');
+      }
       setOrders([]);
     } finally {
       setIsLoading(false);

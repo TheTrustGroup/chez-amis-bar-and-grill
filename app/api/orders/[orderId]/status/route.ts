@@ -1,8 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { sendOrderReadyNotification, sendOrderOutForDeliveryNotification } from '@/lib/services/notification.service'
-import { updateOrderStatus, getOrderById } from '@/lib/services/order-storage'
+import { updateOrderStatus, getOrderById } from '@/lib/services/order-storage-persistent'
 import { sendEmail } from '@/lib/services/email.service'
 import { sendSMS } from '@/lib/services/sms.service'
+
+// Force dynamic rendering for real-time updates
+export const dynamic = 'force-dynamic'
+export const revalidate = 0
 
 export interface OrderStatusUpdateRequest {
   status: 'preparing' | 'ready' | 'out-for-delivery' | 'delivered' | 'cancelled'

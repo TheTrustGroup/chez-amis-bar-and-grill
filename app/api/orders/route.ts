@@ -1,10 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { sendOrderConfirmation, sendAdminNotification } from '@/lib/services/notification.service'
-import { saveOrder, getAllOrders } from '@/lib/services/order-storage'
+import { saveOrder, getAllOrders } from '@/lib/services/order-storage-persistent'
 import type { OrderData } from '@/lib/types/notifications'
 
-// Force dynamic rendering
+// Force dynamic rendering for real-time data
 export const dynamic = 'force-dynamic'
+// Add caching headers for GET requests
+export const revalidate = 0
 
 export interface OrderRequest {
   orderId: string

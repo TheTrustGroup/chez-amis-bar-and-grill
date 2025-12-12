@@ -16,7 +16,7 @@ export default function FAQPage() {
     },
     {
       question: "Do you take reservations?",
-      answer: "Yes, we accept reservations. You can make a reservation online through our reservations page, call us at +233 024 395 2339 or +233 050 243 2037, or visit us in person. We also welcome walk-ins.",
+      answer: "Yes, we accept reservations. You can make a reservation online through our reservations page, call us at +233 055 703 2312, +233 055 703 2335, +233 024 395 2339, or +233 050 243 2037, or visit us in person. We also welcome walk-ins.",
     },
     {
       question: "What is Attieke?",
@@ -145,7 +145,7 @@ export default function FAQPage() {
                   Contact Us
                 </Button>
               </Link>
-              <a href="tel:+233243952339">
+              <a href="tel:+233557032312">
                 <Button
                   variant="outline"
                   className="border-2 border-gold-500/50 text-gold-400 hover:bg-gold-500/10 hover:border-gold-500 font-heading font-light"

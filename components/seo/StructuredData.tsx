@@ -11,7 +11,7 @@ export function StructuredData() {
     ],
     "@id": `${process.env.NEXT_PUBLIC_SITE_URL || 'https://chezamis.com'}`,
     "url": `${process.env.NEXT_PUBLIC_SITE_URL || 'https://chezamis.com'}`,
-    "telephone": "+233243952339",
+    "telephone": "+233557032312",
     "priceRange": "$$",
     "address": {
       "@type": "PostalAddress",
@@ -72,7 +72,7 @@ export function StructuredData() {
     "logo": `${process.env.NEXT_PUBLIC_SITE_URL || 'https://chezamis.com'}/logo.png`,
     "contactPoint": {
       "@type": "ContactPoint",
-      "telephone": "+233243952339",
+      "telephone": "+233557032312",
       "contactType": "Customer Service",
       "areaServed": "GH",
       "availableLanguage": ["en", "fr"]

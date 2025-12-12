@@ -8,7 +8,7 @@ import type { OrderData } from '@/lib/types/notifications'
 import { format } from 'date-fns'
 
 const RESTAURANT_NAME = process.env.NEXT_PUBLIC_RESTAURANT_NAME || 'Chez Amis Bar and Grill'
-const RESTAURANT_PHONE = process.env.NEXT_PUBLIC_PHONE || '+233 024 395 2339'
+const RESTAURANT_PHONE = process.env.NEXT_PUBLIC_PHONE || '+233 055 703 2312'
 const RESTAURANT_EMAIL = process.env.NEXT_PUBLIC_EMAIL || 'chez@chezamisrestaurant.com'
 const RESTAURANT_ADDRESS = process.env.NEXT_PUBLIC_RESTAURANT_ADDRESS || '40 Boundary Rd, Accra, Ghana'
 const WEBSITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://chezamisrestaurant.com'

@@ -143,7 +143,7 @@ export async function sendOrderConfirmationEmail(orderData: OrderData): Promise<
             ` : ''}
             
             <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #E5E5E5; text-align: center;">
-              <p style="color: #666; font-size: 14px; margin: 0;">Questions? Contact us at <a href="mailto:chez@chezamisrestaurant.com" style="color: #D4AF37;">chez@chezamisrestaurant.com</a> or call <a href="tel:+233243952339" style="color: #D4AF37;">+233 024 395 2339</a></p>
+              <p style="color: #666; font-size: 14px; margin: 0;">Questions? Contact us at <a href="mailto:chez@chezamisrestaurant.com" style="color: #D4AF37;">chez@chezamisrestaurant.com</a> or call <a href="tel:+233557032312" style="color: #D4AF37;">+233 055 703 2312</a>, <a href="tel:+233557032335" style="color: #D4AF37;">+233 055 703 2335</a>, <a href="tel:+233243952339" style="color: #D4AF37;">+233 024 395 2339</a>, or <a href="tel:+233502432037" style="color: #D4AF37;">+233 050 243 2037</a></p>
               <p style="color: #666; font-size: 12px; margin: 10px 0 0 0;">40 Boundary Rd, Accra, Ghana</p>
             </div>
           </div>

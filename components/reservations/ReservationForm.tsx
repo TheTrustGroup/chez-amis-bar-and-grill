@@ -219,7 +219,7 @@ export function ReservationForm() {
               value={formData.phone}
               onChange={(e) => handleFieldChange("phone", e.target.value)}
               className="border-border/50 focus:border-gold-500/50 min-h-[44px]"
-              placeholder="024 395 2339"
+              placeholder="055 703 2312"
               required
               aria-label="Enter your phone number"
             />
@@ -278,7 +278,7 @@ export function ReservationForm() {
         </p>
         <div className="flex flex-col sm:flex-row gap-3 justify-center">
           <a
-            href="tel:+233243952339"
+            href="tel:+233557032312"
             className="flex items-center justify-center gap-2 px-5 py-2.5 rounded-lg border border-border/50 hover:border-gold-500/50 hover:bg-gold-500/5 transition-all text-sm font-body font-light min-h-[44px]"
             aria-label="Call us to make a reservation"
           >
@@ -286,7 +286,7 @@ export function ReservationForm() {
             Call Us
           </a>
           <a
-            href="https://wa.me/233243952339"
+            href="https://wa.me/233557032312"
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center justify-center gap-2 px-5 py-2.5 rounded-lg border border-border/50 hover:border-gold-500/50 hover:bg-gold-500/5 transition-all text-sm font-body font-light min-h-[44px]"

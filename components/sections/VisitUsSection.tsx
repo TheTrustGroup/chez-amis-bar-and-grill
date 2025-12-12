@@ -76,12 +76,32 @@ export function VisitUsSection() {
                   <h3 className="text-lg md:text-xl font-heading font-light text-foreground mb-2">
                     Phone
                   </h3>
-                  <a
-                    href="tel:+233243952339"
-                    className="text-base md:text-lg text-muted-foreground font-body font-light hover:text-foreground transition-colors"
-                  >
-                    024 395 2339 / 050 243 2037
-                  </a>
+                  <div className="space-y-1">
+                    <a
+                      href="tel:+233557032312"
+                      className="block text-base md:text-lg text-muted-foreground font-body font-light hover:text-foreground transition-colors"
+                    >
+                      055 703 2312
+                    </a>
+                    <a
+                      href="tel:+233557032335"
+                      className="block text-base md:text-lg text-muted-foreground font-body font-light hover:text-foreground transition-colors"
+                    >
+                      055 703 2335
+                    </a>
+                    <a
+                      href="tel:+233243952339"
+                      className="block text-base md:text-lg text-muted-foreground font-body font-light hover:text-foreground transition-colors"
+                    >
+                      024 395 2339
+                    </a>
+                    <a
+                      href="tel:+233502432037"
+                      className="block text-base md:text-lg text-muted-foreground font-body font-light hover:text-foreground transition-colors"
+                    >
+                      050 243 2037
+                    </a>
+                  </div>
                 </div>
               </div>
 

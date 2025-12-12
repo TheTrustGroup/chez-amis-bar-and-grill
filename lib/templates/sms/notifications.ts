@@ -8,7 +8,7 @@ import type { OrderData, ReservationData } from '@/lib/types/notifications'
 import { format, parseISO } from 'date-fns'
 
 const RESTAURANT_NAME = 'Chez Amis'
-const RESTAURANT_PHONE = process.env.NEXT_PUBLIC_PHONE || '+233 024 395 2339'
+const RESTAURANT_PHONE = process.env.NEXT_PUBLIC_PHONE || '+233 055 703 2312'
 
 /**
  * Order Confirmation SMS

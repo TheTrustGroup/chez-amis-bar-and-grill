@@ -73,12 +73,32 @@ export default function PressPage() {
                   <Phone className="h-5 w-5 text-gold-500" />
                   <div>
                     <p className="font-heading font-medium text-foreground">Phone</p>
-                    <a
-                      href="tel:+233243952339"
-                      className="text-gold-600 hover:text-gold-700 transition-colors"
-                    >
-                      +233 024 395 2339
-                    </a>
+                    <div className="space-y-1">
+                      <a
+                        href="tel:+233557032312"
+                        className="block text-gold-600 hover:text-gold-700 transition-colors"
+                      >
+                        +233 055 703 2312
+                      </a>
+                      <a
+                        href="tel:+233557032335"
+                        className="block text-gold-600 hover:text-gold-700 transition-colors"
+                      >
+                        +233 055 703 2335
+                      </a>
+                      <a
+                        href="tel:+233243952339"
+                        className="block text-gold-600 hover:text-gold-700 transition-colors"
+                      >
+                        +233 024 395 2339
+                      </a>
+                      <a
+                        href="tel:+233502432037"
+                        className="block text-gold-600 hover:text-gold-700 transition-colors"
+                      >
+                        +233 050 243 2037
+                      </a>
+                    </div>
                   </div>
                 </div>
               </div>
