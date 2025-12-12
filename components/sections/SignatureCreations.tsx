@@ -81,9 +81,6 @@ export function SignatureCreations() {
                   <h3 className="text-2xl md:text-3xl font-display font-light text-cream-100 mb-2">
                     {dish.name}
                   </h3>
-                  <p className="text-cream-200/80 text-sm md:text-base font-body font-light mb-4 line-clamp-2">
-                    {dish.description.split(".")[0]}.
-                  </p>
                   <p className="text-gold-500 text-lg md:text-xl font-display font-light">
                     {dish.price ? formatPrice(dish.price) : dish.portionSizes?.[0] ? formatPrice(dish.portionSizes[0].price) : 'Price varies'}
                   </p>
