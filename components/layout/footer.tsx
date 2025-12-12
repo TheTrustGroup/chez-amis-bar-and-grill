@@ -175,61 +175,74 @@ export function Footer() {
       {/* Middle Section: Contact Bar */}
       <div className="border-t border-charcoal-800">
         <div className="container-custom py-6">
-          <div className="flex flex-col md:flex-row items-center justify-center gap-4 md:gap-6 text-sm font-body font-light text-cream-200/70">
+          <div className="flex flex-col md:flex-row items-center justify-center gap-4 md:gap-6 text-sm font-body font-light text-cream-200/70 leading-normal">
+            {/* Address */}
             <a
               href="https://maps.google.com/?q=40+Boundary+Rd+Accra+Ghana"
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-2 hover:text-gold-500 transition-colors"
             >
-              <MapPin className="h-4 w-4 flex-shrink-0" />
-              <span>40 Boundary Rd, Accra</span>
+              <MapPin className="h-4 w-4 flex-shrink-0 mt-0.5" />
+              <span className="leading-tight">40 Boundary Rd, Accra</span>
             </a>
-            <span className="hidden md:inline text-gold-500/30">|</span>
+            
+            {/* Separator */}
+            <span className="hidden md:inline text-gold-500/30 self-center">|</span>
+            
+            {/* Phone Numbers */}
             <div className="flex items-center gap-2 flex-wrap justify-center">
-              <Phone className="h-4 w-4 flex-shrink-0" />
+              <Phone className="h-4 w-4 flex-shrink-0 mt-0.5" />
               <div className="flex items-center gap-2 flex-wrap justify-center">
                 <a
                   href="tel:+233557032312"
-                  className="hover:text-gold-500 transition-colors"
+                  className="hover:text-gold-500 transition-colors leading-tight"
                 >
                   055 703 2312
                 </a>
-                <span className="text-gold-500/30">•</span>
+                <span className="text-gold-500/30 leading-tight">•</span>
                 <a
                   href="tel:+233557032335"
-                  className="hover:text-gold-500 transition-colors"
+                  className="hover:text-gold-500 transition-colors leading-tight"
                 >
                   055 703 2335
                 </a>
-                <span className="text-gold-500/30">•</span>
+                <span className="text-gold-500/30 leading-tight">•</span>
                 <a
                   href="tel:+233243952339"
-                  className="hover:text-gold-500 transition-colors"
+                  className="hover:text-gold-500 transition-colors leading-tight"
                 >
                   024 395 2339
                 </a>
-                <span className="text-gold-500/30">•</span>
+                <span className="text-gold-500/30 leading-tight">•</span>
                 <a
                   href="tel:+233502432037"
-                  className="hover:text-gold-500 transition-colors"
+                  className="hover:text-gold-500 transition-colors leading-tight"
                 >
                   050 243 2037
                 </a>
               </div>
             </div>
-            <span className="hidden md:inline text-gold-500/30">|</span>
+            
+            {/* Separator */}
+            <span className="hidden md:inline text-gold-500/30 self-center">|</span>
+            
+            {/* Email */}
             <a
               href="mailto:chez@chezamisrestaurant.com"
               className="flex items-center gap-2 hover:text-gold-500 transition-colors"
             >
-              <Mail className="h-4 w-4 flex-shrink-0" />
-              <span>chez@chezamisrestaurant.com</span>
+              <Mail className="h-4 w-4 flex-shrink-0 mt-0.5" />
+              <span className="leading-tight">chez@chezamisrestaurant.com</span>
             </a>
-            <span className="hidden md:inline text-gold-500/30">|</span>
+            
+            {/* Separator */}
+            <span className="hidden md:inline text-gold-500/30 self-center">|</span>
+            
+            {/* Hours */}
             <div className="flex items-center gap-2">
-              <Clock className="h-4 w-4 flex-shrink-0" />
-              <span>We&apos;re Open 24/7</span>
+              <Clock className="h-4 w-4 flex-shrink-0 mt-0.5" />
+              <span className="leading-tight">We&apos;re Open 24/7</span>
             </div>
           </div>
         </div>
