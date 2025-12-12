@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button"
 import { DateTimePicker } from "./DateTimePicker"
 import { SeatingSelector, type SeatingPreference } from "./SeatingSelector"
 import { generateReservationNumber } from "@/lib/utils/reservationAvailability"
+import { ErrorMessage } from "@/components/ui/error-message"
 import Link from "next/link"
 import { Phone, MessageCircle } from "lucide-react"
 
@@ -28,14 +29,42 @@ export function ReservationForm() {
   })
 
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [error, setError] = useState<string | null>(null)
 
   const handleFieldChange = (field: string, value: string | SeatingPreference | null) => {
     setFormData((prev) => ({ ...prev, [field]: value }))
+    // Clear error when user starts typing
+    if (error) setError(null)
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    
+    // Prevent double submission
+    if (isSubmitting) return
+    
+    // Validate form
+    if (!isFormValid) {
+      setError("Please fill in all required fields")
+      return
+    }
+
+    // Validate email
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    if (!emailRegex.test(formData.email)) {
+      setError("Please enter a valid email address")
+      return
+    }
+
+    // Validate phone
+    const phoneCleaned = formData.phone.replace(/\D/g, '')
+    if (phoneCleaned.length < 9) {
+      setError("Please enter a valid phone number")
+      return
+    }
+
     setIsSubmitting(true)
+    setError(null)
 
     try {
       // Generate reservation number
@@ -73,8 +102,10 @@ export function ReservationForm() {
       router.push(`/reservations/confirmation?number=${reservationNumber}`)
     } catch (error) {
       // Handle any errors
-      console.error("Reservation submission error:", error)
-      alert("Failed to submit reservation. Please try again or call us directly.")
+      if (process.env.NODE_ENV === 'development') {
+        console.error("Reservation submission error:", error)
+      }
+      setError(error instanceof Error ? error.message : "Failed to submit reservation. Please try again or call us directly.")
       setIsSubmitting(false)
     }
   }
@@ -256,13 +287,20 @@ export function ReservationForm() {
         </div>
       </div>
 
+      {/* Error Message */}
+      {error && (
+        <div className="pt-4">
+          <ErrorMessage message={error} onDismiss={() => setError(null)} />
+        </div>
+      )}
+
       {/* Submit Button */}
       <div className="pt-4">
         <Button
           type="submit"
           disabled={!isFormValid || isSubmitting}
           size="lg"
-          className="w-full font-heading font-light tracking-wide bg-foreground text-background hover:bg-foreground/90 text-base md:text-lg px-8 py-3 md:py-4 min-h-[48px] md:min-h-[52px]"
+          className="w-full font-heading font-light tracking-wide bg-foreground text-background hover:bg-foreground/90 text-base md:text-lg px-8 py-3 md:py-4 min-h-[48px] md:min-h-[52px] disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {isSubmitting ? "Confirming..." : "Confirm Reservation"}
         </Button>

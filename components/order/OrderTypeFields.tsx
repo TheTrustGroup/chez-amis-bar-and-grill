@@ -40,7 +40,7 @@ export function OrderTypeFields({
               type="date"
               value={formData.date || ""}
               onChange={(e) => onFieldChange("date", e.target.value)}
-              className="mt-2 border-border/50 focus:border-gold-500/50"
+              className="mt-2 border-border/50 focus:border-gold-500/50 min-h-[44px] text-base md:text-sm"
               required
             />
           </div>
@@ -53,7 +53,7 @@ export function OrderTypeFields({
               type="time"
               value={formData.time || ""}
               onChange={(e) => onFieldChange("time", e.target.value)}
-              className="mt-2 border-border/50 focus:border-gold-500/50"
+              className="mt-2 border-border/50 focus:border-gold-500/50 min-h-[44px] text-base md:text-sm"
               required
             />
           </div>
@@ -67,7 +67,7 @@ export function OrderTypeFields({
             id="guests"
             value={formData.guests || ""}
             onChange={(e) => onFieldChange("guests", e.target.value)}
-            className="mt-2 w-full h-10 rounded-md border border-border/50 bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-gold-500 focus:ring-offset-1"
+            className="mt-2 w-full h-12 md:h-10 rounded-md border border-border/50 bg-background px-3 py-2 text-base md:text-sm focus:outline-none focus:ring-2 focus:ring-gold-500 focus:ring-offset-1 min-h-[44px]"
             required
           >
             <option value="">Select number of guests</option>
@@ -88,7 +88,7 @@ export function OrderTypeFields({
             id="tablePreference"
             value={formData.tablePreference || ""}
             onChange={(e) => onFieldChange("tablePreference", e.target.value)}
-            className="mt-2 w-full h-10 rounded-md border border-border/50 bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-gold-500 focus:ring-offset-1"
+            className="mt-2 w-full h-12 md:h-10 rounded-md border border-border/50 bg-background px-3 py-2 text-base md:text-sm focus:outline-none focus:ring-2 focus:ring-gold-500 focus:ring-offset-1 min-h-[44px]"
           >
             <option value="">No preference</option>
             <option value="window">Window</option>
@@ -105,7 +105,7 @@ export function OrderTypeFields({
             id="specialOccasion"
             value={formData.specialOccasion || ""}
             onChange={(e) => onFieldChange("specialOccasion", e.target.value)}
-            className="mt-2 w-full h-10 rounded-md border border-border/50 bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-gold-500 focus:ring-offset-1"
+            className="mt-2 w-full h-12 md:h-10 rounded-md border border-border/50 bg-background px-3 py-2 text-base md:text-sm focus:outline-none focus:ring-2 focus:ring-gold-500 focus:ring-offset-1 min-h-[44px]"
           >
             <option value="">None</option>
             <option value="birthday">Birthday</option>
@@ -130,7 +130,7 @@ export function OrderTypeFields({
             type="datetime-local"
             value={formData.pickupTime || ""}
             onChange={(e) => onFieldChange("pickupTime", e.target.value)}
-            className="mt-2 border-border/50 focus:border-gold-500/50"
+            className="mt-2 border-border/50 focus:border-gold-500/50 min-h-[44px] text-base md:text-sm"
             required
             min={new Date().toISOString().slice(0, 16)}
             step="900"
@@ -149,7 +149,7 @@ export function OrderTypeFields({
             type="tel"
             value={formData.phone || ""}
             onChange={(e) => onFieldChange("phone", e.target.value)}
-            className="mt-2 border-border/50 focus:border-gold-500/50"
+            className="mt-2 border-border/50 focus:border-gold-500/50 min-h-[44px] text-base md:text-sm"
             placeholder="055 703 2312"
             required
           />
@@ -215,7 +215,7 @@ export function OrderTypeFields({
               type="datetime-local"
               value={formData.scheduledTime || ""}
               onChange={(e) => onFieldChange("scheduledTime", e.target.value)}
-              className="mt-2 border-border/50 focus:border-gold-500/50"
+              className="mt-2 border-border/50 focus:border-gold-500/50 min-h-[44px] text-base md:text-sm"
               required
               min={new Date().toISOString().slice(0, 16)}
             />
@@ -231,7 +231,7 @@ export function OrderTypeFields({
             type="tel"
             value={formData.phone || ""}
             onChange={(e) => onFieldChange("phone", e.target.value)}
-            className="mt-2 border-border/50 focus:border-gold-500/50"
+            className="mt-2 border-border/50 focus:border-gold-500/50 min-h-[44px] text-base md:text-sm"
             placeholder="055 703 2312"
             required
           />

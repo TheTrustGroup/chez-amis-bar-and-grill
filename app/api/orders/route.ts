@@ -63,7 +63,9 @@ export async function POST(request: NextRequest) {
 
     // CRITICAL: Save order to storage FIRST before sending notifications
     // This ensures order is always recorded even if notifications fail
-    console.log('💾 Saving order to storage:', orderData.orderId)
+    if (process.env.NODE_ENV === 'development') {
+      console.log('💾 Saving order to storage:', orderData.orderId)
+    }
     const savedOrder = await saveOrder(orderData)
     
     if (!savedOrder) {
@@ -74,7 +76,9 @@ export async function POST(request: NextRequest) {
       )
     }
     
-    console.log('✅ Order saved successfully:', savedOrder.orderId)
+    if (process.env.NODE_ENV === 'development') {
+      console.log('✅ Order saved successfully:', savedOrder.orderId)
+    }
 
     // Convert to OrderData format for notifications
     const notificationData: OrderData = {
@@ -141,7 +145,9 @@ export async function GET(request: NextRequest) {
   try {
     const orders = await getAllOrders()
     
-    console.log(`📥 GET /api/orders: Returning ${orders.length} orders`)
+    if (process.env.NODE_ENV === 'development') {
+      console.log(`📥 GET /api/orders: Returning ${orders.length} orders`)
+    }
     
     return NextResponse.json({
       success: true,

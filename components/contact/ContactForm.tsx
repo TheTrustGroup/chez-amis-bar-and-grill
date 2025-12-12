@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Label } from "@/components/ui/label"
 import { Button } from "@/components/ui/button"
+import { ErrorMessage } from "@/components/ui/error-message"
 
 export function ContactForm() {
   const [formData, setFormData] = useState({
@@ -17,14 +18,29 @@ export function ContactForm() {
 
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isSubmitted, setIsSubmitted] = useState(false)
+  const [error, setError] = useState<string | null>(null)
 
   const handleFieldChange = (field: string, value: string) => {
     setFormData((prev) => ({ ...prev, [field]: value }))
+    // Clear error when user starts typing
+    if (error) setError(null)
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    
+    // Prevent double submission
+    if (isSubmitting) return
+
+    // Validate email
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    if (!emailRegex.test(formData.email)) {
+      setError("Please enter a valid email address")
+      return
+    }
+
     setIsSubmitting(true)
+    setError(null)
 
     try {
       // Submit to API route
@@ -57,9 +73,11 @@ export function ContactForm() {
         })
       }, 3000)
     } catch (error) {
-      console.error('Contact form submission error:', error)
+      if (process.env.NODE_ENV === 'development') {
+        console.error('Contact form submission error:', error)
+      }
+      setError(error instanceof Error ? error.message : 'Failed to send message. Please try again or call us directly.')
       setIsSubmitting(false)
-      alert('Failed to send message. Please try again or call us directly.')
     }
   }
 
@@ -172,12 +190,19 @@ export function ContactForm() {
         />
       </div>
 
+      {/* Error Message */}
+      {error && (
+        <div className="pt-2">
+          <ErrorMessage message={error} onDismiss={() => setError(null)} />
+        </div>
+      )}
+
       <div className="pt-2">
         <Button
           type="submit"
           disabled={isSubmitting}
           size="lg"
-          className="w-full font-heading font-light tracking-wide bg-foreground text-background hover:bg-foreground/90 min-h-[48px] md:min-h-[52px] text-base md:text-lg"
+          className="w-full font-heading font-light tracking-wide bg-foreground text-background hover:bg-foreground/90 min-h-[48px] md:min-h-[52px] text-base md:text-lg disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {isSubmitting ? "Sending..." : "Send Message"}
         </Button>

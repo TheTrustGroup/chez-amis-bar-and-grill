@@ -43,7 +43,7 @@ export default function PlaceOrderPage() {
       : orderType === "takeaway"
       ? !!(formData.pickupTime)
       : orderType === "delivery"
-      ? !!(formData.deliveryAddress && formData.deliveryTime && (formData.deliveryTime === "asap" || formData.scheduledTime))
+      ? !!(formData.deliveryAddress && formData.deliveryTime && (formData.deliveryTime === "asap" || (formData.deliveryTime === "scheduled" && formData.scheduledTime)))
       : false
   
   const canProceedToStep3 = canProceedToStep2 && hasOrderTypeFields
@@ -58,6 +58,22 @@ export default function PlaceOrderPage() {
 
   const handlePlaceOrder = async () => {
     if (!canPlaceOrder || isSubmitting) return
+
+    // Validate email format
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    if (formData.email && !emailRegex.test(formData.email)) {
+      setSubmitError("Please enter a valid email address")
+      return
+    }
+
+    // Validate phone format
+    if (formData.phone) {
+      const phoneCleaned = formData.phone.replace(/\D/g, '')
+      if (phoneCleaned.length < 9) {
+        setSubmitError("Please enter a valid phone number")
+        return
+      }
+    }
 
     setIsSubmitting(true)
     setSubmitError(null)
@@ -166,7 +182,9 @@ export default function PlaceOrderPage() {
       
       router.push(`/order-confirmation/${orderId}?${params.toString()}`)
     } catch (error) {
-      console.error('Order submission error:', error)
+      if (process.env.NODE_ENV === 'development') {
+        console.error('Order submission error:', error)
+      }
       setSubmitError(error instanceof Error ? error.message : 'Failed to place order. Please try again.')
       setIsSubmitting(false)
     }

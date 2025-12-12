@@ -211,7 +211,9 @@ export async function saveOrder(orderData: OrderRequest): Promise<StoredOrder> {
     }
     
     if (writeSuccess) {
-      console.log(`✅ Order saved: ${storedOrder.orderId} (Total: ${trimmedOrders.length} orders)`)
+      if (process.env.NODE_ENV === 'development') {
+        console.log(`✅ Order saved: ${storedOrder.orderId} (Total: ${trimmedOrders.length} orders)`)
+      }
     } else {
       console.error(`⚠️ Failed to write order to file, but order is in cache: ${storedOrder.orderId}`)
       // Order is still in memory cache, so it's not completely lost
@@ -223,7 +225,9 @@ export async function saveOrder(orderData: OrderRequest): Promise<StoredOrder> {
     // Fallback: save to memory cache
     memoryCache.push(storedOrder)
     cacheTimestamp = Date.now()
-    console.warn(`⚠️ Order saved to memory cache only: ${storedOrder.orderId}`)
+    if (process.env.NODE_ENV === 'development') {
+      console.warn(`⚠️ Order saved to memory cache only: ${storedOrder.orderId}`)
+    }
     return storedOrder
   }
 }
@@ -316,7 +320,9 @@ export async function updateOrderStatus(
     }
     
     if (writeSuccess) {
-      console.log(`✅ Order status updated: ${orderId} -> ${status}`)
+      if (process.env.NODE_ENV === 'development') {
+        console.log(`✅ Order status updated: ${orderId} -> ${status}`)
+      }
     } else {
       console.error(`⚠️ Failed to write status update, but order is in cache: ${orderId}`)
     }
@@ -400,5 +406,6 @@ export async function healthCheck(): Promise<{ healthy: boolean; orderCount: num
     }
   }
 }
+
 
 

@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Label } from "@/components/ui/label"
 import { Button } from "@/components/ui/button"
+import { ErrorMessage } from "@/components/ui/error-message"
 import { venues } from "./VenueCard"
 
 export function EventRequestForm() {
@@ -23,16 +24,37 @@ export function EventRequestForm() {
   })
 
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [isSubmitted, setIsSubmitted] = useState(false)
+  const [error, setError] = useState<string | null>(null)
 
   const handleFieldChange = (field: string, value: string) => {
     setFormData((prev) => ({ ...prev, [field]: value }))
+    // Clear error when user starts typing
+    if (error) setError(null)
   }
-
-  const [isSubmitted, setIsSubmitted] = useState(false)
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    
+    // Prevent double submission
+    if (isSubmitting) return
+
+    // Validate email
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    if (!emailRegex.test(formData.email)) {
+      setError("Please enter a valid email address")
+      return
+    }
+
+    // Validate phone
+    const phoneCleaned = formData.phone.replace(/\D/g, '')
+    if (phoneCleaned.length < 9) {
+      setError("Please enter a valid phone number")
+      return
+    }
+
     setIsSubmitting(true)
+    setError(null)
 
     try {
       // Submit to API route
@@ -71,9 +93,11 @@ export function EventRequestForm() {
         })
       }, 5000)
     } catch (error) {
-      console.error('Event request submission error:', error)
+      if (process.env.NODE_ENV === 'development') {
+        console.error('Event request submission error:', error)
+      }
+      setError(error instanceof Error ? error.message : 'Failed to send event request. Please try again or call us directly.')
       setIsSubmitting(false)
-      alert('Failed to send event request. Please try again or call us directly.')
     }
   }
 
@@ -312,13 +336,20 @@ export function EventRequestForm() {
         />
       </div>
 
+      {/* Error Message */}
+      {error && (
+        <div className="pt-4">
+          <ErrorMessage message={error} onDismiss={() => setError(null)} />
+        </div>
+      )}
+
       {/* Submit Button */}
       <div className="pt-4">
         <Button
           type="submit"
           disabled={!isFormValid || isSubmitting}
           size="lg"
-          className="w-full font-heading font-light tracking-wide bg-foreground text-background hover:bg-foreground/90 text-base md:text-lg px-8 py-3 md:py-4 min-h-[48px] md:min-h-[52px]"
+          className="w-full font-heading font-light tracking-wide bg-foreground text-background hover:bg-foreground/90 text-base md:text-lg px-8 py-3 md:py-4 min-h-[48px] md:min-h-[52px] disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {isSubmitting ? "Submitting..." : "Request Proposal"}
         </Button>

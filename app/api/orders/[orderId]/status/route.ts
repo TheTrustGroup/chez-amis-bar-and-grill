@@ -54,7 +54,9 @@ export async function POST(
     let orderType = updateData.orderType
 
     if (!customerPhone || !customerName || !orderType) {
-      console.log('📦 Fetching order details from storage for:', orderId)
+      if (process.env.NODE_ENV === 'development') {
+        console.log('📦 Fetching order details from storage for:', orderId)
+      }
       const storedOrder = await getOrderById(orderId)
       
       if (!storedOrder) {
@@ -70,12 +72,14 @@ export async function POST(
       customerEmail = customerEmail || storedOrder.customer?.email || ''
       orderType = orderType || storedOrder.orderType || 'delivery'
 
-      console.log('✅ Retrieved order details:', {
-        customerName,
-        customerPhone,
-        customerEmail,
-        orderType,
-      })
+      if (process.env.NODE_ENV === 'development') {
+        console.log('✅ Retrieved order details:', {
+          customerName,
+          customerPhone,
+          customerEmail,
+          orderType,
+        })
+      }
     }
 
     // Validate we have all required fields now
@@ -263,19 +267,21 @@ export async function POST(
       )
     }
 
-    // Log status update
-    console.log(`✅ Order ${orderId} status updated to: ${updateData.status}`, {
-      customer: customerName,
-      phone: customerPhone,
-      email: customerEmail,
-      orderType,
-      notifications: {
-        email: results.notification.email.sent,
-        sms: results.notification.sms.sent,
-        emailError: results.notification.email.error,
-        smsError: results.notification.sms.error,
-      },
-    })
+    // Log status update (dev only)
+    if (process.env.NODE_ENV === 'development') {
+      console.log(`✅ Order ${orderId} status updated to: ${updateData.status}`, {
+        customer: customerName,
+        phone: customerPhone,
+        email: customerEmail,
+        orderType,
+        notifications: {
+          email: results.notification.email.sent,
+          sms: results.notification.sms.sent,
+          emailError: results.notification.email.error,
+          smsError: results.notification.sms.error,
+        },
+      })
+    }
 
     return NextResponse.json({
       success: true,

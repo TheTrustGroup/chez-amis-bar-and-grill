@@ -90,9 +90,9 @@ export function DateTimePicker({
                     type="button"
                     onClick={() => onTimeChange(slot.time)}
                     disabled={!slot.available}
-                    className={cn(
-                      "px-4 py-2.5 rounded-md border-2 transition-all duration-200 text-sm font-body font-light min-h-[40px] touch-manipulation",
-                      "focus:outline-none focus:ring-2 focus:ring-gold-500 focus:ring-offset-1",
+                      className={cn(
+                        "px-4 py-2.5 rounded-md border-2 transition-all duration-200 text-sm font-body font-light min-h-[44px] touch-manipulation",
+                        "focus:outline-none focus:ring-2 focus:ring-gold-500 focus:ring-offset-1",
                       selectedTime === slot.time
                         ? "border-gold-500 bg-gold-500/10 text-foreground shadow-sm"
                         : slot.available
@@ -121,9 +121,9 @@ export function DateTimePicker({
                     type="button"
                     onClick={() => onTimeChange(slot.time)}
                     disabled={!slot.available}
-                    className={cn(
-                      "px-4 py-2.5 rounded-md border-2 transition-all duration-200 text-sm font-body font-light min-h-[40px] touch-manipulation",
-                      "focus:outline-none focus:ring-2 focus:ring-gold-500 focus:ring-offset-1",
+                      className={cn(
+                        "px-4 py-2.5 rounded-md border-2 transition-all duration-200 text-sm font-body font-light min-h-[44px] touch-manipulation",
+                        "focus:outline-none focus:ring-2 focus:ring-gold-500 focus:ring-offset-1",
                       selectedTime === slot.time
                         ? "border-gold-500 bg-gold-500/10 text-foreground shadow-sm"
                         : slot.available

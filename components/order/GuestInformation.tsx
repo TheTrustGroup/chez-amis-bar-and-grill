@@ -37,7 +37,7 @@ export function GuestInformation({ formData, onFieldChange }: GuestInformationPr
             type="text"
             value={formData.fullName || ""}
             onChange={(e) => onFieldChange("fullName", e.target.value)}
-            className="mt-2 border-border/50 focus:border-gold-500/50"
+            className="mt-2 border-border/50 focus:border-gold-500/50 min-h-[44px] text-base md:text-sm"
             placeholder="Enter your full name"
             required
           />
@@ -52,7 +52,7 @@ export function GuestInformation({ formData, onFieldChange }: GuestInformationPr
             type="tel"
             value={formData.phone || ""}
             onChange={(e) => onFieldChange("phone", e.target.value)}
-            className="mt-2 border-border/50 focus:border-gold-500/50"
+            className="mt-2 border-border/50 focus:border-gold-500/50 min-h-[44px] text-base md:text-sm"
             placeholder="055 703 2312"
             required
           />
@@ -67,7 +67,7 @@ export function GuestInformation({ formData, onFieldChange }: GuestInformationPr
             type="email"
             value={formData.email || ""}
             onChange={(e) => onFieldChange("email", e.target.value)}
-            className="mt-2 border-border/50 focus:border-gold-500/50"
+            className="mt-2 border-border/50 focus:border-gold-500/50 min-h-[44px] text-base md:text-sm"
             placeholder="your.email@example.com"
             required
           />
