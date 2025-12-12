@@ -182,51 +182,53 @@ export function Footer() {
               rel="noopener noreferrer"
               className="flex items-center gap-2 hover:text-gold-500 transition-colors"
             >
-              <MapPin className="h-4 w-4" />
+              <MapPin className="h-4 w-4 flex-shrink-0" />
               <span>40 Boundary Rd, Accra</span>
             </a>
             <span className="hidden md:inline text-gold-500/30">|</span>
             <div className="flex items-center gap-2 flex-wrap justify-center">
-              <Phone className="h-4 w-4" />
-              <a
-                href="tel:+233557032312"
-                className="hover:text-gold-500 transition-colors"
-              >
-                055 703 2312
-              </a>
-              <span className="text-gold-500/30">•</span>
-              <a
-                href="tel:+233557032335"
-                className="hover:text-gold-500 transition-colors"
-              >
-                055 703 2335
-              </a>
-              <span className="text-gold-500/30">•</span>
-              <a
-                href="tel:+233243952339"
-                className="hover:text-gold-500 transition-colors"
-              >
-                024 395 2339
-              </a>
-              <span className="text-gold-500/30">•</span>
-              <a
-                href="tel:+233502432037"
-                className="hover:text-gold-500 transition-colors"
-              >
-                050 243 2037
-              </a>
+              <Phone className="h-4 w-4 flex-shrink-0" />
+              <div className="flex items-center gap-2 flex-wrap justify-center">
+                <a
+                  href="tel:+233557032312"
+                  className="hover:text-gold-500 transition-colors"
+                >
+                  055 703 2312
+                </a>
+                <span className="text-gold-500/30">•</span>
+                <a
+                  href="tel:+233557032335"
+                  className="hover:text-gold-500 transition-colors"
+                >
+                  055 703 2335
+                </a>
+                <span className="text-gold-500/30">•</span>
+                <a
+                  href="tel:+233243952339"
+                  className="hover:text-gold-500 transition-colors"
+                >
+                  024 395 2339
+                </a>
+                <span className="text-gold-500/30">•</span>
+                <a
+                  href="tel:+233502432037"
+                  className="hover:text-gold-500 transition-colors"
+                >
+                  050 243 2037
+                </a>
+              </div>
             </div>
             <span className="hidden md:inline text-gold-500/30">|</span>
             <a
               href="mailto:chez@chezamisrestaurant.com"
               className="flex items-center gap-2 hover:text-gold-500 transition-colors"
             >
-              <Mail className="h-4 w-4" />
+              <Mail className="h-4 w-4 flex-shrink-0" />
               <span>chez@chezamisrestaurant.com</span>
             </a>
             <span className="hidden md:inline text-gold-500/30">|</span>
             <div className="flex items-center gap-2">
-              <Clock className="h-4 w-4" />
+              <Clock className="h-4 w-4 flex-shrink-0" />
               <span>We&apos;re Open 24/7</span>
             </div>
           </div>
