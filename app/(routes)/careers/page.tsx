@@ -181,10 +181,10 @@ export default function CareersPage() {
                       >
                         +233 055 703 2335
                       </a>
-                      <a
-                        href="tel:+233243952339"
+                    <a
+                      href="tel:+233243952339"
                         className="block text-gold-400 hover:text-gold-300 transition-colors"
-                      >
+                    >
                         +233 024 395 2339
                       </a>
                       <a
@@ -192,7 +192,7 @@ export default function CareersPage() {
                         className="block text-gold-400 hover:text-gold-300 transition-colors"
                       >
                         +233 050 243 2037
-                      </a>
+                    </a>
                     </div>
                   </div>
                 </div>

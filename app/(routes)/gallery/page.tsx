@@ -1,13 +1,14 @@
 'use client'
 
 import { useState, useEffect, useCallback, useMemo } from 'react'
-import { X, Play, ChevronLeft, ChevronRight, AlertCircle } from 'lucide-react'
+import { X, Play, ChevronLeft, ChevronRight, AlertCircle, Calendar } from 'lucide-react'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { GalleryImage } from '@/components/gallery/GalleryImage'
 import { VideoThumbnail } from '@/components/gallery/VideoThumbnail'
 import { galleryMedia, galleryCategories, type MediaCategory, type MediaItem } from '@/lib/data/galleryMedia'
 import { cn } from '@/lib/utils'
+import { useTheme } from '@/lib/context/ThemeContext'
 
 // Helper to determine fallback type
 const getFallbackType = (item: MediaItem): 'dish' | 'video' | 'restaurant' => {
@@ -22,6 +23,8 @@ export default function GalleryPage() {
   const [lightboxOpen, setLightboxOpen] = useState(false)
   const [currentMediaIndex, setCurrentMediaIndex] = useState(0)
   const [loadedImages, setLoadedImages] = useState<Set<string>>(new Set())
+  const { resolvedTheme } = useTheme()
+  const isDark = resolvedTheme === 'dark'
 
   // Memoize filtered media to prevent unnecessary recalculations
   const filteredMedia = useMemo(
@@ -87,27 +90,50 @@ export default function GalleryPage() {
   }
 
   return (
-    <div className="min-h-screen bg-background">
-      {/* Hero Section */}
-      <section className="relative h-[40vh] min-h-[300px] md:min-h-[400px] bg-gradient-to-br from-charcoal-950 via-charcoal-900 to-burgundy-900 overflow-hidden">
-        <div className="absolute inset-0 bg-black/30"></div>
+    <div className={cn(
+      "min-h-screen transition-colors duration-300",
+      isDark ? "bg-charcoal-950" : "bg-background"
+    )}>
+      {/* Hero Section - Premium */}
+      <section className={cn(
+        "relative h-[45vh] min-h-[350px] md:min-h-[500px] overflow-hidden",
+        "bg-gradient-to-br from-charcoal-950 via-charcoal-900 to-burgundy-900"
+      )}>
+        <div className={cn(
+          "absolute inset-0 transition-opacity duration-300",
+          isDark ? "bg-black/40" : "bg-black/50"
+        )} />
         <div className="relative z-10 h-full flex items-center justify-center text-center px-6">
-          <div className="max-w-3xl">
-            <h1 className="text-4xl md:text-6xl font-display font-light text-cream-100 mb-4">
+          <div className="max-w-4xl">
+            <h1 className={cn(
+              "text-5xl md:text-6xl lg:text-7xl font-display font-light mb-6 md:mb-8",
+              "text-cream-100 drop-shadow-[0_4px_20px_rgba(0,0,0,0.8)]",
+              "animate-fade-in-up"
+            )}>
               Our Gallery
             </h1>
-            <div className="w-24 h-px bg-gold-500 mx-auto mb-6" />
-            <p className="text-lg md:text-xl text-cream-200/90 font-body font-light">
+            <div className="w-24 md:w-32 h-0.5 bg-gradient-to-r from-transparent via-gold-500 to-transparent mx-auto mb-6 md:mb-8 shadow-lg shadow-gold-500/50" />
+            <p className={cn(
+              "text-lg md:text-xl lg:text-2xl font-body font-light leading-relaxed",
+              "text-cream-200/90 drop-shadow-[0_2px_10px_rgba(0,0,0,0.8)]",
+              "animate-fade-in-up"
+            )} style={{ animationDelay: "0.2s" }}>
               A visual journey through our culinary excellence and warm hospitality
             </p>
           </div>
         </div>
       </section>
 
-      {/* Category Filter Tabs */}
-      <section className="bg-cream-50 border-b border-border/50 sticky top-20 z-40">
+      {/* Category Filter Tabs - Premium */}
+      <section className={cn(
+        "sticky top-20 z-40 border-b transition-colors duration-300",
+        "backdrop-blur-xl shadow-lg",
+        isDark 
+          ? "bg-charcoal-950/95 border-charcoal-800/50"
+          : "bg-background/95 border-border/50"
+      )}>
         <div className="container-custom">
-          <div className="flex gap-3 overflow-x-auto py-4 scrollbar-hide -mx-6 px-6 md:mx-0 md:px-0">
+          <div className="flex gap-3 overflow-x-auto py-4 md:py-5 scrollbar-hide -mx-6 px-6 md:mx-0 md:px-0">
             <div className="flex gap-3 min-w-max">
               {galleryCategories.map((category) => {
                 const count =
@@ -119,20 +145,25 @@ export default function GalleryPage() {
                     key={category.id}
                     onClick={() => setSelectedCategory(category.id)}
                     className={cn(
-                      'px-5 py-2.5 rounded-full whitespace-nowrap font-heading font-medium transition-all duration-300 min-h-[44px] flex-shrink-0 touch-manipulation flex items-center gap-2',
+                      'px-5 md:px-6 py-2.5 md:py-3 rounded-full whitespace-nowrap font-heading font-medium transition-all duration-300 min-h-[44px] flex-shrink-0 touch-manipulation flex items-center gap-2',
                       'text-sm md:text-base',
+                      'hover:scale-105 active:scale-95',
                       selectedCategory === category.id
-                        ? 'bg-gold-500 text-foreground shadow-md scale-105'
-                        : 'bg-white text-muted-foreground hover:bg-cream-100 active:bg-cream-200 border border-border/30'
+                        ? 'bg-gold-500 text-charcoal-900 shadow-lg shadow-gold-500/30 scale-105'
+                        : isDark
+                        ? 'bg-charcoal-800/50 text-cream-200/70 hover:bg-charcoal-800 hover:text-cream-100 border border-charcoal-700/50'
+                        : 'bg-muted/50 text-muted-foreground hover:bg-muted hover:text-foreground border border-border/30'
                     )}
                   >
                     <span>{category.label}</span>
                     <span
                       className={cn(
-                        'text-xs px-2 py-0.5 rounded-full',
+                        'text-xs px-2 py-0.5 rounded-full font-semibold',
                         selectedCategory === category.id
-                          ? 'bg-white/20 text-foreground'
-                          : 'bg-gray-200 text-gray-600'
+                          ? 'bg-charcoal-900/20 text-charcoal-900'
+                          : isDark
+                          ? 'bg-charcoal-700/50 text-cream-200/60'
+                          : 'bg-muted text-muted-foreground'
                       )}
                     >
                       {count}
@@ -145,16 +176,32 @@ export default function GalleryPage() {
         </div>
       </section>
 
-      {/* Gallery Grid */}
+      {/* Gallery Grid - Premium Immersive */}
       <section className="section-padding">
         <div className="container-custom">
           {/* Info Banner */}
           {filteredMedia.length === 0 && galleryMedia.length > 0 && (
-            <div className="mb-8 bg-blue-50 border border-blue-200 rounded-lg p-4 flex items-start gap-3">
-              <AlertCircle className="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" />
+            <div className={cn(
+              "mb-8 rounded-xl p-4 md:p-6 flex items-start gap-3 border transition-colors duration-300",
+              isDark 
+                ? "bg-charcoal-900/50 border-charcoal-800/50"
+                : "bg-blue-50 border-blue-200"
+            )}>
+              <AlertCircle className={cn(
+                "w-5 h-5 flex-shrink-0 mt-0.5",
+                isDark ? "text-gold-400" : "text-blue-600"
+              )} />
               <div>
-                <p className="text-blue-900 font-medium">No media in this category</p>
-                <p className="text-blue-700 text-sm mt-1">
+                <p className={cn(
+                  "font-medium",
+                  isDark ? "text-cream-100" : "text-blue-900"
+                )}>
+                  No media in this category
+                </p>
+                <p className={cn(
+                  "text-sm mt-1",
+                  isDark ? "text-cream-200/70" : "text-blue-700"
+                )}>
                   Try selecting a different category or view all media
                 </p>
               </div>
@@ -162,7 +209,7 @@ export default function GalleryPage() {
           )}
 
           {filteredMedia.length > 0 ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6">
               {filteredMedia.map((item, index) => {
                 const fallbackType = getFallbackType(item)
                 const isLoaded = loadedImages.has(item.id)
@@ -171,17 +218,25 @@ export default function GalleryPage() {
                   <div
                     key={item.id}
                     onClick={() => openLightbox(index)}
-                    className="group relative aspect-square rounded-lg overflow-hidden cursor-pointer bg-cream-100 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-[1.02]"
+                    className={cn(
+                      "group relative aspect-square rounded-xl overflow-hidden cursor-pointer transition-all duration-700 ease-out",
+                      "hover:shadow-2xl hover:-translate-y-2 hover:scale-[1.02]",
+                      "border-2",
+                      isDark
+                        ? "bg-charcoal-900/50 border-charcoal-800/50 hover:border-gold-500/40"
+                        : "bg-cream-100 border-border/30 hover:border-gold-500/40",
+                      "shadow-lg"
+                    )}
                   >
-                    {/* Thumbnail with robust error handling - Lazy loading for performance */}
-                    <div className="relative w-full h-full z-0">
+                    {/* Thumbnail with Premium Effects - Lazy loading for performance */}
+                    <div className="relative w-full h-full z-0 overflow-hidden">
                       {item.type === 'video' ? (
                         <VideoThumbnail
                           videoSrc={item.src}
                           alt={item.alt}
-                          className="transition-transform duration-500 group-hover:scale-110"
-                          priority={index < 6} // Only first 6 load immediately
-                          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                          className="object-cover transition-transform duration-700 ease-out group-hover:scale-125"
+                          priority={index < 8} // Only first 8 load immediately
+                          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 25vw"
                           onThumbnailLoad={() => handleImageLoad(item.id)}
                         />
                       ) : (
@@ -189,67 +244,117 @@ export default function GalleryPage() {
                           src={item.thumbnail || item.src}
                           alt={item.alt}
                           type={fallbackType}
-                          className="object-cover transition-transform duration-500 group-hover:scale-110"
-                          priority={index < 6} // Only first 6 load immediately
-                          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                          className="object-cover transition-transform duration-700 ease-out group-hover:scale-125"
+                          priority={index < 8} // Only first 8 load immediately
+                          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 25vw"
                           onImageLoad={() => handleImageLoad(item.id)}
                         />
                       )}
+                      
+                      {/* Loading shimmer effect */}
+                      {!isLoaded && (
+                        <div className={cn(
+                          "absolute inset-0 animate-pulse",
+                          isDark ? "bg-charcoal-800" : "bg-gray-200"
+                        )} />
+                      )}
                     </div>
 
-                    {/* Video Play Button - Must be above everything else */}
+                    {/* Video Play Button - Premium */}
                     {item.type === 'video' && (
                       <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-50">
-                        <div className="w-16 h-16 md:w-20 md:h-20 bg-gold-500/95 backdrop-blur-sm rounded-full flex items-center justify-center group-hover:scale-110 transition-transform shadow-2xl">
-                          <Play className="w-8 h-8 md:w-10 md:h-10 text-white ml-1" fill="white" />
+                        <div className={cn(
+                          "w-16 h-16 md:w-20 md:h-20 rounded-full flex items-center justify-center transition-all duration-500",
+                          "bg-gold-500/95 backdrop-blur-md shadow-2xl",
+                          "group-hover:scale-125 group-hover:bg-gold-400",
+                          "border-2 border-gold-300/50 group-hover:border-gold-200"
+                        )}>
+                          <Play className="w-8 h-8 md:w-10 md:h-10 text-charcoal-900 ml-1 transition-transform duration-300 group-hover:scale-110" fill="currentColor" />
                         </div>
                       </div>
                     )}
 
-                    {/* Gradient Overlay */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-30" />
+                    {/* Premium Gradient Overlay with Fade-in */}
+                    <div className={cn(
+                      "absolute inset-0 z-30 transition-opacity duration-500",
+                      "bg-gradient-to-t from-black/95 via-black/50 to-transparent",
+                      "opacity-0 group-hover:opacity-100"
+                    )} />
 
-                    {/* Content Overlay */}
-                    <div className="absolute inset-0 flex flex-col justify-end p-6 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-30">
-                      <h3 className="text-lg md:text-xl font-display font-light mb-2 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
+                    {/* Gold Accent Glow on Hover */}
+                    <div className={cn(
+                      "absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 z-30",
+                      "bg-gradient-to-br from-gold-500/20 via-transparent to-transparent"
+                    )} />
+
+                    {/* Content Overlay - Premium Animation */}
+                    <div className="absolute inset-0 flex flex-col justify-end p-4 md:p-6 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-40">
+                      <h3 className={cn(
+                        "text-base md:text-lg lg:text-xl font-display font-light mb-2",
+                        "transform translate-y-6 group-hover:translate-y-0 transition-all duration-500 ease-out"
+                      )}>
                         {item.title}
                       </h3>
                       {item.description && (
-                        <p className="text-sm text-cream-200/90 font-body font-light line-clamp-2 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300 delay-75">
+                        <p className={cn(
+                          "text-xs md:text-sm text-cream-200/90 font-body font-light line-clamp-2",
+                          "transform translate-y-6 group-hover:translate-y-0 transition-all duration-500 ease-out delay-75"
+                        )}>
                           {item.description}
                         </p>
                       )}
                     </div>
 
-                    {/* Category Badge */}
-                    <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-sm px-3 py-1.5 rounded-full shadow-md z-30">
-                      <span className="text-xs font-heading font-medium text-foreground">
+                    {/* Category Badge - Premium */}
+                    <div className={cn(
+                      "absolute top-3 left-3 md:top-4 md:left-4 backdrop-blur-md px-3 py-1.5 rounded-full shadow-lg z-40 transition-all duration-300",
+                      "group-hover:scale-110",
+                      isDark
+                        ? "bg-charcoal-900/90 border border-gold-500/30"
+                        : "bg-white/90 border border-gold-500/20"
+                    )}>
+                      <span className={cn(
+                        "text-xs font-heading font-semibold",
+                        isDark ? "text-gold-400" : "text-foreground"
+                      )}>
                         {galleryCategories.find((c) => c.id === item.category)?.label}
                       </span>
                     </div>
 
-                    {/* Load Status Indicator */}
-                    {!isLoaded && (
-                      <div className="absolute top-4 right-4 z-30">
-                        <div className="w-2 h-2 bg-amber-400 rounded-full animate-pulse" />
-                      </div>
-                    )}
-
-                    {/* Hover Border Effect */}
-                    <div className="absolute inset-0 border-4 border-gold-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-lg z-20 pointer-events-none" />
+                    {/* Premium Hover Border Effect */}
+                    <div className={cn(
+                      "absolute inset-0 border-2 rounded-xl z-20 pointer-events-none transition-all duration-500",
+                      "border-gold-500/0 group-hover:border-gold-500/60",
+                      "shadow-[0_0_30px_rgba(212,175,55,0.3)] opacity-0 group-hover:opacity-100"
+                    )} />
                   </div>
                 )
               })}
             </div>
           ) : (
-            <div className="text-center py-20">
+            <div className={cn(
+              "text-center py-20 md:py-24 rounded-xl transition-colors duration-300",
+              isDark ? "bg-charcoal-900/30" : "bg-muted/30"
+            )}>
               <div className="text-8xl mb-6">📸</div>
-              <h3 className="text-2xl font-semibold text-gray-700 mb-3">Gallery Coming Soon</h3>
-              <p className="text-gray-500 text-lg mb-8 max-w-md mx-auto">
+              <h3 className={cn(
+                "text-2xl md:text-3xl font-display font-light mb-4",
+                isDark ? "text-cream-100" : "text-foreground"
+              )}>
+                Gallery Coming Soon
+              </h3>
+              <p className={cn(
+                "text-base md:text-lg mb-8 max-w-md mx-auto font-body font-light",
+                isDark ? "text-cream-200/70" : "text-muted-foreground"
+              )}>
                 We're preparing stunning visuals of our culinary creations. Check back soon!
               </p>
               <Link href="/menu">
-                <Button className="px-8 py-3 bg-amber-500 text-white rounded-lg hover:bg-amber-600 transition-colors font-medium shadow-lg">
+                <Button 
+                  variant="premium"
+                  size="lg"
+                  className="font-heading font-semibold shadow-xl hover:shadow-2xl hover:shadow-gold-500/30"
+                >
                   Explore Our Menu
                 </Button>
               </Link>
@@ -258,13 +363,30 @@ export default function GalleryPage() {
 
           {/* Empty Category State */}
           {filteredMedia.length === 0 && galleryMedia.length > 0 && (
-            <div className="text-center py-20">
+            <div className={cn(
+              "text-center py-20 md:py-24 rounded-xl transition-colors duration-300",
+              isDark ? "bg-charcoal-900/30" : "bg-muted/30"
+            )}>
               <div className="text-7xl mb-6">🔍</div>
-              <h3 className="text-xl font-semibold text-gray-700 mb-3">No Media in This Category</h3>
-              <p className="text-gray-500 mb-6">Try viewing all media or select a different category</p>
+              <h3 className={cn(
+                "text-xl md:text-2xl font-display font-light mb-4",
+                isDark ? "text-cream-100" : "text-foreground"
+              )}>
+                No Media in This Category
+              </h3>
+              <p className={cn(
+                "mb-6 font-body font-light",
+                isDark ? "text-cream-200/70" : "text-muted-foreground"
+              )}>
+                Try viewing all media or select a different category
+              </p>
               <button
                 onClick={() => setSelectedCategory('all')}
-                className="px-6 py-3 bg-amber-500 text-white rounded-lg hover:bg-amber-600 transition-colors font-medium"
+                className={cn(
+                  "px-6 py-3 rounded-lg transition-all duration-300 font-medium shadow-lg",
+                  "bg-gold-500 text-charcoal-900 hover:bg-gold-400 hover:scale-105 active:scale-95",
+                  "hover:shadow-xl hover:shadow-gold-500/30"
+                )}
               >
                 View All Media
               </button>
@@ -273,23 +395,40 @@ export default function GalleryPage() {
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="bg-charcoal-900 text-cream-100 py-16 md:py-24">
+      {/* CTA Section - Premium */}
+      <section className={cn(
+        "py-16 md:py-24 transition-colors duration-300",
+        isDark ? "bg-charcoal-900" : "bg-charcoal-950"
+      )}>
         <div className="container-custom text-center">
-          <h2 className="text-3xl md:text-4xl font-display font-light mb-4">
+          <h2 className={cn(
+            "text-3xl md:text-4xl lg:text-5xl font-display font-light mb-6",
+            "text-cream-100"
+          )}>
             Ready to Experience It Yourself?
           </h2>
-          <p className="text-cream-200/80 mb-8 max-w-2xl mx-auto font-body font-light">
+          <div className="w-24 md:w-32 h-0.5 bg-gradient-to-r from-transparent via-gold-500 to-transparent mx-auto mb-6 shadow-lg shadow-gold-500/50" />
+          <p className={cn(
+            "text-lg md:text-xl mb-10 max-w-2xl mx-auto font-body font-light leading-relaxed",
+            "text-cream-200/80"
+          )}>
             Reserve your table and taste the culinary excellence that awaits you at Chez Amis
           </p>
-          <Link href="/reservations">
-            <Button
-              size="lg"
-              className="font-heading font-light tracking-wide bg-gold-500 text-foreground hover:bg-gold-600 min-h-[48px] px-8"
-            >
-              Reserve a Table
-            </Button>
-          </Link>
+          <div className="animate-fade-in-up" style={{ animationDelay: "0.3s" }}>
+            <Link href="/reservations" className="group/reserve">
+              <Button
+                variant="premium"
+                size="lg"
+                className={cn(
+                  "min-w-[220px]",
+                  "shadow-xl hover:shadow-2xl hover:shadow-gold-500/40"
+                )}
+              >
+                <Calendar className="h-5 w-5" />
+                Reserve a Table
+              </Button>
+            </Link>
+          </div>
         </div>
       </section>
 

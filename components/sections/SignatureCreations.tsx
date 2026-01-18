@@ -1,5 +1,6 @@
 "use client"
 
+import { useState, useEffect } from "react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { ArrowRight } from "lucide-react"
@@ -7,6 +8,7 @@ import { MenuItem, allMenuItems } from "@/lib/data/menuData"
 import { formatPrice } from "@/lib/utils/formatting"
 import { cn } from "@/lib/utils"
 import Image from "next/image"
+import { useTheme } from "@/lib/context/ThemeContext"
 
 // Get signature dishes (items with 'signature' tag - Attieke dishes)
 const signatureDishes: MenuItem[] = allMenuItems
@@ -14,18 +16,38 @@ const signatureDishes: MenuItem[] = allMenuItems
   .slice(0, 6)
 
 export function SignatureCreations() {
+  const [isVisible, setIsVisible] = useState(false)
+  const { resolvedTheme } = useTheme()
+  const isDark = resolvedTheme === "dark"
+
+  useEffect(() => {
+    setIsVisible(true)
+  }, [])
+
   return (
-    <section className="section-padding bg-background" aria-labelledby="signature-heading">
+    <section className={cn(
+      "section-padding transition-colors duration-300",
+      isDark ? "bg-charcoal-950/50" : "bg-background"
+    )} aria-labelledby="signature-heading">
       <div className="container-custom">
-        <div className="text-center mb-12 md:mb-16">
+        <div className={cn(
+          "text-center mb-12 md:mb-16",
+          "animate-fade-in-up"
+        )}>
           <h2
             id="signature-heading"
-            className="text-4xl md:text-5xl lg:text-6xl font-display font-light text-foreground mb-4"
+            className={cn(
+              "text-4xl md:text-5xl lg:text-6xl font-display font-light mb-4 transition-colors duration-300",
+              isDark ? "text-cream-100" : "text-foreground"
+            )}
           >
             Signature Creations
           </h2>
-          <div className="w-20 h-px bg-gold-500 mx-auto mb-4"></div>
-          <p className="text-lg md:text-xl text-muted-foreground font-body font-light max-w-2xl mx-auto">
+          <div className="w-24 md:w-32 h-0.5 bg-gradient-to-r from-transparent via-gold-500 to-transparent mx-auto mb-4 shadow-lg shadow-gold-500/50" />
+          <p className={cn(
+            "text-lg md:text-xl font-body font-light max-w-2xl mx-auto transition-colors duration-300",
+            isDark ? "text-cream-200/80" : "text-muted-foreground"
+          )}>
             Our chef&apos;s most celebrated dishes, each a masterpiece of flavor and presentation
           </p>
         </div>
@@ -136,16 +158,25 @@ export function SignatureCreations() {
           ))}
         </div>
 
-        {/* View Full Menu Button */}
-        <div className="text-center mt-16 md:mt-20">
-          <Link href="/menu">
+        {/* View Full Menu Button - Secondary CTA */}
+        <div className={cn(
+          "text-center mt-16 md:mt-20",
+          "animate-fade-in-up"
+        )} style={{ animationDelay: "0.3s" }}>
+          <Link href="/menu" className="group/menu">
             <Button
               size="lg"
               variant="outline"
-              className="group border-2 border-foreground/20 text-foreground hover:bg-foreground/5 hover:border-foreground/40 font-heading font-light tracking-wide px-8 md:px-12 py-6 md:py-7 transition-all duration-500"
+              className={cn(
+                "min-w-[240px]",
+                "border-2",
+                isDark
+                  ? "border-gold-500/50 text-cream-100 bg-gold-500/5 hover:bg-gold-500/10 hover:border-gold-500/80 hover:shadow-lg hover:shadow-gold-500/20"
+                  : "border-gold-500/60 text-foreground bg-transparent hover:bg-gold-500/5 hover:border-gold-500/80 hover:shadow-lg"
+              )}
             >
               Explore Our Complete Menu
-              <ArrowRight className="ml-2 h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" />
+              <ArrowRight className="ml-2 h-5 w-5 transition-transform duration-300 group-hover/menu:translate-x-1" />
             </Button>
           </Link>
         </div>

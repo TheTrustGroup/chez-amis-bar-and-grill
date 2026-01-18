@@ -1,0 +1,104 @@
+Goal: Refine and enhance the existing web app for Chez Amis Restaurant to achieve a polished, world-class appearance and seamless user experience.
+
+Current Website Overview
+
+Type: Restaurant website, bar & grill.
+
+Features:
+
+Home page with hero section, curated ambiance, culinary mastery highlights.
+
+Menu pages with detailed dishes and pricing.
+
+Gallery showcasing food and restaurant ambiance.
+
+Private dining and contact pages.
+
+Reservation and delivery links/buttons.
+
+Design: Elegant but could be elevated to a premium, visually striking experience.
+
+User Experience:
+
+Navigation is functional but basic.
+
+Some visual elements, spacing, and layout hierarchy can be enhanced for a high-end feel.
+
+Calls-to-action like "Reserve a Table" and "Order for Delivery" should stand out more.
+
+Technical Stack: Built in Cursor (likely React / Next.js-based front-end with integrated backend).
+
+Refinement Goals
+
+Visual Design & Aesthetics:
+
+Create a cohesive color scheme and typography that reflects elegance and culinary sophistication.
+
+Enhance spacing, padding, and hierarchy for a premium look.
+
+Add subtle animations or hover effects for interactivity (e.g., menu cards, CTA buttons).
+
+Ensure images (dishes, chefs, interiors) are high-resolution and consistently styled.
+
+Navigation & Layout:
+
+Refine header and footer for clarity and alignment.
+
+Sticky header for easy access to menu, reservation, and contact.
+
+Smooth scrolling between sections with visual cues.
+
+Improve mobile responsiveness for all devices.
+
+User Experience Enhancements:
+
+Highlight signature dishes prominently with interactive galleries.
+
+Simplify reservation and delivery process with clear CTA buttons.
+
+Integrate light/dark mode toggle for accessibility and aesthetic flexibility.
+
+Add microinteractions for buttons and links to improve user engagement.
+
+Content Presentation:
+
+Organize menu items with intuitive filters (e.g., starters, mains, signature dishes).
+
+Improve text readability with refined typography and spacing.
+
+Storytelling sections (About Us, Chef, Experience) should feel premium and immersive.
+
+Performance & Technical Polish:
+
+Optimize image loading and lazy loading for performance.
+
+Ensure responsive, smooth animations and transitions.
+
+Refactor frontend components for modularity and maintainability.
+
+Test and polish backend interactions (reservations, orders, forms) for reliability.
+
+Advanced Features (Optional for World-Class Feel):
+
+Interactive 3D/AR menu previews for signature dishes.
+
+Subtle parallax scrolling in hero and gallery sections.
+
+Customer reviews/testimonials carousel with smooth transitions.
+
+Cursor AI Instructions
+
+Refactor the entire frontend with modern UI/UX best practices, keeping the restaurant’s premium image in mind.
+
+Ensure cross-device compatibility and light/dark mode.
+
+Maintain the existing branding but elevate it visually and functionally.
+
+Optimize load speed, animations, and responsiveness.
+
+Refine all CTAs, ensuring they are intuitive, clickable, and visually appealing.
+
+Implement component-based improvements for menu cards, galleries, chef highlights, reservation forms, and contact sections.
+
+Outcome Expected:
+A world-class, visually stunning, and highly functional restaurant website where users immediately feel the premium, curated experience of Chez Amis. The site should feel intuitive, modern, and luxurious, making the brand memorable from first visit.

@@ -5,49 +5,88 @@ import { ContactForm } from "@/components/contact/ContactForm"
 import { MapSection } from "@/components/contact/MapSection"
 import { Phone, Instagram } from "lucide-react"
 import { SnapchatIcon } from "@/components/ui/snapchat-icon"
+import { useTheme } from "@/lib/context/ThemeContext"
+import { cn } from "@/lib/utils"
 
 export default function ContactPage() {
+  const { resolvedTheme } = useTheme()
+  const isDark = resolvedTheme === "dark"
+
   return (
-    <div className="min-h-screen">
-      {/* Hero Section */}
-      <section className="relative h-[350px] md:h-[450px] flex items-center justify-center overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-charcoal-950 via-charcoal-900 to-burgundy-900"></div>
-        <div className="absolute inset-0 bg-black/30"></div>
+    <div className={cn(
+      "min-h-screen transition-colors duration-300",
+      isDark ? "bg-charcoal-950" : "bg-background"
+    )}>
+      {/* Hero Section - Premium */}
+      <section className={cn(
+        "relative h-[40vh] md:h-[45vh] min-h-[400px] md:min-h-[500px] flex items-center justify-center overflow-hidden",
+        "bg-gradient-to-br from-charcoal-950 via-charcoal-900 to-burgundy-900"
+      )}>
+        <div className={cn(
+          "absolute inset-0 transition-opacity duration-300",
+          isDark ? "bg-black/40" : "bg-black/50"
+        )} />
         <div className="relative z-10 text-center px-6 max-w-4xl mx-auto">
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-light text-cream-100 mb-4">
+          <h1 className={cn(
+            "text-5xl md:text-6xl lg:text-7xl font-display font-light mb-6 md:mb-8",
+            "text-cream-100 drop-shadow-[0_4px_20px_rgba(0,0,0,0.8)]",
+            "animate-fade-in-up"
+          )}>
             Get in Touch
           </h1>
-          <div className="w-20 h-px bg-gold-500 mx-auto mb-6"></div>
-          <p className="text-base md:text-lg text-cream-200/90 font-body font-light max-w-2xl mx-auto">
+          <div className="w-24 md:w-32 h-0.5 bg-gradient-to-r from-transparent via-gold-500 to-transparent mx-auto mb-6 md:mb-8 shadow-lg shadow-gold-500/50" />
+          <p className={cn(
+            "text-lg md:text-xl lg:text-2xl font-body font-light leading-relaxed max-w-3xl mx-auto",
+            "text-cream-200/90 drop-shadow-[0_2px_10px_rgba(0,0,0,0.8)]",
+            "animate-fade-in-up"
+          )} style={{ animationDelay: "0.2s" }}>
             We&apos;re here to help and look forward to connecting with you
           </p>
         </div>
       </section>
 
       {/* Contact Information */}
-      <section className="section-padding bg-cream-50" aria-labelledby="contact-info-heading">
+      <section className={cn(
+        "section-padding transition-colors duration-300",
+        isDark ? "bg-charcoal-950/50" : "bg-cream-50"
+      )} aria-labelledby="contact-info-heading">
         <div className="container-custom">
           <ContactInfo />
         </div>
       </section>
 
       {/* Contact Form */}
-      <section className="section-padding bg-background" aria-labelledby="contact-form-heading">
+      <section className={cn(
+        "section-padding transition-colors duration-300",
+        isDark ? "bg-charcoal-950" : "bg-background"
+      )} aria-labelledby="contact-form-heading">
         <div className="container-custom">
           <div className="max-w-2xl mx-auto">
             <div className="text-center mb-10 md:mb-12">
               <h2
                 id="contact-form-heading"
-                className="text-3xl md:text-4xl font-display font-light text-foreground mb-3"
+                className={cn(
+                  "text-3xl md:text-4xl lg:text-5xl font-display font-light mb-4 transition-colors duration-300",
+                  isDark ? "text-cream-100" : "text-foreground"
+                )}
               >
                 Send Us a Message
               </h2>
-              <p className="text-base md:text-lg text-muted-foreground font-body font-light">
+              <div className="w-24 md:w-32 h-0.5 bg-gradient-to-r from-transparent via-gold-500 to-transparent mx-auto mb-4 shadow-lg shadow-gold-500/50" />
+              <p className={cn(
+                "text-base md:text-lg font-body font-light transition-colors duration-300",
+                isDark ? "text-cream-200/80" : "text-muted-foreground"
+              )}>
                 Fill out the form below and we&apos;ll get back to you soon
               </p>
             </div>
 
-            <div className="bg-cream-50 rounded-lg border border-border/30 p-6 md:p-8 lg:p-10">
+            <div className={cn(
+              "rounded-xl border p-6 md:p-8 lg:p-10 shadow-lg transition-all duration-300",
+              isDark 
+                ? "bg-charcoal-900/50 border-charcoal-800/50" 
+                : "bg-cream-50 border-border/30"
+            )}>
               <ContactForm />
             </div>
           </div>
@@ -137,11 +176,11 @@ export default function ContactPage() {
                   <Phone className="h-5 w-5" />
                   055 703 2335
                 </a>
-                <a
-                  href="tel:+233243952339"
-                  className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-lg border border-gold-500/60 text-foreground hover:bg-gold-500/10 transition-all font-heading font-light tracking-wide text-base min-h-[44px]"
-                >
-                  <Phone className="h-5 w-5" />
+              <a
+                href="tel:+233243952339"
+                className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-lg border border-gold-500/60 text-foreground hover:bg-gold-500/10 transition-all font-heading font-light tracking-wide text-base min-h-[44px]"
+              >
+                <Phone className="h-5 w-5" />
                   024 395 2339
                 </a>
                 <a
@@ -150,7 +189,7 @@ export default function ContactPage() {
                 >
                   <Phone className="h-5 w-5" />
                   050 243 2037
-                </a>
+              </a>
               </div>
             </div>
           </div>

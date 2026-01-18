@@ -8,6 +8,7 @@ import { Header } from "@/components/layout/header"
 import { Footer } from "@/components/layout/footer"
 import { BottomNavigation } from "@/components/mobile/BottomNavigation"
 import { CartProvider } from "@/lib/context/CartContext"
+import { ThemeProvider } from "@/lib/context/ThemeContext"
 import { ToastContainer } from "@/components/ui/toast"
 import { ConditionalLayout } from "@/components/layout/ConditionalLayout"
 
@@ -160,8 +161,26 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <head>
+        {/* Prevent theme flash - inline script must run before body renders */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                try {
+                  var theme = localStorage.getItem('theme') || 'system';
+                  var resolvedTheme = theme === 'system' 
+                    ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')
+                    : theme;
+                  if (resolvedTheme === 'dark') {
+                    document.documentElement.classList.add('dark');
+                  }
+                } catch (e) {}
+              })();
+            `,
+          }}
+        />
         {/* Preload critical fonts for better performance */}
         <link
           rel="preload"
@@ -179,12 +198,14 @@ export default function RootLayout({
         />
       </head>
       <body className={`${cormorantGaramond.variable} ${montserrat.variable} ${lora.variable} ${italiana.variable} font-body`}>
-        <CartProvider>
-          <ConditionalLayout>
-            {children}
-          </ConditionalLayout>
-          <ToastContainer />
-        </CartProvider>
+        <ThemeProvider>
+          <CartProvider>
+            <ConditionalLayout>
+              {children}
+            </ConditionalLayout>
+            <ToastContainer />
+          </CartProvider>
+        </ThemeProvider>
       </body>
     </html>
   )

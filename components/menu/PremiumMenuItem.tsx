@@ -9,6 +9,7 @@ import { formatPrice } from "@/lib/utils/formatting"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { MenuItem as CartMenuItem } from "@/lib/menuData"
+import { useTheme } from "@/lib/context/ThemeContext"
 
 interface PremiumMenuItemProps {
   item: MenuItem
@@ -18,6 +19,8 @@ export function PremiumMenuItem({ item }: PremiumMenuItemProps) {
   const [selectedPortion, setSelectedPortion] = useState<string | null>(null)
   const { handleAddToOrder } = useOrder()
   const { elementRef, isVisible } = useLazyLoad<HTMLDivElement>()
+  const { resolvedTheme } = useTheme()
+  const isDark = resolvedTheme === "dark"
 
   const getDisplayPrice = () => {
     if (item.portionSizes && item.portionSizes.length > 0) {
@@ -53,52 +56,78 @@ export function PremiumMenuItem({ item }: PremiumMenuItemProps) {
   }
 
   return (
-    <article ref={elementRef} className="group relative">
-      <div className="flex gap-4 md:gap-5 items-start">
-        {/* Item Image - Smaller, cleaner */}
-        <div className="relative w-20 h-20 md:w-24 md:h-24 flex-shrink-0 rounded-md overflow-hidden bg-gray-100 shadow-sm">
+    <article ref={elementRef} className={cn(
+      "group relative p-6 md:p-8 rounded-xl transition-all duration-500",
+      "hover:shadow-lg hover:-translate-y-1",
+      isDark 
+        ? "bg-charcoal-900/30 border border-charcoal-800/50 hover:border-gold-500/40"
+        : "bg-card/50 border border-border/30 hover:border-gold-500/40"
+    )}>
+      <div className="flex gap-4 md:gap-6 items-start">
+        {/* Item Image - Premium with hover effects */}
+        <div className={cn(
+          "relative w-24 h-24 md:w-28 md:h-28 flex-shrink-0 rounded-lg overflow-hidden transition-all duration-500",
+          "shadow-md group-hover:shadow-xl",
+          "border border-gold-500/20 group-hover:border-gold-500/40",
+          isDark ? "bg-charcoal-800" : "bg-gray-100"
+        )}>
           {isVisible && (
             <ImageWithFallback
               src={item.image}
               alt={item.name}
               fill
-              className="object-cover transition-transform duration-300 group-hover:scale-105"
-              sizes="(max-width: 768px) 80px, 96px"
+              className="object-cover transition-transform duration-700 group-hover:scale-110"
+              sizes="(max-width: 768px) 96px, 112px"
               priority={false}
             />
           )}
-          {/* Minimal badge - only show signature */}
+          {/* Premium badge - signature dishes */}
           {item.tags?.includes("signature") && (
-            <div className="absolute top-1 right-1">
-              <span className="bg-amber-500 text-white text-[10px] px-1.5 py-0.5 rounded font-medium shadow-sm">
-                ★
+            <div className="absolute top-2 right-2 z-10">
+              <span className={cn(
+                "bg-gold-500 text-charcoal-900 text-xs px-2 py-1 rounded-md font-semibold shadow-lg",
+                "flex items-center gap-1"
+              )}>
+                <span>⭐</span> Signature
               </span>
             </div>
           )}
         </div>
 
-        {/* Item Details - Cleaner */}
+        {/* Item Details - Premium Typography */}
         <div className="flex-1 min-w-0">
-          <div className="flex items-start justify-between gap-4 mb-2">
+          <div className="flex items-start justify-between gap-4 mb-3">
             <div className="flex-1 min-w-0">
-              <h3 className="text-base md:text-lg font-display font-light text-gray-900 leading-tight">
+              <h3 className={cn(
+                "text-lg md:text-xl font-display font-light leading-tight transition-colors duration-300",
+                "group-hover:text-gold-600",
+                isDark ? "text-cream-100" : "text-foreground"
+              )}>
                 {item.name}
               </h3>
             </div>
             <div className="text-right flex-shrink-0">
-              <p className="text-base md:text-lg font-medium text-gray-900 whitespace-nowrap">
+              <p className={cn(
+                "text-lg md:text-xl font-bold transition-colors duration-300",
+                "group-hover:text-gold-600",
+                isDark ? "text-gold-400" : "text-primary",
+                "whitespace-nowrap"
+              )}>
                 {formatPrice(getDisplayPrice())}
               </p>
             </div>
           </div>
 
-          <p className="text-gray-600 text-sm md:text-base leading-relaxed mb-3 font-body font-light">
+          <p className={cn(
+            "text-sm md:text-base leading-relaxed mb-4 font-body font-light",
+            isDark ? "text-cream-200/80" : "text-muted-foreground"
+          )}>
             {item.description}
           </p>
 
-          {/* Portion Sizes - Minimal */}
+          {/* Portion Sizes - Premium */}
           {item.portionSizes && item.portionSizes.length > 0 && (
-            <div className="flex flex-wrap gap-2 mt-2 mb-3">
+            <div className="flex flex-wrap gap-2 mt-2 mb-4">
               {item.portionSizes.map((portion) => (
                 <button
                   key={portion.size}
@@ -108,10 +137,13 @@ export function PremiumMenuItem({ item }: PremiumMenuItemProps) {
                     )
                   }
                   className={cn(
-                    "text-xs px-3 py-1.5 border rounded-md transition-all duration-200 min-h-[32px] touch-manipulation",
+                    "text-xs px-3 py-2 border-2 rounded-lg transition-all duration-300 min-h-[36px] touch-manipulation font-medium",
+                    "hover:scale-105 active:scale-95",
                     selectedPortion === portion.size
-                      ? "border-amber-500 text-amber-700 bg-amber-50 shadow-sm"
-                      : "border-gray-200 hover:border-amber-400 text-gray-600 hover:bg-gray-50"
+                      ? "border-gold-500 text-gold-700 bg-gold-50 shadow-md"
+                      : isDark
+                      ? "border-charcoal-700 text-cream-200/70 hover:border-gold-500/50 hover:bg-charcoal-800/50"
+                      : "border-border text-muted-foreground hover:border-gold-500/50 hover:bg-muted/50"
                   )}
                   aria-label={`Select ${portion.size} size`}
                 >
@@ -121,25 +153,29 @@ export function PremiumMenuItem({ item }: PremiumMenuItemProps) {
             </div>
           )}
 
-          {/* Add to Order Button - Minimal */}
-          <button
+          {/* Add to Order Button - Premium */}
+          <Button
             onClick={handleAddToOrderClick}
             disabled={item.available === false}
+            variant="premium"
+            size="sm"
             aria-label={`Add ${item.name} to order`}
             className={cn(
-              "mt-3 text-sm px-5 py-2.5 border rounded-md transition-all duration-200 font-medium min-h-[40px] touch-manipulation",
-              item.available !== false
-                ? "border-amber-500 text-amber-700 hover:bg-amber-500 hover:text-white hover:shadow-sm active:scale-95"
-                : "border-gray-300 text-gray-400 cursor-not-allowed"
+              "mt-2 font-semibold transition-all duration-300",
+              "hover:scale-105 active:scale-95",
+              "shadow-lg hover:shadow-xl hover:shadow-gold-500/30"
             )}
           >
             {item.available !== false ? "Add to Order" : "Unavailable"}
-          </button>
+          </Button>
         </div>
       </div>
 
-      {/* Minimal Divider */}
-      <div className="mt-8 md:mt-10 h-px bg-gray-100" />
+      {/* Premium Divider */}
+      <div className={cn(
+        "mt-8 md:mt-10 h-px transition-colors duration-300",
+        isDark ? "bg-charcoal-800/50" : "bg-border/50"
+      )} />
     </article>
   )
 }

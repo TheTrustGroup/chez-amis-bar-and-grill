@@ -43,32 +43,37 @@ export function ExperienceSection() {
               <Card
                 key={index}
                 className={cn(
-                  "group relative overflow-hidden transition-all duration-500",
-                  "hover:shadow-elegant hover:-translate-y-2",
-                  "border-0 bg-card/50 backdrop-blur-sm",
-                  "cursor-pointer"
+                  "group relative overflow-hidden transition-all duration-700 ease-out",
+                  "hover:shadow-elegant hover:-translate-y-3",
+                  "border border-border/50 bg-card/50 backdrop-blur-sm",
+                  "cursor-pointer animate-fade-in-up",
+                  "hover:border-gold-500/30"
                 )}
+                style={{ animationDelay: `${index * 0.1}s` }}
               >
-                <CardContent className="p-8 md:p-10 text-center space-y-6">
+                {/* Decorative background gradient on hover */}
+                <div className="absolute inset-0 bg-gradient-to-br from-gold-500/0 via-gold-500/0 to-gold-500/0 group-hover:from-gold-500/5 group-hover:via-gold-500/10 group-hover:to-gold-500/5 transition-all duration-700" />
+                
+                <CardContent className="p-8 md:p-10 text-center space-y-6 relative z-10">
                   {/* Icon */}
                   <div className="flex justify-center">
                     <div className="relative">
-                      <div className="absolute inset-0 bg-gold-500/10 rounded-full blur-2xl group-hover:bg-gold-500/20 transition-colors duration-500"></div>
-                      <div className="relative bg-gold-500/5 rounded-full p-6 group-hover:bg-gold-500/10 transition-colors duration-500">
-                        <Icon className="h-10 w-10 md:h-12 md:w-12 text-gold-600" />
+                      <div className="absolute inset-0 bg-gold-500/10 rounded-full blur-2xl group-hover:bg-gold-500/30 group-hover:blur-3xl transition-all duration-700 scale-100 group-hover:scale-125"></div>
+                      <div className="relative bg-gold-500/5 rounded-full p-6 group-hover:bg-gold-500/15 transition-all duration-700 group-hover:scale-110">
+                        <Icon className="h-10 w-10 md:h-12 md:w-12 text-gold-600 transition-transform duration-500 group-hover:scale-110 group-hover:rotate-3" />
                       </div>
                     </div>
                   </div>
 
                   {/* Title */}
-                  <h3 className="text-xl md:text-2xl font-display font-light text-foreground relative">
+                  <h3 className="text-xl md:text-2xl font-display font-light text-foreground relative inline-block">
                     {experience.title}
                     {/* Gold underline on hover */}
-                    <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gold-500 group-hover:w-full transition-all duration-500"></span>
+                    <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-gold-400 via-gold-500 to-gold-600 group-hover:w-full transition-all duration-700 shadow-sm"></span>
                   </h3>
 
                   {/* Description */}
-                  <p className="text-base md:text-lg text-muted-foreground leading-relaxed font-body font-light">
+                  <p className="text-base md:text-lg text-muted-foreground leading-relaxed font-body font-light transition-colors duration-300 group-hover:text-foreground/90">
                     {experience.description}
                   </p>
                 </CardContent>

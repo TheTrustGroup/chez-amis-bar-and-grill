@@ -7,10 +7,18 @@ import { Play, ArrowRight, X } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { featuredMedia, type FeaturedMediaItem } from "@/lib/data/galleryMedia"
 import { cn } from "@/lib/utils"
+import { useTheme } from "@/lib/context/ThemeContext"
 
 export function FeaturedGallerySection() {
   const [selectedMedia, setSelectedMedia] = useState<FeaturedMediaItem | null>(null)
   const [isModalOpen, setIsModalOpen] = useState(false)
+  const [isVisible, setIsVisible] = useState(false)
+  const { resolvedTheme } = useTheme()
+  const isDark = resolvedTheme === "dark"
+
+  useEffect(() => {
+    setIsVisible(true)
+  }, [])
 
   const openModal = (media: FeaturedMediaItem) => {
     setSelectedMedia(media)
@@ -40,15 +48,27 @@ export function FeaturedGallerySection() {
 
   return (
     <>
-      <section className="section-padding bg-background">
+      <section className={cn(
+        "section-padding transition-colors duration-300",
+        isDark ? "bg-charcoal-950/50" : "bg-background"
+      )}>
         <div className="container-custom">
           {/* Section Header */}
-          <div className="text-center mb-12 md:mb-16">
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-light text-foreground mb-4">
+          <div className={cn(
+            "text-center mb-12 md:mb-16",
+            "animate-fade-in-up"
+          )}>
+            <h2 className={cn(
+              "text-4xl md:text-5xl lg:text-6xl font-display font-light mb-4 transition-colors duration-300",
+              isDark ? "text-cream-100" : "text-foreground"
+            )}>
               A Taste of What Awaits
             </h2>
-            <div className="w-24 h-px bg-gold-500 mx-auto mb-6" />
-            <p className="text-lg md:text-xl text-muted-foreground font-body font-light max-w-2xl mx-auto">
+            <div className="w-24 md:w-32 h-0.5 bg-gradient-to-r from-transparent via-gold-500 to-transparent mx-auto mb-6 shadow-lg shadow-gold-500/50" />
+            <p className={cn(
+              "text-lg md:text-xl font-body font-light max-w-2xl mx-auto transition-colors duration-300",
+              isDark ? "text-cream-200/80" : "text-muted-foreground"
+            )}>
               Explore our visual story of culinary excellence, crafted with passion and served with pride
             </p>
           </div>
@@ -120,16 +140,25 @@ export function FeaturedGallerySection() {
             ))}
           </div>
 
-          {/* View All Button */}
-          <div className="text-center">
-            <Link href="/gallery">
+          {/* View All Button - Secondary CTA */}
+          <div className={cn(
+            "text-center",
+            "animate-fade-in-up"
+          )} style={{ animationDelay: "0.3s" }}>
+            <Link href="/gallery" className="group/gallery">
               <Button
                 variant="outline"
                 size="lg"
-                className="font-heading font-light tracking-wide border-2 border-gold-500/60 text-foreground hover:bg-gold-500/10 hover:border-gold-500 min-h-[48px] px-8"
+                className={cn(
+                  "min-w-[200px]",
+                  "border-2",
+                  isDark
+                    ? "border-gold-500/50 text-cream-100 bg-gold-500/5 hover:bg-gold-500/10 hover:border-gold-500/80 hover:shadow-lg hover:shadow-gold-500/20"
+                    : "border-gold-500/60 text-foreground bg-transparent hover:bg-gold-500/5 hover:border-gold-500/80 hover:shadow-lg"
+                )}
               >
                 View Full Gallery
-                <ArrowRight className="w-5 h-5 ml-2" />
+                <ArrowRight className="w-5 h-5 ml-2 transition-transform duration-300 group-hover/gallery:translate-x-1" />
               </Button>
             </Link>
           </div>

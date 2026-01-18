@@ -6,8 +6,11 @@ import { cn } from "@/lib/utils"
 
 export function IntroSection() {
   return (
-    <section className="section-padding bg-background" aria-labelledby="intro-heading">
-      <div className="container-custom">
+    <section className="section-padding bg-background relative overflow-hidden" aria-labelledby="intro-heading">
+      {/* Decorative background elements */}
+      <div className="absolute inset-0 bg-gradient-to-br from-gold-500/5 via-transparent to-burgundy-500/5 pointer-events-none" aria-hidden="true" />
+      
+      <div className="container-custom relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
           {/* Left: Head Chef Image - Bright & Polished */}
           <div className="relative w-full h-[400px] md:h-[500px] lg:h-[600px] order-2 lg:order-1 group">
@@ -51,13 +54,17 @@ export function IntroSection() {
           </div>
 
           {/* Right: Welcome Text */}
-          <div className="order-1 lg:order-2 space-y-6 md:space-y-8">
-            <h2
-              id="intro-heading"
-              className="text-4xl md:text-5xl lg:text-6xl font-display font-light text-foreground leading-tight"
-            >
-              A Culinary Sanctuary
-            </h2>
+          <div className="order-1 lg:order-2 space-y-6 md:space-y-8 animate-fade-in-up">
+            <div className="space-y-4">
+              <h2
+                id="intro-heading"
+                className="text-4xl md:text-5xl lg:text-6xl font-display font-light text-foreground leading-tight relative inline-block"
+              >
+                A Culinary Sanctuary
+                {/* Decorative underline */}
+                <span className="absolute -bottom-2 left-0 w-20 h-0.5 bg-gradient-to-r from-gold-500 to-transparent" aria-hidden="true" />
+              </h2>
+            </div>
 
             <div className="space-y-4 md:space-y-5 text-base md:text-lg lg:text-xl text-muted-foreground font-body leading-relaxed">
               <p>

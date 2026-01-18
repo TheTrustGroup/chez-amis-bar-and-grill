@@ -45,26 +45,29 @@ export function MenuCard({ item, onAddToCart }: MenuCardProps) {
   }
 
   return (
-    <Card className="group relative overflow-hidden flex flex-col h-full transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
+    <Card className="group relative overflow-hidden flex flex-col h-full transition-all duration-500 ease-out hover:shadow-elegant hover:-translate-y-2 border-border/50 bg-card/50 backdrop-blur-sm">
       {/* Image Container */}
       <div className="relative h-48 overflow-hidden bg-gradient-to-br from-charcoal-200 to-charcoal-300">
         {/* Placeholder Image */}
         <div className="absolute inset-0 bg-gradient-to-br from-primary/20 via-primary/10 to-charcoal-200 flex items-center justify-center">
-          <div className="text-5xl">🍽️</div>
+          <div className="text-5xl transition-transform duration-500 group-hover:scale-110">🍽️</div>
         </div>
         
         {/* Popular Badge */}
         {item.popular && (
-          <div className="absolute top-3 left-3 z-10">
-            <Badge variant="category" className="bg-primary text-primary-foreground">
+          <div className="absolute top-3 left-3 z-10 animate-fade-in">
+            <Badge variant="category" className="bg-primary text-primary-foreground shadow-lg backdrop-blur-sm">
               <ChefHat className="h-3 w-3 mr-1" />
               Popular
             </Badge>
           </div>
         )}
 
+        {/* Hover Overlay Effect */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-10" />
+
         {/* Image Zoom Effect */}
-        <div className="absolute inset-0 scale-100 group-hover:scale-110 transition-transform duration-500">
+        <div className="absolute inset-0 scale-100 group-hover:scale-110 transition-transform duration-700 ease-out">
           {/* In production, use Next.js Image */}
           {/* <Image
             src={item.image}
@@ -109,9 +112,9 @@ export function MenuCard({ item, onAddToCart }: MenuCardProps) {
       </CardContent>
 
       {/* Footer with Price and Add to Cart */}
-      <CardFooter className="flex items-center justify-between p-4 md:p-6 pt-0 border-t">
+      <CardFooter className="flex items-center justify-between p-4 md:p-6 pt-0 border-t border-border/50">
         <div className="flex flex-col">
-          <span className="text-2xl md:text-3xl font-bold text-primary">
+          <span className="text-2xl md:text-3xl font-bold text-primary transition-colors duration-300 group-hover:text-gold-600">
             GH₵ {item.price.toFixed(2)}
           </span>
         </div>
@@ -120,20 +123,24 @@ export function MenuCard({ item, onAddToCart }: MenuCardProps) {
           variant="accent"
           onClick={handleAddToCart}
           disabled={isAdding || !item.available}
-          className="font-semibold"
+          className="font-semibold relative overflow-hidden group/btn transition-all duration-300 hover:scale-105 active:scale-95"
           aria-label={`Add ${item.name} to order`}
         >
-          {isAdding ? (
-            <>
-              <span className="animate-spin mr-2">⏳</span>
-              Adding...
-            </>
-          ) : (
-            <>
-              <ShoppingCart className="h-4 w-4 mr-2" />
-              Add to Order
-            </>
-          )}
+          {/* Shine effect */}
+          <span className="absolute inset-0 -translate-x-full group-hover/btn:translate-x-full transition-transform duration-700 ease-in-out bg-gradient-to-r from-transparent via-white/20 to-transparent" />
+          <span className="relative z-10 flex items-center">
+            {isAdding ? (
+              <>
+                <span className="animate-spin mr-2">⏳</span>
+                Adding...
+              </>
+            ) : (
+              <>
+                <ShoppingCart className="h-4 w-4 mr-2 transition-transform duration-300 group-hover/btn:scale-110" />
+                Add to Order
+              </>
+            )}
+          </span>
         </Button>
       </CardFooter>
     </Card>

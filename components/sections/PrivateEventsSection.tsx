@@ -1,10 +1,18 @@
 "use client"
 
+import { useState, useEffect } from "react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
+import { Calendar, Sparkles } from "lucide-react"
 
 export function PrivateEventsSection() {
+  const [isVisible, setIsVisible] = useState(false)
+
+  useEffect(() => {
+    setIsVisible(true)
+  }, [])
+
   return (
     <section className="relative min-h-[500px] md:min-h-[600px] flex items-center justify-center overflow-hidden" aria-labelledby="private-events-heading">
       {/* Background Image */}
@@ -29,25 +37,42 @@ export function PrivateEventsSection() {
               From intimate dinners to grand celebrations, our private spaces accommodate 10-100 guests. Let us create an unforgettable experience tailored to your vision.
             </p>
 
-            {/* CTA Buttons */}
-            <div className="flex flex-col sm:flex-row gap-4 md:gap-6 justify-center items-center">
-              <Link href="/reservations" className="w-full sm:w-auto">
+            {/* CTA Buttons - Premium */}
+            <div className={cn(
+              "flex flex-col sm:flex-row gap-4 md:gap-6 justify-center items-center",
+              "animate-fade-in-up"
+            )} style={{ animationDelay: "0.3s" }}>
+              {/* Primary CTA - Request Private Dining */}
+              <Link href="/reservations" className="w-full sm:w-auto group/private">
                 <Button
+                  variant="premium"
                   size="lg"
-                  variant="outline"
-                  className="w-full sm:w-auto text-base md:text-lg px-8 md:px-12 py-6 md:py-7 font-heading font-light tracking-wide border-2 border-gold-500/80 text-cream-100 hover:bg-gold-500/10 hover:border-gold-400 transition-all duration-500 backdrop-blur-sm"
+                  className={cn(
+                    "w-full sm:w-auto min-w-[220px]",
+                    "shadow-xl hover:shadow-2xl hover:shadow-gold-500/40",
+                    "backdrop-blur-sm"
+                  )}
                   aria-label="Request Private Dining"
                 >
+                  <Calendar className="h-5 w-5" />
                   Request Private Dining
                 </Button>
               </Link>
-              <Link href="/private-events" className="w-full sm:w-auto">
+              
+              {/* Secondary CTA - View Event Packages */}
+              <Link href="/private-events" className="w-full sm:w-auto group/events">
                 <Button
                   size="lg"
                   variant="outline"
-                  className="w-full sm:w-auto text-base md:text-lg px-8 md:px-12 py-6 md:py-7 font-heading font-light tracking-wide border-2 border-cream-200/60 text-cream-100 hover:bg-cream-200/10 hover:border-cream-100 transition-all duration-500 backdrop-blur-sm"
+                  className={cn(
+                    "w-full sm:w-auto min-w-[220px]",
+                    "border-2 border-cream-200/60 text-cream-100 bg-cream-200/5",
+                    "hover:bg-cream-200/10 hover:border-cream-100 hover:shadow-lg hover:shadow-cream-200/20",
+                    "backdrop-blur-sm"
+                  )}
                   aria-label="View Event Packages"
                 >
+                  <Sparkles className="h-5 w-5" />
                   View Event Packages
                 </Button>
               </Link>

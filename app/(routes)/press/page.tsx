@@ -86,12 +86,12 @@ export default function PressPage() {
                       >
                         +233 055 703 2335
                       </a>
-                      <a
-                        href="tel:+233243952339"
+                    <a
+                      href="tel:+233243952339"
                         className="block text-gold-600 hover:text-gold-700 transition-colors"
-                      >
-                        +233 024 395 2339
-                      </a>
+                    >
+                      +233 024 395 2339
+                    </a>
                       <a
                         href="tel:+233502432037"
                         className="block text-gold-600 hover:text-gold-700 transition-colors"

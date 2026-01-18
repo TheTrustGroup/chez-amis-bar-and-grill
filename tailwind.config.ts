@@ -176,6 +176,11 @@ const config = {
           "0%": { transform: "translateY(0)" },
           "100%": { transform: "translateY(-20px)" },
         },
+        "shimmer": {
+          "0%": { backgroundPosition: "0% 50%" },
+          "50%": { backgroundPosition: "100% 50%" },
+          "100%": { backgroundPosition: "0% 50%" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
@@ -183,6 +188,7 @@ const config = {
         "fade-in": "fade-in 0.6s ease-out",
         "fade-in-up": "fade-in-up 0.8s ease-out",
         "parallax": "parallax 20s ease-in-out infinite alternate",
+        "shimmer": "shimmer 3s ease-in-out infinite",
       },
     },
   },

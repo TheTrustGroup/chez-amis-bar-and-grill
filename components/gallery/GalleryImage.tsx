@@ -57,9 +57,9 @@ export const GalleryImage = memo(function GalleryImage({
 
   return (
     <>
-      {/* Loading skeleton */}
+      {/* Loading skeleton with theme support */}
       {isLoading && (
-        <div className="absolute inset-0 bg-gray-200 animate-pulse" />
+        <div className="absolute inset-0 bg-gradient-to-br from-gray-200 via-gray-300 to-gray-200 dark:from-charcoal-800 dark:via-charcoal-700 dark:to-charcoal-800 animate-pulse" />
       )}
 
       {/* Main image with fallback */}
@@ -69,9 +69,9 @@ export const GalleryImage = memo(function GalleryImage({
         fill={fill}
         width={!fill ? width : undefined}
         height={!fill ? height : undefined}
-        className={`${className} ${isLoading ? 'opacity-0' : 'opacity-100'} transition-opacity duration-300`}
+        className={`${className} ${isLoading ? 'opacity-0' : 'opacity-100'} transition-opacity duration-500 ease-out`}
         sizes={sizes}
-        quality={85}
+        quality={90}
         priority={priority}
         onLoad={handleImageLoad}
         onError={handleImageError}

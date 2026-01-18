@@ -3,10 +3,13 @@
 import { useState, useEffect } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { Menu, X, ShoppingBag } from "lucide-react"
+import { Menu, X, ShoppingBag, UtensilsCrossed } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
+import { ThemeToggle } from "@/components/ui/theme-toggle"
 import { useCartContext } from "@/lib/context/CartContext"
+import { useTheme } from "@/lib/context/ThemeContext"
+import { scrollToElement } from "@/lib/utils/smoothScroll"
 
 const navItems = [
   { href: "/", label: "Home" },
@@ -22,7 +25,9 @@ export function Header() {
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const { getCartItemCount } = useCartContext()
+  const { resolvedTheme } = useTheme()
   const cartItemCount = getCartItemCount()
+  const isDark = resolvedTheme === "dark"
 
   // Handle scroll effect
   useEffect(() => {
@@ -81,11 +86,8 @@ export function Header() {
 
   const handleNavClick = (href: string) => {
     if (href.startsWith("#")) {
-      const element = document.querySelector(href)
-      if (element) {
-        element.scrollIntoView({ behavior: "smooth" })
-        setIsMobileMenuOpen(false)
-      }
+      scrollToElement(href.substring(1), { offset: 100 })
+      setIsMobileMenuOpen(false)
     }
   }
 
@@ -102,37 +104,61 @@ export function Header() {
       {/* Main Header */}
       <header
         className={cn(
-          "fixed top-0 left-0 right-0 z-[100] w-full transition-all duration-300",
+          "fixed top-0 left-0 right-0 z-[100] w-full transition-all duration-500 ease-out",
           "h-20 md:h-24",
+          // Sticky behavior with backdrop blur
           isScrolled
-            ? "bg-white/90 backdrop-blur-md shadow-md"
+            ? isDark
+              ? "bg-charcoal-950/95 dark:bg-charcoal-950/95 backdrop-blur-xl shadow-2xl border-b border-charcoal-800/50"
+              : "bg-white/95 backdrop-blur-xl shadow-2xl border-b border-gray-100/50 dark:border-charcoal-800/50"
             : "bg-transparent"
         )}
         role="banner"
       >
         <div className="container mx-auto px-6 md:px-12 h-full">
           <div className="flex h-full items-center justify-between">
-            {/* Logo Section (Left) */}
+            {/* Logo Section (Left) - Perfectly aligned and scaled */}
             <Link
               href="/"
-              className="flex items-center group"
+              className="flex items-center group relative"
               aria-label="Chez Amis Bar and Grill - Home"
             >
-              <div className="flex flex-col">
-                {/* Decorative element */}
-                <div className="h-0.5 w-8 bg-gold-500 mb-1 group-hover:w-12 transition-all duration-300" aria-hidden="true"></div>
+              <div className="flex flex-col items-start justify-center">
+                {/* Decorative gold line - animated on hover */}
+                <div 
+                  className={cn(
+                    "h-0.5 bg-gold-500 mb-1.5 transition-all duration-500 ease-out",
+                    "w-8 md:w-10 group-hover:w-12 md:group-hover:w-16",
+                    "shadow-sm group-hover:shadow-gold-500/50"
+                  )} 
+                  aria-hidden="true"
+                />
+                {/* Main logo text - responsive sizing */}
                 <span
                   className={cn(
-                    "text-2xl md:text-3xl font-display font-light tracking-wide transition-colors",
-                    isScrolled ? "text-foreground" : "text-white"
+                    "font-display font-light tracking-wide transition-all duration-300",
+                    "text-xl sm:text-2xl md:text-3xl lg:text-[2rem]",
+                    "leading-tight",
+                    isScrolled 
+                      ? isDark 
+                        ? "text-cream-100" 
+                        : "text-foreground"
+                      : "text-white drop-shadow-lg"
                   )}
                 >
                   Chez Amis
                 </span>
+                {/* Subtitle - perfectly aligned */}
                 <span
                   className={cn(
-                    "text-xs font-heading font-light tracking-widest uppercase transition-colors",
-                    isScrolled ? "text-muted-foreground" : "text-cream-200/80"
+                    "font-heading font-light tracking-[0.15em] uppercase transition-all duration-300",
+                    "text-[0.625rem] sm:text-xs md:text-[0.7rem]",
+                    "leading-tight mt-0.5",
+                    isScrolled
+                      ? isDark
+                        ? "text-cream-200/70"
+                        : "text-muted-foreground"
+                      : "text-cream-200/80 drop-shadow-md"
                   )}
                 >
                   BAR AND GRILL
@@ -140,9 +166,9 @@ export function Header() {
               </div>
             </Link>
 
-            {/* Desktop Navigation (Center/Right) */}
+            {/* Desktop Navigation (Center/Right) - Evenly spaced with premium hover animations */}
             <nav
-              className="hidden lg:flex items-center gap-8 xl:gap-10"
+              className="hidden lg:flex items-center gap-6 xl:gap-8"
               role="navigation"
               aria-label="Main navigation"
             >
@@ -159,24 +185,39 @@ export function Header() {
                       }
                     }}
                     className={cn(
-                      "group relative text-sm md:text-base font-heading font-medium transition-colors duration-250",
-                      "focus:outline-none focus:ring-2 focus:ring-gold-500 focus:ring-offset-2 focus:ring-offset-transparent rounded-sm px-2 py-1",
-                      isActive
-                        ? isScrolled
-                          ? "text-foreground"
-                          : "text-white"
-                        : isScrolled
-                        ? "text-muted-foreground hover:text-foreground"
-                        : "text-white/90 hover:text-white"
+                      "group relative text-sm font-heading font-medium transition-all duration-300 ease-out",
+                      "focus:outline-none focus:ring-2 focus:ring-gold-500 focus:ring-offset-2 focus:ring-offset-transparent rounded-sm px-3 py-2",
+                      "hover:scale-105 active:scale-95",
+                      // Light mode colors
+                      !isDark && isScrolled && isActive && "text-foreground",
+                      !isDark && isScrolled && !isActive && "text-muted-foreground hover:text-foreground",
+                      !isDark && !isScrolled && isActive && "text-white",
+                      !isDark && !isScrolled && !isActive && "text-white/90 hover:text-white",
+                      // Dark mode colors
+                      isDark && isScrolled && isActive && "text-cream-100",
+                      isDark && isScrolled && !isActive && "text-cream-200/70 hover:text-cream-100",
+                      isDark && !isScrolled && isActive && "text-white",
+                      isDark && !isScrolled && !isActive && "text-white/90 hover:text-white"
                     )}
                     aria-current={isActive ? "page" : undefined}
                   >
                     {item.label}
-                    {/* Gold underline animation on hover */}
+                    {/* Premium gold underline animation */}
                     <span
                       className={cn(
-                        "absolute bottom-0 left-0 h-0.5 bg-gold-500 transition-all duration-250 ease-in-out",
-                        isActive ? "w-full" : "w-0 group-hover:w-full"
+                        "absolute bottom-0 left-1/2 -translate-x-1/2 h-0.5 bg-gradient-to-r from-gold-400 via-gold-500 to-gold-600 transition-all duration-500 ease-out",
+                        "shadow-sm group-hover:shadow-gold-500/50",
+                        isActive 
+                          ? "w-full opacity-100" 
+                          : "w-0 group-hover:w-full opacity-0 group-hover:opacity-100"
+                      )}
+                      aria-hidden="true"
+                    />
+                    {/* Subtle background glow on hover */}
+                    <span
+                      className={cn(
+                        "absolute inset-0 rounded-sm bg-gold-500/0 group-hover:bg-gold-500/5 transition-all duration-300 -z-10",
+                        isActive && "bg-gold-500/5"
                       )}
                       aria-hidden="true"
                     />
@@ -185,9 +226,43 @@ export function Header() {
               })}
             </nav>
 
-            {/* Right Side Actions */}
-            <div className="flex items-center gap-4 md:gap-6">
-              {/* Your Selection Link - Icon Only */}
+            {/* Right Side Actions - Premium CTAs */}
+            <div className="flex items-center gap-3 md:gap-4 lg:gap-6">
+              {/* Theme Toggle */}
+              <ThemeToggle
+                className={cn(
+                  "transition-all duration-300 hover:scale-110 active:scale-95",
+                  isScrolled
+                    ? isDark
+                      ? "text-cream-200/70 hover:text-cream-100 hover:bg-charcoal-800/50"
+                      : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
+                    : "text-white/90 hover:text-white hover:bg-white/10"
+                )}
+              />
+              
+              {/* Order Delivery Button - Premium CTA */}
+              <Link href="/order-summary" className="hidden lg:block group/order">
+                <Button
+                  variant="premium"
+                  size="sm"
+                  className={cn(
+                    "font-heading font-semibold tracking-wide transition-all duration-300 min-h-[44px]",
+                    "px-4 py-2 relative overflow-hidden",
+                    "hover:scale-105 active:scale-95",
+                    "shadow-lg hover:shadow-xl hover:shadow-gold-500/30"
+                  )}
+                  aria-label="Order for Delivery"
+                >
+                  <span className="relative z-10 flex items-center gap-2">
+                    <UtensilsCrossed className="h-4 w-4" />
+                    Order Delivery
+                  </span>
+                  {/* Shine effect */}
+                  <span className="absolute inset-0 -translate-x-full group-hover/order:translate-x-full transition-transform duration-700 ease-in-out bg-gradient-to-r from-transparent via-white/20 to-transparent" />
+                </Button>
+              </Link>
+
+              {/* Cart Icon with Badge */}
               <button
                 onClick={() => {
                   if (typeof window !== "undefined") {
@@ -195,23 +270,25 @@ export function Header() {
                   }
                 }}
                 className={cn(
-                  "hidden lg:flex items-center justify-center transition-colors duration-300",
-                  "focus:outline-none focus:ring-2 focus:ring-gold-500 focus:ring-offset-2 focus:ring-offset-transparent rounded-sm px-2 py-1 min-h-[44px] min-w-[44px]",
+                  "hidden lg:flex items-center justify-center transition-all duration-300",
+                  "focus:outline-none focus:ring-2 focus:ring-gold-500 focus:ring-offset-2 focus:ring-offset-transparent rounded-lg px-2 py-1 min-h-[44px] min-w-[44px]",
+                  "hover:scale-110 active:scale-95",
                   isScrolled
-                    ? "text-muted-foreground hover:text-foreground"
-                    : "text-white/90 hover:text-white"
+                    ? isDark
+                      ? "text-cream-200/70 hover:text-cream-100 hover:bg-charcoal-800/50"
+                      : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
+                    : "text-white/90 hover:text-white hover:bg-white/10"
                 )}
                 aria-label={`Your selection${cartItemCount > 0 ? ` (${cartItemCount} items)` : ""}`}
               >
                 <div className="relative">
-                  <ShoppingBag className="h-5 w-5" aria-hidden="true" />
+                  <ShoppingBag className="h-5 w-5 transition-transform duration-300 group-hover:scale-110" />
                   {cartItemCount > 0 && (
                     <span
                       className={cn(
-                        "absolute -top-2 -right-2 text-xs font-body font-medium px-1.5 py-0.5 rounded-full min-w-[20px] text-center",
-                        isScrolled
-                          ? "text-white bg-gold-500"
-                          : "text-white bg-gold-500"
+                        "absolute -top-2 -right-2 text-xs font-body font-bold px-1.5 py-0.5 rounded-full min-w-[20px] text-center",
+                        "text-white bg-gold-500 shadow-lg animate-badge-bounce",
+                        "ring-2 ring-background"
                       )}
                     >
                       {cartItemCount}
@@ -220,36 +297,43 @@ export function Header() {
                 </div>
               </button>
 
-              {/* Reserve a Table Button - Desktop */}
-              <Link href="/reservations" className="hidden lg:block">
+              {/* Reserve a Table Button - Premium CTA */}
+              <Link href="/reservations" className="hidden lg:block group/reserve">
                 <Button
                   variant="outline"
                   size="sm"
                   className={cn(
-                    "font-heading font-light tracking-wide border-2 transition-all duration-300 min-h-[44px]",
-                    "px-4 py-2",
+                    "font-heading font-semibold tracking-wide border-2 transition-all duration-300 min-h-[44px]",
+                    "px-4 py-2 relative overflow-hidden",
+                    "hover:scale-105 active:scale-95",
                     isScrolled
-                      ? "border-gold-500/80 text-foreground hover:bg-gold-500/10 hover:border-gold-500"
-                      : "border-white/60 text-white hover:bg-white/10 hover:border-white"
+                      ? isDark
+                        ? "border-gold-500/80 text-cream-100 hover:bg-gold-500/10 hover:border-gold-500 hover:shadow-lg hover:shadow-gold-500/20"
+                        : "border-gold-500/80 text-foreground hover:bg-gold-500/10 hover:border-gold-500 hover:shadow-lg"
+                      : "border-white/80 text-white hover:bg-white/10 hover:border-white hover:shadow-xl"
                   )}
                   aria-label="Reserve a Table"
                 >
-                  Reserve a Table
+                  <span className="relative z-10">Reserve a Table</span>
+                  {/* Shine effect */}
+                  <span className="absolute inset-0 bg-gradient-to-r from-gold-500/0 via-gold-500/20 to-gold-500/0 translate-x-[-100%] group-hover/reserve:translate-x-[100%] transition-transform duration-700 ease-in-out" />
                 </Button>
               </Link>
 
-              {/* Mobile Menu Button */}
+              {/* Mobile Menu Button - Premium animation */}
               <Button
                 variant="ghost"
                 size="icon"
                 className={cn(
                   "lg:hidden relative",
                   "min-h-[44px] min-w-[44px]",
-                  "transition-all duration-200 ease-out",
-                  "active:scale-95",
+                  "transition-all duration-300 ease-out",
+                  "hover:scale-110 active:scale-95",
                   "will-change-transform",
                   isScrolled
-                    ? "text-foreground hover:bg-muted active:bg-muted/80"
+                    ? isDark
+                      ? "text-cream-200/70 hover:text-cream-100 hover:bg-charcoal-800/50 active:bg-charcoal-800/70"
+                      : "text-foreground hover:bg-muted/50 active:bg-muted/80"
                     : "text-white hover:bg-white/10 active:bg-white/20"
                 )}
                 style={{
@@ -294,25 +378,33 @@ export function Header() {
           </div>
         </div>
 
-        {/* Mobile Menu - Full Screen Overlay */}
+        {/* Mobile Menu - Premium Full Screen Overlay */}
         {isMobileMenuOpen && (
           <>
-            {/* Backdrop */}
+            {/* Backdrop with smooth fade */}
             <div
-              className="fixed inset-0 bg-gray-900/95 backdrop-blur-lg z-[60] lg:hidden"
+              className={cn(
+                "fixed inset-0 z-[60] lg:hidden transition-opacity duration-300",
+                isDark 
+                  ? "bg-charcoal-950/98 backdrop-blur-2xl" 
+                  : "bg-gray-900/98 backdrop-blur-2xl"
+              )}
               onClick={() => setIsMobileMenuOpen(false)}
               aria-hidden="true"
             />
 
-            {/* Mobile Menu */}
+            {/* Mobile Menu - Smooth slide in animation */}
             <nav
               id="mobile-menu"
               className={cn(
-                "fixed inset-0 bg-gray-900/95 backdrop-blur-lg z-[70] lg:hidden",
+                "fixed inset-0 z-[70] lg:hidden",
                 "flex flex-col items-center justify-center",
                 "overflow-y-auto overscroll-contain",
                 "-webkit-overflow-scrolling: touch",
-                "animate-fade-in"
+                "animate-fade-in",
+                isDark 
+                  ? "bg-charcoal-950/98 backdrop-blur-2xl" 
+                  : "bg-gray-900/98 backdrop-blur-2xl"
               )}
               role="navigation"
               aria-label="Mobile navigation"
@@ -332,7 +424,7 @@ export function Header() {
                 <X className="h-6 w-6" aria-hidden="true" />
               </Button>
 
-              {/* Centered Navigation Links */}
+              {/* Centered Navigation Links - Premium animations */}
               <div className="flex flex-col items-center gap-6 md:gap-8 px-6 py-20 w-full max-w-md mx-auto">
                 {navItems.map((item, index) => {
                   const isActive = pathname === item.href || (item.href === "/" && pathname === "/")
@@ -349,49 +441,71 @@ export function Header() {
                         }
                       }}
                       className={cn(
-                        "text-2xl font-heading font-light tracking-wide text-white",
-                        "transition-all duration-300 hover:text-gold-500 active:text-gold-400",
-                        "focus:outline-none focus:ring-2 focus:ring-gold-500 focus:ring-offset-2 focus:ring-offset-transparent rounded-sm px-6 py-4 min-h-[56px] touch-manipulation",
-                        isActive && "text-gold-500"
+                        "group relative text-2xl font-heading font-light tracking-wide text-white",
+                        "transition-all duration-500 ease-out animate-fade-in-up",
+                        "hover:text-gold-400 active:text-gold-500 active:scale-95",
+                        "focus:outline-none focus:ring-2 focus:ring-gold-500 focus:ring-offset-2 focus:ring-offset-transparent rounded-lg px-6 py-4 min-h-[56px] touch-manipulation w-full text-center",
+                        isActive && "text-gold-400"
                       )}
                       aria-current={isActive ? "page" : undefined}
                       style={{
-                        animationDelay: `${index * 0.1}s`,
+                        animationDelay: `${index * 0.08}s`,
                       }}
                     >
                       {item.label}
+                      {/* Gold underline for active/hover */}
+                      <span
+                        className={cn(
+                          "absolute bottom-2 left-1/2 -translate-x-1/2 h-0.5 bg-gradient-to-r from-gold-400 via-gold-500 to-gold-600 transition-all duration-500",
+                          isActive ? "w-3/4 opacity-100" : "w-0 group-hover:w-3/4 opacity-0 group-hover:opacity-100"
+                        )}
+                        aria-hidden="true"
+                      />
                     </Link>
                   )
                 })}
 
-                {/* Mobile Actions */}
-                <div className="flex flex-col items-center gap-4 mt-6 pt-6 border-t border-white/10 w-full max-w-xs">
-                  {/* Your Selection */}
-                  <Link
-                    href="/order-summary"
-                    className="flex items-center justify-center text-white/90 hover:text-white active:text-white/80 transition-colors min-h-[56px] min-w-[56px] rounded-lg hover:bg-white/5 active:bg-white/10 touch-manipulation"
+                {/* Mobile Actions - Premium CTAs */}
+                <div className="flex flex-col items-center gap-4 mt-8 pt-8 border-t border-white/20 w-full max-w-xs">
+                  {/* Order Delivery Button - Prominent CTA */}
+                  <Link 
+                    href="/order-summary" 
+                    className="w-full group/order" 
                     onClick={() => setIsMobileMenuOpen(false)}
-                    aria-label={`Your selection${cartItemCount > 0 ? ` (${cartItemCount} items)` : ""}`}
                   >
-                    <div className="relative">
-                      <ShoppingBag className="h-6 w-6" aria-hidden="true" />
-                      {cartItemCount > 0 && (
-                        <span className="absolute -top-2 -right-2 text-xs font-body font-medium px-1.5 py-0.5 rounded-full min-w-[20px] text-center text-white bg-gold-500">
-                          {cartItemCount}
-                        </span>
-                      )}
-                    </div>
+                    <Button
+                      variant="premium"
+                      size="lg"
+                      className="w-full font-heading font-semibold tracking-wide transition-all duration-300 min-h-[56px] text-lg touch-manipulation relative overflow-hidden hover:scale-105 active:scale-95 shadow-xl"
+                      aria-label="Order for Delivery"
+                    >
+                      <span className="relative z-10 flex items-center justify-center gap-2">
+                        <UtensilsCrossed className="h-5 w-5" />
+                        Order Delivery
+                        {cartItemCount > 0 && (
+                          <span className="ml-2 px-2 py-0.5 rounded-full bg-white/20 text-sm font-bold">
+                            {cartItemCount}
+                          </span>
+                        )}
+                      </span>
+                      <span className="absolute inset-0 -translate-x-full group-hover/order:translate-x-full transition-transform duration-700 ease-in-out bg-gradient-to-r from-transparent via-white/20 to-transparent" />
+                    </Button>
                   </Link>
 
-                  {/* Reserve Button */}
-                  <Link href="/reservations" className="w-full" onClick={() => setIsMobileMenuOpen(false)}>
+                  {/* Reserve a Table Button */}
+                  <Link 
+                    href="/reservations" 
+                    className="w-full group/reserve" 
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
                     <Button
                       variant="outline"
                       size="lg"
-                      className="w-full font-heading font-light tracking-wide border-2 border-white/60 text-white hover:bg-white/10 hover:border-white active:bg-white/20 active:border-white/80 transition-all duration-300 min-h-[56px] text-lg touch-manipulation"
+                      className="w-full font-heading font-semibold tracking-wide border-2 border-white/80 text-white hover:bg-white/10 hover:border-white active:bg-white/20 active:border-white/80 transition-all duration-300 min-h-[56px] text-lg touch-manipulation relative overflow-hidden hover:scale-105 active:scale-95"
                       aria-label="Reserve a Table"
                     >
-                      Reserve a Table
+                      <span className="relative z-10">Reserve a Table</span>
+                      <span className="absolute inset-0 bg-gradient-to-r from-gold-500/0 via-gold-500/20 to-gold-500/0 translate-x-[-100%] group-hover/reserve:translate-x-[100%] transition-transform duration-700 ease-in-out" />
                     </Button>
                   </Link>
                 </div>

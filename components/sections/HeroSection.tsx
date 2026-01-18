@@ -1,18 +1,36 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useState, useRef } from "react"
 import Link from "next/link"
+import Image from "next/image"
 import { Button } from "@/components/ui/button"
-import { ChevronDown, Star } from "lucide-react"
+import { ChevronDown, Star, Calendar, UtensilsCrossed } from "lucide-react"
 import { QuickActions } from "@/components/mobile/QuickActions"
 import { cn } from "@/lib/utils"
+import { useTheme } from "@/lib/context/ThemeContext"
 
 export function HeroSection() {
   const [isVisible, setIsVisible] = useState(false)
   const [isMobile, setIsMobile] = useState(false)
+  const [imageLoaded, setImageLoaded] = useState(false)
+  const [imageError, setImageError] = useState(false)
+  const parallaxRef = useRef<HTMLDivElement>(null)
+  const { resolvedTheme } = useTheme()
+  const isDark = resolvedTheme === "dark"
+  
+  // Try multiple image paths as fallback
+  const imagePaths = [
+    "/media/images/restaurant/interior/hero-restaurant-interior.jpg",
+    "/media/images/restaurant/interior/restaurant-interior-001.jpg",
+    "/media/images/IMG_8209.jpg",
+    "/media/images/restaurant/ambiance/hero-ambiance.jpg",
+  ]
+  const [currentImagePath, setCurrentImagePath] = useState(imagePaths[0])
 
   useEffect(() => {
-    setIsVisible(true)
+    // Staggered entrance animation
+    const timer = setTimeout(() => setIsVisible(true), 100)
+    
     // Check if window is available (SSR safety)
     if (typeof window !== "undefined") {
       setIsMobile(window.innerWidth < 768)
@@ -21,9 +39,28 @@ export function HeroSection() {
         setIsMobile(window.innerWidth < 768)
       }
       window.addEventListener("resize", handleResize)
-      return () => window.removeEventListener("resize", handleResize)
+      return () => {
+        clearTimeout(timer)
+        window.removeEventListener("resize", handleResize)
+      }
     }
+    return () => clearTimeout(timer)
   }, [])
+
+  // Enhanced Parallax scroll effect
+  useEffect(() => {
+    if (isMobile || !parallaxRef.current) return
+
+    const handleScroll = () => {
+      if (!parallaxRef.current) return
+      const scrolled = window.pageYOffset
+      const rate = scrolled * 0.5 // Increased parallax speed for more sophistication
+      parallaxRef.current.style.transform = `translateY(${rate}px) scale(1.05)`
+    }
+
+    window.addEventListener("scroll", handleScroll, { passive: true })
+    return () => window.removeEventListener("scroll", handleScroll)
+  }, [isMobile])
 
   const scrollToNext = () => {
     if (typeof document !== "undefined") {
@@ -43,16 +80,92 @@ export function HeroSection() {
       )}
       aria-label="Hero section"
     >
-      {/* Background Image with Overlay */}
-      <div className="absolute inset-0 z-0">
-        {/* Background Gradient - Elegant fallback that works perfectly */}
-        <div className="absolute inset-0 bg-gradient-to-br from-charcoal-950 via-charcoal-900 to-burgundy-900"></div>
+      {/* High-Resolution Background Image with Parallax */}
+      <div className="absolute inset-0 z-0 overflow-hidden">
+        {/* Parallax Background Layer */}
+        <div 
+          ref={parallaxRef}
+          className="absolute inset-0 will-change-transform transition-opacity duration-1000"
+          style={{ 
+            transform: "translateZ(0)",
+            opacity: imageLoaded ? 1 : 0
+          }}
+        >
+          {/* High-resolution background image with fallback */}
+          {!imageError && (
+            <Image
+              src={currentImagePath}
+              alt="Chez Amis Bar and Grill elegant dining room with warm ambiance"
+              fill
+              priority
+              quality={90}
+              className="object-cover object-center"
+              sizes="100vw"
+              onLoad={() => setImageLoaded(true)}
+              onError={() => {
+                const currentIndex = imagePaths.indexOf(currentImagePath)
+                if (currentIndex < imagePaths.length - 1) {
+                  // Try next image path
+                  setCurrentImagePath(imagePaths[currentIndex + 1])
+                } else {
+                  // All images failed, use gradient fallback
+                  setImageError(true)
+                  setImageLoaded(false)
+                }
+              }}
+            />
+          )}
+          
+          {/* Fallback gradient - shows while image loads or if image fails */}
+          <div className={cn(
+            "absolute inset-0 transition-opacity duration-1000",
+            imageLoaded ? "opacity-0" : "opacity-100",
+            isDark 
+              ? "bg-gradient-to-br from-charcoal-950 via-charcoal-900 to-burgundy-900"
+              : "bg-gradient-to-br from-charcoal-900 via-charcoal-800 to-burgundy-800"
+          )} />
+          
+          {/* Animated gradient overlay for subtle movement */}
+          <div 
+            className={cn(
+              "absolute inset-0 transition-opacity duration-1000",
+              imageLoaded ? "opacity-100" : "opacity-0"
+            )}
+            style={{ animationDuration: "8s" }} 
+            aria-hidden="true"
+          >
+            <div className="absolute inset-0 bg-gradient-to-br from-gold-500/5 via-transparent to-burgundy-500/10 animate-pulse" />
+          </div>
+        </div>
         
-        {/* Dark Overlay - rgba(0, 0, 0, 0.6) for text readability */}
-        <div className="absolute inset-0 bg-black/60" aria-hidden="true"></div>
+        {/* Elegant Overlay - Adaptive for light/dark mode */}
+        <div 
+          className={cn(
+            "absolute inset-0 z-10 transition-opacity duration-500",
+            isDark ? "bg-black/70" : "bg-black/65"
+          )} 
+          aria-hidden="true"
+        />
         
-        {/* Subtle gradient overlay for depth */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" aria-hidden="true"></div>
+        {/* Gradient overlay for depth and text readability */}
+        <div 
+          className={cn(
+            "absolute inset-0 z-10 transition-opacity duration-500",
+            isDark 
+              ? "bg-gradient-to-t from-black/80 via-black/40 to-transparent"
+              : "bg-gradient-to-t from-black/75 via-black/35 to-transparent"
+          )} 
+          aria-hidden="true"
+        />
+        
+        {/* Subtle vignette effect */}
+        <div 
+          className="absolute inset-0 z-10 bg-radial-gradient from-transparent via-transparent to-black/20"
+          style={{
+            background: "radial-gradient(ellipse at center, transparent 0%, rgba(0,0,0,0.1) 100%)"
+          }}
+          aria-hidden="true"
+        />
       </div>
 
       {/* Centered Content - Proper spacing to avoid header overlap */}
@@ -66,124 +179,159 @@ export function HeroSection() {
       )}>
         <div
           className={cn(
-            "text-center transition-all duration-1000 ease-out w-full",
+            "text-center w-full",
             "flex flex-col items-center justify-center",
-            isVisible
-              ? "opacity-100 translate-y-0"
-              : "opacity-0 translate-y-12"
+            "relative z-10"
           )}
         >
-          {/* Restaurant Name "Chez Amis" - Fixed at top, won't overlap */}
-          <h1 
+          {/* Welcome Message - Elegant Typography with Entrance Animation */}
+          <div
             className={cn(
-              "font-display font-normal text-white tracking-wide",
-              // Mobile: Smaller size with proper spacing
-              isMobile ? "mb-2 text-4xl sm:text-5xl" : "mb-2 text-5xl sm:text-6xl md:text-7xl lg:text-8xl",
-              "drop-shadow-[0_2px_8px_rgba(0,0,0,0.5)]",
-              // Ensure it stays in place
-              "relative z-10"
+              "mb-4 md:mb-6 transition-all duration-1000 ease-out",
+              isVisible 
+                ? "opacity-100 translate-y-0" 
+                : "opacity-0 translate-y-8"
             )}
             style={{ animationDelay: "0.1s" }}
+          >
+            <p className={cn(
+              "font-heading font-light tracking-[0.2em] uppercase",
+              isMobile ? "text-xs sm:text-sm" : "text-sm md:text-base",
+              "text-gold-400/90",
+              "drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)]"
+            )}>
+              Welcome to
+            </p>
+          </div>
+
+          {/* Restaurant Name "Chez Amis" - Elegant Typography */}
+          <h1 
+            className={cn(
+              "font-display font-light text-white tracking-wide mb-3 md:mb-4",
+              "transition-all duration-1000 ease-out",
+              isMobile ? "text-5xl sm:text-6xl md:text-7xl" : "text-6xl sm:text-7xl md:text-8xl lg:text-9xl",
+              "drop-shadow-[0_4px_20px_rgba(0,0,0,0.8)]",
+              isVisible 
+                ? "opacity-100 translate-y-0" 
+                : "opacity-0 translate-y-8"
+            )}
+            style={{ animationDelay: "0.2s" }}
           >
             Chez Amis
           </h1>
 
-          {/* Decorative Gold Line Divider */}
-          <div className="flex items-center justify-center mb-3 md:mb-4" aria-hidden="true">
-            <div className="h-px w-[100px] bg-gold-500"></div>
+          {/* Decorative Gold Line Divider - Animated */}
+          <div 
+            className={cn(
+              "flex items-center justify-center mb-4 md:mb-5 transition-all duration-1000 ease-out",
+              isVisible 
+                ? "opacity-100 scale-x-100" 
+                : "opacity-0 scale-x-0"
+            )}
+            style={{ animationDelay: "0.3s" }}
+            aria-hidden="true"
+          >
+            <div className="h-0.5 w-24 md:w-32 bg-gradient-to-r from-transparent via-gold-500 to-transparent shadow-lg shadow-gold-500/50" />
           </div>
 
           {/* Subtitle "BAR AND GRILL" */}
           <p 
             className={cn(
-              "font-heading font-light tracking-[0.3em] uppercase",
-              // Mobile: Reduced spacing
-              isMobile ? "mb-6 text-xs sm:text-sm" : "mb-10 md:mb-12 text-sm md:text-base lg:text-lg",
-              "text-gold-400",
-              "drop-shadow-[0_1px_4px_rgba(0,0,0,0.5)]",
-              "relative z-10"
+              "font-heading font-light tracking-[0.25em] uppercase mb-6 md:mb-8",
+              "transition-all duration-1000 ease-out",
+              isMobile ? "text-xs sm:text-sm" : "text-sm md:text-base lg:text-lg",
+              "text-gold-300/90",
+              "drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)]",
+              isVisible 
+                ? "opacity-100 translate-y-0" 
+                : "opacity-0 translate-y-8"
             )}
-            style={{ animationDelay: "0.2s" }}
+            style={{ animationDelay: "0.4s" }}
           >
             BAR AND GRILL
           </p>
 
-          {/* Tagline "An Intimate Culinary Journey" - Proper spacing after branding */}
+          {/* Tagline - Elegant Typography */}
           <h2 
             className={cn(
-              "font-display font-light text-white max-w-3xl mx-auto",
-              // Mobile: Proper spacing and sizing
-              isMobile ? "mb-3 text-lg sm:text-xl" : "mb-4 md:mb-6 text-xl sm:text-2xl md:text-3xl lg:text-4xl",
-              "drop-shadow-[0_2px_6px_rgba(0,0,0,0.5)]",
-              "relative z-10"
+              "font-display font-light text-white max-w-4xl mx-auto mb-4 md:mb-6",
+              "transition-all duration-1000 ease-out",
+              isMobile ? "text-xl sm:text-2xl md:text-3xl" : "text-2xl sm:text-3xl md:text-4xl lg:text-5xl",
+              "leading-tight",
+              "drop-shadow-[0_4px_16px_rgba(0,0,0,0.8)]",
+              isVisible 
+                ? "opacity-100 translate-y-0" 
+                : "opacity-0 translate-y-8"
             )}
-            style={{ animationDelay: "0.3s" }}
+            style={{ animationDelay: "0.5s" }}
           >
             An Intimate Culinary Journey
           </h2>
 
-          {/* Description "Where passion meets palate..." */}
+          {/* Description - Refined Typography */}
           <p 
             className={cn(
-              "font-body font-light text-gray-200 max-w-2xl mx-auto leading-relaxed",
-              // Mobile: Proper spacing
-              isMobile ? "mb-6 text-sm sm:text-base" : "mb-8 md:mb-10 text-base md:text-lg lg:text-xl",
-              "drop-shadow-[0_1px_3px_rgba(0,0,0,0.5)]",
-              "relative z-10"
+              "font-body font-light max-w-2xl mx-auto leading-relaxed mb-8 md:mb-10",
+              "transition-all duration-1000 ease-out",
+              isMobile ? "text-sm sm:text-base px-4" : "text-base md:text-lg lg:text-xl px-6",
+              isDark ? "text-cream-100/90" : "text-gray-100",
+              "drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)]",
+              isVisible 
+                ? "opacity-100 translate-y-0" 
+                : "opacity-0 translate-y-8"
             )}
-            style={{ animationDelay: "0.4s" }}
+            style={{ animationDelay: "0.6s" }}
           >
-            Where passion meets palate in the heart of Accra
+            Where passion meets palate in the heart of Accra. Experience exceptional flavors and warm hospitality.
           </p>
 
-          {/* CTA Buttons - Proper spacing */}
+          {/* Primary CTA Buttons - Stunning Entrance Animation */}
           <div 
             className={cn(
-              "flex flex-col sm:flex-row gap-4 items-center justify-center w-full",
-              // Mobile: Reduced spacing
-              isMobile ? "mb-6" : "mb-8 md:mb-10",
-              "animate-fade-in-up",
-              "relative z-10"
+              "flex flex-col sm:flex-row gap-4 md:gap-6 items-center justify-center w-full",
+              "transition-all duration-1000 ease-out",
+              isMobile ? "mb-6 px-4" : "mb-8 md:mb-10 px-6",
+              isVisible 
+                ? "opacity-100 translate-y-0" 
+                : "opacity-0 translate-y-8"
             )}
-            style={{ animationDelay: "0.5s" }}
+            style={{ animationDelay: "0.7s" }}
           >
-            {/* Primary Button - Reserve a Table */}
-            <Link href="/reservations" className="w-full sm:w-auto">
+            {/* Primary CTA - Reserve Now */}
+            <Link href="/reservations" className="w-full sm:w-auto group/reserve">
               <Button
+                variant="premium"
                 size="lg"
                 className={cn(
-                  "h-14 min-w-[200px] w-full sm:w-auto",
-                  "border-2 border-gold-400 text-gold-400",
-                  "bg-transparent hover:bg-gold-400 hover:text-gray-900",
-                  "px-8 py-4 text-base md:text-lg font-heading font-medium",
-                  "uppercase tracking-wide rounded-md",
-                  "transition-all duration-300 ease-in-out",
-                  "focus:outline-none focus:ring-2 focus:ring-gold-400 focus:ring-offset-2 focus:ring-offset-transparent",
-                  "active:scale-95"
+                  "h-14 md:h-16 min-w-[220px] w-full sm:w-auto",
+                  "uppercase tracking-wider",
+                  "shadow-xl hover:shadow-2xl hover:shadow-gold-500/40",
+                  "hover:scale-110 active:scale-95"
                 )}
-                aria-label="Reserve a Table"
+                aria-label="Reserve Now"
               >
-                Reserve a Table
+                <Calendar className="h-5 w-5 md:h-6 md:w-6" />
+                Reserve Now
               </Button>
             </Link>
 
-            {/* Secondary Button - Order for Delivery */}
-            <Link href="/order-summary" className="w-full sm:w-auto">
+            {/* Secondary CTA - Explore Menu */}
+            <Link href="/menu" className="w-full sm:w-auto group/explore">
               <Button
                 size="lg"
+                variant="outline"
                 className={cn(
-                  "h-14 min-w-[200px] w-full sm:w-auto",
-                  "border-2 border-white text-white",
-                  "bg-transparent hover:bg-white hover:text-gray-900",
-                  "px-8 py-4 text-base md:text-lg font-heading font-medium",
-                  "uppercase tracking-wide rounded-md",
-                  "transition-all duration-300 ease-in-out",
-                  "focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-transparent",
-                  "active:scale-95"
+                  "h-14 md:h-16 min-w-[220px] w-full sm:w-auto",
+                  "border-2 text-white uppercase tracking-wider",
+                  isDark 
+                    ? "border-cream-200/80 bg-cream-200/10 backdrop-blur-md hover:bg-cream-200/20 hover:border-cream-200 hover:shadow-xl hover:shadow-cream-200/20"
+                    : "border-white/90 bg-white/10 backdrop-blur-md hover:bg-white/20 hover:border-white hover:shadow-xl hover:shadow-white/30",
+                  "hover:scale-110 active:scale-95"
                 )}
-                aria-label="Order for Delivery"
+                aria-label="Explore Menu"
               >
-                Order for Delivery
+                <UtensilsCrossed className="h-5 w-5 md:h-6 md:w-6" />
+                Explore Menu
               </Button>
             </Link>
           </div>

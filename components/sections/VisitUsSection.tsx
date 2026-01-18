@@ -1,12 +1,26 @@
 "use client"
 
+import { useState, useEffect } from "react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
-import { MapPin, Phone, Clock, Navigation } from "lucide-react"
+import { MapPin, Phone, Clock, Navigation, Calendar, UtensilsCrossed } from "lucide-react"
+import { cn } from "@/lib/utils"
+import { useTheme } from "@/lib/context/ThemeContext"
 
 export function VisitUsSection() {
+  const [isVisible, setIsVisible] = useState(false)
+  const { resolvedTheme } = useTheme()
+  const isDark = resolvedTheme === "dark"
+
+  useEffect(() => {
+    setIsVisible(true)
+  }, [])
+
   return (
-    <section className="section-padding bg-background" aria-labelledby="visit-heading">
+    <section className={cn(
+      "section-padding transition-colors duration-300",
+      isDark ? "bg-charcoal-950/50" : "bg-background"
+    )} aria-labelledby="visit-heading">
       <div className="container-custom">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
           {/* Left: Interactive Google Map */}
@@ -89,10 +103,10 @@ export function VisitUsSection() {
                     >
                       055 703 2335
                     </a>
-                    <a
-                      href="tel:+233243952339"
+                  <a
+                    href="tel:+233243952339"
                       className="block text-base md:text-lg text-muted-foreground font-body font-light hover:text-foreground transition-colors"
-                    >
+                  >
                       024 395 2339
                     </a>
                     <a
@@ -100,7 +114,7 @@ export function VisitUsSection() {
                       className="block text-base md:text-lg text-muted-foreground font-body font-light hover:text-foreground transition-colors"
                     >
                       050 243 2037
-                    </a>
+                  </a>
                   </div>
                 </div>
               </div>
@@ -121,24 +135,42 @@ export function VisitUsSection() {
               </div>
             </div>
 
-            {/* CTA Buttons */}
-            <div className="flex flex-col sm:flex-row gap-4 pt-4">
-              <Link href="/reservations" className="flex-1 sm:flex-none">
+            {/* CTA Buttons - Premium */}
+            <div className={cn(
+              "flex flex-col sm:flex-row gap-4 md:gap-6 pt-6",
+              "animate-fade-in-up"
+            )} style={{ animationDelay: "0.4s" }}>
+              {/* Primary CTA - Make Reservation */}
+              <Link href="/reservations" className="flex-1 sm:flex-none group/reserve">
                 <Button
+                  variant="premium"
                   size="lg"
-                  className="w-full sm:w-auto text-base md:text-lg px-8 md:px-12 py-6 md:py-7 font-heading font-light tracking-wide bg-foreground text-background hover:bg-foreground/90 transition-all duration-500"
+                  className={cn(
+                    "w-full sm:w-auto min-w-[200px]",
+                    "shadow-xl hover:shadow-2xl hover:shadow-gold-500/40"
+                  )}
                   aria-label="Make a Reservation"
                 >
+                  <Calendar className="h-5 w-5" />
                   Make a Reservation
                 </Button>
               </Link>
-              <Link href="/order" className="flex-1 sm:flex-none">
+              
+              {/* Secondary CTA - Order Takeaway */}
+              <Link href="/order-summary" className="flex-1 sm:flex-none group/order">
                 <Button
                   size="lg"
                   variant="outline"
-                  className="w-full sm:w-auto text-base md:text-lg px-8 md:px-12 py-6 md:py-7 font-heading font-light tracking-wide border-2 border-foreground/20 text-foreground hover:bg-foreground/5 hover:border-foreground/40 transition-all duration-500"
+                  className={cn(
+                    "w-full sm:w-auto min-w-[200px]",
+                    "border-2",
+                    isDark
+                      ? "border-gold-500/50 text-cream-100 bg-gold-500/5 hover:bg-gold-500/10 hover:border-gold-500/80 hover:shadow-lg hover:shadow-gold-500/20"
+                      : "border-gold-500/60 text-foreground bg-transparent hover:bg-gold-500/5 hover:border-gold-500/80 hover:shadow-lg"
+                  )}
                   aria-label="Order Takeaway"
                 >
+                  <UtensilsCrossed className="h-5 w-5" />
                   Order Takeaway
                 </Button>
               </Link>

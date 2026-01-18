@@ -11,10 +11,14 @@ import { SeatingSelector, type SeatingPreference } from "./SeatingSelector"
 import { generateReservationNumber } from "@/lib/utils/reservationAvailability"
 import { ErrorMessage } from "@/components/ui/error-message"
 import Link from "next/link"
-import { Phone, MessageCircle } from "lucide-react"
+import { Phone, MessageCircle, CheckCircle2 } from "lucide-react"
+import { cn } from "@/lib/utils"
+import { useTheme } from "@/lib/context/ThemeContext"
 
 export function ReservationForm() {
   const router = useRouter()
+  const { resolvedTheme } = useTheme()
+  const isDark = resolvedTheme === "dark"
   const [formData, setFormData] = useState({
     date: "",
     time: "",
@@ -29,6 +33,7 @@ export function ReservationForm() {
   })
 
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [isSubmitted, setIsSubmitted] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
   const handleFieldChange = (field: string, value: string | SeatingPreference | null) => {
@@ -98,8 +103,14 @@ export function ReservationForm() {
         throw new Error(result.error || 'Failed to submit reservation')
       }
 
-      // Navigate to confirmation
-      router.push(`/reservations/confirmation?number=${reservationNumber}`)
+      // Show success message before redirecting
+      setIsSubmitted(true)
+      setIsSubmitting(false)
+      
+      // Navigate to confirmation after a brief delay
+      setTimeout(() => {
+        router.push(`/reservations/confirmation?number=${reservationNumber}`)
+      }, 2000)
     } catch (error) {
       // Handle any errors
       if (process.env.NODE_ENV === 'development') {
@@ -108,6 +119,42 @@ export function ReservationForm() {
       setError(error instanceof Error ? error.message : "Failed to submit reservation. Please try again or call us directly.")
       setIsSubmitting(false)
     }
+  }
+
+  // Success confirmation message
+  if (isSubmitted) {
+    return (
+      <div className={cn(
+        "text-center py-12 md:py-16 space-y-6 animate-fade-in",
+        isDark ? "bg-charcoal-900/30 rounded-xl" : "bg-cream-50/50 rounded-xl"
+      )}>
+        <div className={cn(
+          "w-20 h-20 rounded-full flex items-center justify-center mx-auto transition-all duration-500",
+          "bg-gold-500/10 border-2 border-gold-500/30",
+          "animate-scale-in"
+        )}>
+          <CheckCircle2 className="w-10 h-10 text-gold-600" />
+        </div>
+        <h3 className={cn(
+          "text-2xl md:text-3xl font-display font-light",
+          isDark ? "text-cream-100" : "text-foreground"
+        )}>
+          Reservation Confirmed!
+        </h3>
+        <p className={cn(
+          "text-base md:text-lg font-body font-light max-w-md mx-auto",
+          isDark ? "text-cream-200/80" : "text-muted-foreground"
+        )}>
+          Your reservation has been successfully submitted. You&apos;ll receive a confirmation email shortly.
+        </p>
+        <p className={cn(
+          "text-sm font-body font-light",
+          isDark ? "text-cream-200/60" : "text-muted-foreground"
+        )}>
+          Redirecting to confirmation page...
+        </p>
+      </div>
+    )
   }
 
   const isFormValid =
@@ -128,7 +175,10 @@ export function ReservationForm() {
     <form onSubmit={handleSubmit} className="space-y-6 md:space-y-8">
       {/* Date & Time Selection */}
       <div>
-        <h3 className="text-lg md:text-xl font-display font-light text-foreground mb-5">
+        <h3 className={cn(
+          "text-lg md:text-xl font-display font-light mb-5 transition-colors duration-300",
+          isDark ? "text-cream-100" : "text-foreground"
+        )}>
           Date & Time
         </h3>
         <DateTimePicker
@@ -141,14 +191,28 @@ export function ReservationForm() {
 
       {/* Party Size */}
       <div>
-        <Label htmlFor="partySize" className="font-heading font-light text-foreground mb-2.5 block text-sm md:text-base">
-          Number of Guests
+        <Label 
+          htmlFor="partySize" 
+          className={cn(
+            "font-heading font-medium mb-2.5 block text-sm md:text-base transition-colors duration-300",
+            "peer-focus-within:text-gold-600",
+            isDark ? "text-cream-200/90" : "text-foreground"
+          )}
+        >
+          Number of Guests <span className="text-gold-600">*</span>
         </Label>
         <select
           id="partySize"
           value={formData.partySize}
           onChange={(e) => handleFieldChange("partySize", e.target.value)}
-          className="w-full h-12 md:h-10 rounded-md border border-border/50 bg-background px-3 py-2 text-base md:text-sm focus:outline-none focus:ring-2 focus:ring-gold-500 focus:ring-offset-1 min-h-[44px]"
+          className={cn(
+            "w-full h-12 md:h-10 rounded-lg border px-3 py-2 text-base md:text-sm",
+            "focus:outline-none focus:ring-2 focus:ring-gold-500/50 focus:ring-offset-2 focus:border-gold-500/50",
+            "transition-all duration-300 min-h-[44px] touch-manipulation",
+            isDark
+              ? "bg-charcoal-900/50 border-charcoal-800/50 text-cream-100 focus:bg-charcoal-900/70"
+              : "bg-background border-border/50 text-foreground focus:bg-background"
+          )}
           required
         >
           <option value="">Select number of guests</option>
@@ -159,11 +223,17 @@ export function ReservationForm() {
           ))}
         </select>
         {showLargePartyNote && (
-          <p className="mt-2 text-sm text-muted-foreground font-body font-light">
+          <p className={cn(
+            "mt-2 text-sm font-body font-light transition-colors duration-300",
+            isDark ? "text-cream-200/70" : "text-muted-foreground"
+          )}>
             For parties of 12 or more, please{" "}
             <Link
               href="/contact"
-              className="underline underline-offset-2 hover:text-foreground transition-colors"
+              className={cn(
+                "underline underline-offset-2 transition-colors duration-300",
+                isDark ? "text-gold-400 hover:text-gold-300" : "text-gold-600 hover:text-gold-700"
+              )}
             >
               contact us
             </Link>{" "}
@@ -183,14 +253,27 @@ export function ReservationForm() {
 
       {/* Occasion */}
       <div>
-        <Label htmlFor="occasion" className="font-heading font-light text-foreground mb-2.5 block text-sm md:text-base">
-          Special Occasion (Optional)
+        <Label 
+          htmlFor="occasion" 
+          className={cn(
+            "font-heading font-medium mb-2.5 block text-sm md:text-base transition-colors duration-300",
+            isDark ? "text-cream-200/90" : "text-foreground"
+          )}
+        >
+          Special Occasion <span className="text-muted-foreground font-normal">(Optional)</span>
         </Label>
         <select
           id="occasion"
           value={formData.occasion}
           onChange={(e) => handleFieldChange("occasion", e.target.value)}
-          className="w-full h-12 md:h-10 rounded-md border border-border/50 bg-background px-3 py-2 text-base md:text-sm focus:outline-none focus:ring-2 focus:ring-gold-500 focus:ring-offset-1 min-h-[44px]"
+          className={cn(
+            "w-full h-12 md:h-10 rounded-lg border px-3 py-2 text-base md:text-sm",
+            "focus:outline-none focus:ring-2 focus:ring-gold-500/50 focus:ring-offset-2 focus:border-gold-500/50",
+            "transition-all duration-300 min-h-[44px] touch-manipulation",
+            isDark
+              ? "bg-charcoal-900/50 border-charcoal-800/50 text-cream-100 focus:bg-charcoal-900/70"
+              : "bg-background border-border/50 text-foreground focus:bg-background"
+          )}
         >
           <option value="">None</option>
           <option value="birthday">Birthday</option>
@@ -201,10 +284,13 @@ export function ReservationForm() {
           <option value="other">Other</option>
         </select>
         {showSpecialOccasionRequest && (
-          <div className="mt-4">
+          <div className="mt-4 animate-fade-in">
             <Label
               htmlFor="specialOccasionRequest"
-              className="font-heading font-light text-foreground mb-2 block text-sm md:text-base"
+              className={cn(
+                "font-heading font-medium mb-2 block text-sm md:text-base transition-colors duration-300",
+                isDark ? "text-cream-200/90" : "text-foreground"
+              )}
             >
               We&apos;d love to make it special! Any requests?
             </Label>
@@ -212,7 +298,13 @@ export function ReservationForm() {
               id="specialOccasionRequest"
               value={formData.specialOccasionRequest}
               onChange={(e) => handleFieldChange("specialOccasionRequest", e.target.value)}
-              className="border-border/50 focus:border-gold-500/50 min-h-[80px]"
+              className={cn(
+                "rounded-lg border min-h-[100px] resize-none transition-all duration-300",
+                "focus:outline-none focus:ring-2 focus:ring-gold-500/50 focus:ring-offset-2 focus:border-gold-500/50",
+                isDark
+                  ? "bg-charcoal-900/50 border-charcoal-800/50 text-cream-100 placeholder:text-cream-200/40 focus:bg-charcoal-900/70"
+                  : "bg-background border-border/50 text-foreground placeholder:text-muted-foreground focus:bg-background"
+              )}
               placeholder="Cake, decorations, special menu items..."
             />
           </div>
@@ -220,66 +312,124 @@ export function ReservationForm() {
       </div>
 
       {/* Guest Information */}
-      <div className="pt-6 border-t border-border/50">
-        <h3 className="text-lg md:text-xl font-display font-light text-foreground mb-5">
+      <div className={cn(
+        "pt-6 border-t transition-colors duration-300",
+        isDark ? "border-charcoal-800/50" : "border-border/50"
+      )}>
+        <h3 className={cn(
+          "text-lg md:text-xl font-display font-light mb-5 transition-colors duration-300",
+          isDark ? "text-cream-100" : "text-foreground"
+        )}>
           Your Information
         </h3>
         <div className="space-y-5">
-          <div>
-            <Label htmlFor="name" className="font-heading font-light text-foreground mb-2 block text-sm md:text-base">
-              Full Name
+          <div className="group">
+            <Label 
+              htmlFor="name" 
+              className={cn(
+                "font-heading font-medium mb-2 block text-sm md:text-base transition-colors duration-300",
+                "group-focus-within:text-gold-600",
+                isDark ? "text-cream-200/90" : "text-foreground"
+              )}
+            >
+              Full Name <span className="text-gold-600">*</span>
             </Label>
             <Input
               id="name"
               type="text"
               value={formData.name}
               onChange={(e) => handleFieldChange("name", e.target.value)}
-              className="border-border/50 focus:border-gold-500/50 min-h-[44px]"
+              className={cn(
+                "rounded-lg border transition-all duration-300 min-h-[44px]",
+                "focus:outline-none focus:ring-2 focus:ring-gold-500/50 focus:ring-offset-2 focus:border-gold-500/50",
+                isDark
+                  ? "bg-charcoal-900/50 border-charcoal-800/50 text-cream-100 placeholder:text-cream-200/40 focus:bg-charcoal-900/70"
+                  : "bg-background border-border/50 text-foreground placeholder:text-muted-foreground focus:bg-background"
+              )}
               required
               aria-label="Enter your full name"
             />
           </div>
 
-          <div>
-            <Label htmlFor="phone" className="font-heading font-light text-foreground mb-2 block text-sm md:text-base">
-              Phone Number
+          <div className="group">
+            <Label 
+              htmlFor="phone" 
+              className={cn(
+                "font-heading font-medium mb-2 block text-sm md:text-base transition-colors duration-300",
+                "group-focus-within:text-gold-600",
+                isDark ? "text-cream-200/90" : "text-foreground"
+              )}
+            >
+              Phone Number <span className="text-gold-600">*</span>
             </Label>
             <Input
               id="phone"
               type="tel"
               value={formData.phone}
               onChange={(e) => handleFieldChange("phone", e.target.value)}
-              className="border-border/50 focus:border-gold-500/50 min-h-[44px]"
+              className={cn(
+                "rounded-lg border transition-all duration-300 min-h-[44px]",
+                "focus:outline-none focus:ring-2 focus:ring-gold-500/50 focus:ring-offset-2 focus:border-gold-500/50",
+                isDark
+                  ? "bg-charcoal-900/50 border-charcoal-800/50 text-cream-100 placeholder:text-cream-200/40 focus:bg-charcoal-900/70"
+                  : "bg-background border-border/50 text-foreground placeholder:text-muted-foreground focus:bg-background"
+              )}
               placeholder="055 703 2312"
               required
               aria-label="Enter your phone number"
             />
           </div>
 
-          <div>
-            <Label htmlFor="email" className="font-heading font-light text-foreground mb-2 block text-sm md:text-base">
-              Email Address
+          <div className="group">
+            <Label 
+              htmlFor="email" 
+              className={cn(
+                "font-heading font-medium mb-2 block text-sm md:text-base transition-colors duration-300",
+                "group-focus-within:text-gold-600",
+                isDark ? "text-cream-200/90" : "text-foreground"
+              )}
+            >
+              Email Address <span className="text-gold-600">*</span>
             </Label>
             <Input
               id="email"
               type="email"
               value={formData.email}
               onChange={(e) => handleFieldChange("email", e.target.value)}
-              className="border-border/50 focus:border-gold-500/50 min-h-[44px]"
+              className={cn(
+                "rounded-lg border transition-all duration-300 min-h-[44px]",
+                "focus:outline-none focus:ring-2 focus:ring-gold-500/50 focus:ring-offset-2 focus:border-gold-500/50",
+                isDark
+                  ? "bg-charcoal-900/50 border-charcoal-800/50 text-cream-100 placeholder:text-cream-200/40 focus:bg-charcoal-900/70"
+                  : "bg-background border-border/50 text-foreground placeholder:text-muted-foreground focus:bg-background"
+              )}
               required
               aria-label="Enter your email address"
             />
           </div>
 
-          <div>
-            <Label htmlFor="specialRequests" className="font-heading font-light text-foreground mb-2 block text-sm md:text-base">
-              Special Requests (Optional)
+          <div className="group">
+            <Label 
+              htmlFor="specialRequests" 
+              className={cn(
+                "font-heading font-medium mb-2 block text-sm md:text-base transition-colors duration-300",
+                "group-focus-within:text-gold-600",
+                isDark ? "text-cream-200/90" : "text-foreground"
+              )}
+            >
+              Special Requests <span className="text-muted-foreground font-normal">(Optional)</span>
             </Label>
             <Textarea
               id="specialRequests"
               value={formData.specialRequests}
               onChange={(e) => handleFieldChange("specialRequests", e.target.value)}
-              className="border-border/50 focus:border-gold-500/50 min-h-[100px] resize-none"
+              className={cn(
+                "rounded-lg border min-h-[100px] resize-none transition-all duration-300",
+                "focus:outline-none focus:ring-2 focus:ring-gold-500/50 focus:ring-offset-2 focus:border-gold-500/50",
+                isDark
+                  ? "bg-charcoal-900/50 border-charcoal-800/50 text-cream-100 placeholder:text-cream-200/40 focus:bg-charcoal-900/70"
+                  : "bg-background border-border/50 text-foreground placeholder:text-muted-foreground focus:bg-background"
+              )}
               placeholder="Dietary restrictions, accessibility needs, or any other preferences..."
               aria-label="Enter any special requests"
             />
@@ -294,30 +444,60 @@ export function ReservationForm() {
         </div>
       )}
 
-      {/* Submit Button */}
+      {/* Submit Button - Premium */}
       <div className="pt-4">
         <Button
           type="submit"
           disabled={!isFormValid || isSubmitting}
+          variant="premium"
           size="lg"
-          className="w-full font-heading font-light tracking-wide bg-foreground text-background hover:bg-foreground/90 text-base md:text-lg px-8 py-3 md:py-4 min-h-[48px] md:min-h-[52px] disabled:opacity-50 disabled:cursor-not-allowed"
+          className={cn(
+            "w-full font-heading font-semibold tracking-wide text-base md:text-lg",
+            "px-8 py-3 md:py-4 min-h-[52px] md:min-h-[56px]",
+            "transition-all duration-300 hover:scale-[1.02] active:scale-[0.98]",
+            "shadow-xl hover:shadow-2xl hover:shadow-gold-500/30",
+            "disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
+          )}
         >
-          {isSubmitting ? "Confirming..." : "Confirm Reservation"}
+          {isSubmitting ? (
+            <span className="flex items-center justify-center gap-2">
+              <span className="w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin" />
+              Confirming...
+            </span>
+          ) : (
+            "Confirm Reservation"
+          )}
         </Button>
-        <p className="mt-3 text-xs md:text-sm text-muted-foreground font-body font-light text-center">
+        <p className={cn(
+          "mt-3 text-xs md:text-sm font-body font-light text-center transition-colors duration-300",
+          isDark ? "text-cream-200/60" : "text-muted-foreground"
+        )}>
           You&apos;ll receive a confirmation email shortly
         </p>
       </div>
 
       {/* Alternative Booking Options */}
-      <div className="pt-5 border-t border-border/50">
-        <p className="text-xs md:text-sm text-muted-foreground font-body font-light mb-4 text-center">
+      <div className={cn(
+        "pt-5 border-t transition-colors duration-300",
+        isDark ? "border-charcoal-800/50" : "border-border/50"
+      )}>
+        <p className={cn(
+          "text-xs md:text-sm font-body font-light mb-4 text-center transition-colors duration-300",
+          isDark ? "text-cream-200/70" : "text-muted-foreground"
+        )}>
           Prefer to book another way?
         </p>
         <div className="flex flex-col sm:flex-row gap-3 justify-center">
           <a
             href="tel:+233557032312"
-            className="flex items-center justify-center gap-2 px-5 py-2.5 rounded-lg border border-border/50 hover:border-gold-500/50 hover:bg-gold-500/5 transition-all text-sm font-body font-light min-h-[44px]"
+            className={cn(
+              "flex items-center justify-center gap-2 px-5 py-2.5 rounded-lg border transition-all duration-300",
+              "text-sm font-body font-medium min-h-[44px] touch-manipulation",
+              "hover:scale-105 active:scale-95",
+              isDark
+                ? "border-charcoal-700/50 text-cream-200/70 hover:border-gold-500/50 hover:bg-gold-500/10 hover:text-gold-400"
+                : "border-border/50 text-foreground hover:border-gold-500/50 hover:bg-gold-500/5"
+            )}
             aria-label="Call us to make a reservation"
           >
             <Phone className="h-4 w-4" />
@@ -327,7 +507,14 @@ export function ReservationForm() {
             href="https://wa.me/233557032312"
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center justify-center gap-2 px-5 py-2.5 rounded-lg border border-border/50 hover:border-gold-500/50 hover:bg-gold-500/5 transition-all text-sm font-body font-light min-h-[44px]"
+            className={cn(
+              "flex items-center justify-center gap-2 px-5 py-2.5 rounded-lg border transition-all duration-300",
+              "text-sm font-body font-medium min-h-[44px] touch-manipulation",
+              "hover:scale-105 active:scale-95",
+              isDark
+                ? "border-charcoal-700/50 text-cream-200/70 hover:border-gold-500/50 hover:bg-gold-500/10 hover:text-gold-400"
+                : "border-border/50 text-foreground hover:border-gold-500/50 hover:bg-gold-500/5"
+            )}
             aria-label="Reserve via WhatsApp"
           >
             <MessageCircle className="h-4 w-4" />
