@@ -76,8 +76,26 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 
 export function useTheme() {
   const context = useContext(ThemeContext)
+  
+  // During SSR or when context is not available, return safe defaults
   if (context === undefined) {
-    throw new Error("useTheme must be used within a ThemeProvider")
+    // Check if we're in a browser environment
+    if (typeof window !== "undefined") {
+      // In browser but no provider - this shouldn't happen, but provide fallback
+      const systemTheme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"
+      return {
+        theme: "system" as Theme,
+        setTheme: () => {},
+        resolvedTheme: systemTheme,
+      }
+    }
+    // During SSR, return light theme as default
+    return {
+      theme: "system" as Theme,
+      setTheme: () => {},
+      resolvedTheme: "light" as const,
+    }
   }
+  
   return context
 }
