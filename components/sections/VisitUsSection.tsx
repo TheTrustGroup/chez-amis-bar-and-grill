@@ -1,32 +1,15 @@
 "use client"
 
-import { useState, useEffect } from "react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { MapPin, Phone, Clock, Navigation, Calendar, UtensilsCrossed } from "lucide-react"
-
-const phones = [
-  { label: "Main Line", number: "055 703 2312" },
-  { label: "Reservations", number: "055 703 2335" },
-  { label: "WhatsApp", number: "024 395 2339" },
-  { label: "Events", number: "050 243 2037" },
-]
-
-function telHref(number: string) {
-  const digits = number.replace(/\s/g, "")
-  return `tel:+233${digits.slice(1)}`
-}
 import { cn } from "@/lib/utils"
 import { useTheme } from "@/lib/context/ThemeContext"
+import { PHONE_LINES, SITE_ADDRESS_LINES } from "@/lib/data/siteContact"
 
 export function VisitUsSection() {
-  const [isVisible, setIsVisible] = useState(false)
   const { resolvedTheme } = useTheme()
   const isDark = resolvedTheme === "dark"
-
-  useEffect(() => {
-    setIsVisible(true)
-  }, [])
 
   return (
     <section className={cn(
@@ -35,9 +18,7 @@ export function VisitUsSection() {
     )} aria-labelledby="visit-heading">
       <div className="section-shell-inner">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-          {/* Left: Interactive Google Map */}
           <div className="relative w-full h-[400px] md:h-[500px] lg:h-[600px] rounded-lg overflow-hidden shadow-2xl">
-            {/* Google Maps Embed */}
             <iframe
               src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3970.4955103223842!2d-0.14888879037757927!3d5.641201894316414!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xfdf84aa959debd3%3A0x19c03e87c6e69ecc!2sChez%20Amis%20Bar%20and%20Grill!5e0!3m2!1sen!2sgh!4v1765127088179!5m2!1sen!2sgh"
               width="100%"
@@ -50,9 +31,7 @@ export function VisitUsSection() {
               aria-label="Google Maps showing Chez Amis restaurant location"
               className="absolute inset-0"
             />
-            {/* Elegant border overlay */}
             <div className="absolute inset-0 border-2 border-terra-500/20 rounded-lg pointer-events-none"></div>
-            {/* Quick action button */}
             <a
               href="https://maps.google.com/?q=Chez+Amis+Bar+and+Grill+40+Boundary+Rd+Accra"
               target="_blank"
@@ -64,7 +43,6 @@ export function VisitUsSection() {
             </a>
           </div>
 
-          {/* Right: Contact Information */}
           <div className="space-y-8 md:space-y-10">
             <div>
               <h2
@@ -77,7 +55,6 @@ export function VisitUsSection() {
             </div>
 
             <div className="space-y-6 md:space-y-8">
-              {/* Address */}
               <div className="flex items-start gap-4">
                 <div className="flex-shrink-0 mt-1">
                   <MapPin className="h-6 w-6 text-terra-600" />
@@ -87,13 +64,12 @@ export function VisitUsSection() {
                     Address
                   </h3>
                   <p className="text-base md:text-lg text-muted-foreground font-body font-light leading-relaxed">
-                    40 Boundary Rd<br />
-                    Accra, Ghana
+                    {SITE_ADDRESS_LINES[0]}<br />
+                    {SITE_ADDRESS_LINES[1]}
                   </p>
                 </div>
               </div>
 
-              {/* Phone */}
               <div className="flex items-start gap-4">
                 <div className="flex-shrink-0 mt-1">
                   <Phone className="h-6 w-6 text-terra-600" />
@@ -103,10 +79,10 @@ export function VisitUsSection() {
                     Phone
                   </h3>
                   <div className="space-y-4">
-                    {phones.map((p) => (
+                    {PHONE_LINES.map((p) => (
                       <a
-                        key={p.label}
-                        href={telHref(p.number)}
+                        key={p.id}
+                        href={`tel:${p.tel}`}
                         className="flex items-start gap-3 group"
                       >
                         <Phone className="w-4 h-4 text-terra-500 mt-0.5 flex-shrink-0" aria-hidden />
@@ -115,7 +91,7 @@ export function VisitUsSection() {
                             {p.label}
                           </p>
                           <p className="text-base md:text-lg text-neutral-800 font-body group-hover:text-terra-500 transition-colors">
-                            {p.number}
+                            {p.display}
                           </p>
                         </div>
                       </a>
@@ -124,7 +100,6 @@ export function VisitUsSection() {
                 </div>
               </div>
 
-              {/* Hours */}
               <div className="flex items-start gap-4">
                 <div className="flex items-center gap-3">
                   <Clock className="w-5 h-5 text-terra-500 flex-shrink-0" aria-hidden />
@@ -146,12 +121,10 @@ export function VisitUsSection() {
               </div>
             </div>
 
-            {/* CTA Buttons - Premium */}
             <div className={cn(
               "flex flex-col sm:flex-row gap-4 md:gap-6 pt-6",
               "animate-fade-in-up"
             )} style={{ animationDelay: "0.4s" }}>
-              {/* Primary CTA - Make Reservation */}
               <Link href="/reservations" className="flex-1 sm:flex-none group/reserve">
                 <Button
                   variant="premium"
@@ -166,9 +139,8 @@ export function VisitUsSection() {
                   Make a Reservation
                 </Button>
               </Link>
-              
-              {/* Secondary CTA - Order Takeaway */}
-              <Link href="/order-summary" className="flex-1 sm:flex-none group/order">
+
+              <Link href="/menu" className="flex-1 sm:flex-none group/order">
                 <Button
                   size="lg"
                   variant="outline"
@@ -179,7 +151,7 @@ export function VisitUsSection() {
                       ? "border-terra-500/50 text-white bg-terra-500/5 hover:bg-terra-500/10 hover:border-terra-500/80 hover:shadow-lg hover:shadow-terra-500/20"
                       : "border-terra-500/60 text-foreground bg-transparent hover:bg-terra-500/5 hover:border-terra-500/80 hover:shadow-lg"
                   )}
-                  aria-label="Order Takeaway"
+                  aria-label="Browse menu to order"
                 >
                   <UtensilsCrossed className="h-5 w-5" />
                   Order Takeaway

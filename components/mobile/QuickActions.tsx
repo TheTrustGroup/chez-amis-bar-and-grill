@@ -1,10 +1,10 @@
 "use client"
 
-import Link from "next/link"
 import { Phone, MapPin } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 import { trackDirectionsClick, trackPhoneClick } from "@/lib/analytics"
+import { PRIMARY_PHONE } from "@/lib/data/siteContact"
 
 interface QuickActionsProps {
   variant?: "hero" | "floating" | "inline"
@@ -16,7 +16,7 @@ export function QuickActions({ variant = "inline", className }: QuickActionsProp
     {
       label: "Call Now",
       icon: Phone,
-      href: "tel:+233557032312",
+      href: `tel:${PRIMARY_PHONE.tel}`,
       action: "call",
       className: "bg-terra-600 text-white hover:bg-terra-700",
     },
@@ -34,7 +34,7 @@ export function QuickActions({ variant = "inline", className }: QuickActionsProp
       <div className={cn("fixed bottom-20 left-0 right-0 z-40 px-4 lg:hidden safe-area-bottom", className)}>
         <div className="flex gap-2 max-w-md mx-auto">
             <a
-              href="tel:+233557032312"
+              href={`tel:${PRIMARY_PHONE.tel}`}
               className="flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-lg bg-terra-600 text-white font-body font-light tracking-wide shadow-lg active:scale-95 transition-transform"
               aria-label="Call us now"
               onClick={() => trackPhoneClick("quick_actions_floating")}

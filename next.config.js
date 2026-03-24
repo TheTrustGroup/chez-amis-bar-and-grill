@@ -58,7 +58,12 @@ const nextConfig = {
       {
         source: '/order',
         destination: '/place-order',
-        permanent: false,
+        permanent: true,
+      },
+      {
+        source: '/order-summary',
+        destination: '/cart',
+        permanent: true,
       },
     ]
   },

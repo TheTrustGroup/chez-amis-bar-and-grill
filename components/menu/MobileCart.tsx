@@ -9,6 +9,7 @@ import { useCart } from "@/lib/hooks/useCart"
 import { formatPrice } from "@/lib/utils/formatting"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
+import { CHECKOUT_PATH } from "@/lib/data/siteContact"
 
 interface MobileCartProps {
   isOpen: boolean
@@ -169,7 +170,7 @@ export function MobileCart({ isOpen, onClose }: MobileCartProps) {
                 <Button
                   type="button"
                   onClick={() => {
-                    router.push("/place-order")
+                    router.push(CHECKOUT_PATH)
                     onClose()
                   }}
                   className="w-full bg-terra-500 text-white hover:bg-terra-600 min-h-[48px] shadow-[var(--shadow-terra)]"

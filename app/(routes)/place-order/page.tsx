@@ -9,14 +9,17 @@ import { GuestInformation } from "@/components/order/GuestInformation"
 import { PaymentSelector, type PaymentMethod } from "@/components/order/PaymentSelector"
 import { OrderSummary } from "@/components/order/OrderSummary"
 import { useCartContext } from "@/lib/context/CartContext"
-import { Shield, Lock } from "lucide-react"
+import { PAYMENT_ON_DELIVERY_ONLY } from "@/lib/config/payments"
+import { Shield, Lock, Banknote } from "lucide-react"
 
 export default function PlaceOrderPage() {
   const router = useRouter()
   const { items, getSubtotal, getTax, getDeliveryFee, getServiceCharge, getGrandTotal } = useCartContext()
   const [currentStep, setCurrentStep] = useState<1 | 2 | 3>(1)
   const [orderType, setOrderType] = useState<OrderType | null>(null)
-  const [paymentMethod, setPaymentMethod] = useState<PaymentMethod | null>(null)
+  const [paymentMethod, setPaymentMethod] = useState<PaymentMethod | null>(() =>
+    PAYMENT_ON_DELIVERY_ONLY ? "pay-later" : null
+  )
   const [formData, setFormData] = useState<Record<string, string>>({})
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitError, setSubmitError] = useState<string | null>(null)
@@ -282,14 +285,23 @@ export default function PlaceOrderPage() {
             <div className="pt-8 border-t border-border/50 space-y-6">
               {canProceedToStep3 && (
                 <>
-                  <div className="flex items-center gap-4 text-sm text-muted-foreground font-body font-light">
-                    <Shield className="h-4 w-4 shrink-0" aria-hidden />
-                    <span>Secure payment</span>
-                    <span className="text-border" aria-hidden>
-                      •
-                    </span>
-                    <Lock className="h-4 w-4 shrink-0" aria-hidden />
-                    <span>SSL encrypted</span>
+                  <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground font-body font-light">
+                    {PAYMENT_ON_DELIVERY_ONLY ? (
+                      <>
+                        <Banknote className="h-4 w-4 shrink-0" aria-hidden />
+                        <span>No online payment — pay when you receive your order</span>
+                      </>
+                    ) : (
+                      <>
+                        <Shield className="h-4 w-4 shrink-0" aria-hidden />
+                        <span>Secure payment</span>
+                        <span className="text-border" aria-hidden>
+                          •
+                        </span>
+                        <Lock className="h-4 w-4 shrink-0" aria-hidden />
+                        <span>SSL encrypted</span>
+                      </>
+                    )}
                   </div>
 
                   <p className="text-sm text-muted-foreground font-body font-light">

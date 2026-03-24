@@ -7,6 +7,7 @@ import { Phone, Instagram } from "lucide-react"
 import { SnapchatIcon } from "@/components/ui/snapchat-icon"
 import { useTheme } from "@/lib/context/ThemeContext"
 import { cn } from "@/lib/utils"
+import { PHONE_LINES } from "@/lib/data/siteContact"
 
 export default function ContactPage() {
   const { resolvedTheme } = useTheme()
@@ -173,34 +174,16 @@ export default function ContactPage() {
                 Prefer to call? We&apos;re just a phone call away
               </p>
               <div className="flex flex-wrap items-center justify-center gap-3">
-                <a
-                  href="tel:+233557032312"
-                  className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-lg border border-terra-500/60 text-foreground hover:bg-terra-500/10 transition-all font-body font-light tracking-wide text-base min-h-[48px]"
-                >
-                  <Phone className="h-5 w-5" />
-                  055 703 2312
-                </a>
-                <a
-                  href="tel:+233557032335"
-                  className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-lg border border-terra-500/60 text-foreground hover:bg-terra-500/10 transition-all font-body font-light tracking-wide text-base min-h-[48px]"
-                >
-                  <Phone className="h-5 w-5" />
-                  055 703 2335
-                </a>
-              <a
-                href="tel:+233243952339"
-                className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-lg border border-terra-500/60 text-foreground hover:bg-terra-500/10 transition-all font-body font-light tracking-wide text-base min-h-[48px]"
-              >
-                <Phone className="h-5 w-5" />
-                  024 395 2339
-                </a>
-                <a
-                  href="tel:+233502432037"
-                  className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-lg border border-terra-500/60 text-foreground hover:bg-terra-500/10 transition-all font-body font-light tracking-wide text-base min-h-[48px]"
-                >
-                  <Phone className="h-5 w-5" />
-                  050 243 2037
-              </a>
+                {PHONE_LINES.map((phone) => (
+                  <a
+                    key={phone.id}
+                    href={`tel:${phone.tel}`}
+                    className="inline-flex min-h-[48px] items-center justify-center gap-2 rounded-lg border border-terra-500/60 px-6 py-3 font-body text-base font-light tracking-wide text-foreground transition-all hover:bg-terra-500/10"
+                  >
+                    <Phone className="h-5 w-5 shrink-0" />
+                    {phone.display}
+                  </a>
+                ))}
               </div>
             </div>
           </div>

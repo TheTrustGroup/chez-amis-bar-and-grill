@@ -11,6 +11,7 @@ import {
   trackPhoneClick,
   trackReservationClick,
 } from "@/lib/analytics"
+import { CHECKOUT_PATH, FOOTER_PHONE_LINES, SITE_EMAIL } from "@/lib/data/siteContact"
 
 export function Footer() {
   const currentYear = new Date().getFullYear()
@@ -270,11 +271,8 @@ export function Footer() {
                     isDark ? "text-terra-400" : "text-terra-500"
                   )} />
                 </div>
-                <div className="space-y-1">
-                  {[
-                    { tel: "+233557032312", display: "055 703 2312" },
-                    { tel: "+233557032335", display: "055 703 2335" },
-                  ].map((phone) => (
+                <div className="min-w-0 space-y-1">
+                  {FOOTER_PHONE_LINES.map((phone) => (
                     <a
                       key={phone.tel}
                       href={`tel:${phone.tel}`}
@@ -309,18 +307,19 @@ export function Footer() {
                     isDark ? "text-terra-400" : "text-terra-500"
                   )} />
                 </div>
-                <div>
+                <div className="min-w-0 flex-1 max-w-full overflow-hidden">
                   <a
-                    href="mailto:chez@chezamisrestaurant.com"
+                    href={`mailto:${SITE_EMAIL}`}
                     className={cn(
-                      "text-sm md:text-base font-body font-light transition-colors duration-300 break-all",
+                      "block text-sm md:text-base font-body font-light transition-colors duration-300",
+                      "break-all [overflow-wrap:anywhere]",
                       "underline-offset-2 hover:underline",
                       isDark
                         ? "text-white/70 hover:text-terra-400"
                         : "text-white/60 hover:text-terra-500"
                     )}
                   >
-                    chez@chezamisrestaurant.com
+                    {SITE_EMAIL}
                   </a>
                 </div>
               </div>
@@ -366,7 +365,7 @@ export function Footer() {
                 Reserve a Table
               </Link>
               <Link
-                href="/order-summary"
+                href={CHECKOUT_PATH}
                 className={cn(
                   "flex items-center gap-2 text-sm font-body font-medium transition-all duration-300",
                   "px-4 py-2 rounded-lg min-h-[44px]",

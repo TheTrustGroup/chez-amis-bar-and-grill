@@ -2,18 +2,7 @@
 
 import { Phone, Mail, Clock } from "lucide-react"
 import { Card, CardContent } from "@/components/ui/card"
-
-const phones = [
-  { label: "Main Line", number: "055 703 2312" },
-  { label: "Reservations", number: "055 703 2335" },
-  { label: "WhatsApp", number: "024 395 2339" },
-  { label: "Events", number: "050 243 2037" },
-]
-
-function telHref(number: string) {
-  const digits = number.replace(/\s/g, "")
-  return `tel:+233${digits.slice(1)}`
-}
+import { PHONE_LINES, SITE_EMAIL } from "@/lib/data/siteContact"
 
 export function ContactInfo() {
   return (
@@ -31,10 +20,10 @@ export function ContactInfo() {
 
           <div className="space-y-5 flex-1">
             <div className="space-y-4">
-              {phones.map((p) => (
+              {PHONE_LINES.map((p) => (
                 <a
-                  key={p.label}
-                  href={telHref(p.number)}
+                  key={p.id}
+                  href={`tel:${p.tel}`}
                   className="flex items-start gap-3 group"
                 >
                   <Phone className="w-4 h-4 text-terra-500 mt-0.5 flex-shrink-0" aria-hidden />
@@ -43,7 +32,7 @@ export function ContactInfo() {
                       {p.label}
                     </p>
                     <p className="text-neutral-800 font-body group-hover:text-terra-500 transition-colors">
-                      {p.number}
+                      {p.display}
                     </p>
                   </div>
                 </a>
@@ -58,10 +47,10 @@ export function ContactInfo() {
                 </p>
               </div>
               <a
-                href="mailto:chez@chezamisrestaurant.com"
-                className="block text-base text-foreground font-body font-light hover:text-terra-600 transition-colors break-words mb-4"
+                href={`mailto:${SITE_EMAIL}`}
+                className="block text-base text-foreground font-body font-light hover:text-terra-600 transition-colors break-all mb-4"
               >
-                chez@chezamisrestaurant.com
+                {SITE_EMAIL}
               </a>
             </div>
           </div>

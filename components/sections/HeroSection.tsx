@@ -339,15 +339,14 @@ export function HeroSection() {
           </div>
 
           {/* Operating Hours Text - Proper spacing, won't overlap */}
-          <div 
+          <div
             className={cn(
-              "px-4 text-center w-full",
-              isMobile ? "mb-5" : "mb-6 md:mb-8",
-              "relative z-10"
+              "relative z-10 flex w-full flex-col items-center justify-center px-4",
+              isMobile ? "mb-5" : "mb-6 md:mb-8"
             )}
             style={{ animationDelay: "0.6s" }}
           >
-            <p className="text-center w-full text-white/70 font-body text-sm tracking-widest uppercase">
+            <p className="max-w-md text-balance text-center text-white/70 font-body text-sm tracking-widest uppercase">
               Walk-ins welcome &nbsp;·&nbsp; Open 24/7
             </p>
           </div>
@@ -372,8 +371,8 @@ export function HeroSection() {
         type="button"
         onClick={scrollToNext}
         className={cn(
-          "flex absolute bottom-8 md:bottom-24 left-1/2 transform -translate-x-1/2 z-10",
-          "flex-col items-center gap-3 text-terra-400",
+          "absolute left-1/2 z-10 flex -translate-x-1/2 transform flex-col items-center gap-3 text-terra-400",
+          "bottom-[calc(7rem+env(safe-area-inset-bottom,0px))] md:bottom-24",
           "hover:text-terra-300 transition-all duration-500",
           "focus:outline-none focus:ring-2 focus:ring-terra-400 focus:ring-offset-2 focus:ring-offset-transparent rounded-full p-2",
           "group animate-bounce"

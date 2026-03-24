@@ -16,6 +16,7 @@ import { useOrder } from "@/lib/hooks/useOrder"
 import { cn } from "@/lib/utils"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { useTheme } from "@/lib/context/ThemeContext"
+import { PHONE_DISPLAY_ALL, SITE_EMAIL } from "@/lib/data/siteContact"
 
 export default function MenuPage() {
   const [showMobileCart, setShowMobileCart] = useState(false)
@@ -610,7 +611,7 @@ export default function MenuPage() {
           type="button"
           onClick={() => setShowMobileCart(true)}
           className={cn(
-            "relative lg:hidden fixed bottom-20 right-4 z-40 flex h-14 w-14 items-center justify-center rounded-full shadow-lg",
+            "relative lg:hidden fixed bottom-[7.25rem] right-4 z-40 flex h-14 w-14 items-center justify-center rounded-full shadow-lg",
             "bg-terra-500 text-white hover:bg-terra-600 active:scale-95 transition-all duration-200",
             "shadow-[var(--shadow-terra)] focus:outline-none focus:ring-2 focus:ring-terra-500 focus:ring-offset-2"
           )}
@@ -632,14 +633,16 @@ export default function MenuPage() {
       {/* Print Header (hidden on screen) */}
       <div className="print-header hidden print:block">
         <h1>Chez Amis Bar and Grill</h1>
-        <p>40 Boundary Rd, Accra | +233 055 703 2312 / +233 055 703 2335 / +233 024 395 2339 / +233 050 243 2037</p>
+        <p>
+          40 Boundary Rd, Accra | {PHONE_DISPLAY_ALL}
+        </p>
         <p>We&apos;re Open 24/7</p>
       </div>
 
       {/* Print Footer (hidden on screen) */}
       <div className="print-footer hidden print:block">
         <p>For the most up-to-date menu and allergen information, please visit our website or contact us directly.</p>
-        <p>www.chezamisrestaurant.com | chez@chezamisrestaurant.com</p>
+        <p>www.chezamisrestaurant.com | {SITE_EMAIL}</p>
       </div>
     </div>
   )

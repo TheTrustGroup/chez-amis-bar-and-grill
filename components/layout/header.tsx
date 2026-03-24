@@ -13,6 +13,7 @@ import {
   trackOrderClick,
   trackReservationClick,
 } from "@/lib/analytics"
+import { CHECKOUT_PATH } from "@/lib/data/siteContact"
 
 const navItems = [
   { href: "/", label: "Home" },
@@ -153,16 +154,19 @@ export function Header() {
               })}
             </nav>
 
-            <div className="flex items-center gap-2 md:gap-3 flex-shrink-0">
+            <div className="flex items-center gap-1 sm:gap-2 md:gap-3 flex-shrink-0">
               <Link
                 href="/cart"
-                className="relative p-2 text-white/70 hover:text-white transition-colors"
+                className={cn(
+                  "relative hidden md:inline-flex h-12 w-12 items-center justify-center rounded-md",
+                  "text-white/70 hover:text-white hover:bg-white/10 transition-colors"
+                )}
                 aria-label="View cart"
                 onClick={() => trackCartOpen("header")}
               >
-                <ShoppingBag className="w-5 h-5" />
+                <ShoppingBag className="h-5 w-5" aria-hidden />
                 {cartCount > 0 && (
-                  <span className="absolute -top-0.5 -right-0.5 w-4 h-4 rounded-full bg-terra-500 text-white text-[10px] font-bold flex items-center justify-center">
+                  <span className="absolute top-1 right-1 min-w-[1rem] h-4 px-0.5 rounded-full bg-terra-500 text-white text-[10px] font-bold flex items-center justify-center">
                     {cartCount}
                   </span>
                 )}
@@ -179,8 +183,7 @@ export function Header() {
               <button
                 type="button"
                 className={cn(
-                  "md:hidden flex items-center justify-center w-12 h-12 rounded-md text-white hover:bg-white/10 transition-colors",
-                  "-mr-2"
+                  "flex h-12 w-12 shrink-0 items-center justify-center rounded-md text-white hover:bg-white/10 transition-colors md:hidden"
                 )}
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
                 aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
@@ -250,8 +253,8 @@ export function Header() {
                 Reserve a Table
               </Link>
               <Link
-                href="/order"
-                className="btn-accent w-full text-center mt-3"
+                href={CHECKOUT_PATH}
+                className="btn-accent mt-3 w-full text-center"
                 onClick={() => {
                   trackOrderClick("header_mobile_overlay")
                   setIsMobileMenuOpen(false)

@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { ShoppingBag, ArrowRight } from "lucide-react"
 import { useCartContext } from "@/lib/context/CartContext"
+import { CHECKOUT_PATH } from "@/lib/data/siteContact"
 
 export default function CartPage() {
   const { items, updateQuantity, removeFromCart, getSubtotal, getTax, getDeliveryFee, getGrandTotal } = useCartContext()
@@ -83,7 +84,7 @@ export default function CartPage() {
                     <span>Total</span>
                     <span>GH₵ {total.toFixed(2)}</span>
                   </div>
-                  <Link href="/place-order">
+                  <Link href={CHECKOUT_PATH}>
                     <Button className="w-full min-h-[48px] font-body font-light tracking-wide" size="lg">
                       Proceed to Checkout
                       <ArrowRight className="ml-2 h-4 w-4" />

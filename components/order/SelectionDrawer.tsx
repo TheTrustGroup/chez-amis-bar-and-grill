@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button"
 import { SelectionItem } from "./SelectionItem"
 import { useCartContext } from "@/lib/context/CartContext"
 import { cn } from "@/lib/utils"
+import { CHECKOUT_PATH } from "@/lib/data/siteContact"
 
 interface SelectionDrawerProps {
   isOpen: boolean
@@ -21,11 +22,9 @@ export function SelectionDrawer({ isOpen, onClose }: SelectionDrawerProps) {
   const total = getGrandTotal()
 
   const handlePlaceOrder = () => {
-    // Close drawer and navigate to place-order page for complete checkout
-    // place-order has order type selection, customer info, and payment
     onClose()
     if (typeof window !== "undefined") {
-      window.location.href = "/place-order"
+      window.location.href = CHECKOUT_PATH
     }
   }
 

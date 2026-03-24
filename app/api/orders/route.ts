@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { sendOrderConfirmation, sendAdminNotification } from '@/lib/services/notification.service'
 import { saveOrder, getAllOrders } from '@/lib/services/order-storage-persistent'
 import type { OrderData } from '@/lib/types/notifications'
+import { PAYMENT_ON_DELIVERY_ONLY } from '@/lib/config/payments'
 
 // Force dynamic rendering for real-time data
 export const dynamic = 'force-dynamic'
@@ -57,6 +58,13 @@ export async function POST(request: NextRequest) {
     if (!orderData.items || orderData.items.length === 0) {
       return NextResponse.json(
         { error: 'Order must contain at least one item' },
+        { status: 400 }
+      )
+    }
+
+    if (PAYMENT_ON_DELIVERY_ONLY && orderData.payment?.method !== 'pay-later') {
+      return NextResponse.json(
+        { error: 'Online payment is not enabled. Orders must use pay on delivery.' },
         { status: 400 }
       )
     }

@@ -1,4 +1,5 @@
 import type { MenuItem } from '@/lib/data/menuData'
+import { PHONE_LINES } from '@/lib/data/siteContact'
 import { SITE_URL } from '@/lib/seo/site'
 import { openingHoursSpecificationSchema } from '@/lib/utils/restaurantHours'
 
@@ -16,7 +17,7 @@ export function buildRestaurantJsonLd() {
     image: [`${SITE_URL}/images/og-image.jpg`],
     '@id': SITE_URL,
     url: SITE_URL,
-    telephone: ['+233557032312', '+233557032335'],
+    telephone: PHONE_LINES.map((p) => p.tel),
     priceRange: '$$$$',
     address: {
       '@type': 'PostalAddress',

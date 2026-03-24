@@ -39,7 +39,12 @@ export function ConditionalLayout({ children }: { children: React.ReactNode }) {
     <>
       <ScrollProgress />
       <Header />
-      <main id="main-content" className="min-h-screen pb-20 lg:pb-0">{children}</main>
+      <main
+        id="main-content"
+        className="min-h-screen pb-28 lg:pb-0"
+      >
+        {children}
+      </main>
       <Footer />
       <BottomNavigation />
     </>

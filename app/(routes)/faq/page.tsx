@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button"
 import { ArrowLeft, ChevronDown, ChevronUp } from "lucide-react"
 import { useTheme } from "@/lib/context/ThemeContext"
 import { cn } from "@/lib/utils"
+import { PHONE_DISPLAY_COMMA, SITE_EMAIL } from "@/lib/data/siteContact"
 
 export default function FAQPage() {
   const [openIndex, setOpenIndex] = useState<number | null>(0)
@@ -19,7 +20,7 @@ export default function FAQPage() {
     },
     {
       question: "Do you take reservations?",
-      answer: "Yes, we accept reservations. You can make a reservation online through our reservations page, call us at +233 055 703 2312, +233 055 703 2335, +233 024 395 2339, or +233 050 243 2037, or visit us in person. We also welcome walk-ins.",
+      answer: `Yes, we accept reservations. You can make a reservation online through our reservations page, call us at ${PHONE_DISPLAY_COMMA}, or visit us in person. We also welcome walk-ins.`,
     },
     {
       question: "What is Attieke?",
@@ -39,11 +40,12 @@ export default function FAQPage() {
     },
     {
       question: "Do you offer catering services?",
-      answer: "Yes, we provide catering services for events, corporate functions, and special occasions. We can customize menus to suit your needs. Minimum order is for 10 guests, and we recommend 48 hours advance notice. Contact us at chez@chezamisrestaurant.com or call us for more information.",
+      answer: `Yes, we provide catering services for events, corporate functions, and special occasions. We can customize menus to suit your needs. Minimum order is for 10 guests, and we recommend 48 hours advance notice. Contact us at ${SITE_EMAIL} or call us for more information.`,
     },
     {
       question: "What payment methods do you accept?",
-      answer: "We accept cash, mobile money, and card payments. For online orders, we accept mobile money and card payments.",
+      answer:
+        "We accept cash, mobile money, and card payments at the restaurant. For website orders, you pay when your order is delivered or when you pick it up—online payment is coming soon.",
     },
     {
       question: "Do you offer delivery or takeaway?",

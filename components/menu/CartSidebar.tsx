@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation"
 import { formatPrice } from "@/lib/utils/formatting"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
+import { CHECKOUT_PATH } from "@/lib/data/siteContact"
 
 export function CartSidebar() {
   const router = useRouter()
@@ -120,7 +121,7 @@ export function CartSidebar() {
             <div className="mt-5 space-y-2.5">
               <button
                 type="button"
-                onClick={() => router.push("/place-order")}
+                onClick={() => router.push(CHECKOUT_PATH)}
                 className="w-full min-h-[48px] rounded-full bg-terra-500 px-4 py-3 text-sm font-body font-medium uppercase tracking-widest text-white shadow-[var(--shadow-terra)] hover:bg-terra-600 transition-colors"
                 aria-label="Place your order"
               >
