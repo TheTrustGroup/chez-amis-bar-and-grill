@@ -12,11 +12,13 @@ interface SectionWrapperProps {
   animateOnScroll?: boolean
   animationDelay?: number
   background?: "light" | "dark" | "gradient" | "transparent"
+  /** When false, skip max-w-screen-xl inner (full-bleed content). Default true except hero. */
+  containWidth?: boolean
 }
 
 /**
- * Section wrapper component for consistent styling and animations
- * Provides modular structure with theme-aware backgrounds and subtle animations
+ * Sections follow the 3-layer rule: structure (flex-col → md:flex-row),
+ * spacing (mobile + md: only), overflow-hidden on the section shell.
  */
 export function SectionWrapper({
   children,
@@ -26,22 +28,26 @@ export function SectionWrapper({
   animateOnScroll = true,
   animationDelay = 0,
   background = "transparent",
+  containWidth,
 }: SectionWrapperProps) {
   const [isVisible, setIsVisible] = useState(false)
   const sectionRef = useRef<HTMLElement>(null)
   const { resolvedTheme } = useTheme()
   const isDark = resolvedTheme === "dark"
 
-  // Intersection Observer for scroll animations
+  const shouldContain =
+    containWidth ?? (variant !== "hero")
+
   useEffect(() => {
-    if (!animateOnScroll || !sectionRef.current) return
+    if (!animateOnScroll) return
+    const el = sectionRef.current
+    if (!el) return
 
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             setIsVisible(true)
-            // Unobserve after animation triggers
             observer.unobserve(entry.target)
           }
         })
@@ -52,32 +58,37 @@ export function SectionWrapper({
       }
     )
 
-    observer.observe(sectionRef.current)
+    observer.observe(el)
 
     return () => {
-      if (sectionRef.current) {
-        observer.unobserve(sectionRef.current)
-      }
+      observer.disconnect()
     }
   }, [animateOnScroll])
 
-  // Background variants
   const backgroundClasses = {
-    light: isDark ? "bg-charcoal-950" : "bg-background",
-    dark: isDark ? "bg-charcoal-900" : "bg-charcoal-900",
+    light: isDark ? "bg-green-700" : "bg-background",
+    dark: isDark ? "bg-green-600" : "bg-green-600",
     gradient: isDark
-      ? "bg-gradient-to-br from-charcoal-950 via-charcoal-900 to-burgundy-900"
-      : "bg-gradient-to-br from-cream-100 via-background to-cream-200",
+      ? "bg-gradient-to-br from-green-700 via-green-600 to-green-900"
+      : "bg-gradient-to-br from-neutral-50 via-background to-neutral-100",
     transparent: "bg-transparent",
   }
 
-  // Variant-specific classes
   const variantClasses = {
-    default: "section-padding",
-    hero: "min-h-screen flex items-center justify-center",
-    featured: "section-padding bg-gradient-to-br from-gold-500/5 via-transparent to-burgundy-500/5",
-    testimonial: "section-padding",
+    default: "section-shell",
+    /** Full-bleed; override min-height via className (e.g. min-h-[40vh] or min-h-screen) */
+    hero: "relative flex w-full items-center justify-center overflow-hidden",
+    featured: cn(
+      "section-shell bg-gradient-to-br from-terra-500/5 via-transparent to-green-500/5"
+    ),
+    testimonial: "section-shell",
   }
+
+  const content = shouldContain ? (
+    <div className="section-shell-inner">{children}</div>
+  ) : (
+    children
+  )
 
   return (
     <section
@@ -96,7 +107,7 @@ export function SectionWrapper({
         transitionDelay: `${animationDelay}ms`,
       }}
     >
-      {children}
+      {content}
     </section>
   )
 }

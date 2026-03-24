@@ -4,12 +4,12 @@ import { useState } from "react"
 import Image from "next/image"
 import { ChevronDown, ChevronUp, Plus } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { ExtendedMenuItem } from "@/lib/menuDataExtended"
+import { type MenuItem, dietaryLabelList } from "@/lib/data/menuData"
 import { cn } from "@/lib/utils"
 import { useCart } from "@/lib/hooks/useCart"
 
 interface MobileMenuCardProps {
-  item: ExtendedMenuItem
+  item: MenuItem
 }
 
 export function MobileMenuCard({ item }: MobileMenuCardProps) {
@@ -17,19 +17,7 @@ export function MobileMenuCard({ item }: MobileMenuCardProps) {
   const { addToCart } = useCart()
 
   const handleAddToOrder = () => {
-    // Convert ExtendedMenuItem to MenuItem format
-    const menuItem = {
-      id: item.id,
-      name: item.name,
-      description: item.description,
-      price: item.price,
-      category: item.category,
-      image: item.image,
-      tags: item.dietary || [],
-      available: item.available,
-      popular: item.chefRecommended,
-    }
-    addToCart(menuItem, 1, {})
+    addToCart(item, 1)
     // Haptic feedback (if supported)
     if (typeof window !== "undefined" && "vibrate" in navigator) {
       navigator.vibrate(50)
@@ -37,9 +25,9 @@ export function MobileMenuCard({ item }: MobileMenuCardProps) {
   }
 
   return (
-    <div className="bg-background border border-cream-200 rounded-lg overflow-hidden shadow-soft">
+    <div className="bg-background border border-neutral-100 rounded-lg overflow-hidden shadow-soft">
       <div
-        className="flex items-start gap-3 p-4 active:bg-cream-50 transition-colors"
+        className="flex items-start gap-3 p-4 active:bg-neutral-50 transition-colors"
         onClick={() => setIsExpanded(!isExpanded)}
         role="button"
         tabIndex={0}
@@ -52,9 +40,9 @@ export function MobileMenuCard({ item }: MobileMenuCardProps) {
         aria-expanded={isExpanded}
       >
         {/* Image */}
-        <div className="relative w-20 h-20 md:w-24 md:h-24 flex-shrink-0 rounded-md overflow-hidden border border-cream-200">
+        <div className="relative w-20 h-20 md:w-24 md:h-24 flex-shrink-0 rounded-md overflow-hidden border border-neutral-100">
           <Image
-            src={item.image || "/images/placeholder-food.jpg"}
+            src={item.image || "/images/placeholders/dish-placeholder.svg"}
             alt={item.name}
             fill
             sizes="(max-width: 768px) 80px, 96px"
@@ -67,18 +55,18 @@ export function MobileMenuCard({ item }: MobileMenuCardProps) {
         <div className="flex-1 min-w-0">
           <div className="flex items-start justify-between gap-2">
             <div className="flex-1 min-w-0">
-              <h3 className="font-heading text-base font-medium text-foreground leading-tight mb-1">
+              <h3 className="font-body text-base font-medium text-foreground leading-tight mb-1">
                 {item.name}
               </h3>
-              <p className="font-display text-lg font-light text-gold-600">
+              <p className="font-display text-lg font-light text-terra-600">
                 GH₵ {item.price.toFixed(2)}
               </p>
             </div>
             <button
               className={cn(
                 "p-1 rounded-full transition-colors flex-shrink-0",
-                "active:bg-cream-200",
-                isExpanded ? "text-gold-600" : "text-muted-foreground"
+                "active:bg-neutral-100",
+                isExpanded ? "text-terra-600" : "text-muted-foreground"
               )}
               onClick={(e) => {
                 e.stopPropagation()
@@ -98,19 +86,19 @@ export function MobileMenuCard({ item }: MobileMenuCardProps) {
 
       {/* Expanded Content */}
       {isExpanded && (
-        <div className="px-4 pb-4 space-y-4 border-t border-cream-200 animate-fade-in">
+        <div className="px-4 pb-4 space-y-4 border-t border-neutral-100 animate-fade-in">
           {item.description && (
             <p className="text-sm text-muted-foreground font-body font-light leading-relaxed pt-3">
               {item.description}
             </p>
           )}
 
-          {item.dietary && item.dietary.length > 0 && (
+          {dietaryLabelList(item.dietary).length > 0 && (
             <div className="flex flex-wrap gap-2">
-              {item.dietary.map((diet, index) => (
+              {dietaryLabelList(item.dietary).map((diet, index) => (
                 <span
                   key={index}
-                  className="px-2 py-1 rounded-full text-xs font-body font-light bg-cream-50 border border-cream-200 text-muted-foreground"
+                  className="px-2 py-1 rounded-full text-xs font-body font-light bg-neutral-50 border border-neutral-100 text-muted-foreground"
                 >
                   {diet}
                 </span>
@@ -123,7 +111,7 @@ export function MobileMenuCard({ item }: MobileMenuCardProps) {
               e.stopPropagation()
               handleAddToOrder()
             }}
-            className="w-full bg-foreground text-background hover:bg-foreground/90 font-heading font-light tracking-wide h-12"
+            className="w-full bg-foreground text-background hover:bg-foreground/90 font-body font-light tracking-wide h-12"
             size="lg"
           >
             <Plus className="h-5 w-5 mr-2" />

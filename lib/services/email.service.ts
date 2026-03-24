@@ -90,3 +90,48 @@ export async function sendEmail({ to, subject, template, data }: SendEmailParams
   }
 }
 
+/**
+ * Send arbitrary HTML email (contact form, event inquiries, newsletter, etc.)
+ */
+export async function sendHtmlEmail(params: {
+  to: string
+  subject: string
+  html: string
+  replyTo?: string
+}): Promise<void> {
+  const apiKey = process.env.RESEND_API_KEY
+  if (!apiKey) {
+    const errorMsg = 'Email service not configured: RESEND_API_KEY is missing'
+    console.error('❌', errorMsg)
+    if (process.env.NODE_ENV === 'development') {
+      console.log('📧 [DEV] Would send HTML email to:', params.to, params.subject)
+      return
+    }
+    throw new Error(errorMsg)
+  }
+
+  const body: Record<string, unknown> = {
+    from: process.env.RESEND_FROM_EMAIL || 'Chez Amis <noreply@chezamisrestaurant.com>',
+    to: [params.to],
+    subject: params.subject,
+    html: params.html,
+  }
+  if (params.replyTo) {
+    body.reply_to = params.replyTo
+  }
+
+  const response = await fetch('https://api.resend.com/emails', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${apiKey}`,
+    },
+    body: JSON.stringify(body),
+  })
+
+  if (!response.ok) {
+    const err = await response.json().catch(() => ({}))
+    throw new Error(`Failed to send email: ${(err as { message?: string }).message || 'Unknown error'}`)
+  }
+}
+

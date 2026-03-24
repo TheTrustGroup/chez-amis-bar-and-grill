@@ -5,13 +5,13 @@ import { Play } from "lucide-react"
 
 export function BehindTheScenesSection() {
   return (
-    <section className="section-padding bg-cream-50">
-      <div className="container-custom">
+    <section className="section-shell bg-neutral-50">
+      <div className="section-shell-inner">
         <div className="text-center mb-10 md:mb-12">
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-light text-foreground mb-4">
+          <h2 className="section-title text-foreground mb-4">
             Behind the Scenes
           </h2>
-          <div className="w-20 h-px bg-gold-500 mx-auto mb-4" />
+          <div className="w-20 h-px bg-terra-500 mx-auto mb-4" />
           <p className="text-lg md:text-xl text-muted-foreground font-body font-light max-w-2xl mx-auto">
             Step into our kitchen and see the passion, precision, and artistry that goes into every dish
           </p>
@@ -19,18 +19,18 @@ export function BehindTheScenesSection() {
 
         {/* Video Feature */}
         <div className="mb-12 md:mb-16">
-          <div className="relative aspect-video rounded-xl overflow-hidden shadow-2xl bg-charcoal-900">
+          <div className="relative aspect-video rounded-xl overflow-hidden shadow-2xl bg-green-600">
             {/* Placeholder for video - replace with actual video when available */}
             <div className="absolute inset-0 flex items-center justify-center">
-              <div className="text-center text-cream-100">
+              <div className="text-center text-white">
                 <Play className="w-16 h-16 mx-auto mb-4 opacity-50" />
                 <p className="font-body font-light">Cooking video coming soon</p>
               </div>
             </div>
-            {/* Uncomment when video is available:
+            {/* Uncomment when a dedicated hero cooking clip is ready:
             <video
-              src="/media/videos/cooking/chef-preparing-dishes.mp4"
-              poster="/media/videos/cooking/chef-preparing-dishes-poster.jpg"
+              src="/media/videos/filtered-a59206d7-3709-4278-9712-9f5b1f6dc8bf.mp4"
+              poster="/images/placeholders/video-placeholder.svg"
               controls
               className="w-full h-full object-cover"
             />
@@ -45,19 +45,19 @@ export function BehindTheScenesSection() {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {[
             {
-              src: "/media/images/team/chef-at-work-1.jpg",
+              src: "/media/images/img-8209.jpg",
               alt: "Chef preparing ingredients",
             },
             {
-              src: "/media/images/team/kitchen-action-1.jpg",
+              src: "/media/images/img-6740.jpg",
               alt: "Kitchen in action",
             },
             {
-              src: "/media/images/team/plating-dish.jpg",
+              src: "/media/images/img-7189.jpg",
               alt: "Plating a dish",
             },
             {
-              src: "/media/images/team/team-photo.jpg",
+              src: "/media/images/img-8021.jpg",
               alt: "Our culinary team",
             },
           ].map((photo, index) => (

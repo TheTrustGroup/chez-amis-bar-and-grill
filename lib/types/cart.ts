@@ -1,4 +1,4 @@
-import { MenuItem } from "@/lib/menuData"
+import type { MenuItem } from "@/lib/data/menuData"
 
 export interface CartCustomizations {
   size?: string
@@ -12,6 +12,7 @@ export interface CartItem {
   quantity: number
   customizations?: CartCustomizations
   subtotal: number
+  specialInstructions?: string
 }
 
 export interface CartContextType {

@@ -2,8 +2,8 @@
 
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
-import { categories } from "@/lib/menuData"
-import { MenuItem } from "@/lib/menuData"
+import type { MenuItem } from "@/lib/data/menuData"
+import { menuFilterCategories } from "@/lib/data/menuData"
 
 interface CategoryFilterProps {
   selectedCategory: string
@@ -26,7 +26,7 @@ export function CategoryFilter({
       {/* Horizontal Scrollable Container */}
       <div className="overflow-x-auto scrollbar-hide pb-2">
         <div className="flex gap-2 md:gap-3 min-w-max md:min-w-0 md:flex-wrap md:justify-center px-1">
-          {categories.map((category) => {
+          {menuFilterCategories.map((category) => {
             const count = getItemCount(category.value)
             const isActive = selectedCategory === category.value
 

@@ -6,18 +6,18 @@ import { ArrowLeft } from "lucide-react"
 
 export default function PrivacyPolicyPage() {
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-neutral-50 dark:bg-green-700 transition-colors">
       {/* Hero Section */}
-      <section className="section-padding bg-gradient-to-b from-charcoal-900 via-charcoal-800 to-charcoal-900 text-cream-100">
-        <div className="container-custom">
+      <section className="section-shell bg-gradient-to-b from-green-600 via-green-700 to-green-600 text-white">
+        <div className="section-shell-inner">
           <div className="max-w-3xl mx-auto text-center space-y-6">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-light">
+            <h1 className="hero-title tracking-tight">
               Privacy Policy
             </h1>
-            <p className="text-lg md:text-xl font-body font-light text-cream-200/80">
+            <p className="text-lg md:text-xl font-body font-light text-white/80">
               Your privacy is important to us
             </p>
-            <p className="text-sm font-body font-light text-cream-200/60">
+            <p className="text-sm font-body font-light text-white/60">
               Last updated: {new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
             </p>
           </div>
@@ -25,13 +25,13 @@ export default function PrivacyPolicyPage() {
       </section>
 
       {/* Main Content */}
-      <section className="section-padding">
-        <div className="container-custom">
-          <div className="max-w-4xl mx-auto prose prose-lg max-w-none">
-            <div className="bg-cream-50 rounded-lg border border-charcoal-200/20 p-8 md:p-12 space-y-8">
+      <section className="section-shell">
+        <div className="section-shell-inner">
+          <div className="max-w-4xl mx-auto">
+            <div className="prose prose-lg max-w-none dark:prose-invert rounded-sm border border-border/30 bg-neutral-50 dark:bg-green-600/40 dark:border-green-700/50 p-8 md:p-12 space-y-8">
               <div className="space-y-6 text-muted-foreground font-body font-light leading-relaxed">
                 <div>
-                  <h2 className="text-2xl md:text-3xl font-display font-light text-foreground mb-4">
+                  <h2 className="text-2xl md:text-3xl font-display font-light text-neutral-900 dark:text-white mb-4">
                     Introduction
                   </h2>
                   <p>
@@ -40,7 +40,7 @@ export default function PrivacyPolicyPage() {
                 </div>
 
                 <div>
-                  <h2 className="text-2xl md:text-3xl font-display font-light text-foreground mb-4">
+                  <h2 className="text-2xl md:text-3xl font-display font-light text-neutral-900 dark:text-white mb-4">
                     Information We Collect
                   </h2>
                   <p className="mb-4">We may collect information about you in various ways:</p>
@@ -61,7 +61,7 @@ export default function PrivacyPolicyPage() {
                 </div>
 
                 <div>
-                  <h2 className="text-2xl md:text-3xl font-display font-light text-foreground mb-4">
+                  <h2 className="text-2xl md:text-3xl font-display font-light text-neutral-900 dark:text-white mb-4">
                     How We Use Your Information
                   </h2>
                   <p className="mb-4">We use the information we collect to:</p>
@@ -76,7 +76,7 @@ export default function PrivacyPolicyPage() {
                 </div>
 
                 <div>
-                  <h2 className="text-2xl md:text-3xl font-display font-light text-foreground mb-4">
+                  <h2 className="text-2xl md:text-3xl font-display font-light text-neutral-900 dark:text-white mb-4">
                     Information Sharing and Disclosure
                   </h2>
                   <p>
@@ -91,7 +91,7 @@ export default function PrivacyPolicyPage() {
                 </div>
 
                 <div>
-                  <h2 className="text-2xl md:text-3xl font-display font-light text-foreground mb-4">
+                  <h2 className="text-2xl md:text-3xl font-display font-light text-neutral-900 dark:text-white mb-4">
                     Data Security
                   </h2>
                   <p>
@@ -100,7 +100,7 @@ export default function PrivacyPolicyPage() {
                 </div>
 
                 <div>
-                  <h2 className="text-2xl md:text-3xl font-display font-light text-foreground mb-4">
+                  <h2 className="text-2xl md:text-3xl font-display font-light text-neutral-900 dark:text-white mb-4">
                     Your Rights
                   </h2>
                   <p className="mb-4">You have the right to:</p>
@@ -114,7 +114,7 @@ export default function PrivacyPolicyPage() {
                 </div>
 
                 <div>
-                  <h2 className="text-2xl md:text-3xl font-display font-light text-foreground mb-4">
+                  <h2 className="text-2xl md:text-3xl font-display font-light text-neutral-900 dark:text-white mb-4">
                     Cookies
                   </h2>
                   <p>
@@ -123,7 +123,7 @@ export default function PrivacyPolicyPage() {
                 </div>
 
                 <div>
-                  <h2 className="text-2xl md:text-3xl font-display font-light text-foreground mb-4">
+                  <h2 className="text-2xl md:text-3xl font-display font-light text-neutral-900 dark:text-white mb-4">
                     Third-Party Links
                   </h2>
                   <p>
@@ -132,7 +132,7 @@ export default function PrivacyPolicyPage() {
                 </div>
 
                 <div>
-                  <h2 className="text-2xl md:text-3xl font-display font-light text-foreground mb-4">
+                  <h2 className="text-2xl md:text-3xl font-display font-light text-neutral-900 dark:text-white mb-4">
                     Children&apos;s Privacy
                   </h2>
                   <p>
@@ -141,7 +141,7 @@ export default function PrivacyPolicyPage() {
                 </div>
 
                 <div>
-                  <h2 className="text-2xl md:text-3xl font-display font-light text-foreground mb-4">
+                  <h2 className="text-2xl md:text-3xl font-display font-light text-neutral-900 dark:text-white mb-4">
                     Changes to This Privacy Policy
                   </h2>
                   <p>
@@ -150,20 +150,20 @@ export default function PrivacyPolicyPage() {
                 </div>
 
                 <div>
-                  <h2 className="text-2xl md:text-3xl font-display font-light text-foreground mb-4">
+                  <h2 className="text-2xl md:text-3xl font-display font-light text-neutral-900 dark:text-white mb-4">
                     Contact Us
                   </h2>
                   <p className="mb-4">
                     If you have questions about this Privacy Policy or wish to exercise your rights, please contact us:
                   </p>
-                  <div className="bg-charcoal-900/5 rounded-lg p-6 space-y-2 text-foreground">
+                  <div className="bg-green-600/5 rounded-lg p-6 space-y-2 text-foreground">
                     <p><strong>Chez Amis Bar and Grill</strong></p>
                     <p>40 Boundary Rd, Accra, Ghana</p>
                     <p>
-                      Email: <a href="mailto:chez@chezamisrestaurant.com" className="text-gold-600 hover:text-gold-700 underline">chez@chezamisrestaurant.com</a>
+                      Email: <a href="mailto:chez@chezamisrestaurant.com" className="text-terra-600 hover:text-terra-700 underline">chez@chezamisrestaurant.com</a>
                     </p>
                     <p>
-                      Phone: <a href="tel:+233557032312" className="text-gold-600 hover:text-gold-700 underline">055 703 2312</a> / <a href="tel:+233557032335" className="text-gold-600 hover:text-gold-700 underline">055 703 2335</a> / <a href="tel:+233243952339" className="text-gold-600 hover:text-gold-700 underline">024 395 2339</a> / <a href="tel:+233502432037" className="text-gold-600 hover:text-gold-700 underline">050 243 2037</a>
+                      Phone: <a href="tel:+233557032312" className="text-terra-600 hover:text-terra-700 underline">055 703 2312</a> / <a href="tel:+233557032335" className="text-terra-600 hover:text-terra-700 underline">055 703 2335</a> / <a href="tel:+233243952339" className="text-terra-600 hover:text-terra-700 underline">024 395 2339</a> / <a href="tel:+233502432037" className="text-terra-600 hover:text-terra-700 underline">050 243 2037</a>
                     </p>
                   </div>
                 </div>
@@ -175,7 +175,7 @@ export default function PrivacyPolicyPage() {
               <Link href="/">
                 <Button
                   variant="outline"
-                  className="group border-2 border-foreground/20 text-foreground hover:bg-foreground/5 hover:border-foreground/40 font-heading font-light tracking-wide"
+                  className="group border-2 border-foreground/20 text-foreground hover:bg-foreground/5 hover:border-foreground/40 font-body font-light tracking-wide"
                 >
                   <ArrowLeft className="mr-2 h-4 w-4 transition-transform group-hover:-translate-x-1" />
                   Back to Home

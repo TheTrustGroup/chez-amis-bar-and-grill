@@ -2,7 +2,7 @@
 
 import { useCallback } from "react"
 import { useCartContext } from "@/lib/context/CartContext"
-import { MenuItem } from "@/lib/menuData"
+import type { MenuItem } from "@/lib/data/menuData"
 import { CartCustomizations } from "@/lib/types/cart"
 
 // Toast notification system

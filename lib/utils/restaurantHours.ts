@@ -42,6 +42,26 @@ export function getRestaurantHours(): string {
   return '9:30 AM - 12:00 AM'
 }
 
+const DAYS = [
+  'Monday',
+  'Tuesday',
+  'Wednesday',
+  'Thursday',
+  'Friday',
+  'Saturday',
+  'Sunday',
+] as const
+
+/** JSON-LD OpeningHoursSpecification (9:30–midnight daily) */
+export const openingHoursSpecificationSchema = [
+  {
+    '@type': 'OpeningHoursSpecification',
+    dayOfWeek: [...DAYS],
+    opens: '09:30',
+    closes: '00:00',
+  },
+]
+
 /**
  * Get current status text
  */

@@ -3,6 +3,8 @@
 import { ImageWithFallback } from "@/components/ui/image-with-fallback"
 import { Coffee, Droplets, Beer, Wine, GlassWater, Sparkles, ThermometerSun, Snowflake } from "lucide-react"
 import { Beverage } from "@/lib/types/beverage"
+import type { MenuItem } from "@/lib/data/menuData"
+import { DISH_PLACEHOLDER } from "@/lib/data/menuData"
 import { useOrder } from "@/lib/hooks/useOrder"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
@@ -34,20 +36,26 @@ export function BeverageCard({ beverage }: BeverageCardProps) {
   const { handleAddToOrder } = useOrder()
 
   const handleAddToOrderClick = () => {
-    // Convert Beverage to cart format
-    const cartItem = {
+    const menuItem: MenuItem = {
       id: beverage.id,
       name: beverage.name,
       description: beverage.description,
       price: beverage.price,
       category: beverage.category,
-      image: beverage.image || "/images/beverages/placeholder.jpg",
-      tags: beverage.tags || [],
+      subcategory: beverage.servingSize,
+      image: beverage.image || DISH_PLACEHOLDER,
+      allergens: [],
+      dietary: {
+        vegan: beverage.dietary?.includes("vegan") ?? false,
+        vegetarian: beverage.dietary?.includes("vegetarian") ?? false,
+        glutenFree: beverage.dietary?.includes("gluten-free") ?? false,
+      },
+      featured: beverage.tags?.includes("bestseller") ?? false,
       available: beverage.available !== false,
-      popular: false,
+      tags: beverage.tags,
     }
 
-    handleAddToOrder(cartItem, 1)
+    handleAddToOrder(menuItem, 1)
   }
 
   return (
@@ -58,7 +66,7 @@ export function BeverageCard({ beverage }: BeverageCardProps) {
           <div className="text-amber-600 group-hover:text-amber-700 transition-colors">
             {categoryIcons[beverage.category] || <GlassWater className="w-5 h-5" />}
           </div>
-          <h4 className="text-lg font-serif text-gray-900">{beverage.name}</h4>
+          <h4 className="text-lg font-display text-gray-900">{beverage.name}</h4>
         </div>
         <span className="text-lg font-medium text-amber-700">
           GH₵ {beverage.price.toFixed(2)}
@@ -79,7 +87,7 @@ export function BeverageCard({ beverage }: BeverageCardProps) {
             fill
             className="object-contain p-2"
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-            fallbackSrc="/images/beverages/placeholder-bottle.jpg"
+            fallbackSrc="/images/placeholders/dish-placeholder.svg"
           />
         </div>
       ) : null}

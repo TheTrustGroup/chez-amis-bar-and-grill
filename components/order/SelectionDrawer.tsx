@@ -62,7 +62,7 @@ export function SelectionDrawer({ isOpen, onClose }: SelectionDrawerProps) {
             </h2>
             <button
               onClick={onClose}
-              className="p-2 rounded-sm hover:bg-muted transition-colors focus:outline-none focus:ring-2 focus:ring-gold-500 focus:ring-offset-2"
+              className="p-2 rounded-sm hover:bg-muted transition-colors focus:outline-none focus:ring-2 focus:ring-terra-500 focus:ring-offset-2"
               aria-label="Close selection drawer"
             >
               <X className="h-5 w-5" />
@@ -74,7 +74,7 @@ export function SelectionDrawer({ isOpen, onClose }: SelectionDrawerProps) {
             {items.length === 0 ? (
               /* Empty State */
               <div className="flex flex-col items-center justify-center h-full p-8 text-center">
-                <div className="w-24 h-24 rounded-full bg-cream-50 flex items-center justify-center mb-6">
+                <div className="w-24 h-24 rounded-full bg-neutral-50 flex items-center justify-center mb-6">
                   <ShoppingBag className="h-12 w-12 text-muted-foreground/50" />
                 </div>
                 <h3 className="text-xl font-display font-light text-foreground mb-2">
@@ -86,7 +86,7 @@ export function SelectionDrawer({ isOpen, onClose }: SelectionDrawerProps) {
                 <Link href="/menu" onClick={onClose}>
                   <Button
                     variant="outline"
-                    className="font-heading font-light tracking-wide border-gold-500/60"
+                    className="font-body font-light tracking-wide border-terra-500/60"
                   >
                     View Menu
                   </Button>
@@ -118,7 +118,7 @@ export function SelectionDrawer({ isOpen, onClose }: SelectionDrawerProps) {
 
           {/* Footer - Order Summary */}
           {items.length > 0 && (
-            <div className="border-t border-border/50 bg-cream-50 p-6 space-y-4">
+            <div className="border-t border-border/50 bg-neutral-50 p-6 space-y-4">
               <div className="space-y-2 text-sm">
                 <div className="flex justify-between">
                   <span className="text-muted-foreground font-body font-light">Subtotal</span>
@@ -145,7 +145,7 @@ export function SelectionDrawer({ isOpen, onClose }: SelectionDrawerProps) {
               <div className="space-y-3">
                 <Button
                   onClick={handlePlaceOrder}
-                  className="w-full font-heading font-light tracking-wide bg-foreground text-background hover:bg-foreground/90"
+                  className="w-full font-body font-light tracking-wide bg-foreground text-background hover:bg-foreground/90"
                   size="lg"
                 >
                   Proceed to Checkout
@@ -153,7 +153,7 @@ export function SelectionDrawer({ isOpen, onClose }: SelectionDrawerProps) {
                 <Link href="/menu" onClick={onClose} className="block">
                   <Button
                     variant="ghost"
-                    className="w-full font-heading font-light tracking-wide text-muted-foreground hover:text-foreground"
+                    className="w-full font-body font-light tracking-wide text-muted-foreground hover:text-foreground"
                   >
                     Continue Browsing Menu
                   </Button>

@@ -1,27 +1,118 @@
+import {
+  legacyExtendedMenuItems,
+  legacyExtendedCategoryLabels,
+} from './extendedMenuImport'
+
+/** Single source of truth for menu items — cart, menu UI, and admin */
 export interface MenuItem {
   id: string
   name: string
   description: string
-  price?: number // Optional if portionSizes is used
+  price: number
   category: string
-  image?: string
-  dietary?: ('vegetarian' | 'vegan' | 'gluten-free' | 'dairy-free')[]
-  spicyLevel?: 0 | 1 | 2 | 3 // 0 = not spicy, 3 = very spicy
+  subcategory?: string
+  image: string
+  allergens?: string[]
+  dietary: {
+    vegan: boolean
+    vegetarian: boolean
+    glutenFree: boolean
+  }
+  featured: boolean
+  available: boolean
+  /** Optional extras for cart & filters */
+  portionSizes?: { size: string; price: number }[]
+  spicyLevel?: 0 | 1 | 2 | 3
   tags?: ('signature' | 'chef-special' | 'bestseller' | 'new' | 'house-favorite')[]
-  available?: boolean
-  portionSizes?: {
-    size: string
-    price: number
-  }[]
   pairingSuggestion?: string
-  preparationTime?: string // e.g., "15-20 minutes"
+  preparation?: string
+  preparationTime?: string
 }
+
+export const DISH_PLACEHOLDER = '/images/placeholders/dish-placeholder.svg'
 
 export interface MenuCategory {
   id: string
   name: string
   description?: string
   items: MenuItem[]
+}
+
+/** Legacy row shape before normalization (dietary may be string[] from data file) */
+type MenuItemRow = Omit<MenuItem, 'dietary' | 'featured' | 'price' | 'image'> &
+  Partial<Pick<MenuItem, 'dietary' | 'featured' | 'price' | 'image'>> & {
+    dietary?: MenuItem['dietary'] | ('vegetarian' | 'vegan' | 'gluten-free' | 'dairy-free' | 'spicy')[]
+  }
+
+export function normalizeMenuItem(row: MenuItemRow): MenuItem {
+  let dietary: MenuItem['dietary'] = {
+    vegan: false,
+    vegetarian: false,
+    glutenFree: false,
+  }
+  if (Array.isArray(row.dietary)) {
+    dietary = {
+      vegan: row.dietary.includes('vegan'),
+      vegetarian: row.dietary.includes('vegetarian'),
+      glutenFree: row.dietary.includes('gluten-free'),
+    }
+  } else if (row.dietary && typeof row.dietary === 'object') {
+    dietary = {
+      vegan: Boolean(row.dietary.vegan),
+      vegetarian: Boolean(row.dietary.vegetarian),
+      glutenFree: Boolean(row.dietary.glutenFree),
+    }
+  }
+
+  const price =
+    row.price ??
+    row.portionSizes?.[0]?.price ??
+    0
+
+  return {
+    ...row,
+    price,
+    image: row.image ?? DISH_PLACEHOLDER,
+    allergens: row.allergens ?? [],
+    dietary,
+    featured: row.featured ?? false,
+    available: row.available ?? true,
+  }
+}
+
+export function dietaryLabelList(d: MenuItem['dietary']): string[] {
+  const out: string[] = []
+  if (d.vegetarian) out.push('Vegetarian')
+  if (d.vegan) out.push('Vegan')
+  if (d.glutenFree) out.push('Gluten-free')
+  return out
+}
+
+export function itemMatchesDietaryFilters(item: MenuItem, filters: string[]): boolean {
+  if (filters.length === 0) return true
+  const d = item.dietary
+  if (!d) return false
+  return filters.some((f) => {
+    if (f === 'vegetarian') return d.vegetarian
+    if (f === 'vegan') return d.vegan
+    if (f === 'gluten-free') return d.glutenFree
+    return false
+  })
+}
+
+/** Unit price for cart / checkout (respects portion selection) */
+export function resolveMenuItemUnitPrice(
+  item: MenuItem,
+  customizations?: { size?: string },
+): number {
+  if (customizations?.size && item.portionSizes?.length) {
+    const match = item.portionSizes.find((p) => p.size === customizations.size)
+    if (match) return match.price
+  }
+  if (item.portionSizes && item.portionSizes.length > 0) {
+    return item.portionSizes[0].price
+  }
+  return item.price
 }
 
 // Helper function to generate menu items with proteins
@@ -98,28 +189,37 @@ const createProteinVariations = (
       enhancedDescription = `${baseDescription}, served with ${protein.name.toLowerCase()}.`
     }
     
+    const veg = protein.name.toLowerCase().includes('vegetable')
+    const basePrice =
+      protein.portionSizes && protein.portionSizes.length > 0
+        ? protein.portionSizes[0].price
+        : protein.price
+
     return {
       id: `${baseName.toLowerCase().replace(/\s+/g, '-')}-${protein.name.toLowerCase().replace(/\s+/g, '-')}`,
       name: formattedName,
       description: enhancedDescription,
-      price: protein.portionSizes ? undefined : protein.price,
+      price: basePrice,
       category: baseCategory,
-      // Use uploaded gallery images when available, otherwise fallback to default
-      image: baseName.toLowerCase() === 'attieke' && protein.name.toLowerCase().includes('tilapia')
-        ? '/media/images/dishes/attieke/attieke-grilled-tilapia-001.jpg'
-        : baseName.toLowerCase() === 'attieke' && protein.name.toLowerCase().includes('fish')
-        ? '/media/images/dishes/attieke/attieke-fish-platter-001.jpg'
-        : `/images/menu/${baseName.toLowerCase().replace(/\s+/g, '-')}.jpg`,
+      subcategory: proteinName,
+      image: DISH_PLACEHOLDER,
+      allergens: [],
+      dietary: {
+        vegan: veg,
+        vegetarian: veg,
+        glutenFree: false,
+      },
+      featured: Boolean(isSignature),
+      available: true,
       portionSizes: protein.portionSizes,
       spicyLevel: protein.spicyLevel,
-      dietary: protein.name.toLowerCase().includes('vegetable') ? ['vegetarian', 'vegan'] : undefined,
       tags: isSignature ? ['signature', 'chef-special', 'house-favorite'] : undefined,
-      available: true,
     }
   })
 }
 
-export const menuCategories: MenuCategory[] = [
+// Raw menu tree (legacy rows may use dietary: string[]) — normalized on export
+const menuCategoriesRaw: any[] = [
   {
     id: 'signature-dishes',
     name: 'Signature Dishes',
@@ -319,7 +419,7 @@ export const menuCategories: MenuCategory[] = [
         description: 'Whole fried tilapia, seasoned with a blend of local spices, crispy on the outside and tender and juicy on the inside.',
         price: 270,
         category: 'Seafood Selections',
-        image: '/images/menu/fried-tilapia.jpg',
+        image: DISH_PLACEHOLDER,
         portionSizes: [
           { size: 'Small', price: 270 },
           { size: 'Medium', price: 340 },
@@ -334,7 +434,7 @@ export const menuCategories: MenuCategory[] = [
         description: 'Perfectly fried salmon fillet, offering a rich, flaky texture with a golden, crispy exterior, seasoned to perfection.',
         price: 270,
         category: 'Seafood Selections',
-        image: '/images/menu/fried-salmon.jpg',
+        image: DISH_PLACEHOLDER,
         available: true,
       },
       {
@@ -343,7 +443,7 @@ export const menuCategories: MenuCategory[] = [
         description: 'Delicious fried redfish, seasoned with our special blend of spices and cooked until golden brown, a popular and flavorful choice.',
         price: 270,
         category: 'Seafood Selections',
-        image: '/images/menu/fried-redfish.jpg',
+        image: DISH_PLACEHOLDER,
         portionSizes: [
           { size: 'Regular', price: 270 },
           { size: 'Large', price: 370 },
@@ -356,7 +456,7 @@ export const menuCategories: MenuCategory[] = [
         description: 'Exotic and tender snails, pan-fried with a vibrant mix of aromatic spices and a fiery kick, served with a hearty plate of savory noodles.',
         price: 500,
         category: 'Seafood Selections',
-        image: '/images/menu/noodles-spicy-snails.jpg',
+        image: DISH_PLACEHOLDER,
         spicyLevel: 2,
         available: true,
       },
@@ -373,7 +473,7 @@ export const menuCategories: MenuCategory[] = [
         description: 'Our classic West African jollof rice, cooked in a rich tomato-based sauce with aromatic spices, a timeless favorite.',
         price: 70,
         category: 'Sides & Accompaniments',
-        image: '/images/menu/jollof.jpg',
+        image: DISH_PLACEHOLDER,
         dietary: ['vegetarian', 'vegan'],
         available: true,
       },
@@ -383,7 +483,7 @@ export const menuCategories: MenuCategory[] = [
         description: 'Flavorful fried rice, stir-fried with a medley of fresh mixed vegetables and a hint of savory soy, a perfect accompaniment or light meal.',
         price: 70,
         category: 'Sides & Accompaniments',
-        image: '/images/menu/fried-rice.jpg',
+        image: DISH_PLACEHOLDER,
         dietary: ['vegetarian', 'vegan'],
         available: true,
       },
@@ -393,7 +493,7 @@ export const menuCategories: MenuCategory[] = [
         description: 'A generous serving of our classic jollof rice, enhanced with a delightful medley of assorted meats or fresh seasonal vegetables.',
         price: 100,
         category: 'Sides & Accompaniments',
-        image: '/images/menu/assorted-jollof.jpg',
+        image: DISH_PLACEHOLDER,
         available: true,
       },
       {
@@ -402,7 +502,7 @@ export const menuCategories: MenuCategory[] = [
         description: 'Our delicious fried rice, elevated with a selection of assorted fried proteins or a vibrant mix of fresh vegetables.',
         price: 100,
         category: 'Sides & Accompaniments',
-        image: '/images/menu/assorted-fried.jpg',
+        image: DISH_PLACEHOLDER,
         available: true,
       },
       {
@@ -411,7 +511,7 @@ export const menuCategories: MenuCategory[] = [
         description: 'Spaghetti tossed in a rich, savory sauce with a medley of assorted meats or fresh vegetables, creating a hearty and satisfying dish.',
         price: 150,
         category: 'Sides & Accompaniments',
-        image: '/images/menu/assorted-spaghetti.jpg',
+        image: DISH_PLACEHOLDER,
         available: true,
       },
       {
@@ -420,7 +520,7 @@ export const menuCategories: MenuCategory[] = [
         description: 'A vibrant mix of stir-fried noodles, combined with assorted proteins and crisp fresh vegetables, seasoned to perfection.',
         price: 150,
         category: 'Sides & Accompaniments',
-        image: '/images/menu/assorted-noodles.jpg',
+        image: DISH_PLACEHOLDER,
         available: true,
       },
       {
@@ -429,7 +529,7 @@ export const menuCategories: MenuCategory[] = [
         description: 'Traditional Ivorian couscous made from fermented cassava, light and fluffy, perfect as a refreshing side to any main dish.',
         price: 70,
         category: 'Sides & Accompaniments',
-        image: '/images/menu/attieke.jpg',
+        image: DISH_PLACEHOLDER,
         dietary: ['vegan', 'vegetarian', 'gluten-free'],
         available: true,
       },
@@ -439,7 +539,7 @@ export const menuCategories: MenuCategory[] = [
         description: 'Sweet fried plantains, caramelized to perfection, offering a delightful balance of sweetness and texture to complement any meal.',
         price: 70,
         category: 'Sides & Accompaniments',
-        image: '/images/menu/plantain.jpg',
+        image: DISH_PLACEHOLDER,
         dietary: ['vegan', 'vegetarian', 'gluten-free'],
         available: true,
       },
@@ -449,7 +549,7 @@ export const menuCategories: MenuCategory[] = [
         description: 'Traditional Ghanaian fermented corn and cassava dough, a dense and satisfying staple accompaniment for soups and stews.',
         price: 20,
         category: 'Sides & Accompaniments',
-        image: '/images/menu/banku.jpg',
+        image: DISH_PLACEHOLDER,
         dietary: ['vegan', 'vegetarian', 'gluten-free'],
         available: true,
       },
@@ -459,7 +559,7 @@ export const menuCategories: MenuCategory[] = [
         description: 'A perfectly cooked egg, a simple yet versatile and nutritious addition to enhance any meal.',
         price: 20,
         category: 'Sides & Accompaniments',
-        image: '/images/menu/egg.jpg',
+        image: DISH_PLACEHOLDER,
         dietary: ['vegetarian'],
         available: true,
       },
@@ -469,7 +569,7 @@ export const menuCategories: MenuCategory[] = [
         description: 'Freshly sliced avocado, creamy and nutritious, offering a healthy and refreshing complement to your dish.',
         price: 20,
         category: 'Sides & Accompaniments',
-        image: '/images/menu/avocado.jpg',
+        image: DISH_PLACEHOLDER,
         dietary: ['vegan', 'vegetarian', 'gluten-free', 'dairy-free'],
         available: true,
       },
@@ -479,7 +579,7 @@ export const menuCategories: MenuCategory[] = [
         description: 'Crisp green pepper slices, adding a fresh, vibrant crunch and a subtle peppery note to your meal.',
         price: 20,
         category: 'Sides & Accompaniments',
-        image: '/images/menu/green-pepper.jpg',
+        image: DISH_PLACEHOLDER,
         dietary: ['vegan', 'vegetarian', 'gluten-free', 'dairy-free'],
         available: true,
       },
@@ -489,7 +589,7 @@ export const menuCategories: MenuCategory[] = [
         description: 'Sweet red pepper slices, offering a colorful and flavorful addition with a mild, sweet taste.',
         price: 20,
         category: 'Sides & Accompaniments',
-        image: '/images/menu/red-pepper.jpg',
+        image: DISH_PLACEHOLDER,
         dietary: ['vegan', 'vegetarian', 'gluten-free', 'dairy-free'],
         available: true,
       },
@@ -499,7 +599,7 @@ export const menuCategories: MenuCategory[] = [
         description: 'Our house-made special sauce, crafted with a unique blend of spices, perfect for enhancing the flavors of your meal.',
         price: 20,
         category: 'Sides & Accompaniments',
-        image: '/images/menu/sauce.jpg',
+        image: DISH_PLACEHOLDER,
         available: true,
       },
       {
@@ -508,7 +608,7 @@ export const menuCategories: MenuCategory[] = [
         description: 'Crispy and juicy fried chicken pieces, marinated in our special blend of spices and cooked to a golden, irresistible perfection.',
         price: 270,
         category: 'Sides & Accompaniments',
-        image: '/images/menu/fried-chicken.jpg',
+        image: DISH_PLACEHOLDER,
         available: true,
       },
       {
@@ -517,7 +617,7 @@ export const menuCategories: MenuCategory[] = [
         description: 'Flavorful fried turkey, tender and succulent, offering a hearty and satisfying protein option for your meal.',
         price: 320,
         category: 'Sides & Accompaniments',
-        image: '/images/menu/fried-turkey.jpg',
+        image: DISH_PLACEHOLDER,
         available: true,
       },
     ],
@@ -533,7 +633,7 @@ export const menuCategories: MenuCategory[] = [
         description: 'Refreshing purified drinking water, served chilled.',
         price: 10,
         category: 'Cold Beverages',
-        image: '/images/menu/water.jpg',
+        image: DISH_PLACEHOLDER,
         dietary: ['vegan', 'vegetarian', 'gluten-free', 'dairy-free'],
         available: true,
       },
@@ -543,7 +643,7 @@ export const menuCategories: MenuCategory[] = [
         description: 'A crisp and non-alcoholic malt beverage, perfect for a light refreshment.',
         price: 30,
         category: 'Cold Beverages',
-        image: '/images/menu/alvaro.jpg',
+        image: DISH_PLACEHOLDER,
         dietary: ['vegetarian', 'gluten-free'],
         available: true,
       },
@@ -553,7 +653,7 @@ export const menuCategories: MenuCategory[] = [
         description: 'Effervescent soda water, ideal for mixing or enjoying on its own.',
         price: 30,
         category: 'Cold Beverages',
-        image: '/images/menu/soda-water.jpg',
+        image: DISH_PLACEHOLDER,
         dietary: ['vegan', 'vegetarian', 'gluten-free', 'dairy-free'],
         available: true,
       },
@@ -563,7 +663,7 @@ export const menuCategories: MenuCategory[] = [
         description: 'A rich and wholesome malt drink, offering a sweet and satisfying taste.',
         price: 50,
         category: 'Cold Beverages',
-        image: '/images/menu/malt.jpg',
+        image: DISH_PLACEHOLDER,
         dietary: ['vegetarian'],
         available: true,
       },
@@ -573,7 +673,7 @@ export const menuCategories: MenuCategory[] = [
         description: 'The vibrant and fruity orange-flavored carbonated soft drink.',
         price: 50,
         category: 'Cold Beverages',
-        image: '/images/menu/fanta.jpg',
+        image: DISH_PLACEHOLDER,
         dietary: ['vegan', 'vegetarian', 'gluten-free', 'dairy-free'],
         available: true,
       },
@@ -583,7 +683,7 @@ export const menuCategories: MenuCategory[] = [
         description: 'The iconic, refreshing carbonated soft drink with a timeless taste.',
         price: 50,
         category: 'Cold Beverages',
-        image: '/images/menu/coca-cola.jpg',
+        image: DISH_PLACEHOLDER,
         dietary: ['vegan', 'vegetarian', 'gluten-free', 'dairy-free'],
         available: true,
       },
@@ -593,7 +693,7 @@ export const menuCategories: MenuCategory[] = [
         description: 'A crisp and clear lemon-lime flavored carbonated soft drink.',
         price: 50,
         category: 'Cold Beverages',
-        image: '/images/menu/sprite.jpg',
+        image: DISH_PLACEHOLDER,
         dietary: ['vegan', 'vegetarian', 'gluten-free', 'dairy-free'],
         available: true,
       },
@@ -604,7 +704,7 @@ export const menuCategories: MenuCategory[] = [
         description: 'A vibrant and refreshing blend of sweet pineapple and earthy beetroot, offering a unique and healthy taste experience.',
         price: 70,
         category: 'Cold Beverages',
-        image: '/images/menu/pineapple-beetroot.jpg',
+        image: DISH_PLACEHOLDER,
         dietary: ['vegan', 'vegetarian', 'gluten-free', 'dairy-free'],
         available: true,
       },
@@ -614,7 +714,7 @@ export const menuCategories: MenuCategory[] = [
         description: 'A tropical delight combining the tangy sweetness of fresh pineapple with the rich, smooth flavor of ripe mango.',
         price: 70,
         category: 'Cold Beverages',
-        image: '/images/menu/pineapple-mango.jpg',
+        image: DISH_PLACEHOLDER,
         dietary: ['vegan', 'vegetarian', 'gluten-free', 'dairy-free'],
         available: true,
       },
@@ -624,7 +724,7 @@ export const menuCategories: MenuCategory[] = [
         description: 'A cooling and invigorating juice featuring the crisp sweetness of pineapple perfectly balanced with fresh, aromatic mint leaves.',
         price: 70,
         category: 'Cold Beverages',
-        image: '/images/menu/pineapple-mint.jpg',
+        image: DISH_PLACEHOLDER,
         dietary: ['vegan', 'vegetarian', 'gluten-free', 'dairy-free'],
         available: true,
       },
@@ -634,7 +734,7 @@ export const menuCategories: MenuCategory[] = [
         description: 'A zesty and warming juice, blending the sweet and tangy notes of pineapple with the spicy kick of fresh ginger.',
         price: 70,
         category: 'Cold Beverages',
-        image: '/images/menu/pineapple-ginger.jpg',
+        image: DISH_PLACEHOLDER,
         dietary: ['vegan', 'vegetarian', 'gluten-free', 'dairy-free'],
         available: true,
       },
@@ -644,7 +744,7 @@ export const menuCategories: MenuCategory[] = [
         description: 'An exotic and tangy juice, combining the tropical sweetness of pineapple with the vibrant, aromatic flavor of passion fruit.',
         price: 70,
         category: 'Cold Beverages',
-        image: '/images/menu/pineapple-passion.jpg',
+        image: DISH_PLACEHOLDER,
         dietary: ['vegan', 'vegetarian', 'gluten-free', 'dairy-free'],
         available: true,
       },
@@ -654,7 +754,7 @@ export const menuCategories: MenuCategory[] = [
         description: 'A crisp and hydrating juice, blending the refreshing taste of cucumber with the sweet and tangy notes of pineapple.',
         price: 70,
         category: 'Cold Beverages',
-        image: '/images/menu/pineapple-cucumber.jpg',
+        image: DISH_PLACEHOLDER,
         dietary: ['vegan', 'vegetarian', 'gluten-free', 'dairy-free'],
         available: true,
       },
@@ -664,7 +764,7 @@ export const menuCategories: MenuCategory[] = [
         description: 'A sweet and incredibly refreshing juice, combining the juicy sweetness of watermelon with the tropical tang of pineapple.',
         price: 70,
         category: 'Cold Beverages',
-        image: '/images/menu/pineapple-watermelon.jpg',
+        image: DISH_PLACEHOLDER,
         dietary: ['vegan', 'vegetarian', 'gluten-free', 'dairy-free'],
         available: true,
       },
@@ -674,7 +774,7 @@ export const menuCategories: MenuCategory[] = [
         description: 'Pure, freshly squeezed pineapple juice, offering a classic tropical taste that is both sweet and tangy.',
         price: 70,
         category: 'Cold Beverages',
-        image: '/images/menu/pineapple-juice.jpg',
+        image: DISH_PLACEHOLDER,
         dietary: ['vegan', 'vegetarian', 'gluten-free', 'dairy-free'],
         available: true,
       },
@@ -685,7 +785,7 @@ export const menuCategories: MenuCategory[] = [
         description: 'A classic, refreshing Arizona iced tea, known for its crisp and balanced flavor.',
         price: 100,
         category: 'Cold Beverages',
-        image: '/images/menu/arizona.jpg',
+        image: DISH_PLACEHOLDER,
         dietary: ['vegan', 'vegetarian', 'gluten-free', 'dairy-free'],
         available: true,
       },
@@ -695,7 +795,7 @@ export const menuCategories: MenuCategory[] = [
         description: 'A popular Snapple iced tea, offering a variety of refreshing and natural fruit-flavored options.',
         price: 100,
         category: 'Cold Beverages',
-        image: '/images/menu/snapple-ice-tea.jpg',
+        image: DISH_PLACEHOLDER,
         dietary: ['vegan', 'vegetarian', 'gluten-free', 'dairy-free'],
         available: true,
       },
@@ -705,7 +805,7 @@ export const menuCategories: MenuCategory[] = [
         description: 'A delightful and fruity iced tea blend, combining the sweet tartness of raspberry, the bright zest of lemon, and the subtle sweetness of peach.',
         price: 100,
         category: 'Cold Beverages',
-        image: '/images/menu/raspberry-lemon-peach-tea.jpg',
+        image: DISH_PLACEHOLDER,
         dietary: ['vegan', 'vegetarian', 'gluten-free', 'dairy-free'],
         available: true,
       },
@@ -723,7 +823,7 @@ export const menuCategories: MenuCategory[] = [
         description: 'A delightful blend of vanilla, orange, soda, and lemon juice, crafted with our signature bar recipe for a sparkling, refreshing experience.',
         price: 100,
         category: 'Mocktails',
-        image: '/images/menu/soleil-vanille-petillant.jpg',
+        image: DISH_PLACEHOLDER,
         dietary: ['vegan', 'vegetarian', 'gluten-free', 'dairy-free'],
         available: true,
       },
@@ -733,7 +833,7 @@ export const menuCategories: MenuCategory[] = [
         description: 'A captivating blend of cranberry juice, mint syrup, and lemon, crafted with our signature bar recipe for a refreshing and vibrant mocktail.',
         price: 90,
         category: 'Mocktails',
-        image: '/images/menu/midnight-aurora.jpg',
+        image: DISH_PLACEHOLDER,
         dietary: ['vegan', 'vegetarian', 'gluten-free', 'dairy-free'],
         available: true,
       },
@@ -743,7 +843,7 @@ export const menuCategories: MenuCategory[] = [
         description: 'A creamy and indulgent mocktail featuring banana syrup, pineapple juice, milk, and lemon, crafted with our signature bar recipe.',
         price: 100,
         category: 'Mocktails',
-        image: '/images/menu/itz-chezzy-cream-pie.jpg',
+        image: DISH_PLACEHOLDER,
         dietary: ['vegetarian', 'gluten-free'],
         available: true,
       },
@@ -753,7 +853,7 @@ export const menuCategories: MenuCategory[] = [
         description: 'A smooth and creamy blend of pineapple juice, orange juice, milk, and lemon juice, crafted with our signature bar recipe.',
         price: 100,
         category: 'Mocktails',
-        image: '/images/menu/milky-way.jpg',
+        image: DISH_PLACEHOLDER,
         dietary: ['vegetarian', 'gluten-free'],
         available: true,
       },
@@ -763,7 +863,7 @@ export const menuCategories: MenuCategory[] = [
         description: 'A refreshing blend of ginger, grenadine, and pineapple juice, offering a classic Ghanaian taste experience.',
         price: 100,
         category: 'Mocktails',
-        image: '/images/menu/ghana-classic.jpg',
+        image: DISH_PLACEHOLDER,
         dietary: ['vegan', 'vegetarian', 'gluten-free', 'dairy-free'],
         available: true,
       },
@@ -773,7 +873,7 @@ export const menuCategories: MenuCategory[] = [
         description: 'A unique blend of hibiscus juice, pineapple, mint, and ginger, offering a refreshing and aromatic taste of Ghana.',
         price: 90,
         category: 'Mocktails',
-        image: '/images/menu/chez-amis-sobolo.jpg',
+        image: DISH_PLACEHOLDER,
         dietary: ['vegan', 'vegetarian', 'gluten-free', 'dairy-free'],
         available: true,
       },
@@ -783,7 +883,7 @@ export const menuCategories: MenuCategory[] = [
         description: 'A tropical blend of mint leaves, passion fruit, pineapple juice, and mango puree, offering an exotic and refreshing experience.',
         price: 100,
         category: 'Mocktails',
-        image: '/images/menu/safari.jpg',
+        image: DISH_PLACEHOLDER,
         dietary: ['vegan', 'vegetarian', 'gluten-free', 'dairy-free'],
         available: true,
       },
@@ -793,7 +893,7 @@ export const menuCategories: MenuCategory[] = [
         description: 'A refreshing blend of cucumber, orange juice, apple juice, and mango juice, crafted with our signature bar recipe.',
         price: 100,
         category: 'Mocktails',
-        image: '/images/menu/river-side.jpg',
+        image: DISH_PLACEHOLDER,
         dietary: ['vegan', 'vegetarian', 'gluten-free', 'dairy-free'],
         available: true,
       },
@@ -804,7 +904,7 @@ export const menuCategories: MenuCategory[] = [
         description: 'A refreshing blend of fresh lemon juice, zesty lime, sweet simple syrup, invigorating mint, and topped with soda. Available with your choice of strawberry, blueberry, or raspberry for a fruity twist.',
         price: 100,
         category: 'Mocktails',
-        image: '/images/menu/virgin-mojito.jpg',
+        image: DISH_PLACEHOLDER,
         dietary: ['vegan', 'vegetarian', 'gluten-free', 'dairy-free'],
         available: true,
       },
@@ -814,7 +914,7 @@ export const menuCategories: MenuCategory[] = [
         description: 'A classic, crisp lemonade made with fresh lemon juice and simple syrup. Customize it with a burst of strawberry, tropical mango, or tangy raspberry flavor.',
         price: 90,
         category: 'Mocktails',
-        image: '/images/menu/lemonade.jpg',
+        image: DISH_PLACEHOLDER,
         dietary: ['vegan', 'vegetarian', 'gluten-free', 'dairy-free'],
         available: true,
       },
@@ -824,7 +924,7 @@ export const menuCategories: MenuCategory[] = [
         description: 'A creamy, tropical delight featuring rich coconut cream and sweet pineapple juice, blended to perfection for a smooth, refreshing taste.',
         price: 100,
         category: 'Mocktails',
-        image: '/images/menu/virgin-colada.jpg',
+        image: DISH_PLACEHOLDER,
         dietary: ['vegan', 'vegetarian', 'gluten-free', 'dairy-free'],
         available: true,
       },
@@ -834,7 +934,7 @@ export const menuCategories: MenuCategory[] = [
         description: 'A vibrant and fruity concoction of sweet orange juice, luscious peach, and tart cranberry, creating a delightful and refreshing mocktail.',
         price: 90,
         category: 'Mocktails',
-        image: '/images/menu/safe-sex-on-the-beach.jpg',
+        image: DISH_PLACEHOLDER,
         dietary: ['vegan', 'vegetarian', 'gluten-free', 'dairy-free'],
         available: true,
       },
@@ -844,7 +944,7 @@ export const menuCategories: MenuCategory[] = [
         description: 'A sweet and tangy classic, blended with smooth strawberry puree, simple syrup, and a hint of fresh lemon juice for a perfectly balanced, icy treat.',
         price: 90,
         category: 'Mocktails',
-        image: '/images/menu/virgin-strawberry-daiquiri.jpg',
+        image: DISH_PLACEHOLDER,
         dietary: ['vegan', 'vegetarian', 'gluten-free', 'dairy-free'],
         available: true,
       },
@@ -854,7 +954,7 @@ export const menuCategories: MenuCategory[] = [
         description: 'A popular Nigerian mocktail, combining crisp cucumber slices, effervescent Fanta and Sprite, a squeeze of fresh lime, a dash of Angostura bitters, and a splash of grenadine for a complex and refreshing flavor.',
         price: 90,
         category: 'Mocktails',
-        image: '/images/menu/chapman.jpg',
+        image: DISH_PLACEHOLDER,
         dietary: ['vegan', 'vegetarian', 'gluten-free', 'dairy-free'],
         available: true,
       },
@@ -864,7 +964,7 @@ export const menuCategories: MenuCategory[] = [
         description: 'A timeless classic, featuring crisp ginger ale, a splash of fresh lemon juice, and a sweet touch of grenadine, typically garnished with a cherry.',
         price: 90,
         category: 'Mocktails',
-        image: '/images/menu/shirley-temple.jpg',
+        image: DISH_PLACEHOLDER,
         dietary: ['vegan', 'vegetarian', 'gluten-free', 'dairy-free'],
         available: true,
       },
@@ -882,7 +982,7 @@ export const menuCategories: MenuCategory[] = [
         description: 'A classic, clean mix of premium vodka and sparkling soda water.',
         price: 30,
         category: 'Alcoholic Beverages',
-        image: '/images/menu/vodka-soda.jpg',
+        image: DISH_PLACEHOLDER,
         available: true,
       },
       {
@@ -891,7 +991,7 @@ export const menuCategories: MenuCategory[] = [
         description: 'A delightful and expertly mixed cocktail, offering a balanced blend of flavors.',
         price: 50,
         category: 'Alcoholic Beverages',
-        image: '/images/menu/bb-cocktail.jpg',
+        image: DISH_PLACEHOLDER,
         available: true,
       },
       {
@@ -900,7 +1000,7 @@ export const menuCategories: MenuCategory[] = [
         description: 'A ready-to-drink, refreshing pineapple-flavored vodka beverage in a convenient bottle.',
         price: 50,
         category: 'Alcoholic Beverages',
-        image: '/images/menu/smirnoff-pineapple-bottle.jpg',
+        image: DISH_PLACEHOLDER,
         available: true,
       },
       {
@@ -909,7 +1009,7 @@ export const menuCategories: MenuCategory[] = [
         description: 'A premium, ready-to-drink vodka beverage with a distinct, smooth flavor profile in a sleek black bottle.',
         price: 50,
         category: 'Alcoholic Beverages',
-        image: '/images/menu/smirnoff-black-bottle.jpg',
+        image: DISH_PLACEHOLDER,
         available: true,
       },
       {
@@ -918,7 +1018,7 @@ export const menuCategories: MenuCategory[] = [
         description: 'A unique alcoholic blend infused with African herbs and fruits, served in a convenient can.',
         price: 50,
         category: 'Alcoholic Beverages',
-        image: '/images/menu/orijin-can.jpg',
+        image: DISH_PLACEHOLDER,
         available: true,
       },
       {
@@ -927,7 +1027,7 @@ export const menuCategories: MenuCategory[] = [
         description: 'A smooth and versatile vodka, ideal for cocktails or neat enjoyment.',
         price: 70,
         category: 'Alcoholic Beverages',
-        image: '/images/menu/vody.jpg',
+        image: DISH_PLACEHOLDER,
         available: true,
       },
       {
@@ -936,7 +1036,7 @@ export const menuCategories: MenuCategory[] = [
         description: 'The popular energy drink, known for its stimulating effect.',
         price: 70,
         category: 'Alcoholic Beverages',
-        image: '/images/menu/red-bull.jpg',
+        image: DISH_PLACEHOLDER,
         dietary: ['vegan', 'vegetarian', 'gluten-free', 'dairy-free'],
         available: true,
       },
@@ -946,7 +1046,7 @@ export const menuCategories: MenuCategory[] = [
         description: 'A crisp and dry cider, offering a refreshing apple taste.',
         price: 70,
         category: 'Alcoholic Beverages',
-        image: '/images/menu/savanna.jpg',
+        image: DISH_PLACEHOLDER,
         available: true,
       },
       {
@@ -955,7 +1055,7 @@ export const menuCategories: MenuCategory[] = [
         description: 'A popular cider known for its crisp and invigorating flavor.',
         price: 70,
         category: 'Alcoholic Beverages',
-        image: '/images/menu/hunters.jpg',
+        image: DISH_PLACEHOLDER,
         available: true,
       },
       {
@@ -964,7 +1064,7 @@ export const menuCategories: MenuCategory[] = [
         description: 'A convenient canned version of the refreshing pineapple-flavored vodka beverage.',
         price: 70,
         category: 'Alcoholic Beverages',
-        image: '/images/menu/smirnoff-pineapple-can.jpg',
+        image: DISH_PLACEHOLDER,
         available: true,
       },
       {
@@ -973,7 +1073,7 @@ export const menuCategories: MenuCategory[] = [
         description: 'A convenient canned version of the premium, smooth black-flavored vodka beverage.',
         price: 70,
         category: 'Alcoholic Beverages',
-        image: '/images/menu/smirnoff-black-can.jpg',
+        image: DISH_PLACEHOLDER,
         available: true,
       },
       {
@@ -982,7 +1082,7 @@ export const menuCategories: MenuCategory[] = [
         description: 'A zesty, ready-to-drink vodka mix with the stimulating kick of guarana.',
         price: 70,
         category: 'Alcoholic Beverages',
-        image: '/images/menu/smirnoff-ice-guarana.jpg',
+        image: DISH_PLACEHOLDER,
         available: true,
       },
       {
@@ -991,7 +1091,7 @@ export const menuCategories: MenuCategory[] = [
         description: 'The iconic Irish dry stout, known for its dark color, creamy head, and rich, complex flavor.',
         price: 70,
         category: 'Alcoholic Beverages',
-        image: '/images/menu/guinness.jpg',
+        image: DISH_PLACEHOLDER,
         available: true,
       },
       {
@@ -1000,7 +1100,7 @@ export const menuCategories: MenuCategory[] = [
         description: 'A popular Nigerian lager beer, known for its rich and distinctive taste.',
         price: 70,
         category: 'Alcoholic Beverages',
-        image: '/images/menu/gulder.jpg',
+        image: DISH_PLACEHOLDER,
         available: true,
       },
       {
@@ -1009,7 +1109,7 @@ export const menuCategories: MenuCategory[] = [
         description: 'A large bottle of refreshing shandy, a blend of beer and lemonade.',
         price: 70,
         category: 'Alcoholic Beverages',
-        image: '/images/menu/shandy-big-bottle.jpg',
+        image: DISH_PLACEHOLDER,
         available: true,
       },
       {
@@ -1018,7 +1118,7 @@ export const menuCategories: MenuCategory[] = [
         description: 'A large bottle of Origin, an alcoholic beverage infused with African herbs.',
         price: 70,
         category: 'Alcoholic Beverages',
-        image: '/images/menu/origin-big-bottle.jpg',
+        image: DISH_PLACEHOLDER,
         available: true,
       },
       {
@@ -1027,7 +1127,7 @@ export const menuCategories: MenuCategory[] = [
         description: 'A large bottle of Star Lager Beer, a popular local brew.',
         price: 70,
         category: 'Alcoholic Beverages',
-        image: '/images/menu/star-70-cedis.jpg',
+        image: DISH_PLACEHOLDER,
         available: true,
       },
       {
@@ -1036,7 +1136,7 @@ export const menuCategories: MenuCategory[] = [
         description: 'A large bottle of Club Beer, a well-known Ghanaian lager.',
         price: 70,
         category: 'Alcoholic Beverages',
-        image: '/images/menu/club-big-bottle.jpg',
+        image: DISH_PLACEHOLDER,
         available: true,
       },
       {
@@ -1045,7 +1145,7 @@ export const menuCategories: MenuCategory[] = [
         description: 'A sweet and fruity alcoholic beverage, perfect for a light and enjoyable drink.',
         price: 70,
         category: 'Alcoholic Beverages',
-        image: '/images/menu/kiss-bottle.jpg',
+        image: DISH_PLACEHOLDER,
         available: true,
       },
       {
@@ -1054,7 +1154,7 @@ export const menuCategories: MenuCategory[] = [
         description: 'A classic Mexican lager, light and refreshing, often served with a lime wedge.',
         price: 100,
         category: 'Alcoholic Beverages',
-        image: '/images/menu/corona-extra.jpg',
+        image: DISH_PLACEHOLDER,
         available: true,
       },
       {
@@ -1063,7 +1163,7 @@ export const menuCategories: MenuCategory[] = [
         description: 'A premium Belgian pilsner, known for its crisp, clean taste and distinctive bitterness.',
         price: 100,
         category: 'Alcoholic Beverages',
-        image: '/images/menu/stella-artois.jpg',
+        image: DISH_PLACEHOLDER,
         available: true,
       },
       {
@@ -1072,7 +1172,7 @@ export const menuCategories: MenuCategory[] = [
         description: 'A globally recognized Dutch pale lager, celebrated for its balanced, refreshing flavor.',
         price: 100,
         category: 'Alcoholic Beverages',
-        image: '/images/menu/heineken.jpg',
+        image: DISH_PLACEHOLDER,
         available: true,
       },
       {
@@ -1081,7 +1181,7 @@ export const menuCategories: MenuCategory[] = [
         description: 'A convenient canned version of the sweet and fruity alcoholic Kiss beverage.',
         price: 100,
         category: 'Alcoholic Beverages',
-        image: '/images/menu/kiss-can.jpg',
+        image: DISH_PLACEHOLDER,
         available: true,
       },
       // Shots
@@ -1091,7 +1191,7 @@ export const menuCategories: MenuCategory[] = [
         description: 'An energizing shot combining the bold herbal notes of Jägermeister with the invigorating kick of Red Bull.',
         price: 80,
         category: 'Alcoholic Beverages',
-        image: '/images/menu/jaggerbomb.jpg',
+        image: DISH_PLACEHOLDER,
         available: true,
       },
       {
@@ -1100,7 +1200,7 @@ export const menuCategories: MenuCategory[] = [
         description: 'A classic layered shot featuring the rich coffee liqueur Kahlua, creamy Baileys Irish Cream, and a hint of citrus from Triple Sec.',
         price: 50,
         category: 'Alcoholic Beverages',
-        image: '/images/menu/b-52.jpg',
+        image: DISH_PLACEHOLDER,
         available: true,
       },
       {
@@ -1109,7 +1209,7 @@ export const menuCategories: MenuCategory[] = [
         description: 'A crisp and zesty shot made with premium Vodka, sweet Triple Sec, and a refreshing squeeze of fresh Lime.',
         price: 50,
         category: 'Alcoholic Beverages',
-        image: '/images/menu/kamikaze.jpg',
+        image: DISH_PLACEHOLDER,
         available: true,
       },
       {
@@ -1118,7 +1218,7 @@ export const menuCategories: MenuCategory[] = [
         description: 'A vibrant and effervescent shot blending Kahlua coffee liqueur, smooth Vodka, and a splash of Club Soda for a refreshing finish.',
         price: 50,
         category: 'Alcoholic Beverages',
-        image: '/images/menu/mind-eraser.jpg',
+        image: DISH_PLACEHOLDER,
         portionSizes: [
           { size: 'Single', price: 50 },
           { size: 'Double', price: 100 },
@@ -1131,7 +1231,7 @@ export const menuCategories: MenuCategory[] = [
         description: 'A luxurious shot combining the creamy sweetness of Baileys Irish Cream, tropical Malibu rum, and the warming depth of Whiskey.',
         price: 50,
         category: 'Alcoholic Beverages',
-        image: '/images/menu/bmw.jpg',
+        image: DISH_PLACEHOLDER,
         portionSizes: [
           { size: 'Single', price: 50 },
           { size: 'Double', price: 100 },
@@ -1144,7 +1244,7 @@ export const menuCategories: MenuCategory[] = [
         description: 'A unique and creamy shot featuring the distinctive Wild Africa Irish Cream paired with the smooth character of Sheepdog Whiskey.',
         price: 45,
         category: 'Alcoholic Beverages',
-        image: '/images/menu/wild-afrika.jpg',
+        image: DISH_PLACEHOLDER,
         available: true,
       },
       // Classic Cocktails
@@ -1154,7 +1254,7 @@ export const menuCategories: MenuCategory[] = [
         description: 'A refreshing cocktail featuring vodka, lemon juice, and triple sec, perfectly balanced for a crisp and zesty experience.',
         price: 120,
         category: 'Alcoholic Beverages',
-        image: '/images/menu/lemon-drop.jpg',
+        image: DISH_PLACEHOLDER,
         available: true,
       },
       {
@@ -1163,7 +1263,7 @@ export const menuCategories: MenuCategory[] = [
         description: 'A vibrant cocktail combining orange juice, tequila, and grenadine, creating a beautiful sunrise gradient.',
         price: 150,
         category: 'Alcoholic Beverages',
-        image: '/images/menu/tequila-sunrise.jpg',
+        image: DISH_PLACEHOLDER,
         available: true,
       },
       {
@@ -1172,7 +1272,7 @@ export const menuCategories: MenuCategory[] = [
         description: 'A classic cocktail made with tequila, triple sec, and lemon, offering a perfect balance of sweet and sour.',
         price: 150,
         category: 'Alcoholic Beverages',
-        image: '/images/menu/margarita.jpg',
+        image: DISH_PLACEHOLDER,
         available: true,
       },
       {
@@ -1181,7 +1281,7 @@ export const menuCategories: MenuCategory[] = [
         description: 'A timeless and robust classic, meticulously crafted with premium whiskey, a hint of sweetness from a sugar cube, and aromatic Angostura Bitters, stirred over ice to achieve perfect balance.',
         price: 150,
         category: 'Alcoholic Beverages',
-        image: '/images/menu/old-fashioned.jpg',
+        image: DISH_PLACEHOLDER,
         tags: ['bestseller'],
         available: true,
       },
@@ -1191,7 +1291,7 @@ export const menuCategories: MenuCategory[] = [
         description: 'Indulge in this vibrant and refreshing frozen cocktail, a delightful blend of smooth white rum, zesty fresh lime juice, a touch of simple syrup, and luscious strawberry puree, creating a perfectly sweet and tangy experience.',
         price: 130,
         category: 'Alcoholic Beverages',
-        image: '/images/menu/frozen-strawberry-daiquiri.jpg',
+        image: DISH_PLACEHOLDER,
         tags: ['bestseller'],
         available: true,
       },
@@ -1201,7 +1301,7 @@ export const menuCategories: MenuCategory[] = [
         description: 'A sophisticated and elegant cocktail, expertly mixed with rich whiskey, sweet red vermouth (Martini Rosso), and a dash of Angostura Bitters, stirred and served chilled for a smooth, aromatic finish.',
         price: 130,
         category: 'Alcoholic Beverages',
-        image: '/images/menu/manhattan.jpg',
+        image: DISH_PLACEHOLDER,
         tags: ['bestseller'],
         available: true,
       },
@@ -1211,7 +1311,7 @@ export const menuCategories: MenuCategory[] = [
         description: 'A quintessential refreshing cocktail, muddled with fresh mint and lime, balanced with simple syrup, smooth white rum, and topped with sparkling soda. Available in classic, sweet strawberry, or tangy blueberry variations.',
         price: 150,
         category: 'Alcoholic Beverages',
-        image: '/images/menu/classic-mojito.jpg',
+        image: DISH_PLACEHOLDER,
         tags: ['bestseller'],
         available: true,
       },
@@ -1221,7 +1321,7 @@ export const menuCategories: MenuCategory[] = [
         description: 'A bold and iconic Italian aperitif, featuring a harmonious blend of aromatic gin, sweet Martini Rosso vermouth, and the distinctive bitter notes of Campari, stirred over ice for a perfectly balanced and complex flavor.',
         price: 120,
         category: 'Alcoholic Beverages',
-        image: '/images/menu/negroni.jpg',
+        image: DISH_PLACEHOLDER,
         tags: ['bestseller'],
         available: true,
       },
@@ -1231,7 +1331,7 @@ export const menuCategories: MenuCategory[] = [
         description: 'Escape to the tropics with this creamy and sweet cocktail, a delightful fusion of rich coconut cream, smooth white rum, and tangy pineapple juice, blended to a velvety perfection.',
         price: 140,
         category: 'Alcoholic Beverages',
-        image: '/images/menu/pina-colada.jpg',
+        image: DISH_PLACEHOLDER,
         tags: ['bestseller'],
         available: true,
       },
@@ -1241,7 +1341,7 @@ export const menuCategories: MenuCategory[] = [
         description: 'A crisp and invigorating highball cocktail, combining the botanical notes of gin with freshly squeezed lemon juice, a touch of simple syrup, and topped with effervescent soda water for a light and refreshing sip.',
         price: 110,
         category: 'Alcoholic Beverages',
-        image: '/images/menu/tom-collins.jpg',
+        image: DISH_PLACEHOLDER,
         available: true,
       },
       {
@@ -1250,7 +1350,7 @@ export const menuCategories: MenuCategory[] = [
         description: 'A chic and vibrant cocktail, perfectly balanced with premium vodka, the citrusy sweetness of Cointreau, tart cranberry juice, and a squeeze of fresh lime juice, creating a sophisticated and tangy drink.',
         price: 150,
         category: 'Alcoholic Beverages',
-        image: '/images/menu/cosmopolitan.jpg',
+        image: DISH_PLACEHOLDER,
         tags: ['bestseller'],
         available: true,
       },
@@ -1260,7 +1360,7 @@ export const menuCategories: MenuCategory[] = [
         description: 'A classic blend of Amaretto Liqueur and fresh Lemon Juice. Optionally crafted with Egg White for a frothy texture and Bourbon for added depth.',
         price: 120,
         category: 'Alcoholic Beverages',
-        image: '/images/menu/amaretto-sour.jpg',
+        image: DISH_PLACEHOLDER,
         available: true,
       },
       {
@@ -1269,7 +1369,7 @@ export const menuCategories: MenuCategory[] = [
         description: 'A sophisticated mix featuring crisp Vodka, sweet Raspberry Liqueur, and tropical Pineapple Juice.',
         price: 130,
         category: 'Alcoholic Beverages',
-        image: '/images/menu/french-martini.jpg',
+        image: DISH_PLACEHOLDER,
         available: true,
       },
       {
@@ -1278,7 +1378,7 @@ export const menuCategories: MenuCategory[] = [
         description: 'A timeless cocktail made with robust Bourbon Whiskey, tangy Lemon Juice, and a touch of Simple Syrup. Optionally enhanced with Egg White for a silky finish and Angostura Bitters for aromatic complexity.',
         price: 150,
         category: 'Alcoholic Beverages',
-        image: '/images/menu/whiskey-sour.jpg',
+        image: DISH_PLACEHOLDER,
         available: true,
       },
       {
@@ -1287,7 +1387,7 @@ export const menuCategories: MenuCategory[] = [
         description: 'A creamy and rich concoction of smooth Vodka, coffee-flavored Kahlua, and fresh Milk.',
         price: 130,
         category: 'Alcoholic Beverages',
-        image: '/images/menu/white-russian.jpg',
+        image: DISH_PLACEHOLDER,
         available: true,
       },
       {
@@ -1296,7 +1396,7 @@ export const menuCategories: MenuCategory[] = [
         description: 'A potent and refreshing mix of Gin, Tequila, White Rum, Vodka, and Triple Sec, balanced with Lemon Juice, Simple Syrup, and topped with Coke.',
         price: 180,
         category: 'Alcoholic Beverages',
-        image: '/images/menu/long-island.jpg',
+        image: DISH_PLACEHOLDER,
         tags: ['bestseller'],
         available: true,
       },
@@ -1306,7 +1406,7 @@ export const menuCategories: MenuCategory[] = [
         description: 'A vibrant and fruity cocktail combining Vodka, sweet Peach Schnapps, zesty Orange Juice, and tart Cranberry Juice.',
         price: 150,
         category: 'Alcoholic Beverages',
-        image: '/images/menu/sex-on-the-beach.jpg',
+        image: DISH_PLACEHOLDER,
         tags: ['bestseller'],
         available: true,
       },
@@ -1316,7 +1416,7 @@ export const menuCategories: MenuCategory[] = [
         description: 'A classic tropical delight crafted with crisp White Rum, fresh Lemon Juice, and a hint of Simple Syrup.',
         price: 120,
         category: 'Alcoholic Beverages',
-        image: '/images/menu/daiquiri.jpg',
+        image: DISH_PLACEHOLDER,
         available: true,
       },
       // Signature Cocktails
@@ -1326,7 +1426,7 @@ export const menuCategories: MenuCategory[] = [
         description: 'A unique twist on the classic mule, featuring whiskey, vanilla, lemon, and our signature bar recipe for a sophisticated and refreshing experience.',
         price: 130,
         category: 'Alcoholic Beverages',
-        image: '/images/menu/makola-mule.jpg',
+        image: DISH_PLACEHOLDER,
         tags: ['chef-special'],
         available: true,
       },
@@ -1336,7 +1436,7 @@ export const menuCategories: MenuCategory[] = [
         description: 'A vibrant cocktail featuring tequila, lemon, watermelon juice, and our signature bar recipe, inspired by Ghanaian flavors.',
         price: 130,
         category: 'Alcoholic Beverages',
-        image: '/images/menu/sankofa.jpg',
+        image: DISH_PLACEHOLDER,
         tags: ['chef-special'],
         available: true,
       },
@@ -1346,7 +1446,7 @@ export const menuCategories: MenuCategory[] = [
         description: 'A tropical delight combining pineapple juice, passion, lemon, Malibu, and white rum for a refreshing and exotic experience.',
         price: 150,
         category: 'Alcoholic Beverages',
-        image: '/images/menu/hangouts.jpg',
+        image: DISH_PLACEHOLDER,
         tags: ['bestseller'],
         available: true,
       },
@@ -1356,7 +1456,7 @@ export const menuCategories: MenuCategory[] = [
         description: 'A bold and unique cocktail featuring coconut syrup, fresh milk, pineapple, white rum, and blue curaçao for a vibrant and creamy experience.',
         price: 160,
         category: 'Alcoholic Beverages',
-        image: '/images/menu/spicy-virtuoso.jpg',
+        image: DISH_PLACEHOLDER,
         tags: ['chef-special'],
         available: true,
       },
@@ -1366,7 +1466,7 @@ export const menuCategories: MenuCategory[] = [
         description: 'A warming cocktail featuring Fireball whiskey, cinnamon, orange, and our signature bar recipe for a spicy and invigorating experience.',
         price: 130,
         category: 'Alcoholic Beverages',
-        image: '/images/menu/chezzy-fireball.jpg',
+        image: DISH_PLACEHOLDER,
         tags: ['chef-special'],
         spicyLevel: 1,
         available: true,
@@ -1377,7 +1477,7 @@ export const menuCategories: MenuCategory[] = [
         description: 'A sophisticated cocktail featuring Sheepdog whiskey, banana syrup, and orange liqueur for a smooth and flavorful experience.',
         price: 120,
         category: 'Alcoholic Beverages',
-        image: '/images/menu/the-sheepdog.jpg',
+        image: DISH_PLACEHOLDER,
         tags: ['chef-special'],
         available: true,
       },
@@ -1387,7 +1487,7 @@ export const menuCategories: MenuCategory[] = [
         description: 'A rich and indulgent cocktail featuring vodka, Kahlua, amaretto, Baileys, and milk for a creamy and decadent experience.',
         price: 150,
         category: 'Alcoholic Beverages',
-        image: '/images/menu/screaming-orgasm.jpg',
+        image: DISH_PLACEHOLDER,
         tags: ['bestseller'],
         available: true,
       },
@@ -1397,7 +1497,7 @@ export const menuCategories: MenuCategory[] = [
         description: 'A vibrant cocktail featuring vodka, orange, and grenadine, creating a beautiful sunrise gradient.',
         price: 140,
         category: 'Alcoholic Beverages',
-        image: '/images/menu/vodka-sunrise.jpg',
+        image: DISH_PLACEHOLDER,
         available: true,
       },
       {
@@ -1406,7 +1506,7 @@ export const menuCategories: MenuCategory[] = [
         description: 'A unique and creative cocktail featuring whiskey, egg white, lemon juice, popcorn syrup, and Angostura bitters for an innovative and delightful experience.',
         price: 130,
         category: 'Alcoholic Beverages',
-        image: '/images/menu/whispering-popcorn.jpg',
+        image: DISH_PLACEHOLDER,
         tags: ['chef-special', 'new'],
         available: true,
       },
@@ -1416,7 +1516,7 @@ export const menuCategories: MenuCategory[] = [
         description: 'A refreshing cocktail featuring pineapple, mint, tequila, lemon, and our signature bar recipe for a vibrant and invigorating experience.',
         price: 140,
         category: 'Alcoholic Beverages',
-        image: '/images/menu/jeffrey-rockstar.jpg',
+        image: DISH_PLACEHOLDER,
         tags: ['bestseller'],
         available: true,
       },
@@ -1426,7 +1526,7 @@ export const menuCategories: MenuCategory[] = [
         description: 'A sophisticated martini featuring vodka, Aperol, orange liqueur, lemon juice, and optional Angostura bitters for a perfectly balanced and elegant experience.',
         price: 120,
         category: 'Alcoholic Beverages',
-        image: '/images/menu/aperol-lemon-drop-martini.jpg',
+        image: DISH_PLACEHOLDER,
         tags: ['chef-special'],
         available: true,
       },
@@ -1436,7 +1536,7 @@ export const menuCategories: MenuCategory[] = [
         description: 'A complex and exotic cocktail featuring rum, vodka, passionfruit, ginger, pineapple, hibiscus, mint, and our signature bar recipe for a truly unique experience.',
         price: 150,
         category: 'Alcoholic Beverages',
-        image: '/images/menu/naughty-or-nice.jpg',
+        image: DISH_PLACEHOLDER,
         tags: ['chef-special'],
         available: true,
       },
@@ -1446,7 +1546,7 @@ export const menuCategories: MenuCategory[] = [
         description: 'A welcoming cocktail featuring tequila, orange juice, lemon juice, passion, and our signature bar recipe, inspired by Ghanaian hospitality.',
         price: 130,
         category: 'Alcoholic Beverages',
-        image: '/images/menu/akwaaba.jpg',
+        image: DISH_PLACEHOLDER,
         tags: ['chef-special'],
         available: true,
       },
@@ -1456,7 +1556,7 @@ export const menuCategories: MenuCategory[] = [
         description: 'A powerful and complex cocktail featuring rum, gin, triple sec, vodka, tequila, lemon, and strawberry, inspired by Ghanaian culture.',
         price: 160,
         category: 'Alcoholic Beverages',
-        image: '/images/menu/gye-nyame.jpg',
+        image: DISH_PLACEHOLDER,
         tags: ['chef-special'],
         available: true,
       },
@@ -1473,7 +1573,7 @@ export const menuCategories: MenuCategory[] = [
         description: 'An aromatic Havana shisha, offering a smooth and relaxing experience with rich, classic notes.',
         price: 300,
         category: 'Shisha',
-        image: '/images/menu/shisha-havana.jpg',
+        image: DISH_PLACEHOLDER,
         available: true,
       },
       {
@@ -1482,7 +1582,7 @@ export const menuCategories: MenuCategory[] = [
         description: 'Experience the exotic allure of Babylon shisha, a unique blend designed for a truly memorable session.',
         price: 300,
         category: 'Shisha',
-        image: '/images/menu/shisha-babylon.jpg',
+        image: DISH_PLACEHOLDER,
         available: true,
       },
       {
@@ -1491,7 +1591,7 @@ export const menuCategories: MenuCategory[] = [
         description: 'A captivating Mirage shisha, delivering a refreshing and mysterious flavor profile.',
         price: 300,
         category: 'Shisha',
-        image: '/images/menu/shisha-mirage.jpg',
+        image: DISH_PLACEHOLDER,
         available: true,
       },
       {
@@ -1500,7 +1600,7 @@ export const menuCategories: MenuCategory[] = [
         description: 'Savor the sweet and enchanting notes of Izmir Romantic shisha, perfect for a delightful and intimate experience.',
         price: 300,
         category: 'Shisha',
-        image: '/images/menu/shisha-izmir-romantic.jpg',
+        image: DISH_PLACEHOLDER,
         available: true,
       },
       {
@@ -1509,7 +1609,7 @@ export const menuCategories: MenuCategory[] = [
         description: 'A popular and beloved Love 66 shisha, known for its sweet and fruity blend that delights the senses.',
         price: 250,
         category: 'Shisha',
-        image: '/images/menu/shisha-love-66.jpg',
+        image: DISH_PLACEHOLDER,
         available: true,
       },
       {
@@ -1518,7 +1618,7 @@ export const menuCategories: MenuCategory[] = [
         description: 'A classic Mint Flavor shisha, providing a cool, crisp, and invigorating smoking experience.',
         price: 250,
         category: 'Shisha',
-        image: '/images/menu/shisha-mint-flavor.jpg',
+        image: DISH_PLACEHOLDER,
         available: true,
       },
       {
@@ -1527,7 +1627,7 @@ export const menuCategories: MenuCategory[] = [
         description: 'Enjoy the refreshing taste of Gum Mint shisha, a delightful blend of sweet gum and cool mint.',
         price: 250,
         category: 'Shisha',
-        image: '/images/menu/shisha-gum-mint.jpg',
+        image: DISH_PLACEHOLDER,
         available: true,
       },
       {
@@ -1536,7 +1636,7 @@ export const menuCategories: MenuCategory[] = [
         description: 'The timeless and rich flavor of Double Apple shisha, offering a sweet and anise-like aroma.',
         price: 250,
         category: 'Shisha',
-        image: '/images/menu/shisha-double-apple.jpg',
+        image: DISH_PLACEHOLDER,
         available: true,
       },
       {
@@ -1545,7 +1645,7 @@ export const menuCategories: MenuCategory[] = [
         description: 'A vibrant Pomegranate shisha, bursting with sweet and tart fruity notes for a refreshing session.',
         price: 250,
         category: 'Shisha',
-        image: '/images/menu/shisha-pomegranate.jpg',
+        image: DISH_PLACEHOLDER,
         available: true,
       },
       {
@@ -1554,7 +1654,7 @@ export const menuCategories: MenuCategory[] = [
         description: 'A cool and fruity Blue Ice Berry shisha, combining sweet berries with an icy menthol finish.',
         price: 350,
         category: 'Shisha',
-        image: '/images/menu/shisha-blue-ice-berry.jpg',
+        image: DISH_PLACEHOLDER,
         available: true,
       },
       {
@@ -1563,15 +1663,71 @@ export const menuCategories: MenuCategory[] = [
         description: 'Experience the refreshing taste of Watermelon Ice shisha, a juicy watermelon flavor with a cool, crisp menthol kick.',
         price: 350,
         category: 'Shisha',
-        image: '/images/menu/shisha-watermelon-ice.jpg',
+        image: DISH_PLACEHOLDER,
         available: true,
       },
     ],
   },
 ]
 
+const baseMenuCategories: MenuCategory[] = menuCategoriesRaw.map(
+  (cat: { items: MenuItemRow[] } & Omit<MenuCategory, 'items'>) => ({
+    ...cat,
+    items: cat.items.map((item) => normalizeMenuItem(item)),
+  }),
+)
+
+const extendedMenuCategories: MenuCategory[] = legacyExtendedCategoryLabels.map((def) => ({
+  id: `ext-${def.id}`,
+  name: def.label,
+  description: 'Chef selections and pairings',
+  items: legacyExtendedMenuItems
+    .filter((item) => item.category === def.id)
+    .map((e) =>
+      normalizeMenuItem({
+        id: e.id,
+        name: e.name,
+        description: e.description,
+        price: e.portionSize?.regular ?? e.price,
+        category: e.category,
+        subcategory: e.preparation,
+        image: DISH_PLACEHOLDER,
+        allergens: [],
+        dietary: {
+          vegan: e.dietary.includes('vegan'),
+          vegetarian: e.dietary.includes('vegetarian'),
+          glutenFree: e.dietary.includes('gluten-free'),
+        },
+        featured: e.chefRecommended ?? false,
+        available: e.available,
+        pairingSuggestion: e.pairingSuggestion ?? undefined,
+        preparation: e.preparation,
+      }),
+    ),
+}))
+
+export const menuCategories: MenuCategory[] = [...baseMenuCategories, ...extendedMenuCategories]
+
+/** Category filter chips (aligned to menu category ids) */
+export const menuFilterCategories = [
+  { value: 'all', label: 'All' },
+  ...menuCategories.map((c) => ({ value: c.id, label: c.name })),
+] as const
+
 // Flatten all items for easy access
 export const allMenuItems: MenuItem[] = menuCategories.flatMap((category) => category.items)
+
+/** Featured items for home sections */
+export const featuredMenuItemsForHome: MenuItem[] = allMenuItems.filter((i) => i.featured).slice(0, 12)
+
+/** Top 5 items for JSON-LD MenuSection (featured first, then fill) */
+export const schemaFeaturedMenuItems: MenuItem[] = (() => {
+  const featured = allMenuItems.filter((i) => i.featured).slice(0, 5)
+  if (featured.length >= 5) return featured
+  const ids = new Set(featured.map((i) => i.id))
+  const rest = allMenuItems.filter((i) => !ids.has(i.id))
+  return [...featured, ...rest].slice(0, 5)
+})()
 
 // Get category by ID
 export const getCategoryById = (id: string): MenuCategory | undefined => {

@@ -83,16 +83,16 @@ export function TestimonialsCarousel() {
   const currentTestimonial = testimonials[currentIndex]
 
   return (
-    <section className="section-padding bg-cream-50" aria-labelledby="testimonials-heading">
-      <div className="container-custom">
+    <section className="section-shell bg-neutral-50" aria-labelledby="testimonials-heading">
+      <div className="section-shell-inner">
         <div className="text-center mb-12 md:mb-16">
           <h2
             id="testimonials-heading"
-            className="text-4xl md:text-5xl lg:text-6xl font-display font-light text-foreground mb-4"
+            className="section-title text-foreground mb-4"
           >
             Guest Testimonials
           </h2>
-          <div className="w-20 h-px bg-gold-500 mx-auto mb-6"></div>
+          <div className="w-20 h-px bg-terra-500 mx-auto mb-6"></div>
         </div>
 
         {/* Carousel Container */}
@@ -120,7 +120,7 @@ export function TestimonialsCarousel() {
           {/* Testimonial Content */}
           <div className="relative px-12 md:px-20 py-12 md:py-16">
             {/* Decorative Opening Quote */}
-            <div className="absolute top-0 left-8 md:left-12 text-8xl md:text-9xl font-display text-gold-500/20 leading-none">
+            <div className="absolute top-0 left-8 md:left-12 text-8xl md:text-9xl font-display text-terra-500/20 leading-none">
               &ldquo;
             </div>
 
@@ -138,7 +138,7 @@ export function TestimonialsCarousel() {
                     className={cn(
                       "h-4 w-4 md:h-5 md:w-5",
                       i < currentTestimonial.rating
-                        ? "fill-gold-500 text-gold-500"
+                        ? "fill-terra-500 text-terra-500"
                         : "fill-muted text-muted-foreground"
                     )}
                     aria-hidden="true"
@@ -159,7 +159,7 @@ export function TestimonialsCarousel() {
                 className={cn(
                   "h-1.5 rounded-full transition-all duration-300",
                   index === currentIndex
-                    ? "w-8 bg-gold-500"
+                    ? "w-8 bg-terra-500"
                     : "w-1.5 bg-muted-foreground/30 hover:bg-muted-foreground/50"
                 )}
                 onClick={() => goToSlide(index)}

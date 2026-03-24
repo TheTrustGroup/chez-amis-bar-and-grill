@@ -17,6 +17,9 @@
 
 # misc
 .DS_Store
+**/.DS_Store
+build-output.log
+*.mov
 *.pem
 
 # debug

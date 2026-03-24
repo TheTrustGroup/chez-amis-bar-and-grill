@@ -4,7 +4,7 @@ import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Leaf, Wheat, Flame } from "lucide-react"
 import { cn } from "@/lib/utils"
-import { menuCategories } from "@/lib/menuDataExtended"
+import { menuCategories } from "@/lib/data/menuData"
 import { useCartContext } from "@/lib/context/CartContext"
 
 interface MenuSidebarProps {
@@ -37,10 +37,10 @@ export function MenuSidebar({
                 onClick={() => onCategoryChange(category.id)}
                 className={cn(
                   "w-full text-left flex items-center gap-3 px-4 py-3 transition-all duration-300",
-                  "focus:outline-none focus:ring-2 focus:ring-gold-500 focus:ring-offset-2 focus:ring-offset-transparent rounded-sm",
+                  "focus:outline-none focus:ring-2 focus:ring-terra-500 focus:ring-offset-2 focus:ring-offset-transparent rounded-sm",
                   isActive
-                    ? "text-gold-600 font-heading font-medium"
-                    : "text-muted-foreground hover:text-foreground font-heading font-light"
+                    ? "text-terra-600 font-body font-medium"
+                    : "text-muted-foreground hover:text-foreground font-body font-light"
                 )}
                 aria-current={isActive ? "page" : undefined}
               >
@@ -48,13 +48,13 @@ export function MenuSidebar({
                 <span
                   className={cn(
                     "h-1 w-1 rounded-full transition-all duration-300",
-                    isActive ? "bg-gold-500" : "bg-muted-foreground/30"
+                    isActive ? "bg-terra-500" : "bg-muted-foreground/30"
                   )}
                 />
-                <span className="text-sm tracking-wide">{category.label}</span>
+                <span className="text-sm tracking-wide">{category.name}</span>
                 {/* Active indicator line */}
                 {isActive && (
-                  <span className="ml-auto h-0.5 w-8 bg-gold-500" aria-hidden="true" />
+                  <span className="ml-auto h-0.5 w-8 bg-terra-500" aria-hidden="true" />
                 )}
               </button>
             )
@@ -64,7 +64,7 @@ export function MenuSidebar({
         {/* Dietary Filters */}
         {onDietaryFilterChange && (
           <div className="pt-6 border-t border-border/50">
-            <h3 className="text-xs font-heading font-light tracking-widest uppercase text-muted-foreground mb-4 px-4">
+            <h3 className="text-xs font-body font-light tracking-widest uppercase text-muted-foreground mb-4 px-4">
               Dietary Preferences
             </h3>
             <div className="space-y-2">
@@ -83,9 +83,9 @@ export function MenuSidebar({
                     }
                     className={cn(
                       "w-full flex items-center gap-3 px-4 py-2 text-sm transition-all duration-300",
-                      "focus:outline-none focus:ring-2 focus:ring-gold-500 focus:ring-offset-2 focus:ring-offset-transparent rounded-sm",
+                      "focus:outline-none focus:ring-2 focus:ring-terra-500 focus:ring-offset-2 focus:ring-offset-transparent rounded-sm",
                       isActive
-                        ? "text-gold-600"
+                        ? "text-terra-600"
                         : "text-muted-foreground hover:text-foreground"
                     )}
                   >
@@ -101,9 +101,9 @@ export function MenuSidebar({
         {/* Your Selection Summary */}
         {itemCount > 0 && (
           <div className="pt-6 border-t border-border/50">
-            <div className="bg-cream-50 rounded-lg p-4 space-y-4">
+            <div className="bg-neutral-50 rounded-lg p-4 space-y-4">
               <div>
-                <h3 className="text-sm font-heading font-light tracking-wide text-foreground mb-2">
+                <h3 className="text-sm font-body font-light tracking-wide text-foreground mb-2">
                   Your Selection
                 </h3>
                 <p className="text-xs text-muted-foreground font-body">
@@ -117,7 +117,7 @@ export function MenuSidebar({
                 <Button
                   variant="outline"
                   size="sm"
-                  className="w-full font-heading font-light tracking-wide border-gold-500/60 text-foreground hover:bg-gold-500/10"
+                  className="w-full font-body font-light tracking-wide border-terra-500/60 text-foreground hover:bg-terra-500/10"
                 >
                   Review Order
                 </Button>

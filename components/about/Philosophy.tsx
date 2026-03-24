@@ -34,13 +34,13 @@ export function Philosophy() {
 
   return (
     <section className={cn(
-      "section-padding relative overflow-hidden",
-      isDark ? "bg-charcoal-950/30" : "bg-cream-50"
+      "section-shell relative overflow-hidden",
+      isDark ? "bg-green-700/30" : "bg-neutral-50"
     )} aria-labelledby="philosophy-heading">
       {/* Decorative background */}
-      <div className="absolute inset-0 bg-gradient-to-br from-gold-500/3 via-transparent to-burgundy-500/3 pointer-events-none" aria-hidden="true" />
+      <div className="absolute inset-0 bg-gradient-to-br from-terra-500/3 via-transparent to-green-500/3 pointer-events-none" aria-hidden="true" />
       
-      <div className="container-custom relative z-10">
+      <div className="section-shell-inner relative z-10">
         <div className={cn(
           "text-center mb-12 md:mb-16 transition-all duration-1000 ease-out",
           isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
@@ -48,16 +48,16 @@ export function Philosophy() {
           <h2
             id="philosophy-heading"
             className={cn(
-              "text-4xl md:text-5xl lg:text-6xl font-display font-light mb-4",
-              isDark ? "text-cream-100" : "text-foreground"
+              "section-title mb-4",
+              isDark ? "text-white" : "text-foreground"
             )}
           >
             Our Philosophy
           </h2>
-          <div className="w-24 md:w-32 h-0.5 bg-gradient-to-r from-transparent via-gold-500 to-transparent mx-auto mb-4 shadow-lg shadow-gold-500/50" />
+          <div className="w-24 md:w-32 h-0.5 bg-gradient-to-r from-transparent via-terra-500 to-transparent mx-auto mb-4 shadow-lg shadow-terra-500/50" />
           <p className={cn(
             "text-lg md:text-xl font-body font-light max-w-2xl mx-auto",
-            isDark ? "text-cream-200/80" : "text-muted-foreground"
+            isDark ? "text-white/80" : "text-muted-foreground"
           )}>
             Three principles that guide everything we do
           </p>
@@ -73,8 +73,8 @@ export function Philosophy() {
                   "text-center space-y-6 group relative",
                   "p-8 md:p-10 rounded-2xl transition-all duration-700 ease-out",
                   isDark 
-                    ? "bg-charcoal-900/50 border border-charcoal-800/50 hover:border-gold-500/40 hover:bg-charcoal-900/70"
-                    : "bg-background/50 border border-border/30 hover:border-gold-500/40 hover:bg-background/80",
+                    ? "bg-green-600/50 border border-green-700/50 hover:border-terra-500/40 hover:bg-green-600/70"
+                    : "bg-background/50 border border-border/30 hover:border-terra-500/40 hover:bg-background/80",
                   "hover:shadow-2xl hover:-translate-y-2",
                   "animate-fade-in-up"
                 )}
@@ -85,14 +85,14 @@ export function Philosophy() {
                   <div className="relative">
                     <div className={cn(
                       "absolute inset-0 rounded-full blur-2xl transition-all duration-700",
-                      "bg-gold-500/10 group-hover:bg-gold-500/30 group-hover:blur-3xl group-hover:scale-125"
+                      "bg-terra-500/10 group-hover:bg-terra-500/30 group-hover:blur-3xl group-hover:scale-125"
                     )} />
                     <div className={cn(
                       "relative rounded-full p-6 transition-all duration-700",
-                      "bg-gold-500/5 group-hover:bg-gold-500/15 group-hover:scale-110",
-                      "border border-gold-500/20 group-hover:border-gold-500/40"
+                      "bg-terra-500/5 group-hover:bg-terra-500/15 group-hover:scale-110",
+                      "border border-terra-500/20 group-hover:border-terra-500/40"
                     )}>
-                      <Icon className="h-10 w-10 md:h-12 md:w-12 text-gold-600 transition-transform duration-500 group-hover:scale-110 group-hover:rotate-3" />
+                      <Icon className="h-10 w-10 md:h-12 md:w-12 text-terra-600 transition-transform duration-500 group-hover:scale-110 group-hover:rotate-3" />
                     </div>
                   </div>
                 </div>
@@ -100,7 +100,7 @@ export function Philosophy() {
                 {/* Title */}
                 <h3 className={cn(
                   "text-2xl md:text-3xl font-display font-light transition-colors duration-300",
-                  isDark ? "text-cream-100 group-hover:text-gold-400" : "text-foreground group-hover:text-gold-600"
+                  isDark ? "text-white group-hover:text-terra-400" : "text-foreground group-hover:text-terra-600"
                 )}>
                   {pillar.title}
                 </h3>
@@ -108,7 +108,7 @@ export function Philosophy() {
                 {/* Description */}
                 <p className={cn(
                   "text-base md:text-lg font-body font-light leading-relaxed max-w-md mx-auto transition-colors duration-300",
-                  isDark ? "text-cream-200/80" : "text-muted-foreground"
+                  isDark ? "text-white/80" : "text-muted-foreground"
                 )}>
                   {pillar.description}
                 </p>

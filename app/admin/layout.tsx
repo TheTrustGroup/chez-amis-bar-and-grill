@@ -109,7 +109,7 @@ export default function AdminLayout({
         {/* Logo */}
         <div className="h-16 flex items-center justify-between px-6 border-b border-gray-800">
           <div>
-            <h1 className="text-xl font-serif text-amber-400">Chez Amis</h1>
+            <h1 className="text-xl font-display text-terra-500">Chez Amis</h1>
             <p className="text-xs text-gray-400">Admin Panel</p>
           </div>
           <button
@@ -160,7 +160,7 @@ export default function AdminLayout({
       <div className="lg:ml-64">
         
         {/* Top Bar */}
-        <header className="sticky top-0 z-30 h-16 bg-white border-b border-gray-200 flex items-center justify-between px-4 sm:px-6">
+        <header className="sticky top-0 z-30 h-16 bg-white border-b border-gray-200 flex items-center justify-between px-4 md:px-6">
           <button
             onClick={() => setSidebarOpen(true)}
             className="lg:hidden text-gray-600 hover:text-gray-900"
@@ -178,7 +178,7 @@ export default function AdminLayout({
           <div className="flex items-center gap-2 sm:gap-4">
             <div className="text-right hidden sm:block">
               <p className="text-sm font-medium text-gray-900">Admin User</p>
-              <p className="text-xs text-gray-500">admin@chezamis.com</p>
+              <p className="text-xs text-gray-500">admin@chezamisrestaurant.com</p>
             </div>
             <div className="w-10 h-10 bg-amber-100 rounded-full flex items-center justify-center flex-shrink-0">
               <span className="text-amber-700 font-semibold">A</span>

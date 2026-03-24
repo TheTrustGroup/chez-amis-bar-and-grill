@@ -16,20 +16,24 @@ export default function CartPage() {
   const total = getGrandTotal()
 
   return (
-    <div className="container mx-auto px-4 py-12">
-      <div className="max-w-4xl mx-auto">
-        <div className="text-center mb-12">
-          <h1 className="text-4xl md:text-5xl font-display font-light mb-4">Your Selection</h1>
-          <p className="text-muted-foreground text-lg font-body font-light">
-            Review your items before placing your order
-          </p>
-        </div>
+    <div className="min-h-screen bg-neutral-50 dark:bg-green-700 transition-colors">
+      <section className="section-shell">
+        <div className="section-shell-inner">
+        <div className="max-w-4xl mx-auto">
+          <div className="text-center section-heading-margin">
+            <h1 className="hero-title tracking-tight text-neutral-900 dark:text-white mb-4">
+              Your Selection
+            </h1>
+            <p className="text-muted-foreground text-lg font-body font-light">
+              Review your items before placing your order
+            </p>
+          </div>
 
         {items.length === 0 ? (
-          <Card>
+          <Card className="rounded-sm border border-border/30 bg-neutral-50 dark:bg-green-600/40 dark:border-green-700/50 shadow-sm">
             <CardHeader>
               <CardTitle className="flex items-center gap-2 font-display font-light">
-                <ShoppingBag className="h-5 w-5" />
+                <ShoppingBag className="h-5 w-5 shrink-0" aria-hidden />
                 Your Selection is Empty
               </CardTitle>
               <CardDescription className="font-body font-light">
@@ -38,13 +42,13 @@ export default function CartPage() {
             </CardHeader>
             <CardContent>
               <Link href="/menu">
-                <Button className="w-full font-heading font-light tracking-wide">View Menu</Button>
+                <Button className="w-full min-h-[48px] font-body font-light tracking-wide">View Menu</Button>
               </Link>
             </CardContent>
           </Card>
         ) : (
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            <div className="lg:col-span-2 space-y-4">
+          <div className="grid grid-cols-1 lg:grid-cols-3 grid-gap-section">
+            <div className="lg:col-span-2 space-y-0 rounded-sm border border-border/30 bg-neutral-50 dark:bg-green-600/40 dark:border-green-700/50 px-4 md:px-6">
               {items.map((item) => (
                 <SelectionItem
                   key={item.id}
@@ -56,7 +60,7 @@ export default function CartPage() {
             </div>
 
             <div className="lg:col-span-1">
-              <Card>
+              <Card className="rounded-sm border border-border/30 bg-neutral-50 dark:bg-green-600/40 dark:border-green-700/50 shadow-sm lg:sticky lg:top-24">
                 <CardHeader>
                   <CardTitle className="font-display font-light">Order Summary</CardTitle>
                 </CardHeader>
@@ -80,7 +84,7 @@ export default function CartPage() {
                     <span>GH₵ {total.toFixed(2)}</span>
                   </div>
                   <Link href="/place-order">
-                    <Button className="w-full font-heading font-light tracking-wide" size="lg">
+                    <Button className="w-full min-h-[48px] font-body font-light tracking-wide" size="lg">
                       Proceed to Checkout
                       <ArrowRight className="ml-2 h-4 w-4" />
                     </Button>
@@ -90,7 +94,9 @@ export default function CartPage() {
             </div>
           </div>
         )}
-      </div>
+        </div>
+        </div>
+      </section>
     </div>
   )
 }

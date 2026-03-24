@@ -1,4 +1,7 @@
 import { Metadata } from "next"
+import { BreadcrumbJsonLd } from "@/components/seo/BreadcrumbJsonLd"
+import { MenuSectionJsonLd } from "@/components/seo/MenuSectionJsonLd"
+import { schemaFeaturedMenuItems } from "@/lib/data/menuData"
 
 export const metadata: Metadata = {
   title: "Menu - Attieke & Fine Dining",
@@ -16,6 +19,17 @@ export default function MenuLayout({
 }: {
   children: React.ReactNode
 }) {
-  return <>{children}</>
+  return (
+    <>
+      <BreadcrumbJsonLd
+        items={[
+          { name: "Home", path: "/" },
+          { name: "Menu", path: "/menu" },
+        ]}
+      />
+      <MenuSectionJsonLd items={schemaFeaturedMenuItems} />
+      {children}
+    </>
+  )
 }
 

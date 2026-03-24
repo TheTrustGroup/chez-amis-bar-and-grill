@@ -1,6 +1,7 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
+import { useFocusTrap } from "@/lib/utils/useFocusTrap"
 import Image from "next/image"
 import Link from "next/link"
 import { Play, ArrowRight, X } from "lucide-react"
@@ -13,8 +14,11 @@ export function FeaturedGallerySection() {
   const [selectedMedia, setSelectedMedia] = useState<FeaturedMediaItem | null>(null)
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [isVisible, setIsVisible] = useState(false)
+  const modalRef = useRef<HTMLDivElement>(null)
   const { resolvedTheme } = useTheme()
   const isDark = resolvedTheme === "dark"
+
+  useFocusTrap(isModalOpen, modalRef, selectedMedia?.id ?? "")
 
   useEffect(() => {
     setIsVisible(true)
@@ -49,25 +53,25 @@ export function FeaturedGallerySection() {
   return (
     <>
       <section className={cn(
-        "section-padding transition-colors duration-300",
-        isDark ? "bg-charcoal-950/50" : "bg-background"
+        "section-shell transition-colors duration-300",
+        isDark ? "bg-green-700/50" : "bg-background"
       )}>
-        <div className="container-custom">
+        <div className="section-shell-inner">
           {/* Section Header */}
           <div className={cn(
             "text-center mb-12 md:mb-16",
             "animate-fade-in-up"
           )}>
             <h2 className={cn(
-              "text-4xl md:text-5xl lg:text-6xl font-display font-light mb-4 transition-colors duration-300",
-              isDark ? "text-cream-100" : "text-foreground"
+              "section-title mb-4 transition-colors duration-300",
+              isDark ? "text-white" : "text-foreground"
             )}>
               A Taste of What Awaits
             </h2>
-            <div className="w-24 md:w-32 h-0.5 bg-gradient-to-r from-transparent via-gold-500 to-transparent mx-auto mb-6 shadow-lg shadow-gold-500/50" />
+            <div className="w-24 md:w-32 h-0.5 bg-gradient-to-r from-transparent via-terra-500 to-transparent mx-auto mb-6 shadow-lg shadow-terra-500/50" />
             <p className={cn(
               "text-lg md:text-xl font-body font-light max-w-2xl mx-auto transition-colors duration-300",
-              isDark ? "text-cream-200/80" : "text-muted-foreground"
+              isDark ? "text-white/80" : "text-muted-foreground"
             )}>
               Explore our visual story of culinary excellence, crafted with passion and served with pride
             </p>
@@ -82,7 +86,7 @@ export function FeaturedGallerySection() {
                 className={cn(
                   "group relative aspect-square rounded-lg overflow-hidden cursor-pointer",
                   "shadow-lg hover:shadow-xl transition-all duration-300",
-                  "bg-charcoal-900" // Fallback background
+                  "bg-green-600" // Fallback background
                 )}
               >
                 {/* Video Thumbnail - Use video element to show first frame */}
@@ -90,10 +94,11 @@ export function FeaturedGallerySection() {
                   <>
                     <video
                       src={item.src}
+                      poster={item.poster}
                       className="absolute inset-0 w-full h-full object-cover"
                       muted
                       playsInline
-                      preload="metadata"
+                      preload="none"
                       onLoadedMetadata={(e) => {
                         // Seek to first frame for thumbnail
                         const video = e.currentTarget
@@ -101,7 +106,7 @@ export function FeaturedGallerySection() {
                       }}
                     />
                     {/* Fallback gradient overlay */}
-                    <div className="absolute inset-0 bg-gradient-to-br from-charcoal-900/80 via-charcoal-800/60 to-burgundy-900/80" />
+                    <div className="absolute inset-0 bg-gradient-to-br from-green-600/80 via-green-700/60 to-green-900/80" />
                   </>
                 ) : (
                   <Image
@@ -124,7 +129,7 @@ export function FeaturedGallerySection() {
                 {/* Video Play Button */}
                 {item.type === "video" && (
                   <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="w-12 h-12 md:w-16 md:h-16 bg-gold-500/90 backdrop-blur-sm rounded-full flex items-center justify-center group-hover:scale-110 transition-transform shadow-lg">
+                    <div className="w-12 h-12 md:w-16 md:h-16 bg-terra-500/90 backdrop-blur-sm rounded-full flex items-center justify-center group-hover:scale-110 transition-transform shadow-lg">
                       <Play className="w-6 h-6 md:w-8 md:h-8 text-white ml-1" fill="white" />
                     </div>
                   </div>
@@ -133,7 +138,7 @@ export function FeaturedGallerySection() {
                 {/* Title Overlay (for videos) */}
                 {item.type === "video" && item.title && (
                   <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/80 to-transparent">
-                    <p className="text-white text-sm font-heading font-medium">{item.title}</p>
+                    <p className="text-white text-sm font-body font-medium">{item.title}</p>
                   </div>
                 )}
               </div>
@@ -153,8 +158,8 @@ export function FeaturedGallerySection() {
                   "min-w-[200px]",
                   "border-2",
                   isDark
-                    ? "border-gold-500/50 text-cream-100 bg-gold-500/5 hover:bg-gold-500/10 hover:border-gold-500/80 hover:shadow-lg hover:shadow-gold-500/20"
-                    : "border-gold-500/60 text-foreground bg-transparent hover:bg-gold-500/5 hover:border-gold-500/80 hover:shadow-lg"
+                    ? "border-terra-500/50 text-white bg-terra-500/5 hover:bg-terra-500/10 hover:border-terra-500/80 hover:shadow-lg hover:shadow-terra-500/20"
+                    : "border-terra-500/60 text-foreground bg-transparent hover:bg-terra-500/5 hover:border-terra-500/80 hover:shadow-lg"
                 )}
               >
                 View Full Gallery
@@ -168,6 +173,10 @@ export function FeaturedGallerySection() {
       {/* LIGHTBOX MODAL for Videos */}
       {isModalOpen && selectedMedia && (
         <div
+          ref={modalRef}
+          role="dialog"
+          aria-modal="true"
+          aria-label="Featured media"
           className="fixed inset-0 bg-black/95 z-50 flex items-center justify-center p-4 animate-fade-in"
           onClick={closeModal}
         >
@@ -175,7 +184,7 @@ export function FeaturedGallerySection() {
           <button
             onClick={closeModal}
             className="absolute top-4 right-4 z-50 bg-white/10 backdrop-blur-sm p-3 rounded-full hover:bg-white/20 transition-colors min-h-[44px] min-w-[44px] flex items-center justify-center"
-            aria-label="Close"
+            aria-label="Close featured media"
           >
             <X className="w-6 h-6 text-white" />
           </button>
@@ -205,10 +214,11 @@ export function FeaturedGallerySection() {
               <div className="relative w-full">
                 <video
                   src={selectedMedia.src}
+                  poster={selectedMedia.poster}
                   controls
-                  autoPlay
-                  className="w-full max-h-[80vh] rounded-lg"
                   playsInline
+                  preload="metadata"
+                  className="w-full max-h-[80vh] rounded-lg"
                 >
                   <source src={selectedMedia.src} type="video/mp4" />
                   Your browser does not support the video tag.
@@ -222,7 +232,7 @@ export function FeaturedGallerySection() {
                 {selectedMedia.title || selectedMedia.alt}
               </h3>
               {selectedMedia.title && (
-                <p className="text-cream-200/80 font-body font-light text-sm">
+                <p className="text-white/80 font-body font-light text-sm">
                   {selectedMedia.alt}
                 </p>
               )}

@@ -26,19 +26,19 @@ export default function OrderSummaryPage() {
 
   if (items.length === 0) {
     return (
-      <div className="min-h-screen flex items-center justify-center py-20">
-        <div className="text-center max-w-md mx-auto px-6">
-          <h1 className="text-3xl md:text-4xl font-display font-light text-foreground mb-4">
+      <div className="min-h-screen flex flex-col items-center justify-center bg-neutral-50 dark:bg-green-700 transition-colors section-padding-sm">
+        <div className="section-shell-inner w-full max-w-md text-center">
+          <h1 className="hero-title tracking-tight text-neutral-900 dark:text-white mb-4">
             Your Selection is Empty
           </h1>
-          <p className="text-muted-foreground font-body font-light mb-8">
+          <p className="text-muted-foreground font-body font-light mb-8 prose-readable mx-auto">
             Explore our menu to begin your culinary journey
           </p>
           <Link href="/menu">
             <Button
               variant="outline"
               size="lg"
-              className="font-heading font-light tracking-wide border-gold-500/60"
+              className="w-full min-h-[48px] font-body font-light tracking-wide border-terra-500/60 sm:w-auto"
             >
               View Menu
             </Button>
@@ -49,28 +49,29 @@ export default function OrderSummaryPage() {
   }
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-neutral-50 dark:bg-green-700 transition-colors">
       {/* Header */}
-      <div className="bg-cream-50 border-b border-border/50 py-8 md:py-12">
-        <div className="container-custom">
-          <h1 className="text-4xl md:text-5xl font-display font-light text-foreground mb-2">
+      <section className="w-full overflow-hidden border-b border-border/50 bg-neutral-50 dark:bg-green-600/40 section-padding-sm">
+        <div className="section-shell-inner">
+          <h1 className="hero-title tracking-tight text-neutral-900 dark:text-white mb-2">
             Review Your Selection
           </h1>
           <p className="text-lg text-muted-foreground font-body font-light">
             Review your items before proceeding to checkout
           </p>
         </div>
-      </div>
+      </section>
 
-      <div className="container-custom py-12 md:py-16">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 lg:gap-16">
+      <section className="section-shell">
+        <div className="section-shell-inner">
+        <div className="grid grid-cols-1 lg:grid-cols-3 grid-gap-section">
           {/* Main Content - Items List */}
           <div className="lg:col-span-2 space-y-6">
             <div>
-              <h2 className="text-2xl font-display font-light text-foreground mb-6">
+              <h2 className="section-title text-neutral-900 dark:text-white mb-6">
                 Selected Items ({items.length})
               </h2>
-              <div className="bg-background rounded-lg border border-border/30 divide-y divide-border/30">
+              <div className="rounded-sm border border-border/30 bg-neutral-50 dark:bg-green-600/40 dark:border-green-700/50 card-padding">
                 {items.map((item) => (
                   <SelectionItem
                     key={item.id}
@@ -87,7 +88,7 @@ export default function OrderSummaryPage() {
               <Link href="/menu">
                 <Button
                   variant="outline"
-                  className="font-heading font-light tracking-wide border-gold-500/60"
+                  className="min-h-[48px] font-body font-light tracking-wide border-terra-500/60"
                 >
                   <ShoppingBag className="mr-2 h-4 w-4" />
                   Continue Shopping
@@ -98,8 +99,8 @@ export default function OrderSummaryPage() {
 
           {/* Sidebar - Order Summary & Checkout */}
           <div className="lg:col-span-1">
-            <div className="sticky top-24 bg-cream-50 rounded-lg p-6 border border-border/30 space-y-6">
-              <h2 className="text-xl font-display font-light text-foreground">
+            <div className="sticky top-24 rounded-sm border border-border/30 bg-neutral-50 dark:bg-green-600/40 dark:border-green-700/50 card-padding space-y-6 shadow-sm">
+              <h2 className="text-xl font-display font-light text-neutral-900 dark:text-white">
                 Order Summary
               </h2>
 
@@ -128,7 +129,7 @@ export default function OrderSummaryPage() {
 
               <Button
                 onClick={handleProceedToCheckout}
-                className="w-full font-heading font-light tracking-wide bg-foreground text-background hover:bg-foreground/90"
+                className="w-full min-h-[48px] font-body font-light tracking-wide bg-foreground text-background hover:bg-foreground/90"
                 size="lg"
               >
                 Proceed to Checkout
@@ -141,7 +142,8 @@ export default function OrderSummaryPage() {
             </div>
           </div>
         </div>
-      </div>
+        </div>
+      </section>
     </div>
   )
 }

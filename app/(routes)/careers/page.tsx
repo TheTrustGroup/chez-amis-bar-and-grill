@@ -60,15 +60,15 @@ export default function CareersPage() {
   ]
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-neutral-50 dark:bg-green-700 transition-colors">
       {/* Hero Section */}
-      <section className="section-padding bg-gradient-to-b from-charcoal-900 via-charcoal-800 to-charcoal-900 text-cream-100">
-        <div className="container-custom">
+      <section className="section-shell bg-gradient-to-b from-green-600 via-green-700 to-green-600 text-white">
+        <div className="section-shell-inner">
           <div className="max-w-3xl mx-auto text-center space-y-6">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-light">
+            <h1 className="hero-title tracking-tight">
               Join Our Team
             </h1>
-            <p className="text-lg md:text-xl font-body font-light text-cream-200/80">
+            <p className="text-lg md:text-xl font-body font-light text-white/80">
               Be part of a team that&apos;s passionate about exceptional food and hospitality
             </p>
           </div>
@@ -76,12 +76,12 @@ export default function CareersPage() {
       </section>
 
       {/* Main Content */}
-      <section className="section-padding">
-        <div className="container-custom">
+      <section className="section-shell">
+        <div className="section-shell-inner">
           <div className="max-w-4xl mx-auto space-y-12">
             {/* Why Work With Us */}
             <div className="space-y-6">
-              <h2 className="text-3xl md:text-4xl font-display font-light text-foreground">
+              <h2 className="section-title text-neutral-900 dark:text-white">
                 Why Work at Chez Amis?
               </h2>
               <p className="text-lg font-body font-light text-muted-foreground leading-relaxed">
@@ -92,8 +92,8 @@ export default function CareersPage() {
             {/* Benefits Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {benefits.map((benefit, index) => (
-                <div key={index} className="bg-cream-50 rounded-lg p-6 space-y-4">
-                  <div className="text-gold-600">{benefit.icon}</div>
+                <div key={index} className="rounded-sm border border-border/30 bg-neutral-50 dark:bg-green-600/40 dark:border-green-700/50 p-6 space-y-4">
+                  <div className="text-terra-600">{benefit.icon}</div>
                   <h3 className="text-xl font-display font-light text-foreground">
                     {benefit.title}
                   </h3>
@@ -106,14 +106,14 @@ export default function CareersPage() {
 
             {/* Open Positions */}
             <div className="space-y-6">
-              <h2 className="text-3xl md:text-4xl font-display font-light text-foreground">
+              <h2 className="section-title text-neutral-900 dark:text-white">
                 Open Positions
               </h2>
               <div className="space-y-4">
                 {positions.map((position, index) => (
                   <div
                     key={index}
-                    className="bg-cream-50 rounded-lg p-6 md:p-8 border border-charcoal-200/20 hover:shadow-md transition-shadow"
+                    className="rounded-sm bg-neutral-50 dark:bg-green-600/40 p-6 md:p-8 border border-border/30 dark:border-green-700/50 hover:shadow-md transition-shadow"
                   >
                     <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4 mb-4">
                       <div>
@@ -133,7 +133,7 @@ export default function CareersPage() {
                     <Link href="/contact">
                       <Button
                         variant="outline"
-                        className="border-2 border-gold-500/50 text-gold-600 hover:bg-gold-500/10 hover:border-gold-500 font-heading font-light"
+                        className="border-2 border-terra-500/50 text-terra-600 hover:bg-terra-500/10 hover:border-terra-500 font-body font-light"
                       >
                         Apply Now
                       </Button>
@@ -144,52 +144,52 @@ export default function CareersPage() {
             </div>
 
             {/* General Application */}
-            <div className="bg-charcoal-900 text-cream-100 rounded-lg p-8 md:p-12 space-y-6">
+            <div className="bg-green-600 text-white rounded-lg p-8 md:p-12 space-y-6">
               <h2 className="text-2xl md:text-3xl font-display font-light">
                 Don&apos;t See a Position That Fits?
               </h2>
-              <p className="text-cream-200/80 font-body font-light leading-relaxed">
+              <p className="text-white/80 font-body font-light leading-relaxed">
                 We&apos;re always looking for talented individuals to join our team. Even if you don&apos;t see a specific position listed, we&apos;d love to hear from you. Send us your resume and let us know how you&apos;d like to contribute to the Chez Amis experience.
               </p>
               <div className="pt-4 space-y-4">
                 <div className="flex items-center gap-4">
-                  <Mail className="h-5 w-5 text-gold-500" />
+                  <Mail className="h-5 w-5 text-terra-500" />
                   <div>
-                    <p className="font-heading font-medium text-cream-100">Email</p>
+                    <p className="font-body font-medium text-white">Email</p>
                     <a
                       href="mailto:chez@chezamisrestaurant.com"
-                      className="text-gold-400 hover:text-gold-300 transition-colors"
+                      className="text-terra-400 hover:text-terra-300 transition-colors"
                     >
                       chez@chezamisrestaurant.com
                     </a>
                   </div>
                 </div>
                 <div className="flex items-center gap-4">
-                  <Phone className="h-5 w-5 text-gold-500" />
+                  <Phone className="h-5 w-5 text-terra-500" />
                   <div>
-                    <p className="font-heading font-medium text-cream-100">Phone</p>
+                    <p className="font-body font-medium text-white">Phone</p>
                     <div className="space-y-1">
                       <a
                         href="tel:+233557032312"
-                        className="block text-gold-400 hover:text-gold-300 transition-colors"
+                        className="block text-terra-400 hover:text-terra-300 transition-colors"
                       >
                         +233 055 703 2312
                       </a>
                       <a
                         href="tel:+233557032335"
-                        className="block text-gold-400 hover:text-gold-300 transition-colors"
+                        className="block text-terra-400 hover:text-terra-300 transition-colors"
                       >
                         +233 055 703 2335
                       </a>
                     <a
                       href="tel:+233243952339"
-                        className="block text-gold-400 hover:text-gold-300 transition-colors"
+                        className="block text-terra-400 hover:text-terra-300 transition-colors"
                     >
                         +233 024 395 2339
                       </a>
                       <a
                         href="tel:+233502432037"
-                        className="block text-gold-400 hover:text-gold-300 transition-colors"
+                        className="block text-terra-400 hover:text-terra-300 transition-colors"
                       >
                         +233 050 243 2037
                     </a>
@@ -201,7 +201,7 @@ export default function CareersPage() {
                 <Link href="/contact">
                   <Button
                     variant="outline"
-                    className="border-2 border-gold-500/50 text-gold-400 hover:bg-gold-500/10 hover:border-gold-500 font-heading font-light"
+                    className="border-2 border-terra-500/50 text-terra-400 hover:bg-terra-500/10 hover:border-terra-500 font-body font-light"
                   >
                     Contact Us
                   </Button>
@@ -214,7 +214,7 @@ export default function CareersPage() {
               <Link href="/">
                 <Button
                   variant="outline"
-                  className="group border-2 border-foreground/20 text-foreground hover:bg-foreground/5 hover:border-foreground/40 font-heading font-light tracking-wide"
+                  className="group border-2 border-foreground/20 text-foreground hover:bg-foreground/5 hover:border-foreground/40 font-body font-light tracking-wide"
                 >
                   <ArrowLeft className="mr-2 h-4 w-4 transition-transform group-hover:-translate-x-1" />
                   Back to Home

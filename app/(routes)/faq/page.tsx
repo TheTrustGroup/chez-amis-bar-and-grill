@@ -4,10 +4,13 @@ import { useState } from "react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { ArrowLeft, ChevronDown, ChevronUp } from "lucide-react"
-import { Metadata } from "next"
+import { useTheme } from "@/lib/context/ThemeContext"
+import { cn } from "@/lib/utils"
 
 export default function FAQPage() {
   const [openIndex, setOpenIndex] = useState<number | null>(0)
+  const { resolvedTheme } = useTheme()
+  const isDark = resolvedTheme === "dark"
 
   const faqs = [
     {
@@ -77,15 +80,15 @@ export default function FAQPage() {
   }
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className={cn("min-h-screen transition-colors", isDark ? "bg-green-700" : "bg-neutral-50")}>
       {/* Hero Section */}
-      <section className="section-padding bg-gradient-to-b from-charcoal-900 via-charcoal-800 to-charcoal-900 text-cream-100">
-        <div className="container-custom">
+      <section className="section-shell bg-gradient-to-b from-green-600 via-green-700 to-green-600 text-white">
+        <div className="section-shell-inner">
           <div className="max-w-3xl mx-auto text-center space-y-6">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-light">
+            <h1 className="hero-title tracking-tight">
               Frequently Asked Questions
             </h1>
-            <p className="text-lg md:text-xl font-body font-light text-cream-200/80">
+            <p className="text-lg md:text-xl font-body font-light text-white/80">
               Find answers to common questions about dining at Chez Amis
             </p>
           </div>
@@ -93,31 +96,34 @@ export default function FAQPage() {
       </section>
 
       {/* Main Content */}
-      <section className="section-padding">
-        <div className="container-custom">
+      <section className={cn("section-shell", isDark ? "bg-green-700" : "bg-neutral-50")}>
+        <div className="section-shell-inner">
           <div className="max-w-3xl mx-auto space-y-4">
             {faqs.map((faq, index) => (
               <div
                 key={index}
-                className="bg-cream-50 rounded-lg border border-charcoal-200/20 overflow-hidden transition-all hover:shadow-md"
+                className={cn(
+                  "rounded-lg border overflow-hidden transition-all hover:shadow-md",
+                  isDark ? "bg-green-600/40 border-green-700/50" : "bg-neutral-50 border-border/30",
+                )}
               >
                 <button
                   onClick={() => toggleFAQ(index)}
-                  className="w-full px-6 py-5 text-left flex items-center justify-between gap-4 focus:outline-none focus:ring-2 focus:ring-gold-500/50 rounded-lg"
+                  className="w-full px-6 py-5 text-left flex items-center justify-between gap-4 focus:outline-none focus:ring-2 focus:ring-terra-500/50 rounded-lg"
                   aria-expanded={openIndex === index}
                 >
                   <h3 className="text-lg md:text-xl font-display font-light text-foreground pr-4">
                     {faq.question}
                   </h3>
                   {openIndex === index ? (
-                    <ChevronUp className="h-5 w-5 text-gold-600 flex-shrink-0" />
+                    <ChevronUp className="h-5 w-5 text-terra-600 flex-shrink-0" />
                   ) : (
-                    <ChevronDown className="h-5 w-5 text-gold-600 flex-shrink-0" />
+                    <ChevronDown className="h-5 w-5 text-terra-600 flex-shrink-0" />
                   )}
                 </button>
                 {openIndex === index && (
                   <div className="px-6 pb-5">
-                    <div className="pt-2 border-t border-charcoal-200/20">
+                    <div className="pt-2 border-t border-neutral-200/20">
                       <p className="text-muted-foreground font-body font-light leading-relaxed">
                         {faq.answer}
                       </p>
@@ -129,18 +135,18 @@ export default function FAQPage() {
           </div>
 
           {/* Contact Section */}
-          <div className="max-w-3xl mx-auto mt-12 bg-charcoal-900 text-cream-100 rounded-lg p-8 md:p-12 text-center space-y-6">
+          <div className="max-w-3xl mx-auto mt-12 bg-green-600 text-white rounded-lg p-8 md:p-12 text-center space-y-6">
             <h2 className="text-2xl md:text-3xl font-display font-light">
               Still have questions?
             </h2>
-            <p className="text-cream-200/80 font-body font-light leading-relaxed">
+            <p className="text-white/80 font-body font-light leading-relaxed">
               We&apos;re here to help! Contact us and we&apos;ll be happy to assist you.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link href="/contact">
                 <Button
                   variant="outline"
-                  className="border-2 border-gold-500/50 text-gold-400 hover:bg-gold-500/10 hover:border-gold-500 font-heading font-light"
+                  className="border-2 border-terra-500/50 text-terra-400 hover:bg-terra-500/10 hover:border-terra-500 font-body font-light"
                 >
                   Contact Us
                 </Button>
@@ -148,7 +154,7 @@ export default function FAQPage() {
               <a href="tel:+233557032312">
                 <Button
                   variant="outline"
-                  className="border-2 border-gold-500/50 text-gold-400 hover:bg-gold-500/10 hover:border-gold-500 font-heading font-light"
+                  className="border-2 border-terra-500/50 text-terra-400 hover:bg-terra-500/10 hover:border-terra-500 font-body font-light"
                 >
                   Call Us
                 </Button>
@@ -161,7 +167,7 @@ export default function FAQPage() {
             <Link href="/">
               <Button
                 variant="outline"
-                className="group border-2 border-foreground/20 text-foreground hover:bg-foreground/5 hover:border-foreground/40 font-heading font-light tracking-wide"
+                className="group border-2 border-foreground/20 text-foreground hover:bg-foreground/5 hover:border-foreground/40 font-body font-light tracking-wide"
               >
                 <ArrowLeft className="mr-2 h-4 w-4 transition-transform group-hover:-translate-x-1" />
                 Back to Home

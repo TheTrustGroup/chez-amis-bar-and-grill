@@ -4,8 +4,7 @@ import { useState } from "react"
 import { Card, CardContent, CardFooter } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { MenuItem } from "@/lib/data/menuData"
-import { MenuItem as CartMenuItem } from "@/lib/menuData"
+import { MenuItem, dietaryLabelList } from "@/lib/data/menuData"
 import { ShoppingCart, ChefHat, Star, Sparkles } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { useCart } from "@/lib/hooks/useCart"
@@ -29,21 +28,7 @@ export function PremiumMenuCard({ item, onAddToCart }: PremiumMenuCardProps) {
     try {
       await new Promise((resolve) => setTimeout(resolve, 300))
       
-      // Convert MenuItem to CartMenuItem format
-      const cartItem: CartMenuItem = {
-        id: item.id,
-        name: item.name,
-        description: item.description,
-        price: item.price || (item.portionSizes?.[0]?.price ?? 0),
-        category: item.category,
-        image: item.image || "/images/placeholders/dish-placeholder.svg",
-        tags: item.tags || [],
-        available: item.available !== false,
-        popular: false, // Default to false if not available
-        spicyLevel: item.spicyLevel,
-      }
-      
-      addToCart(cartItem, 1)
+      addToCart(item, 1)
       onAddToCart?.(item)
     } catch (error) {
       // Error is handled by toast notification
@@ -63,13 +48,13 @@ export function PremiumMenuCard({ item, onAddToCart }: PremiumMenuCardProps) {
     return (
       <Card className={cn(
         "flex flex-col h-full opacity-60 border",
-        isDark ? "bg-charcoal-900/30 border-charcoal-800/50" : "bg-card/50 border-border/30"
+        isDark ? "bg-green-600/30 border-green-700/50" : "bg-card/50 border-border/30"
       )}>
         <CardContent className="p-6">
           <div className="text-center">
             <p className={cn(
               "font-body font-light",
-              isDark ? "text-cream-200/60" : "text-muted-foreground"
+              isDark ? "text-white/60" : "text-muted-foreground"
             )}>
               Currently unavailable
             </p>
@@ -84,21 +69,21 @@ export function PremiumMenuCard({ item, onAddToCart }: PremiumMenuCardProps) {
 
   return (
     <Card className={cn(
-      "group relative overflow-hidden flex flex-col h-full transition-all duration-700 ease-out",
+      "group relative overflow-hidden flex flex-col h-full rounded-sm transition-all duration-700 ease-out",
       "hover:shadow-2xl hover:-translate-y-3",
       isDark 
-        ? "bg-charcoal-900/50 border-charcoal-800/50 hover:border-gold-500/40"
-        : "bg-card/50 backdrop-blur-sm border-border/50 hover:border-gold-500/40",
+        ? "bg-green-600/50 border-green-700/50 hover:border-terra-500/40"
+        : "bg-card/50 backdrop-blur-sm border-border/50 hover:border-terra-500/40",
       "hover:scale-[1.02]"
     )}>
       {/* Image Container with Premium Effects */}
-      <div className="relative h-56 md:h-64 overflow-hidden bg-gradient-to-br from-charcoal-200 to-charcoal-300">
+      <div className="relative aspect-[4/3] w-full overflow-hidden rounded-none bg-gradient-to-br from-neutral-200 to-neutral-300">
         {/* Dish Image with Fallback */}
         <ImageWithFallback
           src={item.image}
           alt={item.name}
           fill
-          className="object-cover transition-transform duration-700 ease-out group-hover:scale-110"
+          className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           priority={false}
         />
@@ -109,7 +94,7 @@ export function PremiumMenuCard({ item, onAddToCart }: PremiumMenuCardProps) {
             <Badge 
               variant="category" 
               className={cn(
-                "bg-gold-500 text-charcoal-900 shadow-lg backdrop-blur-sm",
+                "bg-terra-500 text-neutral-900 shadow-lg backdrop-blur-sm",
                 "flex items-center gap-1 font-semibold animate-fade-in"
               )}
             >
@@ -141,7 +126,7 @@ export function PremiumMenuCard({ item, onAddToCart }: PremiumMenuCardProps) {
         {/* Gold Accent Glow on Hover */}
         <div className={cn(
           "absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 z-10",
-          "bg-gradient-to-br from-gold-500/20 via-transparent to-transparent"
+          "bg-gradient-to-br from-terra-500/20 via-transparent to-transparent"
         )} />
       </div>
 
@@ -151,23 +136,23 @@ export function PremiumMenuCard({ item, onAddToCart }: PremiumMenuCardProps) {
         <div className="flex items-start justify-between gap-3">
           <h3 className={cn(
             "text-lg md:text-xl font-display font-light leading-tight flex-1",
-            isDark ? "text-cream-100" : "text-foreground",
-            "group-hover:text-gold-600 transition-colors duration-300"
+            isDark ? "text-white" : "text-foreground",
+            "group-hover:text-terra-600 transition-colors duration-300"
           )}>
             {item.name}
           </h3>
           <div className="flex-shrink-0 text-right">
             <p className={cn(
               "text-xl md:text-2xl font-bold",
-              isDark ? "text-gold-400" : "text-primary",
-              "transition-colors duration-300 group-hover:text-gold-600"
+              isDark ? "text-terra-400" : "text-terra-600",
+              "transition-colors duration-300 group-hover:text-terra-500"
             )}>
               {formatPrice(getDisplayPrice())}
             </p>
             {item.portionSizes && item.portionSizes.length > 1 && (
               <p className={cn(
                 "text-xs mt-0.5",
-                isDark ? "text-cream-200/60" : "text-muted-foreground"
+                isDark ? "text-white/60" : "text-muted-foreground"
               )}>
                 From
               </p>
@@ -178,10 +163,17 @@ export function PremiumMenuCard({ item, onAddToCart }: PremiumMenuCardProps) {
         {/* Description */}
         <p className={cn(
           "text-sm md:text-base font-body font-light leading-relaxed line-clamp-2",
-          isDark ? "text-cream-200/80" : "text-muted-foreground"
+          isDark ? "text-white/80" : "text-muted-foreground"
         )}>
           {item.description}
         </p>
+
+        {item.featured && (
+          <p className="flex items-center gap-2 text-sm font-display italic text-green-700 dark:text-white/90">
+            <span className="inline-block h-1.5 w-1.5 shrink-0 rounded-full bg-terra-500" aria-hidden />
+            Chef&apos;s selection
+          </p>
+        )}
 
         {/* Tags and Dietary Info */}
         <div className="flex flex-wrap gap-2">
@@ -194,7 +186,7 @@ export function PremiumMenuCard({ item, onAddToCart }: PremiumMenuCardProps) {
               {String(tag)}
             </Badge>
           ))}
-          {item.dietary && item.dietary.map((diet, index) => (
+          {dietaryLabelList(item.dietary).map((diet, index) => (
             <Badge key={`diet-${index}`} variant="tag" className="text-xs">
               {diet}
             </Badge>
@@ -205,7 +197,7 @@ export function PremiumMenuCard({ item, onAddToCart }: PremiumMenuCardProps) {
       {/* Footer with Add to Cart */}
       <CardFooter className={cn(
         "flex items-center justify-between p-5 md:p-6 pt-0 border-t",
-        isDark ? "border-charcoal-800/50" : "border-border/50"
+        isDark ? "border-green-700/50" : "border-border/50"
       )}>
         <Button
           size="sm"
@@ -214,8 +206,8 @@ export function PremiumMenuCard({ item, onAddToCart }: PremiumMenuCardProps) {
           disabled={isAdding || !item.available}
           className={cn(
             "font-semibold relative overflow-hidden group/btn transition-all duration-300",
-            "hover:scale-105 active:scale-95 w-full",
-            "shadow-lg hover:shadow-xl hover:shadow-gold-500/30"
+            "hover:scale-105 active:scale-95 w-full min-h-[48px]",
+            "shadow-lg hover:shadow-xl hover:shadow-terra-500/30"
           )}
           aria-label={`Add ${item.name} to order`}
         >

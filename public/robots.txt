@@ -8,4 +8,4 @@ Disallow: /_next/
 Disallow: /order-confirmation/
 
 # Sitemap
-Sitemap: https://chezamis.com/sitemap.xml
+Sitemap: https://chezamisrestaurant.com/sitemap.xml

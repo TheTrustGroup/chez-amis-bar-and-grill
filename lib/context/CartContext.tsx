@@ -2,7 +2,7 @@
 
 import React, { createContext, useContext, useState, useEffect, useCallback } from "react"
 import { CartItem, CartContextType, CartCustomizations } from "@/lib/types/cart"
-import { MenuItem } from "@/lib/menuData"
+import { MenuItem, resolveMenuItemUnitPrice } from "@/lib/data/menuData"
 import {
   CART_STORAGE_KEY,
   CART_EXPIRY_HOURS,
@@ -112,20 +112,21 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
           const existingItem = prevItems[existingItemIndex]
           const newQuantity = Math.min(existingItem.quantity + quantity, MAX_QUANTITY)
           const newItems = [...prevItems]
+          const unit = resolveMenuItemUnitPrice(menuItem, customizations)
           newItems[existingItemIndex] = {
             ...existingItem,
             quantity: newQuantity,
-            subtotal: menuItem.price * newQuantity,
+            subtotal: unit * newQuantity,
           }
           return newItems
         } else {
-          // New item
+          const unit = resolveMenuItemUnitPrice(menuItem, customizations)
           const newItem: CartItem = {
             id: cartItemId,
             menuItem,
             quantity,
             customizations,
-            subtotal: menuItem.price * quantity,
+            subtotal: unit * quantity,
           }
           return [...prevItems, newItem]
         }
@@ -156,10 +157,11 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
 
       const item = prevItems[itemIndex]
       const newItems = [...prevItems]
+      const unit = resolveMenuItemUnitPrice(item.menuItem, item.customizations)
       newItems[itemIndex] = {
         ...item,
         quantity,
-        subtotal: item.menuItem.price * quantity,
+        subtotal: unit * quantity,
       }
       return newItems
     })

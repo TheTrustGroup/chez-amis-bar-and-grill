@@ -61,7 +61,7 @@ export default function AdminLoginPage() {
         
         {/* Logo & Title */}
         <div className="text-center mb-8">
-          <h1 className="text-4xl font-serif text-amber-400 mb-2">Chez Amis</h1>
+          <h1 className="text-4xl font-display text-terra-500 mb-2">Chez Amis</h1>
           <p className="text-gray-400 text-sm tracking-wider uppercase">Admin Portal</p>
         </div>
 
@@ -96,7 +96,7 @@ export default function AdminLoginPage() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-amber-500 focus:border-transparent"
-                  placeholder="admin@chezamis.com"
+                  placeholder="admin@chezamisrestaurant.com"
                   required
                 />
               </div>

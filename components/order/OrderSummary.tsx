@@ -40,15 +40,15 @@ export function OrderSummary({ orderType, onPlaceOrder, canPlaceOrder = false, i
 
   return (
     <div className="lg:sticky lg:top-24 h-fit">
-      <div className="bg-cream-50 rounded-lg p-6 md:p-8 border border-border/30 space-y-6 shadow-sm">
+      <div className="rounded-sm border border-border/30 bg-neutral-50 dark:bg-green-600/40 dark:border-green-700/50 p-6 md:p-8 space-y-6 shadow-sm">
         <div>
-          <h2 className="text-2xl font-display font-light text-foreground mb-4">
+          <h2 className="text-2xl font-display font-light text-neutral-900 dark:text-white mb-4">
             Your Order
           </h2>
           {orderType && (
             <Badge
               variant="outline"
-              className="font-heading font-light tracking-wide border-gold-500/60 text-gold-600"
+              className="font-body font-light tracking-wide border-terra-500/60 text-terra-600"
             >
               {getOrderTypeLabel()}
             </Badge>
@@ -65,9 +65,9 @@ export function OrderSummary({ orderType, onPlaceOrder, canPlaceOrder = false, i
             <div className="space-y-4 max-h-[400px] overflow-y-auto scrollbar-hide">
               {items.map((item) => (
                 <div key={item.id} className="flex gap-3 pb-4 border-b border-border/20 last:border-b-0">
-                  <div className="flex-shrink-0 w-16 h-16 rounded-lg overflow-hidden border border-border/30 bg-gradient-to-br from-charcoal-900 to-burgundy-900">
+                  <div className="flex-shrink-0 w-16 h-16 rounded-lg overflow-hidden border border-border/30 bg-gradient-to-br from-green-600 to-green-900">
                     {/* In production, use Next.js Image */}
-                    <div className="w-full h-full flex items-center justify-center text-cream-200/20 text-xs">
+                    <div className="w-full h-full flex items-center justify-center text-neutral-200/20 text-xs">
                       {item.menuItem.name.charAt(0)}
                     </div>
                   </div>
@@ -78,7 +78,7 @@ export function OrderSummary({ orderType, onPlaceOrder, canPlaceOrder = false, i
                     <p className="text-xs text-muted-foreground font-body font-light">
                       Qty: {item.quantity}
                     </p>
-                    <p className="text-sm font-display font-light text-gold-600 mt-1">
+                    <p className="text-sm font-display font-light text-terra-600 mt-1">
                       GH₵ {item.subtotal.toFixed(2)}
                     </p>
                   </div>
@@ -120,7 +120,7 @@ export function OrderSummary({ orderType, onPlaceOrder, canPlaceOrder = false, i
 
             {/* Estimated Time */}
             <div className="flex items-center gap-2 pt-4 border-t border-border/30">
-              <Clock className="h-4 w-4 text-muted-foreground" />
+              <Clock className="h-4 w-4 text-muted-foreground shrink-0" aria-hidden />
               <p className="text-sm text-muted-foreground font-body font-light">
                 Ready in 35-45 minutes
               </p>
@@ -133,7 +133,7 @@ export function OrderSummary({ orderType, onPlaceOrder, canPlaceOrder = false, i
                   onClick={onPlaceOrder}
                   disabled={!canPlaceOrder || isSubmitting}
                   size="lg"
-                  className="w-full font-heading font-light tracking-wide bg-foreground text-background hover:bg-foreground/90 disabled:opacity-50 disabled:cursor-not-allowed text-lg px-8 py-7 shadow-lg hover:shadow-xl transition-all"
+                  className="w-full font-body font-light tracking-wide bg-foreground text-background hover:bg-foreground/90 disabled:opacity-50 disabled:cursor-not-allowed text-lg px-8 py-7 shadow-lg hover:shadow-xl transition-all"
                 >
                   {isSubmitting ? 'Placing Order...' : 'Place Order'}
                 </Button>

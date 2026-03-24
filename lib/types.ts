@@ -1,31 +1,7 @@
-export interface MenuItem {
-  id: string
-  name: string
-  description: string
-  price: number
-  category: MenuCategory
-  image?: string
-  allergens?: string[]
-  vegetarian?: boolean
-  vegan?: boolean
-  glutenFree?: boolean
-  badges?: string[] // e.g., "Bestseller", "Spicy", "New"
-  featured?: boolean
-}
+import type { MenuItem } from '@/lib/data/menuData'
+import type { CartItem } from '@/lib/types/cart'
 
-export type MenuCategory = 
-  | "appetizers"
-  | "mains"
-  | "desserts"
-  | "drinks"
-  | "specials"
-
-export interface CartItem {
-  id: string
-  menuItem: MenuItem
-  quantity: number
-  specialInstructions?: string
-}
+export type { MenuItem }
 
 export interface Order {
   id: string
@@ -50,14 +26,14 @@ export interface CustomerInfo {
   deliveryInstructions?: string
 }
 
-export type OrderStatus = 
-  | "pending"
-  | "confirmed"
-  | "preparing"
-  | "ready"
-  | "out-for-delivery"
-  | "delivered"
-  | "cancelled"
+export type OrderStatus =
+  | 'pending'
+  | 'confirmed'
+  | 'preparing'
+  | 'ready'
+  | 'out-for-delivery'
+  | 'delivered'
+  | 'cancelled'
 
 export interface Testimonial {
   id: string
@@ -67,4 +43,3 @@ export interface Testimonial {
   date: Date
   image?: string
 }
-

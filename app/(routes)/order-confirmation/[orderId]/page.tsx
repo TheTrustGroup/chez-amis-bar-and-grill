@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useState, useMemo, useCallback } from "react"
-import { useParams, useRouter, useSearchParams } from "next/navigation"
+import { useParams, useSearchParams } from "next/navigation"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { CheckCircle2, Clock, MapPin, UtensilsCrossed, ShoppingBag, Truck, Mail, MessageSquare, CheckCircle, XCircle } from "lucide-react"
@@ -10,7 +10,6 @@ import { OrderType } from "@/components/order/OrderTypeSelector"
 
 export default function OrderConfirmationPage() {
   const params = useParams()
-  const router = useRouter()
   const searchParams = useSearchParams()
   const { items, clearCart, getSubtotal, getTax, getDeliveryFee, getServiceCharge, getGrandTotal } = useCartContext()
   const [isAnimating, setIsAnimating] = useState(true)
@@ -203,25 +202,26 @@ export default function OrderConfirmationPage() {
   const total = totalParam ? parseFloat(totalParam) : getGrandTotal(orderData.orderType)
 
   return (
-    <div className="min-h-screen bg-background flex items-center justify-center py-20">
-      <div className="container-custom max-w-3xl">
+    <div className="min-h-screen bg-neutral-50 dark:bg-green-700 flex items-center justify-center py-20 transition-colors">
+      <div className="section-shell-inner max-w-3xl">
         <div className="text-center space-y-8">
           {/* Success Animation */}
-          <div className="flex justify-center">
+          <div className="flex justify-center" aria-hidden>
             <div
               className={`relative transition-all duration-500 ${
                 isAnimating ? "scale-110" : "scale-100"
               }`}
             >
               <div
-                className={`w-24 h-24 rounded-full bg-gold-500/10 flex items-center justify-center transition-opacity duration-500 ${
+                className={`w-24 h-24 rounded-full bg-terra-500/10 flex items-center justify-center transition-opacity duration-500 ${
                   isAnimating ? "opacity-100" : "opacity-100"
                 }`}
               >
                 <CheckCircle2
-                  className={`h-12 w-12 text-gold-600 transition-all duration-500 ${
+                  className={`h-12 w-12 text-terra-600 transition-all duration-500 ${
                     isAnimating ? "scale-0" : "scale-100"
                   }`}
+                  aria-hidden
                 />
               </div>
             </div>
@@ -229,7 +229,7 @@ export default function OrderConfirmationPage() {
 
           {/* Thank You Message */}
           <div className="space-y-4">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-light text-foreground">
+            <h1 className="hero-title tracking-tight text-neutral-900 dark:text-white">
               Thank You, {orderData.customerName}!
             </h1>
             <p className="text-lg md:text-xl text-muted-foreground font-body font-light">
@@ -238,7 +238,7 @@ export default function OrderConfirmationPage() {
           </div>
 
           {/* Order Number */}
-          <div className="bg-cream-50 rounded-lg p-6 border border-border/30">
+          <div className="rounded-sm border border-border/30 bg-neutral-50 dark:bg-green-600/40 dark:border-green-700/50 p-6">
             <p className="text-sm text-muted-foreground font-body font-light mb-2">
               Order Number
             </p>
@@ -248,9 +248,9 @@ export default function OrderConfirmationPage() {
           </div>
 
           {/* Order Summary */}
-          <div className="bg-cream-50 rounded-lg p-6 md:p-8 border border-border/30 text-left space-y-6">
+          <div className="rounded-sm border border-border/30 bg-neutral-50 dark:bg-green-600/40 dark:border-green-700/50 p-6 md:p-8 text-left space-y-6">
             <div className="flex items-center gap-3 pb-4 border-b border-border/30">
-              <OrderIcon className="h-5 w-5 text-gold-600" />
+              <OrderIcon className="h-5 w-5 text-terra-600 shrink-0" aria-hidden />
               <div>
                 <p className="text-sm text-muted-foreground font-body font-light">
                   Order Type
@@ -271,7 +271,7 @@ export default function OrderConfirmationPage() {
                 <>
                   {orderData.date && (
                     <div className="flex items-start gap-3">
-                      <Clock className="h-5 w-5 text-muted-foreground mt-0.5" />
+                      <Clock className="h-5 w-5 text-muted-foreground mt-0.5" aria-hidden />
                       <div>
                         <p className="text-sm text-muted-foreground font-body font-light">
                           Date
@@ -284,7 +284,7 @@ export default function OrderConfirmationPage() {
                   )}
                   {orderData.time && (
                     <div className="flex items-start gap-3">
-                      <Clock className="h-5 w-5 text-muted-foreground mt-0.5" />
+                      <Clock className="h-5 w-5 text-muted-foreground mt-0.5" aria-hidden />
                       <div>
                         <p className="text-sm text-muted-foreground font-body font-light">
                           Time
@@ -297,7 +297,7 @@ export default function OrderConfirmationPage() {
                   )}
                   {orderData.guests && (
                     <div className="flex items-start gap-3">
-                      <UtensilsCrossed className="h-5 w-5 text-muted-foreground mt-0.5" />
+                      <UtensilsCrossed className="h-5 w-5 text-muted-foreground mt-0.5" aria-hidden />
                       <div>
                         <p className="text-sm text-muted-foreground font-body font-light">
                           Number of Guests
@@ -310,7 +310,7 @@ export default function OrderConfirmationPage() {
                   )}
                   {orderData.tableNumber && (
                     <div className="flex items-start gap-3">
-                      <MapPin className="h-5 w-5 text-muted-foreground mt-0.5" />
+                      <MapPin className="h-5 w-5 text-muted-foreground mt-0.5" aria-hidden />
                       <div>
                         <p className="text-sm text-muted-foreground font-body font-light">
                           Table Number
@@ -328,7 +328,7 @@ export default function OrderConfirmationPage() {
                 <>
                   {orderData.deliveryAddress && (
                     <div className="flex items-start gap-3">
-                      <MapPin className="h-5 w-5 text-muted-foreground mt-0.5" />
+                      <MapPin className="h-5 w-5 text-muted-foreground mt-0.5" aria-hidden />
                       <div>
                         <p className="text-sm text-muted-foreground font-body font-light">
                           Delivery Address
@@ -340,7 +340,7 @@ export default function OrderConfirmationPage() {
                     </div>
                   )}
                   <div className="flex items-start gap-3">
-                    <Truck className="h-5 w-5 text-muted-foreground mt-0.5" />
+                    <Truck className="h-5 w-5 text-muted-foreground mt-0.5" aria-hidden />
                     <div>
                       <p className="text-sm text-muted-foreground font-body font-light">
                         Delivery Time
@@ -359,7 +359,7 @@ export default function OrderConfirmationPage() {
                 <>
                   {orderData.pickupTime && (
                     <div className="flex items-start gap-3">
-                      <Clock className="h-5 w-5 text-muted-foreground mt-0.5" />
+                      <Clock className="h-5 w-5 text-muted-foreground mt-0.5" aria-hidden />
                       <div>
                         <p className="text-sm text-muted-foreground font-body font-light">
                           Pickup Time
@@ -371,7 +371,7 @@ export default function OrderConfirmationPage() {
                     </div>
                   )}
                   <div className="flex items-start gap-3">
-                    <ShoppingBag className="h-5 w-5 text-muted-foreground mt-0.5" />
+                    <ShoppingBag className="h-5 w-5 text-muted-foreground mt-0.5" aria-hidden />
                     <div>
                       <p className="text-sm text-muted-foreground font-body font-light">
                         Pickup Location
@@ -419,8 +419,8 @@ export default function OrderConfirmationPage() {
           </div>
 
           {/* What's Next */}
-          <div className="bg-cream-50 rounded-lg p-6 md:p-8 border border-border/30">
-            <h2 className="text-xl md:text-2xl font-display font-light text-foreground mb-3">
+          <div className="rounded-sm border border-border/30 bg-neutral-50 dark:bg-green-600/40 dark:border-green-700/50 p-6 md:p-8">
+            <h2 className="text-xl md:text-2xl font-display font-light text-neutral-900 dark:text-white mb-3">
               What&apos;s Next?
             </h2>
             <p className="text-muted-foreground font-body font-light mb-4">
@@ -434,21 +434,21 @@ export default function OrderConfirmationPage() {
               <div className="flex items-center gap-3 text-sm">
                 {emailStatus === 'sent' ? (
                   <>
-                    <CheckCircle className="h-5 w-5 text-green-600" />
+                    <CheckCircle className="h-5 w-5 text-green-600" aria-hidden />
                     <span className="text-muted-foreground font-body font-light">
                       Confirmation email sent to your email address
                     </span>
                   </>
                 ) : emailStatus === 'failed' ? (
                   <>
-                    <XCircle className="h-5 w-5 text-amber-600" />
+                    <XCircle className="h-5 w-5 text-amber-600" aria-hidden />
                     <span className="text-muted-foreground font-body font-light">
                       Email confirmation could not be sent, but your order is confirmed
                     </span>
                   </>
                 ) : (
                   <>
-                    <Mail className="h-5 w-5 text-muted-foreground" />
+                    <Mail className="h-5 w-5 text-muted-foreground" aria-hidden />
                     <span className="text-muted-foreground font-body font-light">
                       Confirmation email will be sent shortly
                     </span>
@@ -459,21 +459,21 @@ export default function OrderConfirmationPage() {
               <div className="flex items-center gap-3 text-sm">
                 {smsStatus === 'sent' ? (
                   <>
-                    <CheckCircle className="h-5 w-5 text-green-600" />
+                    <CheckCircle className="h-5 w-5 text-green-600" aria-hidden />
                     <span className="text-muted-foreground font-body font-light">
                       Confirmation SMS sent to your phone
                     </span>
                   </>
                 ) : smsStatus === 'failed' ? (
                   <>
-                    <XCircle className="h-5 w-5 text-amber-600" />
+                    <XCircle className="h-5 w-5 text-amber-600" aria-hidden />
                     <span className="text-muted-foreground font-body font-light">
                       SMS confirmation could not be sent, but your order is confirmed
                     </span>
                   </>
                 ) : (
                   <>
-                    <MessageSquare className="h-5 w-5 text-muted-foreground" />
+                    <MessageSquare className="h-5 w-5 text-muted-foreground" aria-hidden />
                     <span className="text-muted-foreground font-body font-light">
                       Confirmation SMS will be sent shortly
                     </span>
@@ -489,7 +489,7 @@ export default function OrderConfirmationPage() {
               <Button
                 variant="outline"
                 size="lg"
-                className="font-heading font-light tracking-wide border-gold-500/60 w-full sm:w-auto"
+                className="font-body font-light tracking-wide border-terra-500/60 w-full sm:w-auto"
               >
                 Back to Menu
               </Button>
@@ -497,7 +497,7 @@ export default function OrderConfirmationPage() {
             <Button
               variant="ghost"
               size="lg"
-              className="font-heading font-light tracking-wide w-full sm:w-auto"
+              className="font-body font-light tracking-wide w-full sm:w-auto"
               disabled
             >
               Track Order

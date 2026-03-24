@@ -34,10 +34,11 @@ export function VideoBackground({
     <section className={cn("relative overflow-hidden", className)}>
       {/* Video Background */}
       <video
-        autoPlay={!isMobile} // Disable autoplay on mobile to save data
+        autoPlay={!isMobile}
         muted
         loop
         playsInline
+        preload="none"
         poster={poster}
         className="absolute inset-0 w-full h-full object-cover"
       >

@@ -17,14 +17,14 @@ export function QuickActions({ variant = "inline", className }: QuickActionsProp
       icon: Phone,
       href: "tel:+233557032312",
       action: "call",
-      className: "bg-gold-600 text-cream-100 hover:bg-gold-700",
+      className: "bg-terra-600 text-white hover:bg-terra-700",
     },
     {
       label: "Get Directions",
       icon: MapPin,
       href: "https://maps.google.com/?q=40+Boundary+Rd+Accra+Ghana",
       action: "directions",
-      className: "bg-charcoal-900 text-cream-100 hover:bg-charcoal-800",
+      className: "bg-green-600 text-white hover:bg-green-700",
     },
   ]
 
@@ -34,7 +34,7 @@ export function QuickActions({ variant = "inline", className }: QuickActionsProp
         <div className="flex gap-2 max-w-md mx-auto">
           <a
             href="tel:+233557032312"
-            className="flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-lg bg-gold-600 text-cream-100 font-heading font-light tracking-wide shadow-lg active:scale-95 transition-transform"
+            className="flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-lg bg-terra-600 text-white font-body font-light tracking-wide shadow-lg active:scale-95 transition-transform"
             aria-label="Call us now"
           >
             <Phone className="h-5 w-5" />
@@ -57,7 +57,7 @@ export function QuickActions({ variant = "inline", className }: QuickActionsProp
               target={action.href.startsWith("http") ? "_blank" : undefined}
               rel={action.href.startsWith("http") ? "noopener noreferrer" : undefined}
               className={cn(
-                "flex items-center gap-2 px-4 py-2.5 rounded-lg font-heading font-light tracking-wide text-sm shadow-soft",
+                "flex items-center gap-2 px-4 py-2.5 rounded-lg font-body font-light tracking-wide text-sm shadow-soft",
                 "active:scale-95 transition-transform",
                 action.className
               )}
@@ -84,7 +84,7 @@ export function QuickActions({ variant = "inline", className }: QuickActionsProp
             target={action.href.startsWith("http") ? "_blank" : undefined}
             rel={action.href.startsWith("http") ? "noopener noreferrer" : undefined}
             className={cn(
-              "flex items-center gap-2 px-4 py-2.5 rounded-lg font-heading font-light tracking-wide text-sm shadow-soft min-h-[44px]",
+              "flex items-center gap-2 px-4 py-2.5 rounded-lg font-body font-light tracking-wide text-sm shadow-soft min-h-[44px]",
               "active:scale-95 transition-transform",
               action.className
             )}

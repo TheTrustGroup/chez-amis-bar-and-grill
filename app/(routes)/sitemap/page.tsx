@@ -29,15 +29,15 @@ export default function SitemapPage() {
   ]
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-neutral-50 dark:bg-green-700 transition-colors">
       {/* Hero Section */}
-      <section className="section-padding bg-gradient-to-b from-charcoal-900 via-charcoal-800 to-charcoal-900 text-cream-100">
-        <div className="container-custom">
+      <section className="section-shell bg-gradient-to-b from-green-600 via-green-700 to-green-600 text-white">
+        <div className="section-shell-inner">
           <div className="max-w-3xl mx-auto text-center space-y-6">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-light">
+            <h1 className="hero-title tracking-tight">
               Sitemap
             </h1>
-            <p className="text-lg md:text-xl font-body font-light text-cream-200/80">
+            <p className="text-lg md:text-xl font-body font-light text-white/80">
               Navigate our website easily
             </p>
           </div>
@@ -45,11 +45,11 @@ export default function SitemapPage() {
       </section>
 
       {/* Main Content */}
-      <section className="section-padding">
-        <div className="container-custom">
+      <section className="section-shell">
+        <div className="section-shell-inner">
           <div className="max-w-3xl mx-auto space-y-8">
-            <div className="bg-cream-50 rounded-lg p-8 md:p-12">
-              <h2 className="text-2xl md:text-3xl font-display font-light text-foreground mb-6">
+            <div className="rounded-sm border border-border/30 bg-neutral-50 dark:bg-green-600/40 dark:border-green-700/50 p-8 md:p-12">
+              <h2 className="section-title text-neutral-900 dark:text-white mb-6">
                 All Pages
               </h2>
               <ul className="space-y-3">
@@ -57,7 +57,7 @@ export default function SitemapPage() {
                   <li key={page.href}>
                     <Link
                       href={page.href}
-                      className="text-gold-600 hover:text-gold-700 font-body font-light transition-colors underline underline-offset-2"
+                      className="text-terra-600 hover:text-terra-700 font-body font-light transition-colors underline underline-offset-2"
                     >
                       {page.label}
                     </Link>
@@ -71,7 +71,7 @@ export default function SitemapPage() {
               <Link href="/">
                 <Button
                   variant="outline"
-                  className="group border-2 border-foreground/20 text-foreground hover:bg-foreground/5 hover:border-foreground/40 font-heading font-light tracking-wide"
+                  className="group border-2 border-foreground/20 text-foreground hover:bg-foreground/5 hover:border-foreground/40 font-body font-light tracking-wide"
                 >
                   <ArrowLeft className="mr-2 h-4 w-4 transition-transform group-hover:-translate-x-1" />
                   Back to Home

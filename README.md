@@ -1,38 +1,21 @@
 # Chez Amis Bar and Grill
 
-A modern, production-ready restaurant website built with Next.js 14, TypeScript, and Tailwind CSS.
+Production website for Chez Amis Restaurant in Accra: menu, reservations, gallery, and online ordering. Built as a fast, SEO-friendly Next.js app with a Tailwind-based design system aligned to the brand.
 
-## Tech Stack
+## Tech stack
 
-- Next.js 14 (App Router)
-- TypeScript
-- Tailwind CSS
-- Shadcn/ui
-- React Hook Form
-- Zod
-- Lucide React
+- Next.js 14 (App Router), React 18, TypeScript
+- Tailwind CSS, shadcn-style UI primitives
+- React Hook Form + Zod for forms
+- Resend (email) and Twilio (SMS) behind service modules
 
-## Getting Started
+## Local setup
 
-First, install the dependencies:
+1. `npm install`
+2. Copy [`.env.example`](.env.example) to `.env.local` and fill in values (see comments in the file). Narrative notes: [`docs/environment.md`](docs/environment.md).
+3. `npm run dev` — open [http://localhost:3000](http://localhost:3000)
+4. `npm run build` before deploy to verify types and lint.
 
-```bash
-npm install
-```
+## Documentation
 
-Then, run the development server:
-
-```bash
-npm run dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-## Project Structure
-
-- `/app` - Next.js app router pages and layouts
-- `/components` - React components
-- `/lib` - Utility functions, types, and validations
-- `/public` - Static assets
-- `/styles` - Global styles
-
+Operational notes, deployment, audits, and setup guides live under [`docs/`](docs/). Start there for environment variables, hosting, and handover material.

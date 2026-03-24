@@ -61,6 +61,16 @@ This directory contains all media assets for the Chez Amis Bar and Grill website
 - Example: `chef-preparing-attieke.mp4`
 - Poster: `chef-preparing-attieke-poster.jpg`
 
+### Convert `.mov` to web-friendly MP4 (H.264 + AAC, fast start):
+
+```bash
+ffmpeg -i input.mov -vcodec h264 -acodec aac -movflags +faststart output.mp4
+```
+
+### Web delivery
+
+Gallery videos in `lib/data/galleryMedia.ts` use **`.mp4`** (H.264 + AAC, `faststart`). If you still have matching **`.mov`** sources in `public/media/videos/`, you can delete them after verifying playback to reduce repo size (`.mov` is gitignored when added anew).
+
 ## Upload Instructions
 
 1. **Organize files** by category before uploading

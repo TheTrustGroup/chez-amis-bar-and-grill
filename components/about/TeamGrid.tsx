@@ -1,10 +1,11 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect, useRef } from "react"
 import Image from "next/image"
 import { Card, CardContent } from "@/components/ui/card"
 import { X } from "lucide-react"
 import { cn } from "@/lib/utils"
+import { useFocusTrap } from "@/lib/utils/useFocusTrap"
 
 interface TeamMember {
   id: string
@@ -22,7 +23,7 @@ const teamMembers: TeamMember[] = [
     role: "Chez Amis",
     bio: "Trained in Paris under Michelin-starred chefs, Chef Chez Amis brings over 20 years of culinary excellence to Chez Amis Restaurant. Her innovative approach to combining French techniques with local Ghanaian flavors has earned her recognition as one of Accra's most celebrated chefs.",
     specialty: "Ivorian - Ghanaian fusion",
-    image: "/media/images/IMG_8209.jpg",
+    image: "/media/images/img-8209.jpg",
   },
   {
     id: "2",
@@ -30,7 +31,7 @@ const teamMembers: TeamMember[] = [
     role: "Sous Chef",
     bio: "With a passion for seasonal ingredients and sustainable cooking, Chef Ama oversees our daily kitchen operations. Her meticulous attention to detail ensures every dish meets our exacting standards.",
     specialty: "Seasonal Cuisine",
-    image: "/images/team/sous-chef.jpg",
+    image: "/media/images/img-6740.jpg",
   },
   {
     id: "3",
@@ -38,7 +39,7 @@ const teamMembers: TeamMember[] = [
     role: "Pastry Chef",
     bio: "A master of the sweet arts, Chef Sarah creates desserts that are both visually stunning and delightfully delicious. Her background in patisserie brings an elegant touch to our dessert menu.",
     specialty: "Artisan Pastries",
-    image: "/images/team/pastry-chef.jpg",
+    image: "/media/images/img-7189.jpg",
   },
   {
     id: "4",
@@ -46,7 +47,7 @@ const teamMembers: TeamMember[] = [
     role: "Sommelier",
     bio: "Our resident wine expert, Kofi curates our extensive wine selection and creates perfect pairings for every dish. His knowledge and passion for wine enhance the dining experience for our guests.",
     specialty: "Wine Pairing",
-    image: "/images/team/sommelier.jpg",
+    image: "/media/images/img-8021.jpg",
   },
   {
     id: "5",
@@ -54,20 +55,41 @@ const teamMembers: TeamMember[] = [
     role: "General Manager",
     bio: "Efua ensures that every aspect of your visit exceeds expectations. With a background in hospitality management, she orchestrates the seamless flow of service that makes Chez Amis special.",
     specialty: "Guest Experience",
-    image: "/images/team/gm.jpg",
+    image: "/media/images/img-0822-2.jpg",
   },
 ]
 
 export function TeamGrid() {
   const [selectedMember, setSelectedMember] = useState<TeamMember | null>(null)
+  const dialogRef = useRef<HTMLDivElement>(null)
+
+  useFocusTrap(!!selectedMember, dialogRef, selectedMember?.id ?? "")
+
+  useEffect(() => {
+    if (!selectedMember) return
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setSelectedMember(null)
+    }
+    window.addEventListener("keydown", onKey)
+    return () => window.removeEventListener("keydown", onKey)
+  }, [selectedMember])
+
+  useEffect(() => {
+    if (!selectedMember) return
+    const prev = document.body.style.overflow
+    document.body.style.overflow = "hidden"
+    return () => {
+      document.body.style.overflow = prev
+    }
+  }, [selectedMember])
 
   return (
-    <section className="section-padding bg-background" aria-labelledby="team-heading">
-      <div className="container-custom">
+    <section className="section-shell bg-background" aria-labelledby="team-heading">
+      <div className="section-shell-inner">
         <div className="text-center mb-16 md:mb-20">
           <h2
             id="team-heading"
-            className="text-4xl md:text-5xl lg:text-6xl font-display font-light text-foreground mb-4"
+            className="section-title text-foreground mb-4"
           >
             Meet the Artisans Behind Your Experience
           </h2>
@@ -107,11 +129,11 @@ export function TeamGrid() {
                   }}
                 />
                 {/* Fallback gradient background */}
-                <div className="absolute inset-0 bg-gradient-to-br from-charcoal-900 via-charcoal-800 to-burgundy-900 -z-10" />
+                <div className="absolute inset-0 bg-gradient-to-br from-green-600 via-green-700 to-green-900 -z-10" />
                 {/* Lighter overlay on hover - less intrusive */}
                 <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-colors duration-500 flex items-center justify-center">
                   <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-500 text-center px-6">
-                    <p className="text-cream-100 font-body font-light text-sm leading-relaxed line-clamp-4 drop-shadow-lg">
+                    <p className="text-white font-body font-light text-sm leading-relaxed line-clamp-4 drop-shadow-lg">
                       {member.bio}
                     </p>
                   </div>
@@ -121,7 +143,7 @@ export function TeamGrid() {
                 <h3 className="text-xl md:text-2xl font-display font-light text-foreground mb-1">
                   {member.name}
                 </h3>
-                <p className="text-sm text-gold-600 font-heading font-light tracking-wide uppercase mb-2">
+                <p className="text-sm text-terra-600 font-body font-light tracking-wide uppercase mb-2">
                   {member.role}
                 </p>
                 <p className="text-sm text-muted-foreground font-body font-light">
@@ -134,25 +156,28 @@ export function TeamGrid() {
 
         {/* Lightbox Modal */}
         {selectedMember && (
-          <>
+          <div
+            ref={dialogRef}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby={`team-member-dialog-title-${selectedMember.id}`}
+            className="fixed inset-0 z-50 flex items-center justify-center p-4"
+            onClick={() => setSelectedMember(null)}
+          >
+            <div className="absolute inset-0 bg-black/80 backdrop-blur-sm animate-fade-in" aria-hidden />
             <div
-              className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 animate-fade-in"
-              onClick={() => setSelectedMember(null)}
-              aria-hidden="true"
-            />
-            <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-              <div
-                className="bg-background rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-elegant animate-fade-in-up"
-                onClick={(e) => e.stopPropagation()}
-              >
+              className="relative bg-background rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-elegant animate-fade-in-up z-10"
+              onClick={(e) => e.stopPropagation()}
+            >
                 <div className="relative">
                   {/* Close Button */}
                   <button
+                    type="button"
                     onClick={() => setSelectedMember(null)}
-                    className="absolute top-4 right-4 z-10 p-2 rounded-full bg-background/80 backdrop-blur-sm hover:bg-background transition-colors"
-                    aria-label="Close"
+                    className="absolute top-4 right-4 z-10 min-h-[44px] min-w-[44px] p-2 rounded-full bg-background/80 backdrop-blur-sm hover:bg-background transition-colors flex items-center justify-center"
+                    aria-label="Close team member details"
                   >
-                    <X className="h-5 w-5" />
+                    <X className="h-5 w-5" aria-hidden />
                   </button>
 
                   {/* Member Image - Optimized for visibility */}
@@ -173,16 +198,19 @@ export function TeamGrid() {
                       }}
                     />
                     {/* Fallback gradient background */}
-                    <div className="absolute inset-0 bg-gradient-to-br from-charcoal-900 via-charcoal-800 to-burgundy-900 -z-10" />
+                    <div className="absolute inset-0 bg-gradient-to-br from-green-600 via-green-700 to-green-900 -z-10" />
                   </div>
 
                   {/* Member Details */}
                   <div className="p-6 md:p-8 space-y-4">
                     <div>
-                      <h3 className="text-3xl font-display font-light text-foreground mb-2">
+                      <h3
+                        id={`team-member-dialog-title-${selectedMember.id}`}
+                        className="text-3xl font-display font-light text-foreground mb-2"
+                      >
                         {selectedMember.name}
                       </h3>
-                      <p className="text-lg text-gold-600 font-heading font-light tracking-wide uppercase mb-4">
+                      <p className="text-lg text-terra-600 font-body font-light tracking-wide uppercase mb-4">
                         {selectedMember.role}
                       </p>
                       <p className="text-base text-muted-foreground font-body font-light mb-4">
@@ -194,9 +222,8 @@ export function TeamGrid() {
                     </div>
                   </div>
                 </div>
-              </div>
             </div>
-          </>
+          </div>
         )}
       </div>
     </section>

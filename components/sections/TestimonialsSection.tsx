@@ -15,7 +15,7 @@ const testimonials: Testimonial[] = [
     comment:
       "The best restaurant in Accra! The ambiance is perfect and the food is absolutely divine. Highly recommend the grilled salmon!",
     date: new Date("2024-01-15"),
-    image: "/images/avatars/sarah.jpg", // Placeholder
+    image: "/media/images/img-8209.jpg",
   },
   {
     id: "2",
@@ -24,7 +24,7 @@ const testimonials: Testimonial[] = [
     comment:
       "Chez Amis has become my go-to spot for both family dinners and business meetings. Professional service every time.",
     date: new Date("2024-01-20"),
-    image: "/images/avatars/kwame.jpg", // Placeholder
+    image: "/media/images/img-6740.jpg",
   },
   {
     id: "3",
@@ -33,7 +33,7 @@ const testimonials: Testimonial[] = [
     comment:
       "Their jollof rice is exceptional! Fast delivery and food arrived hot and fresh. Will definitely order again.",
     date: new Date("2024-01-25"),
-    image: "/images/avatars/ama.jpg", // Placeholder
+    image: "/media/images/img-7189.jpg",
   },
   {
     id: "4",
@@ -42,7 +42,7 @@ const testimonials: Testimonial[] = [
     comment:
       "Outstanding experience from start to finish. The wagyu burger is a must-try, and the staff goes above and beyond.",
     date: new Date("2024-02-01"),
-    image: "/images/avatars/kofi.jpg", // Placeholder
+    image: "/media/images/img-8021.jpg",
   },
   {
     id: "5",
@@ -51,7 +51,7 @@ const testimonials: Testimonial[] = [
     comment:
       "Perfect for date nights! Romantic atmosphere, delicious food, and impeccable service. We'll be back soon!",
     date: new Date("2024-02-05"),
-    image: "/images/avatars/efua.jpg", // Placeholder
+    image: "/media/images/img-0821-2.jpg",
   },
 ]
 
@@ -117,15 +117,15 @@ export function TestimonialsSection() {
 
   return (
     <section
-      className="py-16 md:py-24 bg-background"
+      className="section-shell bg-background"
       aria-labelledby="testimonials-heading"
     >
-      <div className="container mx-auto px-4">
+      <div className="section-shell-inner">
         {/* Section Header */}
-        <div className="text-center mb-12 md:mb-16">
+        <div className="text-center section-heading-margin">
           <h2
             id="testimonials-heading"
-            className="text-3xl md:text-4xl lg:text-5xl font-heading font-bold mb-4"
+            className="section-title text-foreground mb-4"
           >
             What Our Guests Say
           </h2>
@@ -137,7 +137,7 @@ export function TestimonialsSection() {
           <Button
             variant="ghost"
             size="icon"
-            className="absolute left-0 top-1/2 -translate-y-1/2 z-10 -translate-x-4 md:-translate-x-8 h-10 w-10 md:h-12 md:w-12 rounded-full bg-background shadow-lg hover:bg-accent border border-border"
+            className="absolute left-0 top-1/2 -translate-y-1/2 z-10 -translate-x-4 md:-translate-x-8 min-h-[48px] min-w-[48px] h-12 w-12 rounded-full bg-background shadow-lg hover:bg-accent border border-border"
             onClick={goToPrevious}
             aria-label="Previous testimonial"
           >
@@ -147,7 +147,7 @@ export function TestimonialsSection() {
           <Button
             variant="ghost"
             size="icon"
-            className="absolute right-0 top-1/2 -translate-y-1/2 z-10 translate-x-4 md:translate-x-8 h-10 w-10 md:h-12 md:w-12 rounded-full bg-background shadow-lg hover:bg-accent border border-border"
+            className="absolute right-0 top-1/2 -translate-y-1/2 z-10 translate-x-4 md:translate-x-8 min-h-[48px] min-w-[48px] h-12 w-12 rounded-full bg-background shadow-lg hover:bg-accent border border-border"
             onClick={goToNext}
             aria-label="Next testimonial"
           >
@@ -155,7 +155,7 @@ export function TestimonialsSection() {
           </Button>
 
           {/* Testimonials Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 grid-gap-section">
             {visibleTestimonials.map((testimonial) => (
               <div
                 key={testimonial.id}
@@ -195,7 +195,7 @@ interface TestimonialCardProps {
 function TestimonialCard({ testimonial }: TestimonialCardProps) {
   return (
     <Card className="h-full shadow-md hover:shadow-lg transition-shadow duration-300">
-      <CardContent className="p-6 md:p-8">
+      <CardContent className="card-padding">
         {/* Star Rating */}
         <div className="flex gap-1 mb-4" role="img" aria-label={`${testimonial.rating} out of 5 stars`}>
           {[...Array(5)].map((_, i) => (
@@ -215,7 +215,7 @@ function TestimonialCard({ testimonial }: TestimonialCardProps) {
         {/* Quote */}
         <blockquote className="mb-6">
           <p className="text-base md:text-lg text-muted-foreground leading-relaxed italic relative pl-6">
-            <span className="absolute left-0 top-0 text-4xl md:text-5xl text-primary/20 font-serif leading-none">
+            <span className="absolute left-0 top-0 text-4xl md:text-5xl text-primary/20 font-display leading-none">
               &ldquo;
             </span>
             {testimonial.comment}

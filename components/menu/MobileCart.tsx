@@ -1,5 +1,6 @@
 "use client"
 
+import { useEffect } from "react"
 import { X } from "lucide-react"
 import { useRouter } from "next/navigation"
 import { ImageWithFallback } from "@/components/ui/image-with-fallback"
@@ -29,6 +30,16 @@ export function MobileCart({ isOpen, onClose }: MobileCartProps) {
   const tax = getTax()
   const total = getGrandTotal()
 
+  useEffect(() => {
+    if (isOpen) {
+      const prev = document.body.style.overflow
+      document.body.style.overflow = "hidden"
+      return () => {
+        document.body.style.overflow = prev
+      }
+    }
+  }, [isOpen])
+
   const increaseQuantity = (itemId: string) => {
     const item = items.find((i) => i.id === itemId)
     if (item) {
@@ -49,133 +60,138 @@ export function MobileCart({ isOpen, onClose }: MobileCartProps) {
 
   return (
     <>
-      {/* Overlay */}
       {isOpen && (
-        <div
-          className="fixed inset-0 bg-black/50 z-40 lg:hidden"
+        <button
+          type="button"
+          className="fixed inset-0 z-40 bg-black/50 lg:hidden"
+          aria-label="Close cart overlay"
           onClick={onClose}
         />
       )}
 
-      {/* Cart Drawer */}
       <div
         className={cn(
-          "fixed right-0 top-0 h-full w-full max-w-md bg-white z-50 transform transition-transform duration-300 ease-in-out lg:hidden",
-          isOpen ? "translate-x-0" : "translate-x-full"
+          "fixed inset-x-0 bottom-0 z-50 flex max-h-[80vh] flex-col rounded-t-2xl bg-white shadow-2xl transition-transform duration-300 ease-out lg:hidden",
+          "pb-[max(1rem,env(safe-area-inset-bottom))]",
+          isOpen ? "translate-y-0" : "translate-y-full pointer-events-none"
         )}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="mobile-cart-title"
       >
-        <div className="flex flex-col h-full">
-          {/* Header */}
-          <div className="flex items-center justify-between p-4 border-b border-gray-200">
-            <h2 className="text-lg font-serif text-gray-900">Your Selection</h2>
-            <button
-              onClick={onClose}
-              className="p-2 min-w-[44px] min-h-[44px] flex items-center justify-center hover:bg-gray-100 active:bg-gray-200 rounded-full transition-colors touch-manipulation"
-              aria-label="Close cart"
-            >
-              <X className="w-6 h-6" />
-            </button>
-          </div>
+        <div className="w-10 h-1 shrink-0 rounded-full bg-neutral-200 mx-auto mt-3" aria-hidden />
 
-          {/* Content */}
-          <div className="flex-1 overflow-y-auto p-4">
-            {items.length === 0 ? (
-              <div className="text-center py-8">
-                <ShoppingBag className="w-12 h-12 mx-auto text-gray-300 mb-3" />
-                <p className="text-sm text-gray-500">Your selection is empty</p>
-              </div>
-            ) : (
-              <>
-                {/* Order Items */}
-                <div className="space-y-3 mb-6">
-                  {items.map((item) => (
-                    <div key={item.id} className="flex gap-3">
-                      <div className="w-12 h-12 rounded overflow-hidden flex-shrink-0">
-                        <ImageWithFallback
-                          src={item.menuItem.image}
-                          alt={item.menuItem.name}
-                          width={48}
-                          height={48}
-                          className="object-cover"
-                        />
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <p className="text-sm font-medium text-gray-900 truncate">
-                          {item.menuItem.name}
-                        </p>
-                        <div className="flex items-center justify-between mt-1">
-                          <div className="flex items-center gap-2">
-                            <button
-                              onClick={() => decreaseQuantity(item.id)}
-                              className="w-11 h-11 min-w-[44px] min-h-[44px] rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-100 active:bg-gray-200 transition-colors touch-manipulation"
-                              aria-label="Decrease quantity"
-                            >
-                              <Minus className="w-5 h-5" />
-                            </button>
-                            <span className="text-base font-medium w-10 text-center">
-                              {item.quantity}
-                            </span>
-                            <button
-                              onClick={() => increaseQuantity(item.id)}
-                              className="w-11 h-11 min-w-[44px] min-h-[44px] rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-100 active:bg-gray-200 transition-colors touch-manipulation"
-                              aria-label="Increase quantity"
-                            >
-                              <Plus className="w-5 h-5" />
-                            </button>
-                          </div>
-                          <p className="text-sm font-medium text-gray-900">
-                            {formatPrice(item.subtotal)}
-                          </p>
+        <div className="flex items-center justify-between border-b border-[var(--border)] px-4 py-3">
+          <h2 id="mobile-cart-title" className="text-lg font-display font-light text-[var(--text-primary)]">
+            Your Selection
+          </h2>
+          <button
+            type="button"
+            onClick={onClose}
+            className="flex min-h-[48px] min-w-[48px] items-center justify-center rounded-full hover:bg-neutral-100 active:bg-neutral-200 transition-colors"
+            aria-label="Close cart"
+          >
+            <X className="h-6 w-6 text-neutral-700" />
+          </button>
+        </div>
+
+        <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-4 py-4">
+          {items.length === 0 ? (
+            <div className="py-12 text-center">
+              <ShoppingBag className="mx-auto mb-3 h-12 w-12 text-neutral-300" />
+              <p className="text-sm text-neutral-500 font-body">Your selection is empty</p>
+            </div>
+          ) : (
+            <>
+              <div className="mb-6 space-y-4">
+                {items.map((item) => (
+                  <div key={item.id} className="flex gap-3">
+                    <div className="h-12 w-12 shrink-0 overflow-hidden rounded-md border border-[var(--border)]">
+                      <ImageWithFallback
+                        src={item.menuItem.image}
+                        alt={item.menuItem.name}
+                        width={48}
+                        height={48}
+                        className="h-full w-full object-cover"
+                      />
+                    </div>
+                    <div className="min-w-0 flex-1">
+                      <p className="truncate font-body text-sm font-medium text-[var(--text-primary)]">
+                        {item.menuItem.name}
+                      </p>
+                      <div className="mt-2 flex items-center justify-between gap-2">
+                        <div className="flex items-center gap-2">
+                          <button
+                            type="button"
+                            onClick={() => decreaseQuantity(item.id)}
+                            className="flex h-11 w-11 min-h-[44px] min-w-[44px] items-center justify-center rounded-full border border-neutral-200 hover:bg-neutral-50"
+                            aria-label="Decrease quantity"
+                          >
+                            <Minus className="h-5 w-5" />
+                          </button>
+                          <span className="w-10 text-center font-body text-base font-medium">
+                            {item.quantity}
+                          </span>
+                          <button
+                            type="button"
+                            onClick={() => increaseQuantity(item.id)}
+                            className="flex h-11 w-11 min-h-[44px] min-w-[44px] items-center justify-center rounded-full border border-neutral-200 hover:bg-neutral-50"
+                            aria-label="Increase quantity"
+                          >
+                            <Plus className="h-5 w-5" />
+                          </button>
                         </div>
+                        <p className="font-display text-sm font-medium text-terra-500">
+                          {formatPrice(item.subtotal)}
+                        </p>
                       </div>
                     </div>
-                  ))}
-                </div>
+                  </div>
+                ))}
+              </div>
 
-                {/* Order Summary */}
-                <div className="border-t border-gray-200 pt-4 space-y-2 mb-6">
-                  <div className="flex justify-between text-sm">
-                    <span className="text-gray-600">Subtotal</span>
-                    <span className="font-medium">{formatPrice(subtotal)}</span>
-                  </div>
-                  <div className="flex justify-between text-sm">
-                    <span className="text-gray-600">Tax (15%)</span>
-                    <span className="font-medium">{formatPrice(tax)}</span>
-                  </div>
-                  <div className="flex justify-between text-base font-semibold border-t border-gray-200 pt-2">
-                    <span>Total</span>
-                    <span className="text-amber-700">{formatPrice(total)}</span>
-                  </div>
+              <div className="mb-6 space-y-2 border-t border-[var(--border)] pt-4">
+                <div className="flex justify-between text-sm font-body">
+                  <span className="text-neutral-500">Subtotal</span>
+                  <span className="font-medium text-[var(--text-primary)]">{formatPrice(subtotal)}</span>
                 </div>
+                <div className="flex justify-between text-sm font-body">
+                  <span className="text-neutral-500">Tax (15%)</span>
+                  <span className="font-medium text-[var(--text-primary)]">{formatPrice(tax)}</span>
+                </div>
+                <div className="flex justify-between border-t border-[var(--border)] pt-2 font-body text-base font-semibold">
+                  <span>Total</span>
+                  <span className="font-display text-terra-500">{formatPrice(total)}</span>
+                </div>
+              </div>
 
-                {/* Action Buttons */}
-                <div className="space-y-2">
-                  <Button
-                    onClick={() => {
-                      router.push("/place-order")
-                      onClose()
-                    }}
-                    className="w-full bg-amber-500 text-white py-4 rounded-md hover:bg-amber-600 active:bg-amber-700 transition-colors font-medium min-h-[48px] text-base touch-manipulation"
-                  >
-                    Place Order
-                  </Button>
-                  <Button
-                    onClick={() => {
-                      router.push("/reservations")
-                      onClose()
-                    }}
-                    variant="outline"
-                    className="w-full border-2 border-amber-500 text-amber-700 py-4 rounded-md hover:bg-amber-50 active:bg-amber-100 transition-colors font-medium min-h-[48px] text-base touch-manipulation"
-                  >
-                    Reserve a Table
-                  </Button>
-                </div>
-              </>
-            )}
-          </div>
+              <div className="space-y-3">
+                <Button
+                  type="button"
+                  onClick={() => {
+                    router.push("/place-order")
+                    onClose()
+                  }}
+                  className="w-full bg-terra-500 text-white hover:bg-terra-600 min-h-[48px] shadow-[var(--shadow-terra)]"
+                >
+                  Place Order
+                </Button>
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={() => {
+                    router.push("/reservations")
+                    onClose()
+                  }}
+                  className="w-full min-h-[48px] border-green-500 text-green-600 hover:bg-green-50"
+                >
+                  Reserve a Table
+                </Button>
+              </div>
+            </>
+          )}
         </div>
       </div>
     </>
   )
 }
-

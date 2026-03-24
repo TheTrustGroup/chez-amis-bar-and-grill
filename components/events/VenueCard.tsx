@@ -24,7 +24,7 @@ const venues: Venue[] = [
     idealFor: ["Business dinners", "Intimate celebrations", "Wine tastings"],
     minimum: 2000,
     icon: Wine,
-    image: "/images/venues/wine-room.jpg",
+    image: "/media/images/img-7189.jpg",
   },
   {
     id: "garden-terrace",
@@ -34,7 +34,7 @@ const venues: Venue[] = [
     idealFor: ["Cocktail receptions", "Brunch gatherings", "Al fresco dining"],
     minimum: 3500,
     icon: Sun,
-    image: "/images/venues/garden-terrace.jpg",
+    image: "/media/images/img-6740.jpg",
   },
   {
     id: "grand-hall",
@@ -44,7 +44,7 @@ const venues: Venue[] = [
     idealFor: ["Weddings", "Corporate events", "Galas", "Large celebrations"],
     minimum: 8000,
     icon: Building2,
-    image: "/images/venues/grand-hall.jpg",
+    image: "/media/images/img-8021.jpg",
   },
 ]
 
@@ -53,12 +53,12 @@ export function VenueCard({ venue }: { venue: Venue }) {
   return (
     <Card className="group relative overflow-hidden border-0 bg-card/50 backdrop-blur-sm hover:shadow-elegant transition-all duration-500 h-full">
       <div className="relative w-full h-[300px] md:h-[350px] overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-charcoal-900 via-charcoal-800 to-burgundy-900"></div>
+        <div className="absolute inset-0 bg-gradient-to-br from-green-600 via-green-700 to-green-900"></div>
         {/* Gradient Overlay */}
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
         {/* Icon Badge */}
         <div className="absolute top-4 left-4 p-3 rounded-lg bg-background/80 backdrop-blur-sm">
-          <Icon className="h-6 w-6 text-gold-600" />
+          <Icon className="h-6 w-6 text-terra-600" />
         </div>
       </div>
       <CardContent className="p-6 md:p-8 space-y-6">
@@ -73,13 +73,13 @@ export function VenueCard({ venue }: { venue: Venue }) {
         </div>
 
         <div>
-          <h4 className="text-sm font-heading font-light tracking-wide uppercase text-muted-foreground mb-3">
+          <h4 className="text-sm font-body font-light tracking-wide uppercase text-muted-foreground mb-3">
             Features
           </h4>
           <ul className="space-y-2">
             {venue.features.map((feature, index) => (
               <li key={index} className="flex items-start gap-2 text-sm text-foreground font-body font-light">
-                <span className="text-gold-600 mt-1.5">•</span>
+                <span className="text-terra-600 mt-1.5">•</span>
                 <span>{feature}</span>
               </li>
             ))}
@@ -87,14 +87,14 @@ export function VenueCard({ venue }: { venue: Venue }) {
         </div>
 
         <div>
-          <h4 className="text-sm font-heading font-light tracking-wide uppercase text-muted-foreground mb-3">
+          <h4 className="text-sm font-body font-light tracking-wide uppercase text-muted-foreground mb-3">
             Ideal For
           </h4>
           <div className="flex flex-wrap gap-2">
             {venue.idealFor.map((item, index) => (
               <span
                 key={index}
-                className="px-3 py-1 rounded-full text-xs font-body font-light bg-cream-50 border border-border/30 text-foreground"
+                className="px-3 py-1 rounded-full text-xs font-body font-light bg-neutral-50 border border-border/30 text-foreground"
               >
                 {item}
               </span>
@@ -106,7 +106,7 @@ export function VenueCard({ venue }: { venue: Venue }) {
           <p className="text-sm text-muted-foreground font-body font-light mb-2">
             Minimum spend
           </p>
-          <p className="text-2xl font-display font-light text-gold-600">
+          <p className="text-2xl font-display font-light text-terra-600">
             GH₵ {venue.minimum.toLocaleString()}
           </p>
         </div>
@@ -117,16 +117,16 @@ export function VenueCard({ venue }: { venue: Venue }) {
 
 export function VenueGrid() {
   return (
-    <section className="section-padding bg-background" aria-labelledby="venues-heading">
-      <div className="container-custom">
+    <section className="section-shell bg-neutral-50/40 dark:bg-green-600/40" aria-labelledby="venues-heading">
+      <div className="section-shell-inner">
         <div className="text-center mb-12 md:mb-16">
           <h2
             id="venues-heading"
-            className="text-4xl md:text-5xl lg:text-6xl font-display font-light text-foreground mb-4"
+            className="section-title text-neutral-900 dark:text-white mb-4"
           >
             Venue Spaces
           </h2>
-          <div className="w-20 h-px bg-gold-500 mx-auto mb-4"></div>
+          <div className="w-20 h-px bg-terra-500 mx-auto mb-4"></div>
           <p className="text-lg md:text-xl text-muted-foreground font-body font-light max-w-2xl mx-auto">
             Each space thoughtfully designed for different occasions and group sizes
           </p>

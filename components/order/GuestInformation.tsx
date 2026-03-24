@@ -29,7 +29,7 @@ export function GuestInformation({ formData, onFieldChange }: GuestInformationPr
 
       <div className="space-y-4">
         <div>
-          <Label htmlFor="fullName" className="font-heading font-light text-foreground">
+          <Label htmlFor="fullName" className="font-body font-light text-foreground">
             Full Name
           </Label>
           <Input
@@ -37,14 +37,14 @@ export function GuestInformation({ formData, onFieldChange }: GuestInformationPr
             type="text"
             value={formData.fullName || ""}
             onChange={(e) => onFieldChange("fullName", e.target.value)}
-            className="mt-2 border-border/50 focus:border-gold-500/50 min-h-[44px] text-base md:text-sm"
+            className="mt-2 border-border/50 focus:border-terra-500/50 min-h-[44px] text-base md:text-sm"
             placeholder="Enter your full name"
             required
           />
         </div>
 
         <div>
-          <Label htmlFor="phone" className="font-heading font-light text-foreground">
+          <Label htmlFor="phone" className="font-body font-light text-foreground">
             Phone Number
           </Label>
           <Input
@@ -52,14 +52,14 @@ export function GuestInformation({ formData, onFieldChange }: GuestInformationPr
             type="tel"
             value={formData.phone || ""}
             onChange={(e) => onFieldChange("phone", e.target.value)}
-            className="mt-2 border-border/50 focus:border-gold-500/50 min-h-[44px] text-base md:text-sm"
+            className="mt-2 border-border/50 focus:border-terra-500/50 min-h-[44px] text-base md:text-sm"
             placeholder="055 703 2312"
             required
           />
         </div>
 
         <div>
-          <Label htmlFor="email" className="font-heading font-light text-foreground">
+          <Label htmlFor="email" className="font-body font-light text-foreground">
             Email Address
           </Label>
           <Input
@@ -67,21 +67,21 @@ export function GuestInformation({ formData, onFieldChange }: GuestInformationPr
             type="email"
             value={formData.email || ""}
             onChange={(e) => onFieldChange("email", e.target.value)}
-            className="mt-2 border-border/50 focus:border-gold-500/50 min-h-[44px] text-base md:text-sm"
+            className="mt-2 border-border/50 focus:border-terra-500/50 min-h-[44px] text-base md:text-sm"
             placeholder="your.email@example.com"
             required
           />
         </div>
 
         <div>
-          <Label htmlFor="specialRequests" className="font-heading font-light text-foreground">
+          <Label htmlFor="specialRequests" className="font-body font-light text-foreground">
             Special Requests
           </Label>
           <Textarea
             id="specialRequests"
             value={formData.specialRequests || ""}
             onChange={(e) => onFieldChange("specialRequests", e.target.value)}
-            className="mt-2 border-border/50 focus:border-gold-500/50 min-h-[100px]"
+            className="mt-2 border-border/50 focus:border-terra-500/50 min-h-[100px]"
             placeholder="Dietary restrictions, allergies, preferences..."
           />
           <p className="mt-2 text-sm text-muted-foreground font-body font-light">

@@ -53,16 +53,16 @@ const menuPackages: MenuPackage[] = [
 
 export function MenuPackages() {
   return (
-    <section className="section-padding bg-cream-50" aria-labelledby="menus-heading">
-      <div className="container-custom">
+    <section className="section-shell bg-neutral-50 dark:bg-green-600/25" aria-labelledby="menus-heading">
+      <div className="section-shell-inner">
         <div className="text-center mb-12 md:mb-16">
           <h2
             id="menus-heading"
-            className="text-4xl md:text-5xl lg:text-6xl font-display font-light text-foreground mb-4"
+            className="section-title text-neutral-900 dark:text-white mb-4"
           >
             Sample Menus
           </h2>
-          <div className="w-20 h-px bg-gold-500 mx-auto mb-4"></div>
+          <div className="w-20 h-px bg-terra-500 mx-auto mb-4"></div>
           <p className="text-lg md:text-xl text-muted-foreground font-body font-light max-w-2xl mx-auto">
             Three curated packages, each fully customizable to your preferences
           </p>
@@ -73,13 +73,13 @@ export function MenuPackages() {
             <Card
               key={pkg.id}
               className={cn(
-                "relative overflow-hidden border-0 bg-background hover:shadow-elegant transition-all duration-500 h-full flex flex-col",
-                index === 1 && "border-2 border-gold-500/30"
+                "relative overflow-hidden border border-border/30 bg-neutral-50 dark:bg-green-600/40 dark:border-green-700/50 hover:shadow-elegant transition-all duration-500 h-full flex flex-col",
+                index === 1 && "border-2 border-terra-500/30"
               )}
             >
               {index === 1 && (
-                <div className="absolute top-4 right-4 px-3 py-1 rounded-full bg-gold-500/10 border border-gold-500/30">
-                  <span className="text-xs font-heading font-light tracking-wide uppercase text-gold-600">
+                <div className="absolute top-4 right-4 px-3 py-1 rounded-full bg-terra-500/10 border border-terra-500/30">
+                  <span className="text-xs font-body font-light tracking-wide uppercase text-terra-600">
                     Popular
                   </span>
                 </div>
@@ -92,7 +92,7 @@ export function MenuPackages() {
                   {pkg.description}
                 </p>
                 <div className="pt-4">
-                  <p className="text-3xl font-display font-light text-gold-600">
+                  <p className="text-3xl font-display font-light text-terra-600">
                     GH₵ {pkg.price}
                   </p>
                   <p className="text-sm text-muted-foreground font-body font-light">
@@ -102,7 +102,7 @@ export function MenuPackages() {
               </CardHeader>
               <CardContent className="space-y-6 flex-1">
                 <div>
-                  <h4 className="text-sm font-heading font-light tracking-wide uppercase text-muted-foreground mb-3">
+                  <h4 className="text-sm font-body font-light tracking-wide uppercase text-muted-foreground mb-3">
                     Appetizers
                   </h4>
                   <ul className="space-y-2">
@@ -115,7 +115,7 @@ export function MenuPackages() {
                 </div>
 
                 <div>
-                  <h4 className="text-sm font-heading font-light tracking-wide uppercase text-muted-foreground mb-3">
+                  <h4 className="text-sm font-body font-light tracking-wide uppercase text-muted-foreground mb-3">
                     Main Courses
                   </h4>
                   <ul className="space-y-2">
@@ -128,7 +128,7 @@ export function MenuPackages() {
                 </div>
 
                 <div>
-                  <h4 className="text-sm font-heading font-light tracking-wide uppercase text-muted-foreground mb-3">
+                  <h4 className="text-sm font-body font-light tracking-wide uppercase text-muted-foreground mb-3">
                     Desserts
                   </h4>
                   <ul className="space-y-2">

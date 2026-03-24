@@ -3,7 +3,7 @@
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { orderFormSchema, type OrderFormData } from "@/lib/validations"
-import { CartItem } from "@/lib/types"
+import type { CartItem } from "@/lib/types/cart"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"

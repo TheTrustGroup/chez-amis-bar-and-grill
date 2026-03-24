@@ -192,18 +192,18 @@ export default function PlaceOrderPage() {
 
   if (items.length === 0) {
     return (
-      <div className="min-h-screen flex items-center justify-center py-20">
-        <div className="text-center max-w-md mx-auto px-6">
-          <h1 className="text-3xl md:text-4xl font-display font-light text-foreground mb-4">
+      <div className="min-h-screen flex flex-col items-center justify-center bg-neutral-50 dark:bg-green-700 transition-colors section-padding-sm">
+        <div className="section-shell-inner w-full max-w-md text-center">
+          <h1 className="hero-title tracking-tight text-neutral-900 dark:text-white mb-4">
             Your Selection is Empty
           </h1>
-          <p className="text-muted-foreground font-body font-light mb-8">
+          <p className="text-muted-foreground font-body font-light mb-8 prose-readable mx-auto">
             Explore our menu to begin your culinary journey
           </p>
           <Button
             variant="outline"
             size="lg"
-            className="font-heading font-light tracking-wide border-gold-500/60"
+            className="w-full min-h-[48px] font-body font-light tracking-wide border-terra-500/60 sm:w-auto"
             onClick={() => router.push("/menu")}
           >
             View Menu
@@ -214,22 +214,23 @@ export default function PlaceOrderPage() {
   }
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-neutral-50 dark:bg-green-700 transition-colors">
       {/* Header */}
-      <div className="bg-cream-50 border-b border-border/50 py-8 md:py-12">
-        <div className="container-custom">
-          <h1 className="text-4xl md:text-5xl font-display font-light text-foreground mb-2">
+      <section className="w-full overflow-hidden border-b border-border/50 bg-neutral-50 dark:bg-green-600/40 section-padding-sm">
+        <div className="section-shell-inner">
+          <h1 className="hero-title tracking-tight text-neutral-900 dark:text-white mb-2">
             Place Your Order
           </h1>
           <p className="text-lg text-muted-foreground font-body font-light">
             We&apos;re delighted to serve you
           </p>
         </div>
-      </div>
+      </section>
 
       {/* Main Content */}
-      <div className="container-custom py-12 md:py-16">
-        <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 lg:gap-16">
+      <section className="section-shell">
+        <div className="section-shell-inner">
+        <div className="grid grid-cols-1 lg:grid-cols-5 grid-gap-section">
           {/* Left Column - Order Form (60%) */}
           <div className="lg:col-span-3 space-y-12">
             {/* Step 1: Order Type */}
@@ -282,10 +283,12 @@ export default function PlaceOrderPage() {
               {canProceedToStep3 && (
                 <>
                   <div className="flex items-center gap-4 text-sm text-muted-foreground font-body font-light">
-                    <Shield className="h-4 w-4" />
+                    <Shield className="h-4 w-4 shrink-0" aria-hidden />
                     <span>Secure payment</span>
-                    <span className="text-border">•</span>
-                    <Lock className="h-4 w-4" />
+                    <span className="text-border" aria-hidden>
+                      •
+                    </span>
+                    <Lock className="h-4 w-4 shrink-0" aria-hidden />
                     <span>SSL encrypted</span>
                   </div>
 
@@ -302,8 +305,11 @@ export default function PlaceOrderPage() {
               )}
 
               {submitError && (
-                <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-4">
-                  <p className="text-sm text-red-800 font-body font-light">{submitError}</p>
+                <div
+                  role="alert"
+                  className="rounded-sm border border-red-200 dark:border-red-900/50 bg-red-50 dark:bg-red-950/40 p-4 mb-4"
+                >
+                  <p className="text-sm text-red-800 dark:text-red-200 font-body font-light">{submitError}</p>
                 </div>
               )}
 
@@ -323,7 +329,8 @@ export default function PlaceOrderPage() {
             />
           </div>
         </div>
-      </div>
+        </div>
+      </section>
     </div>
   )
 }

@@ -24,7 +24,7 @@ export function ScrollProgress() {
   return (
     <div
       className={cn(
-        "fixed top-0 left-0 right-0 h-1 bg-gradient-to-r from-gold-500 via-gold-400 to-gold-500 z-[9999]",
+        "fixed top-0 left-0 right-0 h-1 bg-gradient-to-r from-terra-500 via-terra-400 to-terra-500 z-[9999]",
         "transition-all duration-150 ease-out",
         "origin-left"
       )}

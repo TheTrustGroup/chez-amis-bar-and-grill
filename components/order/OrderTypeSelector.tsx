@@ -53,23 +53,23 @@ export function OrderTypeSelector({ selectedType, onSelect }: OrderTypeSelectorP
               onClick={() => onSelect(type.id)}
               className={cn(
                 "group relative p-6 md:p-8 rounded-lg border-2 transition-all duration-300 text-left",
-                "focus:outline-none focus:ring-2 focus:ring-gold-500 focus:ring-offset-2",
+                "focus:outline-none focus:ring-2 focus:ring-terra-500 focus:ring-offset-2",
                 isSelected
-                  ? "border-gold-500 bg-gold-500/5"
-                  : "border-border/50 hover:border-gold-500/50 hover:bg-gold-500/5"
+                  ? "border-terra-500 bg-terra-500/5"
+                  : "border-border/50 hover:border-terra-500/50 hover:bg-terra-500/5"
               )}
             >
               <div className="flex flex-col items-start gap-4">
                 <div
                   className={cn(
                     "p-3 rounded-lg transition-colors",
-                    isSelected ? "bg-gold-500/10" : "bg-muted/50 group-hover:bg-gold-500/5"
+                    isSelected ? "bg-terra-500/10" : "bg-muted/50 group-hover:bg-terra-500/5"
                   )}
                 >
                   <Icon
                     className={cn(
                       "h-6 w-6 md:h-7 md:w-7 transition-colors",
-                      isSelected ? "text-gold-600" : "text-muted-foreground group-hover:text-gold-600"
+                      isSelected ? "text-terra-600" : "text-muted-foreground group-hover:text-terra-600"
                     )}
                   />
                 </div>
@@ -83,7 +83,7 @@ export function OrderTypeSelector({ selectedType, onSelect }: OrderTypeSelectorP
                 </div>
               </div>
               {isSelected && (
-                <div className="absolute top-4 right-4 w-2 h-2 rounded-full bg-gold-500" />
+                <div className="absolute top-4 right-4 w-2 h-2 rounded-full bg-terra-500" />
               )}
             </button>
           )

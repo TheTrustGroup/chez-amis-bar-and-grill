@@ -2,26 +2,46 @@
 
 import { Download, Printer } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { menuCategories } from "@/lib/data/menuData"
-import { beverageCategories } from "@/lib/data/beverages"
+import { cn } from "@/lib/utils"
 
-export function PrintMenu() {
+type PrintMenuProps = {
+  /** Ghost single-button style for menu hero (top-right). */
+  variant?: "default" | "header"
+}
+
+export function PrintMenu({ variant = "default" }: PrintMenuProps) {
   const handlePrint = () => {
     window.print()
   }
 
   const handleDownloadPDF = () => {
-    // In production, this would generate a PDF
-    // For now, we'll use the browser's print to PDF functionality
     window.print()
   }
 
+  if (variant === "header") {
+    return (
+      <Button
+        type="button"
+        onClick={handlePrint}
+        variant="ghost"
+        className={cn(
+          "min-h-[44px] touch-manipulation",
+          "border border-terra-500/40 text-terra-600 dark:text-terra-400",
+          "hover:bg-terra-500/10 font-body uppercase tracking-widest text-xs",
+        )}
+      >
+        <Printer className="w-4 h-4 mr-2 shrink-0" aria-hidden />
+        Print menu
+      </Button>
+    )
+  }
+
   return (
-    <div className="flex gap-3 mb-8">
+    <div className="flex flex-wrap gap-3 mb-8">
       <Button
         onClick={handlePrint}
         variant="outline"
-        className="border-amber-500 text-amber-700 hover:bg-amber-50"
+        className="border-terra-500/50 text-foreground hover:bg-terra-500/10"
       >
         <Printer className="w-4 h-4 mr-2" />
         Print Menu
@@ -29,7 +49,7 @@ export function PrintMenu() {
       <Button
         onClick={handleDownloadPDF}
         variant="outline"
-        className="border-amber-500 text-amber-700 hover:bg-amber-50"
+        className="border-terra-500/50 text-foreground hover:bg-terra-500/10"
       >
         <Download className="w-4 h-4 mr-2" />
         Download PDF
@@ -37,4 +57,3 @@ export function PrintMenu() {
     </div>
   )
 }
-

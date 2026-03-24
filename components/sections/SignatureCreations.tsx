@@ -26,10 +26,10 @@ export function SignatureCreations() {
 
   return (
     <section className={cn(
-      "section-padding transition-colors duration-300",
-      isDark ? "bg-charcoal-950/50" : "bg-background"
+      "section-shell transition-colors duration-300",
+      isDark ? "bg-green-700/50" : "bg-background"
     )} aria-labelledby="signature-heading">
-      <div className="container-custom">
+      <div className="section-shell-inner">
         <div className={cn(
           "text-center mb-12 md:mb-16",
           "animate-fade-in-up"
@@ -37,16 +37,16 @@ export function SignatureCreations() {
           <h2
             id="signature-heading"
             className={cn(
-              "text-4xl md:text-5xl lg:text-6xl font-display font-light mb-4 transition-colors duration-300",
-              isDark ? "text-cream-100" : "text-foreground"
+              "section-title mb-4 transition-colors duration-300",
+              isDark ? "text-white" : "text-foreground"
             )}
           >
             Signature Creations
           </h2>
-          <div className="w-24 md:w-32 h-0.5 bg-gradient-to-r from-transparent via-gold-500 to-transparent mx-auto mb-4 shadow-lg shadow-gold-500/50" />
+          <div className="w-24 md:w-32 h-0.5 bg-gradient-to-r from-transparent via-terra-500 to-transparent mx-auto mb-4 shadow-lg shadow-terra-500/50" />
           <p className={cn(
             "text-lg md:text-xl font-body font-light max-w-2xl mx-auto transition-colors duration-300",
-            isDark ? "text-cream-200/80" : "text-muted-foreground"
+            isDark ? "text-white/80" : "text-muted-foreground"
           )}>
             Our chef&apos;s most celebrated dishes, each a masterpiece of flavor and presentation
           </p>
@@ -65,7 +65,7 @@ export function SignatureCreations() {
                 )}
               >
                 {/* Image Container */}
-                <div className="absolute inset-0 bg-gradient-to-br from-charcoal-900 via-charcoal-800 to-burgundy-900">
+                <div className="absolute inset-0 bg-gradient-to-br from-green-600 via-green-700 to-green-900">
                   {dish.image ? (
                     <Image
                       src={dish.image}
@@ -75,7 +75,7 @@ export function SignatureCreations() {
                       sizes="400px"
                     />
                   ) : (
-                    <div className="absolute inset-0 flex items-center justify-center text-cream-200/30 font-display text-2xl">
+                    <div className="absolute inset-0 flex items-center justify-center text-neutral-200/30 font-display text-2xl">
                       {dish.name}
                     </div>
                   )}
@@ -91,13 +91,13 @@ export function SignatureCreations() {
                       Signature Dish
                     </span>
                   )}
-                  <h3 className="text-2xl md:text-3xl font-display font-light text-cream-100 mb-2">
+                  <h3 className="text-2xl md:text-3xl font-display font-light text-white mb-2">
                     {dish.name}
                   </h3>
-                  <p className="text-cream-200/80 text-sm md:text-base font-body font-light mb-4 line-clamp-2">
+                  <p className="text-white/80 text-sm md:text-base font-body font-light mb-4 line-clamp-2">
                     {dish.description.split(".")[0]}.
                   </p>
-                  <p className="text-gold-500 text-lg md:text-xl font-display font-light">
+                  <p className="text-terra-500 text-lg md:text-xl font-display font-light">
                     {dish.price ? formatPrice(dish.price) : dish.portionSizes?.[0] ? formatPrice(dish.portionSizes[0].price) : 'Price varies'}
                   </p>
                 </div>
@@ -118,7 +118,7 @@ export function SignatureCreations() {
               )}
             >
               {/* Image Container */}
-              <div className="absolute inset-0 bg-gradient-to-br from-charcoal-900 via-charcoal-800 to-burgundy-900">
+              <div className="absolute inset-0 bg-gradient-to-br from-green-600 via-green-700 to-green-900">
                 {dish.image ? (
                   <Image
                     src={dish.image}
@@ -128,7 +128,7 @@ export function SignatureCreations() {
                     sizes="100vw"
                   />
                 ) : (
-                  <div className="absolute inset-0 flex items-center justify-center text-cream-200/30 font-display text-xl">
+                  <div className="absolute inset-0 flex items-center justify-center text-neutral-200/30 font-display text-xl">
                     {dish.name}
                   </div>
                 )}
@@ -144,13 +144,13 @@ export function SignatureCreations() {
                     Signature Dish
                   </span>
                 )}
-                <h3 className="text-2xl font-display font-light text-cream-100 mb-2">
+                <h3 className="text-2xl font-display font-light text-white mb-2">
                   {dish.name}
                 </h3>
-                <p className="text-cream-200/80 text-sm font-body font-light mb-4 line-clamp-2">
+                <p className="text-white/80 text-sm font-body font-light mb-4 line-clamp-2">
                   {dish.description.split(".")[0]}.
                 </p>
-                <p className="text-gold-500 text-lg font-display font-light">
+                <p className="text-terra-500 text-lg font-display font-light">
                   {dish.price ? formatPrice(dish.price) : dish.portionSizes?.[0] ? formatPrice(dish.portionSizes[0].price) : 'Price varies'}
                 </p>
               </div>
@@ -171,8 +171,8 @@ export function SignatureCreations() {
                 "min-w-[240px]",
                 "border-2",
                 isDark
-                  ? "border-gold-500/50 text-cream-100 bg-gold-500/5 hover:bg-gold-500/10 hover:border-gold-500/80 hover:shadow-lg hover:shadow-gold-500/20"
-                  : "border-gold-500/60 text-foreground bg-transparent hover:bg-gold-500/5 hover:border-gold-500/80 hover:shadow-lg"
+                  ? "border-terra-500/50 text-white bg-terra-500/5 hover:bg-terra-500/10 hover:border-terra-500/80 hover:shadow-lg hover:shadow-terra-500/20"
+                  : "border-terra-500/60 text-foreground bg-transparent hover:bg-terra-500/5 hover:border-terra-500/80 hover:shadow-lg"
               )}
             >
               Explore Our Complete Menu

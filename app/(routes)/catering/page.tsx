@@ -10,15 +10,15 @@ export const metadata: Metadata = {
 
 export default function CateringPage() {
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-neutral-50 dark:bg-green-700 transition-colors">
       {/* Hero Section */}
-      <section className="section-padding bg-gradient-to-b from-charcoal-900 via-charcoal-800 to-charcoal-900 text-cream-100">
-        <div className="container-custom">
+      <section className="section-shell bg-gradient-to-b from-green-600 via-green-700 to-green-600 text-white">
+        <div className="section-shell-inner">
           <div className="max-w-3xl mx-auto text-center space-y-6">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-light">
+            <h1 className="hero-title tracking-tight">
               Catering Services
             </h1>
-            <p className="text-lg md:text-xl font-body font-light text-cream-200/80">
+            <p className="text-lg md:text-xl font-body font-light text-white/80">
               Bring the authentic flavors of Chez Amis to your event, office, or special occasion
             </p>
           </div>
@@ -26,12 +26,12 @@ export default function CateringPage() {
       </section>
 
       {/* Main Content */}
-      <section className="section-padding">
-        <div className="container-custom">
+      <section className="section-shell">
+        <div className="section-shell-inner">
           <div className="max-w-4xl mx-auto space-y-12">
             {/* Overview */}
             <div className="space-y-6">
-              <h2 className="text-3xl md:text-4xl font-display font-light text-foreground">
+              <h2 className="section-title text-neutral-900 dark:text-white">
                 Professional Catering for Every Occasion
               </h2>
               <div className="prose prose-lg max-w-none space-y-4 text-muted-foreground font-body font-light leading-relaxed">
@@ -46,10 +46,10 @@ export default function CateringPage() {
 
             {/* Services */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="bg-cream-50 rounded-lg p-6 space-y-4">
+              <div className="rounded-sm border border-border/30 bg-neutral-50 dark:bg-green-600/40 dark:border-green-700/50 p-6 space-y-4">
                 <div className="flex items-center gap-3">
-                  <div className="p-3 rounded-full bg-gold-500/10">
-                    <Users className="h-6 w-6 text-gold-600" />
+                  <div className="p-3 rounded-full bg-terra-500/10">
+                    <Users className="h-6 w-6 text-terra-600" />
                   </div>
                   <h3 className="text-xl font-display font-light text-foreground">
                     Corporate Events
@@ -60,10 +60,10 @@ export default function CateringPage() {
                 </p>
               </div>
 
-              <div className="bg-cream-50 rounded-lg p-6 space-y-4">
+              <div className="rounded-sm border border-border/30 bg-neutral-50 dark:bg-green-600/40 dark:border-green-700/50 p-6 space-y-4">
                 <div className="flex items-center gap-3">
-                  <div className="p-3 rounded-full bg-gold-500/10">
-                    <Calendar className="h-6 w-6 text-gold-600" />
+                  <div className="p-3 rounded-full bg-terra-500/10">
+                    <Calendar className="h-6 w-6 text-terra-600" />
                   </div>
                   <h3 className="text-xl font-display font-light text-foreground">
                     Special Occasions
@@ -74,10 +74,10 @@ export default function CateringPage() {
                 </p>
               </div>
 
-              <div className="bg-cream-50 rounded-lg p-6 space-y-4">
+              <div className="rounded-sm border border-border/30 bg-neutral-50 dark:bg-green-600/40 dark:border-green-700/50 p-6 space-y-4">
                 <div className="flex items-center gap-3">
-                  <div className="p-3 rounded-full bg-gold-500/10">
-                    <Utensils className="h-6 w-6 text-gold-600" />
+                  <div className="p-3 rounded-full bg-terra-500/10">
+                    <Utensils className="h-6 w-6 text-terra-600" />
                   </div>
                   <h3 className="text-xl font-display font-light text-foreground">
                     Custom Menus
@@ -88,10 +88,10 @@ export default function CateringPage() {
                 </p>
               </div>
 
-              <div className="bg-cream-50 rounded-lg p-6 space-y-4">
+              <div className="rounded-sm border border-border/30 bg-neutral-50 dark:bg-green-600/40 dark:border-green-700/50 p-6 space-y-4">
                 <div className="flex items-center gap-3">
-                  <div className="p-3 rounded-full bg-gold-500/10">
-                    <Phone className="h-6 w-6 text-gold-600" />
+                  <div className="p-3 rounded-full bg-terra-500/10">
+                    <Phone className="h-6 w-6 text-terra-600" />
                   </div>
                   <h3 className="text-xl font-display font-light text-foreground">
                     Full Service
@@ -104,40 +104,40 @@ export default function CateringPage() {
             </div>
 
             {/* Contact Section */}
-            <div className="bg-charcoal-900 text-cream-100 rounded-lg p-8 md:p-12 space-y-6">
+            <div className="bg-green-600 text-white rounded-lg p-8 md:p-12 space-y-6">
               <h2 className="text-2xl md:text-3xl font-display font-light">
                 Request a Catering Quote
               </h2>
-              <p className="text-cream-200/80 font-body font-light leading-relaxed">
+              <p className="text-white/80 font-body font-light leading-relaxed">
                 Contact us to discuss your catering needs. We&apos;ll work with you to create a customized menu and service plan for your event.
               </p>
               <div className="pt-6 space-y-4">
                 <div className="flex items-center gap-4">
-                  <Phone className="h-5 w-5 text-gold-500" />
+                  <Phone className="h-5 w-5 text-terra-500" />
                   <div>
-                    <p className="font-heading font-medium text-cream-100">Phone</p>
+                    <p className="font-body font-medium text-white">Phone</p>
                     <div className="space-y-1">
                       <a
                         href="tel:+233557032312"
-                        className="block text-gold-400 hover:text-gold-300 transition-colors"
+                        className="block text-terra-400 hover:text-terra-300 transition-colors"
                       >
                         +233 055 703 2312
                       </a>
                       <a
                         href="tel:+233557032335"
-                        className="block text-gold-400 hover:text-gold-300 transition-colors"
+                        className="block text-terra-400 hover:text-terra-300 transition-colors"
                       >
                         +233 055 703 2335
                       </a>
                     <a
                       href="tel:+233243952339"
-                        className="block text-gold-400 hover:text-gold-300 transition-colors"
+                        className="block text-terra-400 hover:text-terra-300 transition-colors"
                     >
                         +233 024 395 2339
                       </a>
                       <a
                         href="tel:+233502432037"
-                        className="block text-gold-400 hover:text-gold-300 transition-colors"
+                        className="block text-terra-400 hover:text-terra-300 transition-colors"
                       >
                         +233 050 243 2037
                     </a>
@@ -145,12 +145,12 @@ export default function CateringPage() {
                   </div>
                 </div>
                 <div className="flex items-center gap-4">
-                  <Mail className="h-5 w-5 text-gold-500" />
+                  <Mail className="h-5 w-5 text-terra-500" />
                   <div>
-                    <p className="font-heading font-medium text-cream-100">Email</p>
+                    <p className="font-body font-medium text-white">Email</p>
                     <a
                       href="mailto:chez@chezamisrestaurant.com"
-                      className="text-gold-400 hover:text-gold-300 transition-colors"
+                      className="text-terra-400 hover:text-terra-300 transition-colors"
                     >
                       chez@chezamisrestaurant.com
                     </a>
@@ -161,7 +161,7 @@ export default function CateringPage() {
                 <Link href="/contact">
                   <Button
                     variant="outline"
-                    className="border-2 border-gold-500/50 text-gold-400 hover:bg-gold-500/10 hover:border-gold-500 font-heading font-light"
+                    className="border-2 border-terra-500/50 text-terra-400 hover:bg-terra-500/10 hover:border-terra-500 font-body font-light"
                   >
                     Contact Us for Catering
                   </Button>
@@ -170,7 +170,7 @@ export default function CateringPage() {
             </div>
 
             {/* Minimum Requirements */}
-            <div className="bg-cream-50 rounded-lg p-8 space-y-4">
+            <div className="rounded-sm border border-border/30 bg-neutral-50 dark:bg-green-600/40 dark:border-green-700/50 p-8 space-y-4">
               <h3 className="text-2xl font-display font-light text-foreground">
                 Catering Information
               </h3>
@@ -198,7 +198,7 @@ export default function CateringPage() {
               <Link href="/">
                 <Button
                   variant="outline"
-                  className="group border-2 border-foreground/20 text-foreground hover:bg-foreground/5 hover:border-foreground/40 font-heading font-light tracking-wide"
+                  className="group border-2 border-foreground/20 text-foreground hover:bg-foreground/5 hover:border-foreground/40 font-body font-light tracking-wide"
                 >
                   <ArrowLeft className="mr-2 h-4 w-4 transition-transform group-hover:-translate-x-1" />
                   Back to Home

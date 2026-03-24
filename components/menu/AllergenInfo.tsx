@@ -40,7 +40,7 @@ export function AllergenInfo({ isOpen, onClose }: AllergenInfoProps) {
           <div className="sticky top-0 bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between">
             <div className="flex items-center gap-3">
               <AlertCircle className="w-6 h-6 text-amber-600" />
-              <h2 className="text-2xl font-serif text-gray-900">Allergen Information</h2>
+              <h2 className="text-2xl font-display text-gray-900">Allergen Information</h2>
             </div>
             <button
               onClick={onClose}
@@ -60,7 +60,7 @@ export function AllergenInfo({ isOpen, onClose }: AllergenInfoProps) {
 
             {/* Common Allergens */}
             <div className="mb-6">
-              <h3 className="text-lg font-serif text-gray-900 mb-4">Common Allergens</h3>
+              <h3 className="text-lg font-display text-gray-900 mb-4">Common Allergens</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {commonAllergens.map((allergen) => (
                   <div

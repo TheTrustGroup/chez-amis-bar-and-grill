@@ -1,37 +1,18 @@
 "use client"
 
 import { useCart } from "@/lib/hooks/useCart"
-import { MenuItem } from "@/lib/data/menuData"
+import type { MenuItem } from "@/lib/data/menuData"
 import { CartCustomizations } from "@/lib/types/cart"
-import { MenuItem as CartMenuItem } from "@/lib/menuData"
 
 export function useOrder() {
   const { addToCart, items, getSubtotal, getTax, getGrandTotal } = useCart()
 
   const handleAddToOrder = (
-    item: MenuItem | CartMenuItem,
+    item: MenuItem,
     quantity: number = 1,
     customizations?: CartCustomizations
   ) => {
-    // Convert MenuItem to the format expected by cart
-    const cartItem: CartMenuItem = {
-      id: item.id,
-      name: item.name,
-      description: item.description,
-      price: 'price' in item 
-        ? (item.price || ('portionSizes' in item && Array.isArray(item.portionSizes) && item.portionSizes.length > 0 
-          ? (item.portionSizes[0]?.price ?? 0)
-          : 0)) 
-        : (item.price ?? 0),
-      category: item.category,
-      image: item.image || "/images/placeholder-dish.jpg",
-      tags: 'tags' in item ? (item.tags || []) : [],
-      available: item.available !== false,
-      popular: false,
-      spicyLevel: 'spicyLevel' in item ? item.spicyLevel : undefined,
-    }
-
-    addToCart(cartItem, quantity, customizations)
+    addToCart(item, quantity, customizations)
   }
 
   const subtotal = getSubtotal()

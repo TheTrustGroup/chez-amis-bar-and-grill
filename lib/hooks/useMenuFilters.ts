@@ -44,10 +44,14 @@ export function useMenuFilters() {
     // Filter by dietary preferences
     if (filters.dietaryFilters.length > 0) {
       items = items.filter((item) => {
-        if (!item.dietary) return false
-        return filters.dietaryFilters.some((filter) =>
-          item.dietary?.includes(filter as 'vegetarian' | 'vegan' | 'gluten-free' | 'dairy-free')
-        )
+        const d = item.dietary
+        if (!d) return false
+        return filters.dietaryFilters.some((filter) => {
+          if (filter === 'vegetarian') return d.vegetarian
+          if (filter === 'vegan') return d.vegan
+          if (filter === 'gluten-free') return d.glutenFree
+          return false
+        })
       })
     }
 

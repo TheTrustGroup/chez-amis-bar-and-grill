@@ -1,60 +1,35 @@
 import type { Metadata } from "next"
-import { Cormorant_Garamond } from "next/font/google"
-import { Montserrat } from "next/font/google"
-import { Lora } from "next/font/google"
-import { Italiana } from "next/font/google"
+import { Cormorant_Garamond, Montserrat } from "next/font/google"
 import "@/styles/globals.css"
-import { Header } from "@/components/layout/header"
-import { Footer } from "@/components/layout/footer"
-import { BottomNavigation } from "@/components/mobile/BottomNavigation"
 import { CartProvider } from "@/lib/context/CartContext"
 import { ThemeProvider } from "@/lib/context/ThemeContext"
 import { ToastContainer } from "@/components/ui/toast"
 import { ConditionalLayout } from "@/components/layout/ConditionalLayout"
 
-const cormorantGaramond = Cormorant_Garamond({
-  weight: ["300", "400", "500", "600", "700"],
+const cormorant = Cormorant_Garamond({
   subsets: ["latin"],
+  weight: ["300", "400", "500", "600"],
   variable: "--font-display",
-  display: "swap", // Ensures fonts load while showing fallback
-  preload: true,
-  fallback: ["Georgia", "Times New Roman", "serif"],
+  display: "swap",
 })
 
 const montserrat = Montserrat({
+  subsets: ["latin"],
   weight: ["300", "400", "500", "600", "700"],
-  subsets: ["latin"],
-  variable: "--font-heading",
-  display: "swap", // Ensures fonts load while showing fallback
-  preload: true,
-  fallback: ["Arial", "Helvetica", "sans-serif"],
-})
-
-const lora = Lora({
-  weight: ["400", "500", "600", "700"],
-  subsets: ["latin"],
   variable: "--font-body",
-  display: "swap", // Ensures fonts load while showing fallback
-  preload: true,
-  fallback: ["Georgia", "Times New Roman", "serif"],
+  display: "swap",
 })
 
-const italiana = Italiana({
-  weight: ["400"],
-  subsets: ["latin"],
-  variable: "--font-script",
-  display: "swap", // Ensures fonts load while showing fallback
-  preload: true,
-  fallback: ["Brush Script MT", "cursive"],
-})
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://chezamisrestaurant.com"
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://chezamis.com'),
+  metadataBase: new URL(siteUrl),
   title: {
     default: "Chez Amis Restaurant",
-    template: "%s | Chez Amis Restaurant"
+    template: "%s | Chez Amis Restaurant",
   },
-  description: "Experience exceptional culinary artistry and warm hospitality in the heart of Accra. Signature Attieke dishes, Ivorian-Ghanaian fusion cuisine, fine dining, reservations, and private events. Open daily 9:30 AM - 12 AM.",
+  description:
+    "Experience exceptional culinary artistry and warm hospitality in the heart of Accra. Signature Attieke dishes, Ivorian-Ghanaian fusion cuisine, fine dining, reservations, and private events. Open daily 9:30 AM - 12 AM.",
   keywords: [
     "Chez Amis",
     "restaurant Accra",
@@ -72,7 +47,7 @@ export const metadata: Metadata = {
     "Boundary Road restaurant",
     "best restaurant Accra",
     "gourmet food Ghana",
-    "culinary experience Accra"
+    "culinary experience Accra",
   ],
   authors: [{ name: "Chez Amis Bar and Grill" }],
   creator: "Chez Amis Bar and Grill",
@@ -85,10 +60,11 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: process.env.NEXT_PUBLIC_SITE_URL || "https://chezamis.com",
+    url: siteUrl,
     siteName: "Chez Amis Restaurant",
     title: "Chez Amis Restaurant",
-    description: "Experience exceptional culinary artistry and warm hospitality in the heart of Accra. Signature Attieke dishes, Ivorian-Ghanaian fusion cuisine, fine dining, and private events.",
+    description:
+      "Experience exceptional culinary artistry and warm hospitality in the heart of Accra. Signature Attieke dishes, Ivorian-Ghanaian fusion cuisine, fine dining, and private events.",
     images: [
       {
         url: "/images/og-image.jpg",
@@ -101,7 +77,8 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Chez Amis Restaurant",
-    description: "Experience exceptional culinary artistry and warm hospitality. Signature Attieke dishes, Ivorian-Ghanaian fusion cuisine.",
+    description:
+      "Experience exceptional culinary artistry and warm hospitality. Signature Attieke dishes, Ivorian-Ghanaian fusion cuisine.",
     images: ["/images/og-image.jpg"],
     creator: "@chezamisrestaurant",
   },
@@ -111,21 +88,15 @@ export const metadata: Metadata = {
     googleBot: {
       index: true,
       follow: true,
-      'max-video-preview': -1,
-      'max-image-preview': 'large',
-      'max-snippet': -1,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
     },
   },
-  verification: {
-    // Add your verification codes here when available
-    // google: 'your-google-verification-code',
-    // yandex: 'your-yandex-verification-code',
-    // bing: 'your-bing-verification-code',
-  },
+  verification: {},
   alternates: {
-    canonical: process.env.NEXT_PUBLIC_SITE_URL || "https://chezamis.com",
+    canonical: siteUrl,
   },
-  // Comprehensive favicon configuration for all platforms
   icons: {
     icon: [
       { url: "/favicon.ico", sizes: "any" },
@@ -133,9 +104,7 @@ export const metadata: Metadata = {
       { url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },
       { url: "/icon.svg", type: "image/svg+xml" },
     ],
-    apple: [
-      { url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
-    ],
+    apple: [{ url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" }],
     other: [
       {
         rel: "android-chrome-192x192",
@@ -163,7 +132,6 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        {/* Prevent theme flash - inline script must run before body renders */}
         <script
           dangerouslySetInnerHTML={{
             __html: `
@@ -181,28 +149,11 @@ export default function RootLayout({
             `,
           }}
         />
-        {/* Preload critical fonts for better performance */}
-        <link
-          rel="preload"
-          href="/_next/static/media/acaa31bcd8de99a2-s.p.woff2"
-          as="font"
-          type="font/woff2"
-          crossOrigin="anonymous"
-        />
-        <link
-          rel="preload"
-          href="/_next/static/media/5c0c2bcbaa4149ca-s.p.woff2"
-          as="font"
-          type="font/woff2"
-          crossOrigin="anonymous"
-        />
       </head>
-      <body className={`${cormorantGaramond.variable} ${montserrat.variable} ${lora.variable} ${italiana.variable} font-body`}>
+      <body className={`${cormorant.variable} ${montserrat.variable} font-body antialiased`}>
         <ThemeProvider>
           <CartProvider>
-            <ConditionalLayout>
-              {children}
-            </ConditionalLayout>
+            <ConditionalLayout>{children}</ConditionalLayout>
             <ToastContainer />
           </CartProvider>
         </ThemeProvider>

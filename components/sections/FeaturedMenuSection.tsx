@@ -3,54 +3,38 @@
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { FeaturedMenuCard } from "@/components/menu/FeaturedMenuCard"
-import { MenuItem, menuItems } from "@/lib/menuData"
+import type { MenuItem } from "@/lib/data/menuData"
+import { featuredMenuItemsForHome } from "@/lib/data/menuData"
 import { ArrowRight } from "lucide-react"
 
-// Sample featured menu items - using items from menuData
-const featuredMenuItems: MenuItem[] = menuItems
-  .filter((item) => item.popular || item.category === "main-course" || item.category === "grill")
-  .slice(0, 6)
+const featuredMenuItems: MenuItem[] = featuredMenuItemsForHome.slice(0, 6)
 
 export function FeaturedMenuSection() {
-  const handleAddToCart = (item: MenuItem) => {
+  const handleAddToCart = (_item: MenuItem) => {
     // Cart is handled by FeaturedMenuCard component with toast notifications
   }
 
   return (
-    <section className="py-16 md:py-24 bg-background" aria-labelledby="featured-menu-heading">
-      <div className="container mx-auto px-4">
-        {/* Section Header */}
-        <div className="text-center mb-12 md:mb-16">
-          <h2
-            id="featured-menu-heading"
-            className="text-3xl md:text-4xl lg:text-5xl font-heading font-bold mb-4"
-          >
+    <section className="section-shell bg-background" aria-labelledby="featured-menu-heading">
+      <div className="section-shell-inner">
+        <div className="section-heading-margin text-center">
+          <h2 id="featured-menu-heading" className="section-title text-foreground">
             Our Signature Dishes
           </h2>
-          <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto">
+          <p className="mx-auto max-w-2xl text-lg text-muted-foreground md:text-xl">
             Taste the flavors that keep our guests coming back
           </p>
         </div>
 
-        {/* Featured Menu Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8 mb-12">
+        <div className="mb-12 grid grid-cols-1 grid-gap-section md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {featuredMenuItems.map((item) => (
-            <FeaturedMenuCard
-              key={item.id}
-              item={item}
-              onAddToCart={handleAddToCart}
-            />
+            <FeaturedMenuCard key={item.id} item={item} onAddToCart={handleAddToCart} />
           ))}
         </div>
 
-        {/* View Full Menu Button */}
         <div className="text-center">
           <Link href="/menu">
-            <Button
-              size="lg"
-              variant="outline"
-              className="font-semibold text-lg px-8 py-6"
-            >
+            <Button size="lg" variant="outline" className="min-h-[48px] w-full px-8 py-6 text-lg font-semibold sm:w-auto">
               View Full Menu
               <ArrowRight className="ml-2 h-5 w-5" />
             </Button>

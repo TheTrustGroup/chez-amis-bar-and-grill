@@ -96,7 +96,7 @@ export function Header() {
       {/* Skip to Content Link */}
       <a
         href="#main-content"
-        className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[100] focus:px-4 focus:py-2 focus:bg-gold-500 focus:text-foreground focus:rounded-md focus:outline-none focus:ring-2 focus:ring-gold-500 focus:ring-offset-2"
+        className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[100] focus:px-4 focus:py-2 focus:bg-terra-500 focus:text-foreground focus:rounded-md focus:outline-none focus:ring-2 focus:ring-terra-500 focus:ring-offset-2"
       >
         Skip to content
       </a>
@@ -109,13 +109,13 @@ export function Header() {
           // Sticky behavior with backdrop blur
           isScrolled
             ? isDark
-              ? "bg-charcoal-950/95 dark:bg-charcoal-950/95 backdrop-blur-xl shadow-2xl border-b border-charcoal-800/50"
-              : "bg-white/95 backdrop-blur-xl shadow-2xl border-b border-gray-100/50 dark:border-charcoal-800/50"
+              ? "bg-green-700/95 dark:bg-green-700/95 backdrop-blur-xl shadow-2xl border-b border-green-700/50"
+              : "bg-white/95 backdrop-blur-xl shadow-2xl border-b border-gray-100/50 dark:border-green-700/50"
             : "bg-transparent"
         )}
         role="banner"
       >
-        <div className="container mx-auto px-6 md:px-12 h-full">
+        <div className="section-shell-inner h-full">
           <div className="flex h-full items-center justify-between">
             {/* Logo Section (Left) - Perfectly aligned and scaled */}
             <Link
@@ -127,9 +127,9 @@ export function Header() {
                 {/* Decorative gold line - animated on hover */}
                 <div 
                   className={cn(
-                    "h-0.5 bg-gold-500 mb-1.5 transition-all duration-500 ease-out",
+                    "h-0.5 bg-terra-500 mb-1.5 transition-all duration-500 ease-out",
                     "w-8 md:w-10 group-hover:w-12 md:group-hover:w-16",
-                    "shadow-sm group-hover:shadow-gold-500/50"
+                    "shadow-sm group-hover:shadow-terra-500/50"
                   )} 
                   aria-hidden="true"
                 />
@@ -141,7 +141,7 @@ export function Header() {
                     "leading-tight",
                     isScrolled 
                       ? isDark 
-                        ? "text-cream-100" 
+                        ? "text-white" 
                         : "text-foreground"
                       : "text-white drop-shadow-lg"
                   )}
@@ -151,14 +151,14 @@ export function Header() {
                 {/* Subtitle - perfectly aligned */}
                 <span
                   className={cn(
-                    "font-heading font-light tracking-[0.15em] uppercase transition-all duration-300",
+                    "font-body font-light tracking-[0.15em] uppercase transition-all duration-300",
                     "text-[0.625rem] sm:text-xs md:text-[0.7rem]",
                     "leading-tight mt-0.5",
                     isScrolled
                       ? isDark
-                        ? "text-cream-200/70"
+                        ? "text-white/70"
                         : "text-muted-foreground"
-                      : "text-cream-200/80 drop-shadow-md"
+                      : "text-white/80 drop-shadow-md"
                   )}
                 >
                   BAR AND GRILL
@@ -185,8 +185,8 @@ export function Header() {
                       }
                     }}
                     className={cn(
-                      "group relative text-sm font-heading font-medium transition-all duration-300 ease-out",
-                      "focus:outline-none focus:ring-2 focus:ring-gold-500 focus:ring-offset-2 focus:ring-offset-transparent rounded-sm px-3 py-2",
+                      "group relative text-sm font-body font-medium transition-all duration-300 ease-out",
+                      "focus:outline-none focus:ring-2 focus:ring-terra-500 focus:ring-offset-2 focus:ring-offset-transparent rounded-sm px-3 py-3 min-h-[48px] inline-flex items-center",
                       "hover:scale-105 active:scale-95",
                       // Light mode colors
                       !isDark && isScrolled && isActive && "text-foreground",
@@ -194,8 +194,8 @@ export function Header() {
                       !isDark && !isScrolled && isActive && "text-white",
                       !isDark && !isScrolled && !isActive && "text-white/90 hover:text-white",
                       // Dark mode colors
-                      isDark && isScrolled && isActive && "text-cream-100",
-                      isDark && isScrolled && !isActive && "text-cream-200/70 hover:text-cream-100",
+                      isDark && isScrolled && isActive && "text-white",
+                      isDark && isScrolled && !isActive && "text-white/70 hover:text-white",
                       isDark && !isScrolled && isActive && "text-white",
                       isDark && !isScrolled && !isActive && "text-white/90 hover:text-white"
                     )}
@@ -205,8 +205,8 @@ export function Header() {
                     {/* Premium gold underline animation */}
                     <span
                       className={cn(
-                        "absolute bottom-0 left-1/2 -translate-x-1/2 h-0.5 bg-gradient-to-r from-gold-400 via-gold-500 to-gold-600 transition-all duration-500 ease-out",
-                        "shadow-sm group-hover:shadow-gold-500/50",
+                        "absolute bottom-0 left-1/2 -translate-x-1/2 h-0.5 bg-gradient-to-r from-terra-400 via-terra-500 to-terra-600 transition-all duration-500 ease-out",
+                        "shadow-sm group-hover:shadow-terra-500/50",
                         isActive 
                           ? "w-full opacity-100" 
                           : "w-0 group-hover:w-full opacity-0 group-hover:opacity-100"
@@ -216,8 +216,8 @@ export function Header() {
                     {/* Subtle background glow on hover */}
                     <span
                       className={cn(
-                        "absolute inset-0 rounded-sm bg-gold-500/0 group-hover:bg-gold-500/5 transition-all duration-300 -z-10",
-                        isActive && "bg-gold-500/5"
+                        "absolute inset-0 rounded-sm bg-terra-500/0 group-hover:bg-terra-500/5 transition-all duration-300 -z-10",
+                        isActive && "bg-terra-500/5"
                       )}
                       aria-hidden="true"
                     />
@@ -234,7 +234,7 @@ export function Header() {
                   "transition-all duration-300 hover:scale-110 active:scale-95",
                   isScrolled
                     ? isDark
-                      ? "text-cream-200/70 hover:text-cream-100 hover:bg-charcoal-800/50"
+                      ? "text-white/70 hover:text-white hover:bg-green-700/50"
                       : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
                     : "text-white/90 hover:text-white hover:bg-white/10"
                 )}
@@ -246,10 +246,10 @@ export function Header() {
                   variant="premium"
                   size="sm"
                   className={cn(
-                    "font-heading font-semibold tracking-wide transition-all duration-300 min-h-[44px]",
+                    "font-body font-semibold tracking-wide transition-all duration-300 min-h-[48px]",
                     "px-4 py-2 relative overflow-hidden",
                     "hover:scale-105 active:scale-95",
-                    "shadow-lg hover:shadow-xl hover:shadow-gold-500/30"
+                    "shadow-lg hover:shadow-xl hover:shadow-terra-500/30"
                   )}
                   aria-label="Order for Delivery"
                 >
@@ -271,11 +271,11 @@ export function Header() {
                 }}
                 className={cn(
                   "hidden lg:flex items-center justify-center transition-all duration-300",
-                  "focus:outline-none focus:ring-2 focus:ring-gold-500 focus:ring-offset-2 focus:ring-offset-transparent rounded-lg px-2 py-1 min-h-[44px] min-w-[44px]",
+                  "focus:outline-none focus:ring-2 focus:ring-terra-500 focus:ring-offset-2 focus:ring-offset-transparent rounded-lg px-2 py-2 min-h-[48px] min-w-[48px]",
                   "hover:scale-110 active:scale-95",
                   isScrolled
                     ? isDark
-                      ? "text-cream-200/70 hover:text-cream-100 hover:bg-charcoal-800/50"
+                      ? "text-white/70 hover:text-white hover:bg-green-700/50"
                       : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
                     : "text-white/90 hover:text-white hover:bg-white/10"
                 )}
@@ -287,7 +287,7 @@ export function Header() {
                     <span
                       className={cn(
                         "absolute -top-2 -right-2 text-xs font-body font-bold px-1.5 py-0.5 rounded-full min-w-[20px] text-center",
-                        "text-white bg-gold-500 shadow-lg animate-badge-bounce",
+                        "text-white bg-terra-500 shadow-lg animate-badge-bounce",
                         "ring-2 ring-background"
                       )}
                     >
@@ -303,20 +303,20 @@ export function Header() {
                   variant="outline"
                   size="sm"
                   className={cn(
-                    "font-heading font-semibold tracking-wide border-2 transition-all duration-300 min-h-[44px]",
+                    "font-body font-semibold tracking-wide border-2 transition-all duration-300 min-h-[48px]",
                     "px-4 py-2 relative overflow-hidden",
                     "hover:scale-105 active:scale-95",
                     isScrolled
                       ? isDark
-                        ? "border-gold-500/80 text-cream-100 hover:bg-gold-500/10 hover:border-gold-500 hover:shadow-lg hover:shadow-gold-500/20"
-                        : "border-gold-500/80 text-foreground hover:bg-gold-500/10 hover:border-gold-500 hover:shadow-lg"
+                        ? "border-terra-500/80 text-white hover:bg-terra-500/10 hover:border-terra-500 hover:shadow-lg hover:shadow-terra-500/20"
+                        : "border-terra-500/80 text-foreground hover:bg-terra-500/10 hover:border-terra-500 hover:shadow-lg"
                       : "border-white/80 text-white hover:bg-white/10 hover:border-white hover:shadow-xl"
                   )}
                   aria-label="Reserve a Table"
                 >
                   <span className="relative z-10">Reserve a Table</span>
                   {/* Shine effect */}
-                  <span className="absolute inset-0 bg-gradient-to-r from-gold-500/0 via-gold-500/20 to-gold-500/0 translate-x-[-100%] group-hover/reserve:translate-x-[100%] transition-transform duration-700 ease-in-out" />
+                  <span className="absolute inset-0 bg-gradient-to-r from-terra-500/0 via-terra-500/20 to-terra-500/0 translate-x-[-100%] group-hover/reserve:translate-x-[100%] transition-transform duration-700 ease-in-out" />
                 </Button>
               </Link>
 
@@ -332,7 +332,7 @@ export function Header() {
                   "will-change-transform",
                   isScrolled
                     ? isDark
-                      ? "text-cream-200/70 hover:text-cream-100 hover:bg-charcoal-800/50 active:bg-charcoal-800/70"
+                      ? "text-white/70 hover:text-white hover:bg-green-700/50 active:bg-green-700/70"
                       : "text-foreground hover:bg-muted/50 active:bg-muted/80"
                     : "text-white hover:bg-white/10 active:bg-white/20"
                 )}
@@ -386,7 +386,7 @@ export function Header() {
               className={cn(
                 "fixed inset-0 z-[60] lg:hidden transition-opacity duration-300",
                 isDark 
-                  ? "bg-charcoal-950/98 backdrop-blur-2xl" 
+                  ? "bg-green-700/98 backdrop-blur-2xl" 
                   : "bg-gray-900/98 backdrop-blur-2xl"
               )}
               onClick={() => setIsMobileMenuOpen(false)}
@@ -403,7 +403,7 @@ export function Header() {
                 "-webkit-overflow-scrolling: touch",
                 "animate-fade-in",
                 isDark 
-                  ? "bg-charcoal-950/98 backdrop-blur-2xl" 
+                  ? "bg-green-700/98 backdrop-blur-2xl" 
                   : "bg-gray-900/98 backdrop-blur-2xl"
               )}
               role="navigation"
@@ -441,11 +441,11 @@ export function Header() {
                         }
                       }}
                       className={cn(
-                        "group relative text-2xl font-heading font-light tracking-wide text-white",
+                        "group relative text-2xl font-body font-light tracking-wide text-white",
                         "transition-all duration-500 ease-out animate-fade-in-up",
-                        "hover:text-gold-400 active:text-gold-500 active:scale-95",
-                        "focus:outline-none focus:ring-2 focus:ring-gold-500 focus:ring-offset-2 focus:ring-offset-transparent rounded-lg px-6 py-4 min-h-[56px] touch-manipulation w-full text-center",
-                        isActive && "text-gold-400"
+                        "hover:text-terra-400 active:text-terra-500 active:scale-95",
+                        "focus:outline-none focus:ring-2 focus:ring-terra-500 focus:ring-offset-2 focus:ring-offset-transparent rounded-lg px-6 py-4 min-h-[56px] touch-manipulation w-full text-center",
+                        isActive && "text-terra-400"
                       )}
                       aria-current={isActive ? "page" : undefined}
                       style={{
@@ -456,7 +456,7 @@ export function Header() {
                       {/* Gold underline for active/hover */}
                       <span
                         className={cn(
-                          "absolute bottom-2 left-1/2 -translate-x-1/2 h-0.5 bg-gradient-to-r from-gold-400 via-gold-500 to-gold-600 transition-all duration-500",
+                          "absolute bottom-2 left-1/2 -translate-x-1/2 h-0.5 bg-gradient-to-r from-terra-400 via-terra-500 to-terra-600 transition-all duration-500",
                           isActive ? "w-3/4 opacity-100" : "w-0 group-hover:w-3/4 opacity-0 group-hover:opacity-100"
                         )}
                         aria-hidden="true"
@@ -476,7 +476,7 @@ export function Header() {
                     <Button
                       variant="premium"
                       size="lg"
-                      className="w-full font-heading font-semibold tracking-wide transition-all duration-300 min-h-[56px] text-lg touch-manipulation relative overflow-hidden hover:scale-105 active:scale-95 shadow-xl"
+                      className="w-full font-body font-semibold tracking-wide transition-all duration-300 min-h-[56px] text-lg touch-manipulation relative overflow-hidden hover:scale-105 active:scale-95 shadow-xl"
                       aria-label="Order for Delivery"
                     >
                       <span className="relative z-10 flex items-center justify-center gap-2">
@@ -501,11 +501,11 @@ export function Header() {
                     <Button
                       variant="outline"
                       size="lg"
-                      className="w-full font-heading font-semibold tracking-wide border-2 border-white/80 text-white hover:bg-white/10 hover:border-white active:bg-white/20 active:border-white/80 transition-all duration-300 min-h-[56px] text-lg touch-manipulation relative overflow-hidden hover:scale-105 active:scale-95"
+                      className="w-full font-body font-semibold tracking-wide border-2 border-white/80 text-white hover:bg-white/10 hover:border-white active:bg-white/20 active:border-white/80 transition-all duration-300 min-h-[56px] text-lg touch-manipulation relative overflow-hidden hover:scale-105 active:scale-95"
                       aria-label="Reserve a Table"
                     >
                       <span className="relative z-10">Reserve a Table</span>
-                      <span className="absolute inset-0 bg-gradient-to-r from-gold-500/0 via-gold-500/20 to-gold-500/0 translate-x-[-100%] group-hover/reserve:translate-x-[100%] transition-transform duration-700 ease-in-out" />
+                      <span className="absolute inset-0 bg-gradient-to-r from-terra-500/0 via-terra-500/20 to-terra-500/0 translate-x-[-100%] group-hover/reserve:translate-x-[100%] transition-transform duration-700 ease-in-out" />
                     </Button>
                   </Link>
                 </div>

@@ -5,7 +5,7 @@ import Link from "next/link"
 import { Card, CardContent, CardFooter } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { MenuItem } from "@/lib/menuData"
+import type { MenuItem } from "@/lib/data/menuData"
 import { ShoppingCart, Heart } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { useCart } from "@/lib/hooks/useCart"
@@ -43,9 +43,9 @@ export function FeaturedMenuCard({ item, onAddToCart }: FeaturedMenuCardProps) {
   return (
     <Card className="group relative overflow-hidden flex flex-col h-full transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
       {/* Image Container */}
-      <div className="relative h-48 md:h-56 overflow-hidden bg-gradient-to-br from-charcoal-200 to-charcoal-300">
+      <div className="relative h-48 md:h-56 overflow-hidden bg-gradient-to-br from-neutral-200 to-neutral-300">
         {/* Placeholder Image - in production, use Next.js Image */}
-        <div className="absolute inset-0 bg-gradient-to-br from-primary/20 via-primary/10 to-charcoal-200 flex items-center justify-center">
+        <div className="absolute inset-0 bg-gradient-to-br from-primary/20 via-primary/10 to-neutral-200 flex items-center justify-center">
           <div className="text-4xl">🍽️</div>
         </div>
         {/* Image overlay on hover */}
@@ -57,8 +57,8 @@ export function FeaturedMenuCard({ item, onAddToCart }: FeaturedMenuCardProps) {
             {item.tags.map((tag, index) => (
               <Badge
                 key={index}
-                variant={tag === "Bestseller" ? "category" : tag === "New" ? "tag" : "outline"}
-                className="bg-white/90 text-charcoal-900 hover:bg-white"
+                variant={tag === "bestseller" ? "category" : tag === "new" ? "tag" : "outline"}
+                className="bg-white/90 text-neutral-900 hover:bg-white"
               >
                 {tag}
               </Badge>
@@ -80,7 +80,7 @@ export function FeaturedMenuCard({ item, onAddToCart }: FeaturedMenuCardProps) {
           <Heart
             className={cn(
               "h-5 w-5 transition-colors",
-              isFavorite ? "fill-primary text-primary" : "text-charcoal-700"
+              isFavorite ? "fill-primary text-primary" : "text-green-700"
             )}
           />
         </button>
@@ -89,7 +89,7 @@ export function FeaturedMenuCard({ item, onAddToCart }: FeaturedMenuCardProps) {
         <div className="absolute inset-0 scale-100 group-hover:scale-110 transition-transform duration-500">
           {/* In production, replace with: */}
           {/* <Image
-            src={item.image || "/images/placeholder-food.jpg"}
+            src={item.image || "/images/placeholders/dish-placeholder.svg"}
             alt={item.name}
             fill
             className="object-cover"
@@ -100,7 +100,7 @@ export function FeaturedMenuCard({ item, onAddToCart }: FeaturedMenuCardProps) {
 
       {/* Content */}
       <CardContent className="flex-1 p-4 md:p-6">
-        <h3 className="text-lg md:text-xl font-heading font-semibold mb-2 text-foreground">
+        <h3 className="text-lg md:text-xl font-body font-semibold mb-2 text-foreground">
           {item.name}
         </h3>
         <p className="text-sm text-muted-foreground mb-4 line-clamp-2">

@@ -12,12 +12,12 @@ export default function ReservationsPage() {
   return (
     <div className={cn(
       "min-h-screen transition-colors duration-300",
-      isDark ? "bg-charcoal-950" : "bg-background"
+      isDark ? "bg-green-700" : "bg-neutral-50"
     )}>
       {/* Hero Section - Premium */}
       <section className={cn(
-        "relative h-[40vh] md:h-[45vh] min-h-[400px] md:min-h-[500px] flex items-center justify-center overflow-hidden",
-        "bg-gradient-to-br from-charcoal-950 via-charcoal-900 to-burgundy-900"
+        "relative flex min-h-[40vh] items-center justify-center overflow-hidden md:min-h-[45vh]",
+        "bg-gradient-to-br from-green-700 via-green-600 to-green-900"
       )}>
         <div className={cn(
           "absolute inset-0 transition-opacity duration-300",
@@ -25,16 +25,16 @@ export default function ReservationsPage() {
         )} />
         <div className="relative z-10 text-center px-6 max-w-4xl mx-auto">
           <h1 className={cn(
-            "text-5xl md:text-6xl lg:text-7xl font-display font-light mb-6 md:mb-8",
-            "text-cream-100 drop-shadow-[0_4px_20px_rgba(0,0,0,0.8)]",
+            "hero-title tracking-tight mb-6 md:mb-8",
+            "text-white drop-shadow-[0_4px_20px_rgba(0,0,0,0.8)]",
             "animate-fade-in-up"
           )}>
             Reserve Your Table
           </h1>
-          <div className="w-24 md:w-32 h-0.5 bg-gradient-to-r from-transparent via-gold-500 to-transparent mx-auto mb-6 md:mb-8 shadow-lg shadow-gold-500/50" />
+          <div className="w-24 md:w-32 h-0.5 bg-gradient-to-r from-transparent via-terra-500 to-transparent mx-auto mb-6 md:mb-8 shadow-lg shadow-terra-500/50" />
           <p className={cn(
             "text-lg md:text-xl lg:text-2xl font-body font-light leading-relaxed max-w-3xl mx-auto",
-            "text-cream-200/90 drop-shadow-[0_2px_10px_rgba(0,0,0,0.8)]",
+            "text-white/90 drop-shadow-[0_2px_10px_rgba(0,0,0,0.8)]",
             "animate-fade-in-up"
           )} style={{ animationDelay: "0.2s" }}>
             An unforgettable dining experience awaits
@@ -43,47 +43,58 @@ export default function ReservationsPage() {
       </section>
 
       {/* Main Content */}
-      <div className="container-custom py-10 md:py-16">
-        <div className="max-w-2xl mx-auto">
-          {/* Reservation Form Card - Premium */}
-          <div className={cn(
-            "rounded-xl border p-6 md:p-8 lg:p-10 shadow-lg transition-all duration-300",
+      <section className="section-shell">
+        <div className="section-shell-inner">
+          <div className="mx-auto max-w-lg w-full">
+            <div className={cn(
+            "rounded-[var(--radius-lg)] border bg-white p-6 sm:p-8 shadow-[var(--shadow-md)] transition-all duration-300",
             isDark 
-              ? "bg-charcoal-900/50 border-charcoal-800/50" 
-              : "bg-cream-50 border-border/30"
+              ? "bg-green-600/50 border-green-700/50" 
+              : "border-[var(--border)]"
           )}>
+            <p
+              className={cn(
+                "mb-6 rounded-[var(--radius-md)] border px-4 py-3 text-center text-sm font-body leading-relaxed text-terra-600",
+                isDark
+                  ? "border-terra-500/30 bg-terra-500/5 text-terra-200"
+                  : "border-terra-200 bg-terra-50",
+              )}
+              role="note"
+            >
+              For parties of 8 or more, please call us so we can confirm seating and arrangements.
+            </p>
             <ReservationForm />
-          </div>
+            </div>
 
           {/* Reservation Policies - Premium */}
           <div className={cn(
             "mt-10 md:mt-12 space-y-5 transition-colors duration-300",
-            isDark ? "bg-charcoal-900/30 rounded-xl p-6 md:p-8" : "bg-transparent"
+            isDark ? "bg-green-600/30 rounded-xl p-6 md:p-8" : "bg-transparent"
           )}>
             <h3 className={cn(
               "text-lg md:text-xl font-display font-light mb-5 transition-colors duration-300",
-              isDark ? "text-cream-100" : "text-foreground"
+              isDark ? "text-white" : "text-foreground"
             )}>
               Reservation Policies
             </h3>
             <div className="space-y-5">
               <div className="flex items-start gap-3 md:gap-4 group">
                 <div className={cn(
-                  "p-2 rounded-lg bg-gold-500/10 flex-shrink-0 mt-0.5 transition-all duration-300",
-                  "group-hover:bg-gold-500/20 group-hover:scale-110"
+                  "p-2 rounded-lg bg-terra-500/10 flex-shrink-0 mt-0.5 transition-all duration-300",
+                  "group-hover:bg-terra-500/20 group-hover:scale-110"
                 )}>
-                  <Clock className="h-4 w-4 md:h-5 md:w-5 text-gold-600" />
+                  <Clock className="h-4 w-4 md:h-5 md:w-5 text-terra-600" />
                 </div>
                 <div>
                   <p className={cn(
                     "font-body font-medium mb-1.5 text-sm md:text-base transition-colors duration-300",
-                    isDark ? "text-cream-100" : "text-foreground"
+                    isDark ? "text-white" : "text-foreground"
                   )}>
                     Reservations held for 15 minutes
                   </p>
                   <p className={cn(
                     "text-xs md:text-sm font-body font-light leading-relaxed transition-colors duration-300",
-                    isDark ? "text-cream-200/70" : "text-muted-foreground"
+                    isDark ? "text-white/70" : "text-muted-foreground"
                   )}>
                     Please arrive on time. We may release your table if you&apos;re more than 15
                     minutes late.
@@ -93,21 +104,21 @@ export default function ReservationsPage() {
 
               <div className="flex items-start gap-3 md:gap-4 group">
                 <div className={cn(
-                  "p-2 rounded-lg bg-gold-500/10 flex-shrink-0 mt-0.5 transition-all duration-300",
-                  "group-hover:bg-gold-500/20 group-hover:scale-110"
+                  "p-2 rounded-lg bg-terra-500/10 flex-shrink-0 mt-0.5 transition-all duration-300",
+                  "group-hover:bg-terra-500/20 group-hover:scale-110"
                 )}>
-                  <XCircle className="h-4 w-4 md:h-5 md:w-5 text-gold-600" />
+                  <XCircle className="h-4 w-4 md:h-5 md:w-5 text-terra-600" />
                 </div>
                 <div>
                   <p className={cn(
                     "font-body font-medium mb-1.5 text-sm md:text-base transition-colors duration-300",
-                    isDark ? "text-cream-100" : "text-foreground"
+                    isDark ? "text-white" : "text-foreground"
                   )}>
                     Cancellation policy: 24 hours notice
                   </p>
                   <p className={cn(
                     "text-xs md:text-sm font-body font-light leading-relaxed transition-colors duration-300",
-                    isDark ? "text-cream-200/70" : "text-muted-foreground"
+                    isDark ? "text-white/70" : "text-muted-foreground"
                   )}>
                     Please cancel or modify your reservation at least 24 hours in advance to avoid
                     any charges.
@@ -117,21 +128,21 @@ export default function ReservationsPage() {
 
               <div className="flex items-start gap-3 md:gap-4 group">
                 <div className={cn(
-                  "p-2 rounded-lg bg-gold-500/10 flex-shrink-0 mt-0.5 transition-all duration-300",
-                  "group-hover:bg-gold-500/20 group-hover:scale-110"
+                  "p-2 rounded-lg bg-terra-500/10 flex-shrink-0 mt-0.5 transition-all duration-300",
+                  "group-hover:bg-terra-500/20 group-hover:scale-110"
                 )}>
-                  <Users className="h-4 w-4 md:h-5 md:w-5 text-gold-600" />
+                  <Users className="h-4 w-4 md:h-5 md:w-5 text-terra-600" />
                 </div>
                 <div>
                   <p className={cn(
                     "font-body font-medium mb-1.5 text-sm md:text-base transition-colors duration-300",
-                    isDark ? "text-cream-100" : "text-foreground"
+                    isDark ? "text-white" : "text-foreground"
                   )}>
                     Groups of 8+: deposit required
                   </p>
                   <p className={cn(
                     "text-xs md:text-sm font-body font-light leading-relaxed transition-colors duration-300",
-                    isDark ? "text-cream-200/70" : "text-muted-foreground"
+                    isDark ? "text-white/70" : "text-muted-foreground"
                   )}>
                     Large parties require a deposit to secure the reservation. We&apos;ll contact
                     you after booking.
@@ -142,6 +153,7 @@ export default function ReservationsPage() {
           </div>
         </div>
       </div>
+      </section>
     </div>
   )
 }

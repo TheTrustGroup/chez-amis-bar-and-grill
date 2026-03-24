@@ -32,7 +32,7 @@ export function OrderTypeFields({
       <div className="space-y-6 pt-6 border-t border-border/50">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <Label htmlFor="date" className="font-heading font-light text-foreground">
+            <Label htmlFor="date" className="font-body font-light text-foreground">
               Preferred Date
             </Label>
             <Input
@@ -40,12 +40,12 @@ export function OrderTypeFields({
               type="date"
               value={formData.date || ""}
               onChange={(e) => onFieldChange("date", e.target.value)}
-              className="mt-2 border-border/50 focus:border-gold-500/50 min-h-[44px] text-base md:text-sm"
+              className="mt-2 border-border/50 focus:border-terra-500/50 min-h-[44px] text-base md:text-sm"
               required
             />
           </div>
           <div>
-            <Label htmlFor="time" className="font-heading font-light text-foreground">
+            <Label htmlFor="time" className="font-body font-light text-foreground">
               Preferred Time
             </Label>
             <Input
@@ -53,21 +53,21 @@ export function OrderTypeFields({
               type="time"
               value={formData.time || ""}
               onChange={(e) => onFieldChange("time", e.target.value)}
-              className="mt-2 border-border/50 focus:border-gold-500/50 min-h-[44px] text-base md:text-sm"
+              className="mt-2 border-border/50 focus:border-terra-500/50 min-h-[44px] text-base md:text-sm"
               required
             />
           </div>
         </div>
 
         <div>
-          <Label htmlFor="guests" className="font-heading font-light text-foreground">
+          <Label htmlFor="guests" className="font-body font-light text-foreground">
             Number of Guests
           </Label>
           <select
             id="guests"
             value={formData.guests || ""}
             onChange={(e) => onFieldChange("guests", e.target.value)}
-            className="mt-2 w-full h-12 md:h-10 rounded-md border border-border/50 bg-background px-3 py-2 text-base md:text-sm focus:outline-none focus:ring-2 focus:ring-gold-500 focus:ring-offset-1 min-h-[44px]"
+            className="mt-2 w-full h-12 md:h-10 rounded-md border border-border/50 bg-background px-3 py-2 text-base md:text-sm focus:outline-none focus:ring-2 focus:ring-terra-500 focus:ring-offset-1 min-h-[44px]"
             required
           >
             <option value="">Select number of guests</option>
@@ -81,14 +81,14 @@ export function OrderTypeFields({
         </div>
 
         <div>
-          <Label htmlFor="tablePreference" className="font-heading font-light text-foreground">
+          <Label htmlFor="tablePreference" className="font-body font-light text-foreground">
             Table Preference (Optional)
           </Label>
           <select
             id="tablePreference"
             value={formData.tablePreference || ""}
             onChange={(e) => onFieldChange("tablePreference", e.target.value)}
-            className="mt-2 w-full h-12 md:h-10 rounded-md border border-border/50 bg-background px-3 py-2 text-base md:text-sm focus:outline-none focus:ring-2 focus:ring-gold-500 focus:ring-offset-1 min-h-[44px]"
+            className="mt-2 w-full h-12 md:h-10 rounded-md border border-border/50 bg-background px-3 py-2 text-base md:text-sm focus:outline-none focus:ring-2 focus:ring-terra-500 focus:ring-offset-1 min-h-[44px]"
           >
             <option value="">No preference</option>
             <option value="window">Window</option>
@@ -98,14 +98,14 @@ export function OrderTypeFields({
         </div>
 
         <div>
-          <Label htmlFor="specialOccasion" className="font-heading font-light text-foreground">
+          <Label htmlFor="specialOccasion" className="font-body font-light text-foreground">
             Special Occasion (Optional)
           </Label>
           <select
             id="specialOccasion"
             value={formData.specialOccasion || ""}
             onChange={(e) => onFieldChange("specialOccasion", e.target.value)}
-            className="mt-2 w-full h-12 md:h-10 rounded-md border border-border/50 bg-background px-3 py-2 text-base md:text-sm focus:outline-none focus:ring-2 focus:ring-gold-500 focus:ring-offset-1 min-h-[44px]"
+            className="mt-2 w-full h-12 md:h-10 rounded-md border border-border/50 bg-background px-3 py-2 text-base md:text-sm focus:outline-none focus:ring-2 focus:ring-terra-500 focus:ring-offset-1 min-h-[44px]"
           >
             <option value="">None</option>
             <option value="birthday">Birthday</option>
@@ -122,7 +122,7 @@ export function OrderTypeFields({
     return (
       <div className="space-y-6 pt-6 border-t border-border/50">
         <div>
-          <Label htmlFor="pickupTime" className="font-heading font-light text-foreground">
+          <Label htmlFor="pickupTime" className="font-body font-light text-foreground">
             Preferred Pickup Time
           </Label>
           <Input
@@ -130,7 +130,7 @@ export function OrderTypeFields({
             type="datetime-local"
             value={formData.pickupTime || ""}
             onChange={(e) => onFieldChange("pickupTime", e.target.value)}
-            className="mt-2 border-border/50 focus:border-gold-500/50 min-h-[44px] text-base md:text-sm"
+            className="mt-2 border-border/50 focus:border-terra-500/50 min-h-[44px] text-base md:text-sm"
             required
             min={new Date().toISOString().slice(0, 16)}
             step="900"
@@ -141,7 +141,7 @@ export function OrderTypeFields({
         </div>
 
         <div>
-          <Label htmlFor="phone" className="font-heading font-light text-foreground">
+          <Label htmlFor="phone" className="font-body font-light text-foreground">
             Phone Number for Notification
           </Label>
           <Input
@@ -149,7 +149,7 @@ export function OrderTypeFields({
             type="tel"
             value={formData.phone || ""}
             onChange={(e) => onFieldChange("phone", e.target.value)}
-            className="mt-2 border-border/50 focus:border-gold-500/50 min-h-[44px] text-base md:text-sm"
+            className="mt-2 border-border/50 focus:border-terra-500/50 min-h-[44px] text-base md:text-sm"
             placeholder="055 703 2312"
             required
           />
@@ -162,43 +162,43 @@ export function OrderTypeFields({
     return (
       <div className="space-y-6 pt-6 border-t border-border/50">
         <div>
-          <Label htmlFor="deliveryAddress" className="font-heading font-light text-foreground">
+          <Label htmlFor="deliveryAddress" className="font-body font-light text-foreground">
             Delivery Address
           </Label>
           <Textarea
             id="deliveryAddress"
             value={formData.deliveryAddress || ""}
             onChange={(e) => onFieldChange("deliveryAddress", e.target.value)}
-            className="mt-2 border-border/50 focus:border-gold-500/50 min-h-[100px]"
+            className="mt-2 border-border/50 focus:border-terra-500/50 min-h-[100px]"
             placeholder="Street address, area, city..."
             required
           />
         </div>
 
         <div>
-          <Label className="font-heading font-light text-foreground mb-3 block">
+          <Label className="font-body font-light text-foreground mb-3 block">
             Delivery Time
           </Label>
           <div className="space-y-3">
-            <label className="flex items-center gap-3 p-4 rounded-lg border border-border/50 hover:border-gold-500/50 hover:bg-gold-500/5 cursor-pointer transition-all">
+            <label className="flex items-center gap-3 p-4 rounded-lg border border-border/50 hover:border-terra-500/50 hover:bg-terra-500/5 cursor-pointer transition-all">
               <input
                 type="radio"
                 name="deliveryTime"
                 value="asap"
                 checked={formData.deliveryTime === "asap"}
                 onChange={(e) => onFieldChange("deliveryTime", e.target.value)}
-                className="w-4 h-4 text-gold-500 focus:ring-gold-500"
+                className="w-4 h-4 text-terra-500 focus:ring-terra-500"
               />
               <span className="font-body font-light">ASAP (35-45 minutes)</span>
             </label>
-            <label className="flex items-center gap-3 p-4 rounded-lg border border-border/50 hover:border-gold-500/50 hover:bg-gold-500/5 cursor-pointer transition-all">
+            <label className="flex items-center gap-3 p-4 rounded-lg border border-border/50 hover:border-terra-500/50 hover:bg-terra-500/5 cursor-pointer transition-all">
               <input
                 type="radio"
                 name="deliveryTime"
                 value="scheduled"
                 checked={formData.deliveryTime === "scheduled"}
                 onChange={(e) => onFieldChange("deliveryTime", e.target.value)}
-                className="w-4 h-4 text-gold-500 focus:ring-gold-500"
+                className="w-4 h-4 text-terra-500 focus:ring-terra-500"
               />
               <span className="font-body font-light">Schedule for later</span>
             </label>
@@ -207,7 +207,7 @@ export function OrderTypeFields({
 
         {formData.deliveryTime === "scheduled" && (
           <div>
-            <Label htmlFor="scheduledTime" className="font-heading font-light text-foreground">
+            <Label htmlFor="scheduledTime" className="font-body font-light text-foreground">
               Scheduled Time
             </Label>
             <Input
@@ -215,7 +215,7 @@ export function OrderTypeFields({
               type="datetime-local"
               value={formData.scheduledTime || ""}
               onChange={(e) => onFieldChange("scheduledTime", e.target.value)}
-              className="mt-2 border-border/50 focus:border-gold-500/50 min-h-[44px] text-base md:text-sm"
+              className="mt-2 border-border/50 focus:border-terra-500/50 min-h-[44px] text-base md:text-sm"
               required
               min={new Date().toISOString().slice(0, 16)}
             />
@@ -223,7 +223,7 @@ export function OrderTypeFields({
         )}
 
         <div>
-          <Label htmlFor="phone" className="font-heading font-light text-foreground">
+          <Label htmlFor="phone" className="font-body font-light text-foreground">
             Contact Phone
           </Label>
           <Input
@@ -231,7 +231,7 @@ export function OrderTypeFields({
             type="tel"
             value={formData.phone || ""}
             onChange={(e) => onFieldChange("phone", e.target.value)}
-            className="mt-2 border-border/50 focus:border-gold-500/50 min-h-[44px] text-base md:text-sm"
+            className="mt-2 border-border/50 focus:border-terra-500/50 min-h-[44px] text-base md:text-sm"
             placeholder="055 703 2312"
             required
           />

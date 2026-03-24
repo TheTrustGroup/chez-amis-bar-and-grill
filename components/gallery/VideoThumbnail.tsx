@@ -169,8 +169,8 @@ export const VideoThumbnail = memo(function VideoThumbnail({
   return (
     <div ref={containerRef} className="relative w-full h-full">
       {isLoading || !thumbnailUrl ? (
-        <div className="absolute inset-0 bg-gradient-to-br from-gray-200 via-gray-300 to-gray-200 dark:from-charcoal-800 dark:via-charcoal-700 dark:to-charcoal-800 animate-pulse flex items-center justify-center">
-          <div className="w-8 h-8 border-2 border-gray-400 dark:border-charcoal-600 border-t-transparent rounded-full animate-spin" />
+        <div className="absolute inset-0 bg-gradient-to-br from-gray-200 via-gray-300 to-gray-200 dark:from-green-700 dark:via-green-700 dark:to-green-700 animate-pulse flex items-center justify-center">
+          <div className="w-8 h-8 border-2 border-gray-400 dark:border-neutral-700 border-t-transparent rounded-full animate-spin" />
         </div>
       ) : (
         <Image

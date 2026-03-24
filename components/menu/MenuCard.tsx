@@ -4,7 +4,7 @@ import { useState } from "react"
 import { Card, CardContent, CardFooter } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { MenuItem } from "@/lib/menuData"
+import type { MenuItem } from "@/lib/data/menuData"
 import { ShoppingCart, ChefHat } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { useCart } from "@/lib/hooks/useCart"
@@ -47,14 +47,14 @@ export function MenuCard({ item, onAddToCart }: MenuCardProps) {
   return (
     <Card className="group relative overflow-hidden flex flex-col h-full transition-all duration-500 ease-out hover:shadow-elegant hover:-translate-y-2 border-border/50 bg-card/50 backdrop-blur-sm">
       {/* Image Container */}
-      <div className="relative h-48 overflow-hidden bg-gradient-to-br from-charcoal-200 to-charcoal-300">
+      <div className="relative h-48 overflow-hidden bg-gradient-to-br from-neutral-200 to-neutral-300">
         {/* Placeholder Image */}
-        <div className="absolute inset-0 bg-gradient-to-br from-primary/20 via-primary/10 to-charcoal-200 flex items-center justify-center">
+        <div className="absolute inset-0 bg-gradient-to-br from-primary/20 via-primary/10 to-neutral-200 flex items-center justify-center">
           <div className="text-5xl transition-transform duration-500 group-hover:scale-110">🍽️</div>
         </div>
         
         {/* Popular Badge */}
-        {item.popular && (
+        {item.featured && (
           <div className="absolute top-3 left-3 z-10 animate-fade-in">
             <Badge variant="category" className="bg-primary text-primary-foreground shadow-lg backdrop-blur-sm">
               <ChefHat className="h-3 w-3 mr-1" />
@@ -81,7 +81,7 @@ export function MenuCard({ item, onAddToCart }: MenuCardProps) {
 
       {/* Content */}
       <CardContent className="flex-1 p-4 md:p-6">
-        <h3 className="text-lg md:text-xl font-heading font-semibold mb-2 text-foreground">
+        <h3 className="text-lg md:text-xl font-body font-semibold mb-2 text-foreground">
           {item.name}
         </h3>
         
@@ -96,9 +96,9 @@ export function MenuCard({ item, onAddToCart }: MenuCardProps) {
               <Badge
                 key={index}
                 variant={
-                  tag === "Vegetarian" || tag === "Vegan" || tag === "Gluten-free"
+                  tag === "signature" || tag === "chef-special"
                     ? "tag"
-                    : tag === "Spicy"
+                    : tag === "bestseller"
                     ? "destructive"
                     : "outline"
                 }
@@ -114,7 +114,7 @@ export function MenuCard({ item, onAddToCart }: MenuCardProps) {
       {/* Footer with Price and Add to Cart */}
       <CardFooter className="flex items-center justify-between p-4 md:p-6 pt-0 border-t border-border/50">
         <div className="flex flex-col">
-          <span className="text-2xl md:text-3xl font-bold text-primary transition-colors duration-300 group-hover:text-gold-600">
+          <span className="text-2xl md:text-3xl font-bold text-primary transition-colors duration-300 group-hover:text-terra-600">
             GH₵ {item.price.toFixed(2)}
           </span>
         </div>

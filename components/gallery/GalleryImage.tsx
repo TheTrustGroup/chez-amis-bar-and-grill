@@ -59,7 +59,7 @@ export const GalleryImage = memo(function GalleryImage({
     <>
       {/* Loading skeleton with theme support */}
       {isLoading && (
-        <div className="absolute inset-0 bg-gradient-to-br from-gray-200 via-gray-300 to-gray-200 dark:from-charcoal-800 dark:via-charcoal-700 dark:to-charcoal-800 animate-pulse" />
+        <div className="absolute inset-0 bg-gradient-to-br from-gray-200 via-gray-300 to-gray-200 dark:from-green-700 dark:via-green-700 dark:to-green-700 animate-pulse" />
       )}
 
       {/* Main image with fallback */}

@@ -3,12 +3,16 @@ import { sendEmail } from '@/lib/services/email.service'
 import { sendSMS } from '@/lib/services/sms.service'
 import type { OrderData, ReservationData } from '@/lib/types/notifications'
 
+const prodBlock = () =>
+  NextResponse.json({ error: 'Not available' }, { status: 404 })
+
 /**
  * Test endpoint for notifications
  * POST /api/test-notifications
  * Body: { type: 'email' | 'sms' | 'both', testType: 'order' | 'reservation' }
  */
 export async function POST(request: NextRequest) {
+  if (process.env.NODE_ENV === 'production') return prodBlock()
   try {
     const { type = 'both', testType = 'order' } = await request.json()
 
@@ -124,6 +128,7 @@ export async function POST(request: NextRequest) {
  * GET endpoint for quick test
  */
 export async function GET() {
+  if (process.env.NODE_ENV === 'production') return prodBlock()
   return NextResponse.json({
     message: 'Test notifications endpoint',
     usage: 'POST /api/test-notifications',

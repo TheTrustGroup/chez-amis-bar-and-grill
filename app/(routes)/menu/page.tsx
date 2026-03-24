@@ -2,11 +2,11 @@
 
 import { useState, useEffect, useRef, Suspense } from "react"
 import { Search, ShoppingBag, AlertCircle, UtensilsCrossed, Grid3x3, List } from "lucide-react"
-import { menuCategories } from "@/lib/data/menuData"
+import { menuCategories, itemMatchesDietaryFilters } from "@/lib/data/menuData"
 import { PremiumMenuItem } from "@/components/menu/PremiumMenuItem"
 import { PremiumMenuCard } from "@/components/menu/PremiumMenuCard"
 import { CategoryNav } from "@/components/menu/CategoryNav"
-import { OrderSummary } from "@/components/menu/OrderSummary"
+import { CartSidebar } from "@/components/menu/CartSidebar"
 import { MobileCart } from "@/components/menu/MobileCart"
 import { PrintMenu } from "@/components/menu/PrintMenu"
 import { AllergenInfo } from "@/components/menu/AllergenInfo"
@@ -149,29 +149,32 @@ export default function MenuPage() {
   return (
     <div className={cn(
       "min-h-screen transition-colors duration-300",
-      isDark ? "bg-charcoal-950" : "bg-background"
+      isDark ? "bg-green-700" : "bg-neutral-50"
     )}>
       {/* Hero Section - Refined */}
       <section className={cn(
         "relative h-[40vh] md:h-[45vh] min-h-[400px] md:min-h-[500px] flex items-center justify-center overflow-hidden",
-        "bg-gradient-to-br from-charcoal-950 via-charcoal-900 to-burgundy-900"
+        "bg-gradient-to-br from-green-700 via-green-600 to-green-900"
       )}>
         <div className={cn(
           "absolute inset-0 transition-opacity duration-300",
           isDark ? "bg-black/40" : "bg-black/50"
         )} />
+        <div className="absolute top-4 right-4 md:top-6 md:right-8 z-20">
+          <PrintMenu variant="header" />
+        </div>
         <div className="relative z-10 text-center px-6 max-w-4xl mx-auto">
           <h1 className={cn(
-            "text-5xl md:text-6xl lg:text-7xl font-display font-light mb-6 md:mb-8",
-            "text-cream-100 drop-shadow-[0_4px_20px_rgba(0,0,0,0.8)]",
+            "hero-title tracking-tight",
+            "mb-6 md:mb-8 text-white drop-shadow-[0_4px_20px_rgba(0,0,0,0.8)]",
             "animate-fade-in-up"
           )}>
             Our Menu
           </h1>
-          <div className="w-24 md:w-32 h-0.5 bg-gradient-to-r from-transparent via-gold-500 to-transparent mx-auto mb-6 md:mb-8 shadow-lg shadow-gold-500/50" />
+          <div className="w-24 md:w-32 h-0.5 bg-gradient-to-r from-transparent via-terra-500 to-transparent mx-auto mb-6 md:mb-8 shadow-lg shadow-terra-500/50" />
           <p className={cn(
             "text-lg md:text-xl lg:text-2xl font-body font-light max-w-3xl mx-auto leading-relaxed",
-            "text-cream-200/90 drop-shadow-[0_2px_10px_rgba(0,0,0,0.8)]",
+            "text-white/90 drop-shadow-[0_2px_10px_rgba(0,0,0,0.8)]",
             "animate-fade-in-up"
           )} style={{ animationDelay: "0.2s" }}>
             Seasonal selections, crafted with passion
@@ -180,17 +183,15 @@ export default function MenuPage() {
       </section>
 
       {/* Main Content */}
-      <div className={cn(
-        "container mx-auto px-6 md:px-12 lg:px-20 py-10 md:py-16",
-        "transition-colors duration-300"
-      )}>
+      <section className={cn("section-shell transition-colors duration-300")}>
+        <div className="section-shell-inner">
         {/* Header Actions Bar */}
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8 md:mb-12 print-menu-buttons">
           {/* Search Functionality - Premium */}
           <div className="relative flex-1 max-w-md">
             <Search className={cn(
               "absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 transition-colors",
-              isDark ? "text-cream-200/60" : "text-muted-foreground"
+              isDark ? "text-white/60" : "text-muted-foreground"
             )} />
             <input
               type="text"
@@ -199,10 +200,10 @@ export default function MenuPage() {
               onChange={(e) => updateSearchQuery(e.target.value)}
               className={cn(
                 "w-full pl-12 pr-4 py-3 text-sm md:text-base rounded-lg border-2 transition-all duration-300",
-                "focus:outline-none focus:ring-2 focus:ring-gold-500/50 focus:border-gold-500",
+                "focus:outline-none focus:ring-2 focus:ring-terra-500/50 focus:border-terra-500",
                 "min-h-[48px]",
                 isDark 
-                  ? "bg-charcoal-900/50 border-charcoal-800/50 text-cream-100 placeholder:text-cream-200/40"
+                  ? "bg-green-600/50 border-green-700/50 text-white placeholder:text-neutral-400/80"
                   : "bg-background border-border text-foreground placeholder:text-muted-foreground"
               )}
               aria-label="Search menu items"
@@ -215,7 +216,7 @@ export default function MenuPage() {
             <div className={cn(
               "hidden md:flex items-center gap-2 p-1 rounded-lg border transition-colors duration-300",
               isDark 
-                ? "bg-charcoal-900/50 border-charcoal-800/50" 
+                ? "bg-green-600/50 border-green-700/50" 
                 : "bg-muted/50 border-border/50"
             )}>
               <button
@@ -223,8 +224,8 @@ export default function MenuPage() {
                 className={cn(
                   "p-2 rounded transition-all duration-300 hover:scale-110 active:scale-95",
                   viewMode === "grid"
-                    ? "bg-gold-500 text-charcoal-900 shadow-md"
-                    : isDark ? "text-cream-200/60 hover:text-cream-100" : "text-muted-foreground hover:text-foreground"
+                    ? "bg-terra-500 text-neutral-900 shadow-md"
+                    : isDark ? "text-white/60 hover:text-white" : "text-muted-foreground hover:text-foreground"
                 )}
                 aria-label="Grid view"
               >
@@ -235,8 +236,8 @@ export default function MenuPage() {
                 className={cn(
                   "p-2 rounded transition-all duration-300 hover:scale-110 active:scale-95",
                   viewMode === "list"
-                    ? "bg-gold-500 text-charcoal-900 shadow-md"
-                    : isDark ? "text-cream-200/60 hover:text-cream-100" : "text-muted-foreground hover:text-foreground"
+                    ? "bg-terra-500 text-neutral-900 shadow-md"
+                    : isDark ? "text-white/60 hover:text-white" : "text-muted-foreground hover:text-foreground"
                 )}
                 aria-label="List view"
               >
@@ -244,21 +245,20 @@ export default function MenuPage() {
               </button>
             </div>
 
-            {/* Allergen Info & Print */}
+            {/* Allergen Info (print lives in hero) */}
             <div className="flex items-center gap-3">
               <button
                 onClick={() => setShowAllergenInfo(true)}
                 className={cn(
                   "text-xs md:text-sm transition-colors min-h-[32px] px-3 py-1.5 rounded-md",
                   isDark 
-                    ? "text-cream-200/70 hover:text-cream-100 hover:bg-charcoal-800/50"
+                    ? "text-white/70 hover:text-white hover:bg-green-700/50"
                     : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
                 )}
                 aria-label="View allergen information"
               >
                 Allergen Info
               </button>
-              <PrintMenu />
             </div>
           </div>
         </div>
@@ -267,12 +267,12 @@ export default function MenuPage() {
         <div className={cn(
           "sticky top-20 z-30 mb-8 md:mb-12 border-b transition-colors duration-300",
           isDark 
-            ? "bg-charcoal-950/95 backdrop-blur-xl border-charcoal-800/50"
+            ? "bg-green-700/95 backdrop-blur-xl border-green-700/50"
             : "bg-background/95 backdrop-blur-xl border-border/50",
           "shadow-lg"
         )}>
-          <div className="overflow-x-auto scrollbar-hide px-4 md:px-6 py-4">
-            <div className="flex gap-2 md:gap-3 min-w-max md:min-w-0 md:justify-center">
+          <div className="overflow-x-auto scrollbar-hide -mx-4 px-4 md:mx-0 md:px-6 py-3">
+            <div className="flex gap-2 min-w-max md:min-w-0 md:justify-center md:flex-wrap md:gap-3">
               {/* All Categories Tab */}
               <button
                 onClick={() => {
@@ -280,13 +280,12 @@ export default function MenuPage() {
                   setActiveCategory(null)
                 }}
                 className={cn(
-                  "px-5 md:px-6 py-2.5 md:py-3 rounded-full whitespace-nowrap text-sm font-medium transition-all duration-300 flex-shrink-0 min-h-[44px] touch-manipulation",
-                  "hover:scale-105 active:scale-95",
+                  "h-10 px-4 rounded-full whitespace-nowrap font-body font-medium tracking-wide uppercase text-xs transition-all duration-200 flex-shrink-0 touch-manipulation min-h-[40px] flex items-center",
                   activeCategory === null
-                    ? "bg-gold-500 text-charcoal-900 shadow-lg shadow-gold-500/30"
+                    ? "bg-green-500 text-white shadow-sm"
                     : isDark
-                    ? "bg-charcoal-800/50 text-cream-200/70 hover:bg-charcoal-800 hover:text-cream-100"
-                    : "bg-muted/50 text-muted-foreground hover:bg-muted hover:text-foreground"
+                    ? "bg-green-800/80 text-white/80 hover:text-white"
+                    : "bg-neutral-100 text-neutral-500 hover:text-neutral-700"
                 )}
                 aria-label="View all categories"
               >
@@ -314,13 +313,12 @@ export default function MenuPage() {
                     key={category.id}
                     onClick={() => scrollToCategory(category.id)}
                     className={cn(
-                      "px-5 md:px-6 py-2.5 md:py-3 rounded-full whitespace-nowrap text-sm font-medium transition-all duration-300 flex-shrink-0 min-h-[44px] touch-manipulation",
-                      "hover:scale-105 active:scale-95",
+                      "px-4 rounded-full whitespace-nowrap font-body font-medium tracking-wide uppercase text-xs transition-all duration-200 flex-shrink-0 touch-manipulation min-h-[48px] flex items-center",
                       activeCategory === category.id
-                        ? "bg-gold-500 text-charcoal-900 shadow-lg shadow-gold-500/30"
+                        ? "bg-green-500 text-white shadow-sm"
                         : isDark
-                        ? "bg-charcoal-800/50 text-cream-200/70 hover:bg-charcoal-800 hover:text-cream-100"
-                        : "bg-muted/50 text-muted-foreground hover:bg-muted hover:text-foreground"
+                        ? "bg-green-800/80 text-white/80 hover:text-white"
+                        : "bg-neutral-100 text-neutral-500 hover:text-neutral-700"
                     )}
                     title={category.name}
                     aria-label={`View ${category.name} category`}
@@ -375,15 +373,7 @@ export default function MenuPage() {
                       }
                     }
                     
-                    // Apply dietary filters
-                    if (filters.dietaryFilters.length > 0) {
-                      if (!item.dietary) return false
-                      if (!filters.dietaryFilters.some((filter) =>
-                        item.dietary?.includes(filter as 'vegetarian' | 'vegan' | 'gluten-free' | 'dairy-free')
-                      )) {
-                        return false
-                      }
-                    }
+                    if (!itemMatchesDietaryFilters(item, filters.dietaryFilters)) return false
                     
                     // Apply spicy level filter
                     if (filters.spicyLevel !== null && item.spicyLevel !== filters.spicyLevel) {
@@ -423,15 +413,7 @@ export default function MenuPage() {
                     }
                   }
                   
-                  // Apply dietary filters
-                  if (filters.dietaryFilters.length > 0) {
-                    if (!item.dietary) return false
-                    if (!filters.dietaryFilters.some((filter) =>
-                      item.dietary?.includes(filter as 'vegetarian' | 'vegan' | 'gluten-free' | 'dairy-free')
-                    )) {
-                      return false
-                    }
-                  }
+                  if (!itemMatchesDietaryFilters(item, filters.dietaryFilters)) return false
                   
                   // Apply spicy level filter
                   if (filters.spicyLevel !== null && item.spicyLevel !== filters.spicyLevel) {
@@ -467,25 +449,25 @@ export default function MenuPage() {
                   {/* Category Header - Premium */}
                   <div className="mb-10 md:mb-12">
                     <h2 className={cn(
-                      "text-3xl md:text-4xl lg:text-5xl font-display font-light mb-4 transition-colors duration-300",
-                      isDark ? "text-cream-100" : "text-foreground"
+                      "section-title mb-4 transition-colors duration-300",
+                      isDark ? "text-white" : "text-foreground"
                     )}>
                       {category.name}
                     </h2>
-                    <div className="w-24 md:w-32 h-0.5 bg-gradient-to-r from-transparent via-gold-500 to-transparent shadow-lg shadow-gold-500/50" />
+                    <div className="w-24 md:w-32 h-0.5 bg-gradient-to-r from-transparent via-terra-500 to-transparent shadow-lg shadow-terra-500/50" />
                     {category.description && (
                       <p className={cn(
                         "mt-4 text-base md:text-lg font-body font-light max-w-2xl",
-                        isDark ? "text-cream-200/70" : "text-muted-foreground"
+                        isDark ? "text-white/70" : "text-muted-foreground"
                       )}>
                         {category.description}
                       </p>
                     )}
                   </div>
 
-                  {/* Menu Items - Grid View */}
+                  {/* Menu Items - Grid View: 1 col mobile, 2 tablet+, max 3 without cart on xl */}
                   {shouldShowItems && (
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 menu-section">
+                    <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-2 grid-gap-section menu-section">
                       {isLoading ? (
                         <>
                           <MenuItemSkeleton />
@@ -500,11 +482,11 @@ export default function MenuPage() {
                       ) : (
                         <div className={cn(
                           "col-span-full py-12 text-center rounded-xl",
-                          isDark ? "bg-charcoal-900/30" : "bg-muted/30"
+                          isDark ? "bg-green-600/30" : "bg-muted/30"
                         )}>
                           <p className={cn(
                             "text-base font-body font-light",
-                            isDark ? "text-cream-200/60" : "text-muted-foreground"
+                            isDark ? "text-white/60" : "text-muted-foreground"
                           )}>
                             No items found in this category.
                           </p>
@@ -533,14 +515,7 @@ export default function MenuPage() {
                             return false
                           }
                         }
-                        if (filters.dietaryFilters.length > 0) {
-                          if (!item.dietary) return false
-                          if (!filters.dietaryFilters.some((filter) =>
-                            item.dietary?.includes(filter as 'vegetarian' | 'vegan' | 'gluten-free' | 'dairy-free')
-                          )) {
-                            return false
-                          }
-                        }
+                        if (!itemMatchesDietaryFilters(item, filters.dietaryFilters)) return false
                         if (filters.spicyLevel !== null && item.spicyLevel !== filters.spicyLevel) {
                           return false
                         }
@@ -566,14 +541,7 @@ export default function MenuPage() {
                           return false
                         }
                       }
-                      if (filters.dietaryFilters.length > 0) {
-                        if (!item.dietary) return false
-                        if (!filters.dietaryFilters.some((filter) =>
-                          item.dietary?.includes(filter as 'vegetarian' | 'vegan' | 'gluten-free' | 'dairy-free')
-                        )) {
-                          return false
-                        }
-                      }
+                      if (!itemMatchesDietaryFilters(item, filters.dietaryFilters)) return false
                       if (filters.spicyLevel !== null && item.spicyLevel !== filters.spicyLevel) {
                         return false
                       }
@@ -601,12 +569,12 @@ export default function MenuPage() {
                       {/* Category Header */}
                       <div className="mb-10 md:mb-12">
                         <h2 className={cn(
-                          "text-3xl md:text-4xl lg:text-5xl font-display font-light mb-4 transition-colors duration-300",
-                          isDark ? "text-cream-100" : "text-foreground"
+                          "section-title mb-4 transition-colors duration-300",
+                          isDark ? "text-white" : "text-foreground"
                         )}>
                           {category.name}
                         </h2>
-                        <div className="w-24 md:w-32 h-0.5 bg-gradient-to-r from-transparent via-gold-500 to-transparent shadow-lg shadow-gold-500/50" />
+                        <div className="w-24 md:w-32 h-0.5 bg-gradient-to-r from-transparent via-terra-500 to-transparent shadow-lg shadow-terra-500/50" />
                       </div>
 
                       {/* List View Items */}
@@ -627,11 +595,11 @@ export default function MenuPage() {
                           ) : (
                             <div className={cn(
                               "py-12 text-center rounded-xl",
-                              isDark ? "bg-charcoal-900/30" : "bg-muted/30"
+                              isDark ? "bg-green-600/30" : "bg-muted/30"
                             )}>
                               <p className={cn(
                                 "text-base font-body font-light",
-                                isDark ? "text-cream-200/60" : "text-muted-foreground"
+                                isDark ? "text-white/60" : "text-muted-foreground"
                               )}>
                                 No items found in this category.
                               </p>
@@ -648,26 +616,28 @@ export default function MenuPage() {
 
           {/* Right Sidebar - Order Summary (Desktop) */}
           <div className="hidden lg:block lg:col-span-1">
-            <OrderSummary />
+            <CartSidebar />
           </div>
         </div>
-      </div>
+        </div>
+      </section>
 
       {/* Floating Mobile Order Button - Premium */}
       {itemCount > 0 && (
         <button
+          type="button"
           onClick={() => setShowMobileCart(true)}
           className={cn(
-            "lg:hidden fixed bottom-6 right-6 z-40 flex items-center gap-2",
-            "p-4 rounded-full shadow-2xl min-w-[64px] min-h-[64px] touch-manipulation",
-            "bg-gold-500 text-charcoal-900 hover:bg-gold-400 active:scale-95 transition-all duration-300",
-            "hover:scale-110 hover:shadow-gold-500/50",
-            "border-2 border-gold-400/50"
+            "relative lg:hidden fixed bottom-20 right-4 z-40 flex h-14 w-14 items-center justify-center rounded-full shadow-lg",
+            "bg-terra-500 text-white hover:bg-terra-600 active:scale-95 transition-all duration-200",
+            "shadow-[var(--shadow-terra)] focus:outline-none focus:ring-2 focus:ring-terra-500 focus:ring-offset-2"
           )}
           aria-label={`View your selection (${itemCount} items)`}
         >
-          <ShoppingBag className="w-6 h-6" />
-          <span className="font-bold text-lg">{itemCount}</span>
+          <ShoppingBag className="h-6 w-6" />
+          <span className="absolute -right-1 -top-1 flex h-6 min-w-[1.5rem] items-center justify-center rounded-full bg-green-600 px-1.5 text-xs font-bold text-white">
+            {itemCount}
+          </span>
         </button>
       )}
 

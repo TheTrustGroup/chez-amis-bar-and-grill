@@ -47,7 +47,7 @@ export function DateTimePicker({
   return (
     <div className="space-y-5 md:space-y-6">
       <div>
-        <Label htmlFor="date" className="font-heading font-light text-foreground mb-2.5 block text-sm md:text-base">
+        <Label htmlFor="date" className="font-body font-light text-foreground mb-2.5 block text-sm md:text-base">
           Select Date
         </Label>
         <Input
@@ -60,7 +60,7 @@ export function DateTimePicker({
           }}
           min={minDate}
           max={maxDate}
-          className="border-border/50 focus:border-gold-500/50 min-h-[44px]"
+          className="w-full max-w-full min-h-[48px] border-border/50 focus:border-terra-500/50"
           required
           aria-label="Select reservation date"
         />
@@ -73,14 +73,14 @@ export function DateTimePicker({
 
       {selectedDate && (
         <div>
-          <Label className="font-heading font-light text-foreground mb-4 block text-sm md:text-base">
+          <Label className="font-body font-light text-foreground mb-4 block text-sm md:text-base">
             Select Time
           </Label>
 
           {/* Lunch Section */}
           {lunchAvailable.length > 0 && (
             <div className="mb-5">
-              <h4 className="text-xs md:text-sm font-heading font-medium text-muted-foreground mb-3 uppercase tracking-wide">
+              <h4 className="text-xs md:text-sm font-body font-medium text-muted-foreground mb-3 uppercase tracking-wide">
                 Lunch
               </h4>
               <div className="flex flex-wrap gap-2.5">
@@ -92,11 +92,11 @@ export function DateTimePicker({
                     disabled={!slot.available}
                       className={cn(
                         "px-4 py-2.5 rounded-md border-2 transition-all duration-200 text-sm font-body font-light min-h-[44px] touch-manipulation",
-                        "focus:outline-none focus:ring-2 focus:ring-gold-500 focus:ring-offset-1",
+                        "focus:outline-none focus:ring-2 focus:ring-terra-500 focus:ring-offset-1",
                       selectedTime === slot.time
-                        ? "border-gold-500 bg-gold-500/10 text-foreground shadow-sm"
+                        ? "border-terra-500 bg-terra-500/10 text-foreground shadow-sm"
                         : slot.available
-                        ? "border-border/50 hover:border-gold-500/50 hover:bg-gold-500/5 text-foreground active:scale-95"
+                        ? "border-border/50 hover:border-terra-500/50 hover:bg-terra-500/5 text-foreground active:scale-95"
                         : "border-border/30 bg-muted/30 text-muted-foreground cursor-not-allowed opacity-50"
                     )}
                     aria-label={`Select ${slot.label} time slot`}
@@ -111,7 +111,7 @@ export function DateTimePicker({
           {/* Dinner Section */}
           {dinnerAvailable.length > 0 && (
             <div>
-              <h4 className="text-xs md:text-sm font-heading font-medium text-muted-foreground mb-3 uppercase tracking-wide">
+              <h4 className="text-xs md:text-sm font-body font-medium text-muted-foreground mb-3 uppercase tracking-wide">
                 Dinner
               </h4>
               <div className="flex flex-wrap gap-2.5">
@@ -123,11 +123,11 @@ export function DateTimePicker({
                     disabled={!slot.available}
                       className={cn(
                         "px-4 py-2.5 rounded-md border-2 transition-all duration-200 text-sm font-body font-light min-h-[44px] touch-manipulation",
-                        "focus:outline-none focus:ring-2 focus:ring-gold-500 focus:ring-offset-1",
+                        "focus:outline-none focus:ring-2 focus:ring-terra-500 focus:ring-offset-1",
                       selectedTime === slot.time
-                        ? "border-gold-500 bg-gold-500/10 text-foreground shadow-sm"
+                        ? "border-terra-500 bg-terra-500/10 text-foreground shadow-sm"
                         : slot.available
-                        ? "border-border/50 hover:border-gold-500/50 hover:bg-gold-500/5 text-foreground active:scale-95"
+                        ? "border-border/50 hover:border-terra-500/50 hover:bg-terra-500/5 text-foreground active:scale-95"
                         : "border-border/30 bg-muted/30 text-muted-foreground cursor-not-allowed opacity-50"
                     )}
                     aria-label={`Select ${slot.label} time slot`}

@@ -20,7 +20,7 @@ const nextConfig = {
       },
     ],
     formats: ['image/avif', 'image/webp'],
-    deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
+    deviceSizes: [640, 750, 828, 1080, 1200, 1920],
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
     minimumCacheTTL: 60,
     // Allow unoptimized images for local files with special characters
@@ -44,11 +44,23 @@ const nextConfig = {
   },
   // Temporarily ignore ESLint during build to fix Vercel deployment
   eslint: {
-    ignoreDuringBuilds: true,
+    ignoreDuringBuilds: false,
   },
   // TypeScript errors should still be checked
   typescript: {
     ignoreBuildErrors: false,
+  },
+  experimental: {
+    optimizeCss: true,
+  },
+  async redirects() {
+    return [
+      {
+        source: '/order',
+        destination: '/place-order',
+        permanent: false,
+      },
+    ]
   },
 }
 

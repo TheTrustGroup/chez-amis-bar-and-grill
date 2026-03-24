@@ -92,7 +92,7 @@ function ReservationConfirmationContent() {
 
   return (
     <div className="min-h-screen bg-background flex items-center justify-center py-20">
-      <div className="container-custom max-w-3xl">
+      <div className="section-shell-inner max-w-3xl">
         <div className="text-center space-y-8">
           {/* Success Animation */}
           <div className="flex justify-center">
@@ -102,10 +102,10 @@ function ReservationConfirmationContent() {
                 isAnimating ? "scale-110" : "scale-100"
               )}
             >
-              <div className="w-24 h-24 rounded-full bg-gold-500/10 flex items-center justify-center">
+              <div className="w-24 h-24 rounded-full bg-terra-500/10 flex items-center justify-center">
                 <CheckCircle2
                   className={cn(
-                    "h-12 w-12 text-gold-600 transition-all duration-500",
+                    "h-12 w-12 text-terra-600 transition-all duration-500",
                     isAnimating ? "scale-0" : "scale-100"
                   )}
                 />
@@ -115,7 +115,7 @@ function ReservationConfirmationContent() {
 
           {/* Confirmation Message */}
           <div className="space-y-4">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-light text-foreground">
+            <h1 className="section-title text-foreground">
               Reservation Confirmed!
             </h1>
             <p className="text-lg md:text-xl text-muted-foreground font-body font-light">
@@ -124,7 +124,7 @@ function ReservationConfirmationContent() {
           </div>
 
           {/* Reservation Number */}
-          <div className="bg-cream-50 rounded-lg p-6 border border-border/30">
+          <div className="bg-neutral-50 rounded-lg p-6 border border-border/30">
             <p className="text-sm text-muted-foreground font-body font-light mb-2">
               Reservation Number
             </p>
@@ -134,9 +134,9 @@ function ReservationConfirmationContent() {
           </div>
 
           {/* Reservation Details */}
-          <div className="bg-cream-50 rounded-lg p-6 md:p-8 border border-border/30 text-left space-y-6">
+          <div className="bg-neutral-50 rounded-lg p-6 md:p-8 border border-border/30 text-left space-y-6">
             <div className="flex items-start gap-4">
-              <Calendar className="h-5 w-5 text-gold-600 mt-0.5 flex-shrink-0" />
+              <Calendar className="h-5 w-5 text-terra-600 mt-0.5 flex-shrink-0" />
               <div>
                 <p className="text-sm text-muted-foreground font-body font-light">Date & Time</p>
                 <p className="font-display font-light text-foreground">
@@ -149,7 +149,7 @@ function ReservationConfirmationContent() {
             </div>
 
             <div className="flex items-start gap-4">
-              <Users className="h-5 w-5 text-gold-600 mt-0.5 flex-shrink-0" />
+              <Users className="h-5 w-5 text-terra-600 mt-0.5 flex-shrink-0" />
               <div>
                 <p className="text-sm text-muted-foreground font-body font-light">Party Size</p>
                 <p className="font-display font-light text-foreground">
@@ -159,7 +159,7 @@ function ReservationConfirmationContent() {
             </div>
 
             <div className="flex items-start gap-4">
-              <SeatingIcon className="h-5 w-5 text-gold-600 mt-0.5 flex-shrink-0" />
+              <SeatingIcon className="h-5 w-5 text-terra-600 mt-0.5 flex-shrink-0" />
               <div>
                 <p className="text-sm text-muted-foreground font-body font-light">
                   Table Location
@@ -170,7 +170,7 @@ function ReservationConfirmationContent() {
 
             {reservationData.occasion && (
               <div className="flex items-start gap-4">
-                <MapPin className="h-5 w-5 text-gold-600 mt-0.5 flex-shrink-0" />
+                <MapPin className="h-5 w-5 text-terra-600 mt-0.5 flex-shrink-0" />
                 <div>
                   <p className="text-sm text-muted-foreground font-body font-light">Occasion</p>
                   <p className="font-display font-light text-foreground capitalize">
@@ -182,7 +182,7 @@ function ReservationConfirmationContent() {
           </div>
 
           {/* Add to Calendar */}
-          <div className="bg-cream-50 rounded-lg p-6 border border-border/30">
+          <div className="bg-neutral-50 rounded-lg p-6 border border-border/30">
             <h3 className="text-lg font-display font-light text-foreground mb-4">
               Add to Calendar
             </h3>
@@ -191,7 +191,7 @@ function ReservationConfirmationContent() {
                 href={googleCalendarUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="px-4 py-2 rounded-lg border border-border/50 hover:border-gold-500/50 hover:bg-gold-500/5 transition-all text-sm font-body font-light text-center"
+                className="px-4 py-2 rounded-lg border border-border/50 hover:border-terra-500/50 hover:bg-terra-500/5 transition-all text-sm font-body font-light text-center"
               >
                 Google Calendar
               </a>
@@ -199,14 +199,14 @@ function ReservationConfirmationContent() {
                 href={outlookCalendarUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="px-4 py-2 rounded-lg border border-border/50 hover:border-gold-500/50 hover:bg-gold-500/5 transition-all text-sm font-body font-light text-center"
+                className="px-4 py-2 rounded-lg border border-border/50 hover:border-terra-500/50 hover:bg-terra-500/5 transition-all text-sm font-body font-light text-center"
               >
                 Outlook
               </a>
               <a
                 href={`data:text/calendar;charset=utf8,BEGIN:VCALENDAR%0AVERSION:2.0%0ABEGIN:VEVENT%0ADTSTART:${formatDateForCalendar(startDate)}%0ADTEND:${formatDateForCalendar(endDate)}%0ASUMMARY:Reservation at Chez Amis%0ADESCRIPTION:Reservation for ${reservationData.partySize} guests%0ALOCATION:40 Boundary Rd, Accra, Ghana%0AEND:VEVENT%0AEND:VCALENDAR`}
                 download="chef-amis-reservation.ics"
-                className="px-4 py-2 rounded-lg border border-border/50 hover:border-gold-500/50 hover:bg-gold-500/5 transition-all text-sm font-body font-light text-center"
+                className="px-4 py-2 rounded-lg border border-border/50 hover:border-terra-500/50 hover:bg-terra-500/5 transition-all text-sm font-body font-light text-center"
               >
                 Apple Calendar
               </a>
@@ -214,7 +214,7 @@ function ReservationConfirmationContent() {
           </div>
 
           {/* Email Confirmation Notice */}
-          <div className="bg-cream-50 rounded-lg p-6 border border-border/30">
+          <div className="bg-neutral-50 rounded-lg p-6 border border-border/30">
             <p className="text-sm text-muted-foreground font-body font-light">
               A confirmation email has been sent to your email address with all the details.
             </p>
@@ -226,7 +226,7 @@ function ReservationConfirmationContent() {
               <Button
                 variant="outline"
                 size="lg"
-                className="font-heading font-light tracking-wide border-gold-500/60 w-full sm:w-auto"
+                className="font-body font-light tracking-wide border-terra-500/60 w-full sm:w-auto"
               >
                 Back to Menu
               </Button>
@@ -234,7 +234,7 @@ function ReservationConfirmationContent() {
             <Button
               variant="ghost"
               size="lg"
-              className="font-heading font-light tracking-wide w-full sm:w-auto"
+              className="font-body font-light tracking-wide w-full sm:w-auto"
               onClick={() => router.push("/reservations")}
             >
               Modify Reservation
@@ -242,7 +242,7 @@ function ReservationConfirmationContent() {
             <Button
               variant="ghost"
               size="lg"
-              className="font-heading font-light tracking-wide text-muted-foreground hover:text-destructive w-full sm:w-auto"
+              className="font-body font-light tracking-wide text-muted-foreground hover:text-destructive w-full sm:w-auto"
             >
               Cancel Reservation
             </Button>

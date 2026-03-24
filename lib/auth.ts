@@ -6,20 +6,14 @@
 import { cookies } from 'next/headers'
 
 const ADMIN_USERNAME = process.env.ADMIN_USERNAME || 'chezamis_admin'
-const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'ChezAmis2024!Secure' // Change this in production!
+
 const SESSION_COOKIE_NAME = 'admin_session'
 const SESSION_DURATION = 8 * 60 * 60 * 1000 // 8 hours
 
-/**
- * Simple password comparison (in production, use bcrypt)
- */
 function comparePassword(input: string, stored: string): boolean {
   return input === stored
 }
 
-/**
- * Create a session token
- */
 function createSessionToken(): string {
   const timestamp = Date.now()
   const random = Math.random().toString(36).substring(2, 15)
@@ -27,33 +21,33 @@ function createSessionToken(): string {
 }
 
 /**
- * Verify login credentials
+ * Set ADMIN_PASSWORD in .env.local — no default.
  */
 export function verifyCredentials(username: string, password: string): boolean {
-  return username === ADMIN_USERNAME && comparePassword(password, ADMIN_PASSWORD)
+  const adminPassword = process.env.ADMIN_PASSWORD
+  if (!adminPassword) {
+    throw new Error(
+      'ADMIN_PASSWORD must be set in environment. Set ADMIN_PASSWORD in .env.local — no default.',
+    )
+  }
+  return username === ADMIN_USERNAME && comparePassword(password, adminPassword)
 }
 
-/**
- * Create admin session
- */
 export async function createSession(): Promise<string> {
   const token = createSessionToken()
   const cookieStore = await cookies()
-  
+
   cookieStore.set(SESSION_COOKIE_NAME, token, {
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
     sameSite: 'lax',
-    maxAge: SESSION_DURATION / 1000, // Convert to seconds
+    maxAge: SESSION_DURATION / 1000,
     path: '/',
   })
 
   return token
 }
 
-/**
- * Check if user is authenticated
- */
 export async function isAuthenticated(): Promise<boolean> {
   try {
     const cookieStore = await cookies()
@@ -64,11 +58,7 @@ export async function isAuthenticated(): Promise<boolean> {
   }
 }
 
-/**
- * Destroy admin session (logout)
- */
 export async function destroySession(): Promise<void> {
   const cookieStore = await cookies()
   cookieStore.delete(SESSION_COOKIE_NAME)
 }
-

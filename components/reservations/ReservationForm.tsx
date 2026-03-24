@@ -22,7 +22,7 @@ export function ReservationForm() {
   const [formData, setFormData] = useState({
     date: "",
     time: "",
-    partySize: "",
+    partySize: "2",
     seating: null as SeatingPreference | null,
     occasion: "",
     specialOccasionRequest: "",
@@ -126,30 +126,30 @@ export function ReservationForm() {
     return (
       <div className={cn(
         "text-center py-12 md:py-16 space-y-6 animate-fade-in",
-        isDark ? "bg-charcoal-900/30 rounded-xl" : "bg-cream-50/50 rounded-xl"
+        isDark ? "bg-green-600/30 rounded-xl" : "bg-neutral-50/50 rounded-xl"
       )}>
         <div className={cn(
           "w-20 h-20 rounded-full flex items-center justify-center mx-auto transition-all duration-500",
-          "bg-gold-500/10 border-2 border-gold-500/30",
+          "bg-terra-500/10 border-2 border-terra-500/30",
           "animate-scale-in"
         )}>
-          <CheckCircle2 className="w-10 h-10 text-gold-600" />
+          <CheckCircle2 className="w-10 h-10 text-terra-600" />
         </div>
         <h3 className={cn(
           "text-2xl md:text-3xl font-display font-light",
-          isDark ? "text-cream-100" : "text-foreground"
+          isDark ? "text-white" : "text-foreground"
         )}>
           Reservation Confirmed!
         </h3>
         <p className={cn(
           "text-base md:text-lg font-body font-light max-w-md mx-auto",
-          isDark ? "text-cream-200/80" : "text-muted-foreground"
+          isDark ? "text-white/80" : "text-muted-foreground"
         )}>
           Your reservation has been successfully submitted. You&apos;ll receive a confirmation email shortly.
         </p>
         <p className={cn(
           "text-sm font-body font-light",
-          isDark ? "text-cream-200/60" : "text-muted-foreground"
+          isDark ? "text-white/60" : "text-muted-foreground"
         )}>
           Redirecting to confirmation page...
         </p>
@@ -166,7 +166,7 @@ export function ReservationForm() {
     formData.phone &&
     formData.email
 
-  const partySizeNum = parseInt(formData.partySize) || 0
+  const partySizeNum = Math.max(1, parseInt(formData.partySize, 10) || 1)
   const showLargePartyNote = partySizeNum >= 12
   const showSpecialOccasionRequest =
     formData.occasion === "birthday" || formData.occasion === "anniversary"
@@ -177,7 +177,7 @@ export function ReservationForm() {
       <div>
         <h3 className={cn(
           "text-lg md:text-xl font-display font-light mb-5 transition-colors duration-300",
-          isDark ? "text-cream-100" : "text-foreground"
+          isDark ? "text-white" : "text-foreground"
         )}>
           Date & Time
         </h3>
@@ -189,50 +189,84 @@ export function ReservationForm() {
         />
       </div>
 
-      {/* Party Size */}
+      {/* Party Size — stepper */}
       <div>
-        <Label 
-          htmlFor="partySize" 
+        <Label
+          htmlFor="party-size-display"
           className={cn(
-            "font-heading font-medium mb-2.5 block text-sm md:text-base transition-colors duration-300",
-            "peer-focus-within:text-gold-600",
-            isDark ? "text-cream-200/90" : "text-foreground"
+            "font-body font-medium mb-3 block text-sm md:text-base transition-colors duration-300",
+            isDark ? "text-white/90" : "text-foreground"
           )}
         >
-          Number of Guests <span className="text-gold-600">*</span>
+          Number of Guests <span className="text-terra-600">*</span>
         </Label>
-        <select
-          id="partySize"
-          value={formData.partySize}
-          onChange={(e) => handleFieldChange("partySize", e.target.value)}
+        <div
+          id="party-size-display"
           className={cn(
-            "w-full h-12 md:h-10 rounded-lg border px-3 py-2 text-base md:text-sm",
-            "focus:outline-none focus:ring-2 focus:ring-gold-500/50 focus:ring-offset-2 focus:border-gold-500/50",
-            "transition-all duration-300 min-h-[44px] touch-manipulation",
-            isDark
-              ? "bg-charcoal-900/50 border-charcoal-800/50 text-cream-100 focus:bg-charcoal-900/70"
-              : "bg-background border-border/50 text-foreground focus:bg-background"
+            "flex w-full items-center justify-center gap-6 rounded-[var(--radius-md)] border border-[var(--border)] bg-background px-4 py-3",
+            isDark && "border-green-700/50 bg-green-600/30"
           )}
-          required
         >
-          <option value="">Select number of guests</option>
-          {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map((num) => (
-            <option key={num} value={num}>
-              {num} {num === 1 ? "guest" : "guests"}
-            </option>
-          ))}
-        </select>
+          <button
+            type="button"
+            className={cn(
+              "flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-[var(--border)] text-lg font-medium transition-colors",
+              "hover:bg-green-50 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2",
+              isDark && "border-green-700 hover:bg-green-700/50 text-white"
+            )}
+            aria-label="Decrease party size"
+            onClick={() => {
+              const n = Math.max(1, partySizeNum - 1)
+              handleFieldChange("partySize", String(n))
+            }}
+            disabled={partySizeNum <= 1}
+          >
+            −
+          </button>
+          <span
+            className={cn(
+              "min-w-[3rem] text-center font-display text-2xl font-medium tabular-nums text-[var(--text-primary)]",
+              isDark && "text-white"
+            )}
+            aria-live="polite"
+          >
+            {partySizeNum}
+          </span>
+          <button
+            type="button"
+            className={cn(
+              "flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-[var(--border)] text-lg font-medium transition-colors",
+              "hover:bg-green-50 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2",
+              isDark && "border-green-700 hover:bg-green-700/50 text-white"
+            )}
+            aria-label="Increase party size"
+            onClick={() => {
+              const n = Math.min(12, partySizeNum + 1)
+              handleFieldChange("partySize", String(n))
+            }}
+            disabled={partySizeNum >= 12}
+          >
+            +
+          </button>
+        </div>
+        {partySizeNum >= 8 && (
+          <p className="mt-3 text-center text-sm font-body text-terra-600 dark:text-terra-400">
+            For parties of 8+, please call us to confirm seating — we’re happy to help.
+          </p>
+        )}
         {showLargePartyNote && (
-          <p className={cn(
-            "mt-2 text-sm font-body font-light transition-colors duration-300",
-            isDark ? "text-cream-200/70" : "text-muted-foreground"
-          )}>
+          <p
+            className={cn(
+              "mt-2 text-sm font-body font-light transition-colors duration-300",
+              isDark ? "text-white/70" : "text-muted-foreground"
+            )}
+          >
             For parties of 12 or more, please{" "}
             <Link
               href="/contact"
               className={cn(
                 "underline underline-offset-2 transition-colors duration-300",
-                isDark ? "text-gold-400 hover:text-gold-300" : "text-gold-600 hover:text-gold-700"
+                isDark ? "text-terra-400 hover:text-terra-300" : "text-terra-600 hover:text-terra-700"
               )}
             >
               contact us
@@ -256,8 +290,8 @@ export function ReservationForm() {
         <Label 
           htmlFor="occasion" 
           className={cn(
-            "font-heading font-medium mb-2.5 block text-sm md:text-base transition-colors duration-300",
-            isDark ? "text-cream-200/90" : "text-foreground"
+            "font-body font-medium mb-2.5 block text-sm md:text-base transition-colors duration-300",
+            isDark ? "text-white/90" : "text-foreground"
           )}
         >
           Special Occasion <span className="text-muted-foreground font-normal">(Optional)</span>
@@ -268,10 +302,10 @@ export function ReservationForm() {
           onChange={(e) => handleFieldChange("occasion", e.target.value)}
           className={cn(
             "w-full h-12 md:h-10 rounded-lg border px-3 py-2 text-base md:text-sm",
-            "focus:outline-none focus:ring-2 focus:ring-gold-500/50 focus:ring-offset-2 focus:border-gold-500/50",
+            "focus:outline-none focus:ring-2 focus:ring-terra-500/50 focus:ring-offset-2 focus:border-terra-500/50",
             "transition-all duration-300 min-h-[44px] touch-manipulation",
             isDark
-              ? "bg-charcoal-900/50 border-charcoal-800/50 text-cream-100 focus:bg-charcoal-900/70"
+              ? "bg-green-600/50 border-green-700/50 text-white focus:bg-green-600/70"
               : "bg-background border-border/50 text-foreground focus:bg-background"
           )}
         >
@@ -288,8 +322,8 @@ export function ReservationForm() {
             <Label
               htmlFor="specialOccasionRequest"
               className={cn(
-                "font-heading font-medium mb-2 block text-sm md:text-base transition-colors duration-300",
-                isDark ? "text-cream-200/90" : "text-foreground"
+                "font-body font-medium mb-2 block text-sm md:text-base transition-colors duration-300",
+                isDark ? "text-white/90" : "text-foreground"
               )}
             >
               We&apos;d love to make it special! Any requests?
@@ -300,9 +334,9 @@ export function ReservationForm() {
               onChange={(e) => handleFieldChange("specialOccasionRequest", e.target.value)}
               className={cn(
                 "rounded-lg border min-h-[100px] resize-none transition-all duration-300",
-                "focus:outline-none focus:ring-2 focus:ring-gold-500/50 focus:ring-offset-2 focus:border-gold-500/50",
+                "focus:outline-none focus:ring-2 focus:ring-terra-500/50 focus:ring-offset-2 focus:border-terra-500/50",
                 isDark
-                  ? "bg-charcoal-900/50 border-charcoal-800/50 text-cream-100 placeholder:text-cream-200/40 focus:bg-charcoal-900/70"
+                  ? "bg-green-600/50 border-green-700/50 text-white placeholder:text-neutral-400/80 focus:bg-green-600/70"
                   : "bg-background border-border/50 text-foreground placeholder:text-muted-foreground focus:bg-background"
               )}
               placeholder="Cake, decorations, special menu items..."
@@ -314,11 +348,11 @@ export function ReservationForm() {
       {/* Guest Information */}
       <div className={cn(
         "pt-6 border-t transition-colors duration-300",
-        isDark ? "border-charcoal-800/50" : "border-border/50"
+        isDark ? "border-green-700/50" : "border-border/50"
       )}>
         <h3 className={cn(
           "text-lg md:text-xl font-display font-light mb-5 transition-colors duration-300",
-          isDark ? "text-cream-100" : "text-foreground"
+          isDark ? "text-white" : "text-foreground"
         )}>
           Your Information
         </h3>
@@ -327,12 +361,12 @@ export function ReservationForm() {
             <Label 
               htmlFor="name" 
               className={cn(
-                "font-heading font-medium mb-2 block text-sm md:text-base transition-colors duration-300",
-                "group-focus-within:text-gold-600",
-                isDark ? "text-cream-200/90" : "text-foreground"
+                "font-body font-medium mb-2 block text-sm md:text-base transition-colors duration-300",
+                "group-focus-within:text-terra-600",
+                isDark ? "text-white/90" : "text-foreground"
               )}
             >
-              Full Name <span className="text-gold-600">*</span>
+              Full Name <span className="text-terra-600">*</span>
             </Label>
             <Input
               id="name"
@@ -341,9 +375,9 @@ export function ReservationForm() {
               onChange={(e) => handleFieldChange("name", e.target.value)}
               className={cn(
                 "rounded-lg border transition-all duration-300 min-h-[44px]",
-                "focus:outline-none focus:ring-2 focus:ring-gold-500/50 focus:ring-offset-2 focus:border-gold-500/50",
+                "focus:outline-none focus:ring-2 focus:ring-terra-500/50 focus:ring-offset-2 focus:border-terra-500/50",
                 isDark
-                  ? "bg-charcoal-900/50 border-charcoal-800/50 text-cream-100 placeholder:text-cream-200/40 focus:bg-charcoal-900/70"
+                  ? "bg-green-600/50 border-green-700/50 text-white placeholder:text-neutral-400/80 focus:bg-green-600/70"
                   : "bg-background border-border/50 text-foreground placeholder:text-muted-foreground focus:bg-background"
               )}
               required
@@ -355,12 +389,12 @@ export function ReservationForm() {
             <Label 
               htmlFor="phone" 
               className={cn(
-                "font-heading font-medium mb-2 block text-sm md:text-base transition-colors duration-300",
-                "group-focus-within:text-gold-600",
-                isDark ? "text-cream-200/90" : "text-foreground"
+                "font-body font-medium mb-2 block text-sm md:text-base transition-colors duration-300",
+                "group-focus-within:text-terra-600",
+                isDark ? "text-white/90" : "text-foreground"
               )}
             >
-              Phone Number <span className="text-gold-600">*</span>
+              Phone Number <span className="text-terra-600">*</span>
             </Label>
             <Input
               id="phone"
@@ -369,9 +403,9 @@ export function ReservationForm() {
               onChange={(e) => handleFieldChange("phone", e.target.value)}
               className={cn(
                 "rounded-lg border transition-all duration-300 min-h-[44px]",
-                "focus:outline-none focus:ring-2 focus:ring-gold-500/50 focus:ring-offset-2 focus:border-gold-500/50",
+                "focus:outline-none focus:ring-2 focus:ring-terra-500/50 focus:ring-offset-2 focus:border-terra-500/50",
                 isDark
-                  ? "bg-charcoal-900/50 border-charcoal-800/50 text-cream-100 placeholder:text-cream-200/40 focus:bg-charcoal-900/70"
+                  ? "bg-green-600/50 border-green-700/50 text-white placeholder:text-neutral-400/80 focus:bg-green-600/70"
                   : "bg-background border-border/50 text-foreground placeholder:text-muted-foreground focus:bg-background"
               )}
               placeholder="055 703 2312"
@@ -384,12 +418,12 @@ export function ReservationForm() {
             <Label 
               htmlFor="email" 
               className={cn(
-                "font-heading font-medium mb-2 block text-sm md:text-base transition-colors duration-300",
-                "group-focus-within:text-gold-600",
-                isDark ? "text-cream-200/90" : "text-foreground"
+                "font-body font-medium mb-2 block text-sm md:text-base transition-colors duration-300",
+                "group-focus-within:text-terra-600",
+                isDark ? "text-white/90" : "text-foreground"
               )}
             >
-              Email Address <span className="text-gold-600">*</span>
+              Email Address <span className="text-terra-600">*</span>
             </Label>
             <Input
               id="email"
@@ -398,9 +432,9 @@ export function ReservationForm() {
               onChange={(e) => handleFieldChange("email", e.target.value)}
               className={cn(
                 "rounded-lg border transition-all duration-300 min-h-[44px]",
-                "focus:outline-none focus:ring-2 focus:ring-gold-500/50 focus:ring-offset-2 focus:border-gold-500/50",
+                "focus:outline-none focus:ring-2 focus:ring-terra-500/50 focus:ring-offset-2 focus:border-terra-500/50",
                 isDark
-                  ? "bg-charcoal-900/50 border-charcoal-800/50 text-cream-100 placeholder:text-cream-200/40 focus:bg-charcoal-900/70"
+                  ? "bg-green-600/50 border-green-700/50 text-white placeholder:text-neutral-400/80 focus:bg-green-600/70"
                   : "bg-background border-border/50 text-foreground placeholder:text-muted-foreground focus:bg-background"
               )}
               required
@@ -412,9 +446,9 @@ export function ReservationForm() {
             <Label 
               htmlFor="specialRequests" 
               className={cn(
-                "font-heading font-medium mb-2 block text-sm md:text-base transition-colors duration-300",
-                "group-focus-within:text-gold-600",
-                isDark ? "text-cream-200/90" : "text-foreground"
+                "font-body font-medium mb-2 block text-sm md:text-base transition-colors duration-300",
+                "group-focus-within:text-terra-600",
+                isDark ? "text-white/90" : "text-foreground"
               )}
             >
               Special Requests <span className="text-muted-foreground font-normal">(Optional)</span>
@@ -425,9 +459,9 @@ export function ReservationForm() {
               onChange={(e) => handleFieldChange("specialRequests", e.target.value)}
               className={cn(
                 "rounded-lg border min-h-[100px] resize-none transition-all duration-300",
-                "focus:outline-none focus:ring-2 focus:ring-gold-500/50 focus:ring-offset-2 focus:border-gold-500/50",
+                "focus:outline-none focus:ring-2 focus:ring-terra-500/50 focus:ring-offset-2 focus:border-terra-500/50",
                 isDark
-                  ? "bg-charcoal-900/50 border-charcoal-800/50 text-cream-100 placeholder:text-cream-200/40 focus:bg-charcoal-900/70"
+                  ? "bg-green-600/50 border-green-700/50 text-white placeholder:text-neutral-400/80 focus:bg-green-600/70"
                   : "bg-background border-border/50 text-foreground placeholder:text-muted-foreground focus:bg-background"
               )}
               placeholder="Dietary restrictions, accessibility needs, or any other preferences..."
@@ -452,10 +486,10 @@ export function ReservationForm() {
           variant="premium"
           size="lg"
           className={cn(
-            "w-full font-heading font-semibold tracking-wide text-base md:text-lg",
+            "w-full font-body font-semibold tracking-wide text-base md:text-lg",
             "px-8 py-3 md:py-4 min-h-[52px] md:min-h-[56px]",
             "transition-all duration-300 hover:scale-[1.02] active:scale-[0.98]",
-            "shadow-xl hover:shadow-2xl hover:shadow-gold-500/30",
+            "shadow-xl hover:shadow-2xl hover:shadow-terra-500/30",
             "disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
           )}
         >
@@ -470,7 +504,7 @@ export function ReservationForm() {
         </Button>
         <p className={cn(
           "mt-3 text-xs md:text-sm font-body font-light text-center transition-colors duration-300",
-          isDark ? "text-cream-200/60" : "text-muted-foreground"
+          isDark ? "text-white/60" : "text-muted-foreground"
         )}>
           You&apos;ll receive a confirmation email shortly
         </p>
@@ -479,11 +513,11 @@ export function ReservationForm() {
       {/* Alternative Booking Options */}
       <div className={cn(
         "pt-5 border-t transition-colors duration-300",
-        isDark ? "border-charcoal-800/50" : "border-border/50"
+        isDark ? "border-green-700/50" : "border-border/50"
       )}>
         <p className={cn(
           "text-xs md:text-sm font-body font-light mb-4 text-center transition-colors duration-300",
-          isDark ? "text-cream-200/70" : "text-muted-foreground"
+          isDark ? "text-white/70" : "text-muted-foreground"
         )}>
           Prefer to book another way?
         </p>
@@ -495,8 +529,8 @@ export function ReservationForm() {
               "text-sm font-body font-medium min-h-[44px] touch-manipulation",
               "hover:scale-105 active:scale-95",
               isDark
-                ? "border-charcoal-700/50 text-cream-200/70 hover:border-gold-500/50 hover:bg-gold-500/10 hover:text-gold-400"
-                : "border-border/50 text-foreground hover:border-gold-500/50 hover:bg-gold-500/5"
+                ? "border-green-700/50 text-white/70 hover:border-terra-500/50 hover:bg-terra-500/10 hover:text-terra-400"
+                : "border-border/50 text-foreground hover:border-terra-500/50 hover:bg-terra-500/5"
             )}
             aria-label="Call us to make a reservation"
           >
@@ -512,8 +546,8 @@ export function ReservationForm() {
               "text-sm font-body font-medium min-h-[44px] touch-manipulation",
               "hover:scale-105 active:scale-95",
               isDark
-                ? "border-charcoal-700/50 text-cream-200/70 hover:border-gold-500/50 hover:bg-gold-500/10 hover:text-gold-400"
-                : "border-border/50 text-foreground hover:border-gold-500/50 hover:bg-gold-500/5"
+                ? "border-green-700/50 text-white/70 hover:border-terra-500/50 hover:bg-terra-500/10 hover:text-terra-400"
+                : "border-border/50 text-foreground hover:border-terra-500/50 hover:bg-terra-500/5"
             )}
             aria-label="Reserve via WhatsApp"
           >

@@ -125,33 +125,33 @@ export default function PrivateEventsPage() {
   const [openFaq, setOpenFaq] = useState<number | null>(null)
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-neutral-50 dark:bg-green-700 transition-colors">
       {/* Hero Section */}
       <section className="relative h-[35vh] md:h-[40vh] min-h-[350px] md:min-h-[400px] flex items-center justify-center overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-charcoal-950 via-charcoal-900 to-burgundy-900"></div>
+        <div className="absolute inset-0 bg-gradient-to-br from-green-700 via-green-600 to-green-900"></div>
         <div className="absolute inset-0 bg-black/30"></div>
         <div className="relative z-10 text-center px-6 max-w-4xl mx-auto">
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-light text-cream-100 mb-4">
+          <h1 className="hero-title tracking-tight text-white mb-4">
             Private Dining & Special Events
           </h1>
-          <div className="w-20 h-px bg-gold-500 mx-auto mb-4"></div>
-          <p className="text-base md:text-lg text-cream-200/90 font-body font-light max-w-2xl mx-auto">
+          <div className="w-20 h-px bg-terra-500 mx-auto mb-4"></div>
+          <p className="text-base md:text-lg text-white/90 font-body font-light max-w-2xl mx-auto">
             Intimate gatherings. Grand celebrations. Unforgettable moments.
           </p>
         </div>
       </section>
 
       {/* Overview Section */}
-      <section className="section-padding bg-background" aria-labelledby="overview-heading">
-        <div className="container-custom">
+      <section className="section-shell bg-neutral-50/40 dark:bg-green-600/40" aria-labelledby="overview-heading">
+        <div className="section-shell-inner">
           <div className="max-w-3xl mx-auto text-center space-y-6">
             <h2
               id="overview-heading"
-              className="text-4xl md:text-5xl lg:text-6xl font-display font-light text-foreground mb-4"
+              className="hero-title tracking-tight text-neutral-900 dark:text-white mb-4"
             >
               Your Exclusive Space
             </h2>
-            <div className="w-20 h-px bg-gold-500 mx-auto mb-6"></div>
+            <div className="w-20 h-px bg-terra-500 mx-auto mb-6"></div>
             <p className="text-lg md:text-xl text-muted-foreground font-body font-light leading-relaxed">
               At Chez Amis, we believe that every celebration deserves a setting as special as the
               occasion itself. Our private dining spaces are designed to provide an intimate,
@@ -191,16 +191,16 @@ export default function PrivateEventsPage() {
       <VenueGrid />
 
       {/* Occasion Ideas */}
-      <section className="section-padding bg-cream-50" aria-labelledby="occasions-heading">
-        <div className="container-custom">
+      <section className="section-shell bg-neutral-50 dark:bg-green-600/25" aria-labelledby="occasions-heading">
+        <div className="section-shell-inner">
           <div className="text-center mb-12 md:mb-16">
             <h2
               id="occasions-heading"
-              className="text-4xl md:text-5xl lg:text-6xl font-display font-light text-foreground mb-4"
+              className="hero-title tracking-tight text-neutral-900 dark:text-white mb-4"
             >
               Occasion Ideas
             </h2>
-            <div className="w-20 h-px bg-gold-500 mx-auto mb-4"></div>
+            <div className="w-20 h-px bg-terra-500 mx-auto mb-4"></div>
             <p className="text-lg md:text-xl text-muted-foreground font-body font-light max-w-2xl mx-auto">
               We&apos;ve hosted countless celebrations, each one unique and memorable
             </p>
@@ -212,12 +212,12 @@ export default function PrivateEventsPage() {
               return (
                 <Card
                   key={index}
-                  className="group border-0 bg-background hover:shadow-elegant transition-all duration-500 text-center"
+                  className="group border border-border/30 bg-neutral-50 dark:bg-green-600/40 dark:border-green-700/50 hover:shadow-elegant transition-all duration-500 text-center"
                 >
                   <CardContent className="p-6 md:p-8 space-y-4">
                     <div className="flex justify-center">
-                      <div className="p-4 rounded-lg bg-gold-500/10 group-hover:bg-gold-500/20 transition-colors">
-                        <Icon className="h-8 w-8 text-gold-600" />
+                      <div className="p-4 rounded-lg bg-terra-500/10 group-hover:bg-terra-500/20 transition-colors">
+                        <Icon className="h-8 w-8 text-terra-600" />
                       </div>
                     </div>
                     <h3 className="text-xl font-display font-light text-foreground">
@@ -235,16 +235,16 @@ export default function PrivateEventsPage() {
       </section>
 
       {/* What's Included */}
-      <section className="section-padding bg-background" aria-labelledby="included-heading">
-        <div className="container-custom">
+      <section className="section-shell bg-neutral-50/40 dark:bg-green-600/40" aria-labelledby="included-heading">
+        <div className="section-shell-inner">
           <div className="text-center mb-12 md:mb-16">
             <h2
               id="included-heading"
-              className="text-4xl md:text-5xl lg:text-6xl font-display font-light text-foreground mb-4"
+              className="hero-title tracking-tight text-neutral-900 dark:text-white mb-4"
             >
               What&apos;s Included
             </h2>
-            <div className="w-20 h-px bg-gold-500 mx-auto mb-4"></div>
+            <div className="w-20 h-px bg-terra-500 mx-auto mb-4"></div>
             <p className="text-lg md:text-xl text-muted-foreground font-body font-light max-w-2xl mx-auto">
               Every detail thoughtfully arranged for your event
             </p>
@@ -255,8 +255,8 @@ export default function PrivateEventsPage() {
               const Icon = feature.icon
               return (
                 <div key={index} className="flex items-start gap-4">
-                  <div className="flex-shrink-0 p-3 rounded-lg bg-gold-500/10">
-                    <Icon className="h-6 w-6 text-gold-600" />
+                  <div className="flex-shrink-0 p-3 rounded-lg bg-terra-500/10">
+                    <Icon className="h-6 w-6 text-terra-600" />
                   </div>
                   <p className="text-base font-body font-light text-foreground pt-1">
                     {feature.text}
@@ -272,10 +272,10 @@ export default function PrivateEventsPage() {
       <MenuPackages />
 
       {/* Request Form */}
-      <section id="request-form" className="section-padding bg-background" aria-labelledby="request-heading">
-        <div className="container-custom">
+      <section id="request-form" className="section-shell bg-neutral-50/40 dark:bg-green-600/40" aria-labelledby="request-heading">
+        <div className="section-shell-inner">
           <div className="max-w-3xl mx-auto">
-            <div className="bg-cream-50 rounded-lg border border-border/30 p-6 md:p-8 lg:p-12">
+            <div className="rounded-sm border border-border/30 bg-neutral-50 dark:bg-green-600/40 dark:border-green-700/50 p-6 md:p-8 lg:p-12">
               <EventRequestForm />
             </div>
           </div>
@@ -283,23 +283,23 @@ export default function PrivateEventsPage() {
       </section>
 
       {/* Testimonials */}
-      <section className="section-padding bg-cream-50" aria-labelledby="testimonials-heading">
-        <div className="container-custom">
+      <section className="section-shell bg-neutral-50 dark:bg-green-600/25" aria-labelledby="testimonials-heading">
+        <div className="section-shell-inner">
           <div className="text-center mb-12 md:mb-16">
             <h2
               id="testimonials-heading"
-              className="text-4xl md:text-5xl lg:text-6xl font-display font-light text-foreground mb-4"
+              className="hero-title tracking-tight text-neutral-900 dark:text-white mb-4"
             >
               Our Clients&apos; Celebrations
             </h2>
-            <div className="w-20 h-px bg-gold-500 mx-auto mb-6"></div>
+            <div className="w-20 h-px bg-terra-500 mx-auto mb-6"></div>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 max-w-5xl mx-auto">
             {testimonials.map((testimonial) => (
               <Card
                 key={testimonial.id}
-                className="border-0 bg-background hover:shadow-elegant transition-all duration-500"
+                className="border border-border/30 bg-neutral-50 dark:bg-green-600/40 dark:border-green-700/50 hover:shadow-elegant transition-all duration-500"
               >
                 <CardContent className="p-6 md:p-8">
                   <blockquote className="text-base md:text-lg text-foreground font-body font-light leading-relaxed mb-6 italic">
@@ -314,7 +314,7 @@ export default function PrivateEventsPage() {
                         {testimonial.company}
                       </p>
                     )}
-                    <p className="text-sm text-gold-600 font-body font-light">
+                    <p className="text-sm text-terra-600 font-body font-light">
                       {testimonial.event}
                     </p>
                   </div>
@@ -326,23 +326,23 @@ export default function PrivateEventsPage() {
       </section>
 
       {/* FAQ Section */}
-      <section className="section-padding bg-background" aria-labelledby="faq-heading">
-        <div className="container-custom">
+      <section className="section-shell bg-neutral-50/40 dark:bg-green-600/40" aria-labelledby="faq-heading">
+        <div className="section-shell-inner">
           <div className="text-center mb-12 md:mb-16">
             <h2
               id="faq-heading"
-              className="text-4xl md:text-5xl lg:text-6xl font-display font-light text-foreground mb-4"
+              className="hero-title tracking-tight text-neutral-900 dark:text-white mb-4"
             >
               Frequently Asked Questions
             </h2>
-            <div className="w-20 h-px bg-gold-500 mx-auto mb-6"></div>
+            <div className="w-20 h-px bg-terra-500 mx-auto mb-6"></div>
           </div>
 
           <div className="max-w-3xl mx-auto space-y-4">
             {faqs.map((faq, index) => (
               <Card
                 key={index}
-                className="border border-border/30 hover:border-gold-500/50 transition-colors"
+                className="border border-border/30 hover:border-terra-500/50 transition-colors"
               >
                 <CardContent className="p-6">
                   <button
@@ -373,13 +373,13 @@ export default function PrivateEventsPage() {
       </section>
 
       {/* CTA Section */}
-      <section className="section-padding bg-cream-50">
-        <div className="container-custom">
+      <section className="section-shell bg-neutral-50 dark:bg-green-600/25">
+        <div className="section-shell-inner">
           <div className="max-w-2xl mx-auto text-center space-y-6">
-            <h2 className="text-3xl md:text-4xl font-display font-light text-foreground mb-4">
+            <h2 className="section-title text-neutral-900 dark:text-white mb-4">
               Ready to Plan Your Event?
             </h2>
-            <div className="w-20 h-px bg-gold-500 mx-auto mb-4"></div>
+            <div className="w-20 h-px bg-terra-500 mx-auto mb-4"></div>
             <p className="text-lg text-muted-foreground font-body font-light">
               Let&apos;s discuss how we can make your celebration unforgettable
             </p>
@@ -387,14 +387,14 @@ export default function PrivateEventsPage() {
               <Link href="#request-form">
                 <Button
                   size="lg"
-                  className="font-heading font-light tracking-wide bg-foreground text-background hover:bg-foreground/90 text-base md:text-lg px-8 py-3 md:py-4 min-h-[48px] md:min-h-[52px]"
+                  className="font-body font-light tracking-wide bg-foreground text-background hover:bg-foreground/90 text-base md:text-lg px-8 py-3 md:py-4 min-h-[48px] md:min-h-[52px]"
                 >
                   Request Proposal
                 </Button>
               </Link>
               <a
                 href="tel:+233557032312"
-                className="flex items-center justify-center gap-2 px-8 py-3 md:py-4 rounded-lg border-2 border-gold-500/60 text-foreground hover:bg-gold-500/10 transition-all font-heading font-light tracking-wide min-h-[48px] md:min-h-[52px]"
+                className="flex items-center justify-center gap-2 px-8 py-3 md:py-4 rounded-lg border-2 border-terra-500/60 text-foreground hover:bg-terra-500/10 transition-all font-body font-light tracking-wide min-h-[48px] md:min-h-[52px]"
                 aria-label="Call us to plan your event"
               >
                 <Phone className="h-5 w-5" />

@@ -66,7 +66,7 @@ export function CategoryNav({
   return (
     <aside className={cn(
       "sticky top-24 h-fit transition-colors duration-300",
-      isDark ? "bg-charcoal-900/30 rounded-xl p-4 border border-charcoal-800/50" : "bg-transparent"
+      isDark ? "bg-green-600/30 rounded-xl p-4 border border-green-700/50" : "bg-transparent"
     )}>
       <nav className="space-y-1">
         {menuCategories.map((category) => (
@@ -78,10 +78,10 @@ export function CategoryNav({
               "hover:scale-105 active:scale-95",
               activeCategory === category.id
                 ? isDark
-                  ? "text-gold-400 font-semibold bg-gold-500/10 border-l-2 border-gold-500"
-                  : "text-amber-700 font-semibold bg-amber-50 border-l-2 border-amber-500"
+                  ? "text-terra-400 font-semibold bg-terra-500/10 border-l-2 border-terra-500"
+                  : "text-green-700 font-semibold bg-green-50 border-l-2 border-green-500"
                 : isDark
-                ? "text-cream-200/70 hover:text-cream-100 hover:bg-charcoal-800/50"
+                ? "text-white/70 hover:text-white hover:bg-green-700/50"
                 : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
             )}
             aria-label={`View ${category.name} category`}
@@ -93,11 +93,11 @@ export function CategoryNav({
         {/* Dietary Filters - Premium */}
         <div className={cn(
           "mt-6 pt-6 border-t transition-colors duration-300",
-          isDark ? "border-charcoal-800/50" : "border-border/50"
+          isDark ? "border-green-700/50" : "border-border/50"
         )}>
           <p className={cn(
             "text-xs font-medium mb-3 uppercase tracking-wide transition-colors duration-300",
-            isDark ? "text-cream-200/60" : "text-muted-foreground"
+            isDark ? "text-white/60" : "text-muted-foreground"
           )}>
             Filters
           </p>
@@ -109,7 +109,7 @@ export function CategoryNav({
                   "flex items-center gap-2.5 cursor-pointer text-xs transition-all duration-300 min-h-[32px] rounded-md px-2 py-1.5",
                   "hover:scale-105",
                   isDark 
-                    ? "text-cream-200/70 hover:text-cream-100 hover:bg-charcoal-800/50"
+                    ? "text-white/70 hover:text-white hover:bg-green-700/50"
                     : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
                 )}
               >
@@ -119,8 +119,8 @@ export function CategoryNav({
                   onChange={() => onToggleDietaryFilter(filter.id)}
                   className={cn(
                     "w-4 h-4 rounded border transition-all duration-300 cursor-pointer",
-                    "text-gold-600 focus:ring-gold-500 focus:ring-1",
-                    isDark ? "border-charcoal-700 bg-charcoal-800" : "border-border bg-background"
+                    "text-terra-600 focus:ring-terra-500 focus:ring-1",
+                    isDark ? "border-green-700 bg-green-700" : "border-border bg-background"
                   )}
                   aria-label={`Filter by ${filter.label}`}
                 />

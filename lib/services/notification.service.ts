@@ -4,8 +4,8 @@
  * Supports Email (Resend) and SMS (Twilio)
  */
 
-import { sendEmail } from './email.service'
-import { sendSMS } from './sms.service'
+import { sendEmail } from '@/lib/services/email.service'
+import { sendSMS } from '@/lib/services/sms.service'
 import type { OrderData, ReservationData, NotificationResult } from '@/lib/types/notifications'
 import type { OrderStatusUpdateData } from '@/lib/templates/emails/order-status-update'
 
