@@ -5,8 +5,8 @@ import { useFocusTrap } from "@/lib/utils/useFocusTrap"
 import Image from "next/image"
 import Link from "next/link"
 import { Play, ArrowRight, X } from "lucide-react"
-import { Button } from "@/components/ui/button"
 import { featuredMedia, type FeaturedMediaItem } from "@/lib/data/galleryMedia"
+import { ImageWithFallback } from "@/components/ui/image-with-fallback"
 import { cn } from "@/lib/utils"
 import { useTheme } from "@/lib/context/ThemeContext"
 
@@ -91,35 +91,26 @@ export function FeaturedGallerySection() {
               >
                 {/* Video Thumbnail - Use video element to show first frame */}
                 {item.type === "video" ? (
-                  <>
-                    <video
-                      src={item.src}
-                      poster={item.poster}
-                      className="absolute inset-0 w-full h-full object-cover"
-                      muted
-                      playsInline
-                      preload="none"
-                      onLoadedMetadata={(e) => {
-                        // Seek to first frame for thumbnail
-                        const video = e.currentTarget
-                        video.currentTime = 0.1
-                      }}
-                    />
-                    {/* Fallback gradient overlay */}
-                    <div className="absolute inset-0 bg-gradient-to-br from-green-600/80 via-green-700/60 to-green-900/80" />
-                  </>
+                  <video
+                    src={item.src}
+                    poster={
+                      item.poster ?? "/images/placeholders/video-placeholder.svg"
+                    }
+                    className="absolute inset-0 z-[1] h-full w-full object-cover bg-green-600"
+                    muted
+                    playsInline
+                    preload="metadata"
+                  />
                 ) : (
-                  <Image
+                  <ImageWithFallback
                     src={item.src}
                     alt={item.alt}
                     fill
                     sizes="(max-width: 768px) 50vw, 25vw"
                     className="object-cover transition-transform duration-500 group-hover:scale-110"
                     loading="lazy"
-                    onError={(e) => {
-                      // Hide image on error, show fallback gradient
-                      e.currentTarget.style.display = "none"
-                    }}
+                    fallbackType="dish"
+                    fallbackSrc="/images/placeholders/dish-placeholder.svg"
                   />
                 )}
 
@@ -135,10 +126,11 @@ export function FeaturedGallerySection() {
                   </div>
                 )}
 
-                {/* Title Overlay (for videos) */}
-                {item.type === "video" && item.title && (
-                  <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/80 to-transparent">
-                    <p className="text-white text-sm font-body font-medium">{item.title}</p>
+                {item.title && (
+                  <div className="absolute bottom-0 left-0 right-0 z-[2] p-4 bg-gradient-to-t from-black/70 to-transparent">
+                    <p className="text-left text-white text-sm font-body font-medium">
+                      {item.title}
+                    </p>
                   </div>
                 )}
               </div>
@@ -150,21 +142,12 @@ export function FeaturedGallerySection() {
             "text-center",
             "animate-fade-in-up"
           )} style={{ animationDelay: "0.3s" }}>
-            <Link href="/gallery" className="group/gallery">
-              <Button
-                variant="outline"
-                size="lg"
-                className={cn(
-                  "min-w-[200px]",
-                  "border-2",
-                  isDark
-                    ? "border-terra-500/50 text-white bg-terra-500/5 hover:bg-terra-500/10 hover:border-terra-500/80 hover:shadow-lg hover:shadow-terra-500/20"
-                    : "border-terra-500/60 text-foreground bg-transparent hover:bg-terra-500/5 hover:border-terra-500/80 hover:shadow-lg"
-                )}
-              >
-                View Full Gallery
-                <ArrowRight className="w-5 h-5 ml-2 transition-transform duration-300 group-hover/gallery:translate-x-1" />
-              </Button>
+            <Link
+              href="/gallery"
+              className="bg-terra-500 text-white hover:bg-terra-600 font-body font-medium tracking-widest uppercase text-xs px-8 py-4 rounded-full transition-all duration-200 inline-flex items-center gap-2"
+            >
+              View Full Gallery
+              <ArrowRight className="w-4 h-4" />
             </Link>
           </div>
         </div>

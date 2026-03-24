@@ -7,6 +7,7 @@ import { useLazyLoad } from "@/lib/hooks/useLazyLoad"
 import { ImageWithFallback } from "@/components/ui/image-with-fallback"
 import { formatPrice } from "@/lib/utils/formatting"
 import { cn } from "@/lib/utils"
+import { StarRating } from "@/components/ui/StarRating"
 import { Button } from "@/components/ui/button"
 import { useTheme } from "@/lib/context/ThemeContext"
 
@@ -73,7 +74,7 @@ export function PremiumMenuItem({ item }: PremiumMenuItemProps) {
                 "bg-terra-500 text-neutral-900 text-xs px-2 py-1 rounded-md font-semibold shadow-lg",
                 "flex items-center gap-1"
               )}>
-                <span>⭐</span> Signature
+                <StarRating count={1} max={1} size={12} /> Signature
               </span>
             </div>
           )}

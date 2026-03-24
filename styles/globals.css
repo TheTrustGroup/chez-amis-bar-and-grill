@@ -311,6 +311,16 @@
   }
 }
 
+@layer components {
+  .btn-primary {
+    @apply inline-flex items-center justify-center rounded-full px-8 py-4 font-body font-medium tracking-widest uppercase text-xs min-h-[48px] bg-primary text-primary-foreground hover:bg-[var(--btn-primary-hover)] transition-colors duration-200 shadow-sm;
+  }
+
+  .btn-accent {
+    @apply inline-flex items-center justify-center rounded-full px-8 py-4 font-body font-medium tracking-widest uppercase text-xs min-h-[48px] bg-terra-500 text-white hover:bg-terra-600 transition-colors duration-200 shadow-sm;
+  }
+}
+
 /* Mobile menu animations */
 @keyframes slide-in-right {
   from {

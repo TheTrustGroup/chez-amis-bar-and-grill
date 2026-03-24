@@ -12,6 +12,8 @@ export interface MediaItem {
   type: MediaType
   src: string
   thumbnail: string
+  /** Poster image for video thumbnails (falls back to video-placeholder.svg in UI) */
+  poster?: string
   alt: string
   category: MediaCategory
   title: string
@@ -30,6 +32,7 @@ export const galleryMedia: MediaItem[] = [
     type: 'video',
     src: '/media/videos/filtered-b59b103f-f34d-4b58-a62d-c66524ad5ace.mp4',
     thumbnail: '/images/placeholders/video-placeholder.svg',
+    poster: '/images/placeholders/video-placeholder.svg',
     alt: 'Chef preparing signature dishes at Chez Amis',
     category: 'behind-scenes',
     title: 'Behind the Scenes: Kitchen Excellence',
@@ -42,6 +45,7 @@ export const galleryMedia: MediaItem[] = [
     type: 'video',
     src: '/media/videos/filtered-a59206d7-3709-4278-9712-9f5b1f6dc8bf.mp4',
     thumbnail: '/images/placeholders/video-placeholder.svg',
+    poster: '/images/placeholders/video-placeholder.svg',
     alt: 'Culinary artistry in action',
     category: 'behind-scenes',
     title: 'Culinary Artistry',
@@ -52,6 +56,7 @@ export const galleryMedia: MediaItem[] = [
     type: 'video',
     src: '/media/videos/ce5847ce-3349-4c26-8792-c56bfa29fda.mp4',
     thumbnail: '/images/placeholders/video-placeholder.svg',
+    poster: '/images/placeholders/video-placeholder.svg',
     alt: 'Experience the ambiance of Chez Amis',
     category: 'behind-scenes',
     title: 'Restaurant Ambiance',
@@ -62,6 +67,7 @@ export const galleryMedia: MediaItem[] = [
     type: 'video',
     src: '/media/videos/img-6983.mp4',
     thumbnail: '/images/placeholders/video-placeholder.svg',
+    poster: '/images/placeholders/video-placeholder.svg',
     alt: 'A taste of what awaits at Chez Amis',
     category: 'behind-scenes',
     title: 'A Taste of Excellence',
@@ -72,6 +78,7 @@ export const galleryMedia: MediaItem[] = [
     type: 'video',
     src: '/media/videos/img-0025.mp4',
     thumbnail: '/images/placeholders/video-placeholder.svg',
+    poster: '/images/placeholders/video-placeholder.svg',
     alt: 'Additional restaurant content',
     category: 'behind-scenes',
     title: 'More from Chez Amis',
@@ -82,6 +89,7 @@ export const galleryMedia: MediaItem[] = [
     type: 'video',
     src: '/media/videos/12-09-2025-00-43-33-1.mp4',
     thumbnail: '/images/placeholders/video-placeholder.svg',
+    poster: '/images/placeholders/video-placeholder.svg',
     alt: 'Signature dish showcase at Chez Amis',
     category: 'signature-dishes',
     title: 'Signature Dish Showcase',
@@ -92,6 +100,7 @@ export const galleryMedia: MediaItem[] = [
     type: 'video',
     src: '/media/videos/12-09-2025-00-44-04-1.mp4',
     thumbnail: '/images/placeholders/video-placeholder.svg',
+    poster: '/images/placeholders/video-placeholder.svg',
     alt: 'Grill specialties preparation at Chez Amis',
     category: 'grill-specialties',
     title: 'Grill Mastery',
@@ -102,6 +111,7 @@ export const galleryMedia: MediaItem[] = [
     type: 'video',
     src: '/media/videos/12-09-2025-00-46-49-1.mp4',
     thumbnail: '/images/placeholders/video-placeholder.svg',
+    poster: '/images/placeholders/video-placeholder.svg',
     alt: 'Restaurant ambiance and dining atmosphere',
     category: 'behind-scenes',
     title: 'Warm Ambiance',
@@ -112,6 +122,7 @@ export const galleryMedia: MediaItem[] = [
     type: 'video',
     src: '/media/videos/12-09-2025-00-46-49-1-2.mp4',
     thumbnail: '/images/placeholders/video-placeholder.svg',
+    poster: '/images/placeholders/video-placeholder.svg',
     alt: 'Behind the scenes kitchen action',
     category: 'behind-scenes',
     title: 'Kitchen in Action',
@@ -122,6 +133,7 @@ export const galleryMedia: MediaItem[] = [
     type: 'video',
     src: '/media/videos/12-09-2025-00-46-49-1-3.mp4',
     thumbnail: '/images/placeholders/video-placeholder.svg',
+    poster: '/images/placeholders/video-placeholder.svg',
     alt: 'Special event celebration at Chez Amis',
     category: 'events',
     title: 'Special Celebrations',

@@ -3,77 +3,71 @@
 import { useState, useEffect } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { Menu, X, ShoppingBag, UtensilsCrossed } from "lucide-react"
+import { Menu, X, ShoppingBag } from "lucide-react"
 import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
 import { ThemeToggle } from "@/components/ui/theme-toggle"
 import { useCartContext } from "@/lib/context/CartContext"
-import { useTheme } from "@/lib/context/ThemeContext"
 import { scrollToElement } from "@/lib/utils/smoothScroll"
+import {
+  trackCartOpen,
+  trackOrderClick,
+  trackReservationClick,
+} from "@/lib/analytics"
 
 const navItems = [
   { href: "/", label: "Home" },
   { href: "/menu", label: "Our Menu" },
   { href: "/gallery", label: "Gallery" },
-  { href: "/about", label: "Experience" },
   { href: "/private-events", label: "Private Dining" },
   { href: "/contact", label: "Contact" },
 ]
+
+const navLinkClass =
+  "font-body text-sm tracking-widest uppercase whitespace-nowrap text-white/80 hover:text-white transition-colors duration-200 relative py-1 after:absolute after:bottom-0 after:left-0 after:w-0 after:h-px after:bg-terra-400 after:transition-all after:duration-300 hover:after:w-full aria-[current=page]:after:w-full aria-[current=page]:text-white"
 
 export function Header() {
   const pathname = usePathname()
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const { getCartItemCount } = useCartContext()
-  const { resolvedTheme } = useTheme()
-  const cartItemCount = getCartItemCount()
-  const isDark = resolvedTheme === "dark"
+  const cartCount = getCartItemCount()
+  const isHome = pathname === "/"
 
-  // Handle scroll effect
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50)
+      setIsScrolled(window.scrollY > 20)
     }
+    handleScroll()
     window.addEventListener("scroll", handleScroll)
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
 
-  // Prevent body scroll when mobile menu is open
   useEffect(() => {
     if (isMobileMenuOpen) {
-      // Store current scroll position
       const scrollY = window.scrollY
-      // Add class to body
       document.body.classList.add("menu-open")
-      // Prevent body scroll and maintain scroll position
       document.body.style.top = `-${scrollY}px`
-      // Prevent iOS bounce scroll
       document.body.style.touchAction = "none"
     } else {
-      // Remove class from body
       document.body.classList.remove("menu-open")
-      // Restore scroll position
       const scrollY = document.body.style.top
       document.body.style.top = ""
       document.body.style.touchAction = ""
       if (scrollY) {
-        window.scrollTo(0, parseInt(scrollY || "0") * -1)
+        window.scrollTo(0, parseInt(scrollY || "0", 10) * -1)
       }
     }
     return () => {
-      // Cleanup
       document.body.classList.remove("menu-open")
       document.body.style.top = ""
       document.body.style.touchAction = ""
     }
   }, [isMobileMenuOpen])
 
-  // Close mobile menu on route change
   useEffect(() => {
     setIsMobileMenuOpen(false)
   }, [pathname])
 
-  // Handle escape key to close mobile menu
   useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {
       if (e.key === "Escape" && isMobileMenuOpen) {
@@ -91,9 +85,17 @@ export function Header() {
     }
   }
 
+  const headerBg = cn(
+    "transition-all duration-300",
+    isScrolled
+      ? "bg-green-900/95 backdrop-blur-md shadow-lg"
+      : isHome
+        ? "bg-transparent"
+        : "bg-green-800"
+  )
+
   return (
     <>
-      {/* Skip to Content Link */}
       <a
         href="#main-content"
         className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[100] focus:px-4 focus:py-2 focus:bg-terra-500 focus:text-foreground focus:rounded-md focus:outline-none focus:ring-2 focus:ring-terra-500 focus:ring-offset-2"
@@ -101,79 +103,37 @@ export function Header() {
         Skip to content
       </a>
 
-      {/* Main Header */}
       <header
         className={cn(
-          "fixed top-0 left-0 right-0 z-[100] w-full transition-all duration-500 ease-out",
-          "h-20 md:h-24",
-          // Sticky behavior with backdrop blur
-          isScrolled
-            ? isDark
-              ? "bg-green-700/95 dark:bg-green-700/95 backdrop-blur-xl shadow-2xl border-b border-green-700/50"
-              : "bg-white/95 backdrop-blur-xl shadow-2xl border-b border-gray-100/50 dark:border-green-700/50"
-            : "bg-transparent"
+          "fixed top-0 left-0 right-0 z-[100] w-full transition-all duration-300",
+          "h-16 md:h-20",
+          headerBg
         )}
         role="banner"
       >
         <div className="section-shell-inner h-full">
-          <div className="flex h-full items-center justify-between">
-            {/* Logo Section (Left) - Perfectly aligned and scaled */}
+          <div className="flex h-full items-center justify-between gap-3">
             <Link
               href="/"
-              className="flex items-center group relative"
+              className="flex items-center gap-2 flex-shrink-0"
               aria-label="Chez Amis Bar and Grill - Home"
             >
-              <div className="flex flex-col items-start justify-center">
-                {/* Decorative gold line - animated on hover */}
-                <div 
-                  className={cn(
-                    "h-0.5 bg-terra-500 mb-1.5 transition-all duration-500 ease-out",
-                    "w-8 md:w-10 group-hover:w-12 md:group-hover:w-16",
-                    "shadow-sm group-hover:shadow-terra-500/50"
-                  )} 
-                  aria-hidden="true"
-                />
-                {/* Main logo text - responsive sizing */}
-                <span
-                  className={cn(
-                    "font-display font-light tracking-wide transition-all duration-300",
-                    "text-xl sm:text-2xl md:text-3xl lg:text-[2rem]",
-                    "leading-tight",
-                    isScrolled 
-                      ? isDark 
-                        ? "text-white" 
-                        : "text-foreground"
-                      : "text-white drop-shadow-lg"
-                  )}
-                >
-                  Chez Amis
-                </span>
-                {/* Subtitle - perfectly aligned */}
-                <span
-                  className={cn(
-                    "font-body font-light tracking-[0.15em] uppercase transition-all duration-300",
-                    "text-[0.625rem] sm:text-xs md:text-[0.7rem]",
-                    "leading-tight mt-0.5",
-                    isScrolled
-                      ? isDark
-                        ? "text-white/70"
-                        : "text-muted-foreground"
-                      : "text-white/80 drop-shadow-md"
-                  )}
-                >
-                  BAR AND GRILL
-                </span>
-              </div>
+              <span className="font-display text-2xl font-light tracking-wide text-white leading-none whitespace-nowrap">
+                Chez Amis
+              </span>
+              <span className="hidden sm:block text-[10px] font-body tracking-[0.2em] uppercase text-white/50 leading-none mt-0.5 whitespace-nowrap">
+                Bar &amp; Grill
+              </span>
             </Link>
 
-            {/* Desktop Navigation (Center/Right) - Evenly spaced with premium hover animations */}
             <nav
-              className="hidden lg:flex items-center gap-6 xl:gap-8"
+              className="hidden md:flex items-center gap-6 lg:gap-8"
               role="navigation"
               aria-label="Main navigation"
             >
               {navItems.map((item) => {
-                const isActive = pathname === item.href || (item.href === "/" && pathname === "/")
+                const isActive =
+                  pathname === item.href || (item.href === "/" && pathname === "/")
                 return (
                   <Link
                     key={item.href}
@@ -184,334 +144,126 @@ export function Header() {
                         handleNavClick(item.href)
                       }
                     }}
-                    className={cn(
-                      "group relative text-sm font-body font-medium transition-all duration-300 ease-out",
-                      "focus:outline-none focus:ring-2 focus:ring-terra-500 focus:ring-offset-2 focus:ring-offset-transparent rounded-sm px-3 py-3 min-h-[48px] inline-flex items-center",
-                      "hover:scale-105 active:scale-95",
-                      // Light mode colors
-                      !isDark && isScrolled && isActive && "text-foreground",
-                      !isDark && isScrolled && !isActive && "text-muted-foreground hover:text-foreground",
-                      !isDark && !isScrolled && isActive && "text-white",
-                      !isDark && !isScrolled && !isActive && "text-white/90 hover:text-white",
-                      // Dark mode colors
-                      isDark && isScrolled && isActive && "text-white",
-                      isDark && isScrolled && !isActive && "text-white/70 hover:text-white",
-                      isDark && !isScrolled && isActive && "text-white",
-                      isDark && !isScrolled && !isActive && "text-white/90 hover:text-white"
-                    )}
+                    className={navLinkClass}
                     aria-current={isActive ? "page" : undefined}
                   >
                     {item.label}
-                    {/* Premium gold underline animation */}
-                    <span
-                      className={cn(
-                        "absolute bottom-0 left-1/2 -translate-x-1/2 h-0.5 bg-gradient-to-r from-terra-400 via-terra-500 to-terra-600 transition-all duration-500 ease-out",
-                        "shadow-sm group-hover:shadow-terra-500/50",
-                        isActive 
-                          ? "w-full opacity-100" 
-                          : "w-0 group-hover:w-full opacity-0 group-hover:opacity-100"
-                      )}
-                      aria-hidden="true"
-                    />
-                    {/* Subtle background glow on hover */}
-                    <span
-                      className={cn(
-                        "absolute inset-0 rounded-sm bg-terra-500/0 group-hover:bg-terra-500/5 transition-all duration-300 -z-10",
-                        isActive && "bg-terra-500/5"
-                      )}
-                      aria-hidden="true"
-                    />
                   </Link>
                 )
               })}
             </nav>
 
-            {/* Right Side Actions - Premium CTAs */}
-            <div className="flex items-center gap-3 md:gap-4 lg:gap-6">
-              {/* Theme Toggle */}
-              <ThemeToggle
-                className={cn(
-                  "transition-all duration-300 hover:scale-110 active:scale-95",
-                  isScrolled
-                    ? isDark
-                      ? "text-white/70 hover:text-white hover:bg-green-700/50"
-                      : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
-                    : "text-white/90 hover:text-white hover:bg-white/10"
-                )}
-              />
-              
-              {/* Order Delivery Button - Premium CTA */}
-              <Link href="/order-summary" className="hidden lg:block group/order">
-                <Button
-                  variant="premium"
-                  size="sm"
-                  className={cn(
-                    "font-body font-semibold tracking-wide transition-all duration-300 min-h-[48px]",
-                    "px-4 py-2 relative overflow-hidden",
-                    "hover:scale-105 active:scale-95",
-                    "shadow-lg hover:shadow-xl hover:shadow-terra-500/30"
-                  )}
-                  aria-label="Order for Delivery"
-                >
-                  <span className="relative z-10 flex items-center gap-2">
-                    <UtensilsCrossed className="h-4 w-4" />
-                    Order Delivery
-                  </span>
-                  {/* Shine effect */}
-                  <span className="absolute inset-0 -translate-x-full group-hover/order:translate-x-full transition-transform duration-700 ease-in-out bg-gradient-to-r from-transparent via-white/20 to-transparent" />
-                </Button>
-              </Link>
-
-              {/* Cart Icon with Badge */}
-              <button
-                onClick={() => {
-                  if (typeof window !== "undefined") {
-                    window.location.href = "/order-summary"
-                  }
-                }}
-                className={cn(
-                  "hidden lg:flex items-center justify-center transition-all duration-300",
-                  "focus:outline-none focus:ring-2 focus:ring-terra-500 focus:ring-offset-2 focus:ring-offset-transparent rounded-lg px-2 py-2 min-h-[48px] min-w-[48px]",
-                  "hover:scale-110 active:scale-95",
-                  isScrolled
-                    ? isDark
-                      ? "text-white/70 hover:text-white hover:bg-green-700/50"
-                      : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
-                    : "text-white/90 hover:text-white hover:bg-white/10"
-                )}
-                aria-label={`Your selection${cartItemCount > 0 ? ` (${cartItemCount} items)` : ""}`}
+            <div className="flex items-center gap-2 md:gap-3 flex-shrink-0">
+              <Link
+                href="/cart"
+                className="relative p-2 text-white/70 hover:text-white transition-colors"
+                aria-label="View cart"
+                onClick={() => trackCartOpen("header")}
               >
-                <div className="relative">
-                  <ShoppingBag className="h-5 w-5 transition-transform duration-300 group-hover:scale-110" />
-                  {cartItemCount > 0 && (
-                    <span
-                      className={cn(
-                        "absolute -top-2 -right-2 text-xs font-body font-bold px-1.5 py-0.5 rounded-full min-w-[20px] text-center",
-                        "text-white bg-terra-500 shadow-lg animate-badge-bounce",
-                        "ring-2 ring-background"
-                      )}
-                    >
-                      {cartItemCount}
-                    </span>
-                  )}
-                </div>
-              </button>
-
-              {/* Reserve a Table Button - Premium CTA */}
-              <Link href="/reservations" className="hidden lg:block group/reserve">
-                <Button
-                  variant="outline"
-                  size="sm"
-                  className={cn(
-                    "font-body font-semibold tracking-wide border-2 transition-all duration-300 min-h-[48px]",
-                    "px-4 py-2 relative overflow-hidden",
-                    "hover:scale-105 active:scale-95",
-                    isScrolled
-                      ? isDark
-                        ? "border-terra-500/80 text-white hover:bg-terra-500/10 hover:border-terra-500 hover:shadow-lg hover:shadow-terra-500/20"
-                        : "border-terra-500/80 text-foreground hover:bg-terra-500/10 hover:border-terra-500 hover:shadow-lg"
-                      : "border-white/80 text-white hover:bg-white/10 hover:border-white hover:shadow-xl"
-                  )}
-                  aria-label="Reserve a Table"
-                >
-                  <span className="relative z-10">Reserve a Table</span>
-                  {/* Shine effect */}
-                  <span className="absolute inset-0 bg-gradient-to-r from-terra-500/0 via-terra-500/20 to-terra-500/0 translate-x-[-100%] group-hover/reserve:translate-x-[100%] transition-transform duration-700 ease-in-out" />
-                </Button>
+                <ShoppingBag className="w-5 h-5" />
+                {cartCount > 0 && (
+                  <span className="absolute -top-0.5 -right-0.5 w-4 h-4 rounded-full bg-terra-500 text-white text-[10px] font-bold flex items-center justify-center">
+                    {cartCount}
+                  </span>
+                )}
               </Link>
 
-              {/* Mobile Menu Button - Premium animation */}
-              <Button
-                variant="ghost"
-                size="icon"
+              <Link
+                href="/reservations"
+                className="hidden md:inline-flex items-center gap-2 bg-terra-500 text-white font-body font-medium tracking-widest uppercase text-xs px-5 py-2.5 rounded-full flex-shrink-0 hover:bg-terra-600 transition-all duration-200 shadow-sm whitespace-nowrap"
+                onClick={() => trackReservationClick("header_desktop")}
+              >
+                Reserve a Table
+              </Link>
+
+              <button
+                type="button"
                 className={cn(
-                  "lg:hidden relative",
-                  "min-h-[44px] min-w-[44px]",
-                  "transition-all duration-300 ease-out",
-                  "hover:scale-110 active:scale-95",
-                  "will-change-transform",
-                  isScrolled
-                    ? isDark
-                      ? "text-white/70 hover:text-white hover:bg-green-700/50 active:bg-green-700/70"
-                      : "text-foreground hover:bg-muted/50 active:bg-muted/80"
-                    : "text-white hover:bg-white/10 active:bg-white/20"
+                  "md:hidden flex items-center justify-center w-12 h-12 rounded-md text-white hover:bg-white/10 transition-colors",
+                  "-mr-2"
                 )}
-                style={{
-                  transform: "translateZ(0)",
-                  WebkitTransform: "translateZ(0)",
-                }}
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
                 aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
                 aria-expanded={isMobileMenuOpen}
                 aria-controls="mobile-menu"
               >
-                <span className="relative inline-flex items-center justify-center w-6 h-6">
-                  <span
-                    className={cn(
-                      "absolute inset-0 flex items-center justify-center transition-all duration-200 ease-out",
-                      "will-change-transform",
-                      isMobileMenuOpen ? "opacity-0 rotate-90 scale-0" : "opacity-100 rotate-0 scale-100"
-                    )}
-                    style={{
-                      transform: "translateZ(0)",
-                      WebkitTransform: "translateZ(0)",
-                    }}
-                  >
-                    <Menu className="h-6 w-6" aria-hidden="true" />
-                  </span>
-                  <span
-                    className={cn(
-                      "absolute inset-0 flex items-center justify-center transition-all duration-200 ease-out",
-                      "will-change-transform",
-                      isMobileMenuOpen ? "opacity-100 rotate-0 scale-100" : "opacity-0 -rotate-90 scale-0"
-                    )}
-                    style={{
-                      transform: "translateZ(0)",
-                      WebkitTransform: "translateZ(0)",
-                    }}
-                  >
-                    <X className="h-6 w-6" aria-hidden="true" />
-                  </span>
-                </span>
-              </Button>
+                {isMobileMenuOpen ? (
+                  <X className="h-6 w-6" aria-hidden="true" />
+                ) : (
+                  <Menu className="h-6 w-6" aria-hidden="true" />
+                )}
+              </button>
             </div>
           </div>
         </div>
 
-        {/* Mobile Menu - Premium Full Screen Overlay */}
         {isMobileMenuOpen && (
-          <>
-            {/* Backdrop with smooth fade */}
-            <div
-              className={cn(
-                "fixed inset-0 z-[60] lg:hidden transition-opacity duration-300",
-                isDark 
-                  ? "bg-green-700/98 backdrop-blur-2xl" 
-                  : "bg-gray-900/98 backdrop-blur-2xl"
-              )}
+          <nav
+            id="mobile-menu"
+            className="md:hidden fixed inset-0 z-50 bg-green-900 flex flex-col px-6 pt-20 pb-8 gap-8"
+            role="navigation"
+            aria-label="Mobile navigation"
+          >
+            <button
+              type="button"
+              className="absolute top-4 right-4 flex h-12 w-12 items-center justify-center text-white hover:bg-white/10 rounded-md transition-colors"
               onClick={() => setIsMobileMenuOpen(false)}
-              aria-hidden="true"
-            />
-
-            {/* Mobile Menu - Smooth slide in animation */}
-            <nav
-              id="mobile-menu"
-              className={cn(
-                "fixed inset-0 z-[70] lg:hidden",
-                "flex flex-col items-center justify-center",
-                "overflow-y-auto overscroll-contain",
-                "-webkit-overflow-scrolling: touch",
-                "animate-fade-in",
-                isDark 
-                  ? "bg-green-700/98 backdrop-blur-2xl" 
-                  : "bg-gray-900/98 backdrop-blur-2xl"
-              )}
-              role="navigation"
-              aria-label="Mobile navigation"
-              style={{
-                WebkitOverflowScrolling: "touch",
-                overscrollBehavior: "contain",
-              }}
+              aria-label="Close menu"
             >
-              {/* Close Button - Top Right */}
-              <Button
-                variant="ghost"
-                size="icon"
-                className="absolute top-4 right-4 md:top-6 md:right-6 text-white hover:bg-white/10 active:bg-white/20 transition-colors min-h-[44px] min-w-[44px] z-10 touch-manipulation"
-                onClick={() => setIsMobileMenuOpen(false)}
-                aria-label="Close menu"
+              <X className="h-6 w-6" aria-hidden="true" />
+            </button>
+
+            <div className="flex flex-col gap-0 overflow-y-auto flex-1">
+              {navItems.map((item) => {
+                const isActive =
+                  pathname === item.href || (item.href === "/" && pathname === "/")
+                return (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    onClick={(e) => {
+                      if (item.href.startsWith("#")) {
+                        e.preventDefault()
+                        handleNavClick(item.href)
+                      } else {
+                        setIsMobileMenuOpen(false)
+                      }
+                    }}
+                    className="font-display text-3xl font-light text-white hover:text-terra-300 transition-colors py-2 border-b border-white/10"
+                    aria-current={isActive ? "page" : undefined}
+                  >
+                    {item.label}
+                  </Link>
+                )
+              })}
+            </div>
+
+            <div className="mt-auto flex flex-col gap-0 pt-4">
+              <Link
+                href="/reservations"
+                className="btn-primary w-full text-center"
+                onClick={() => {
+                  trackReservationClick("header_mobile_overlay")
+                  setIsMobileMenuOpen(false)
+                }}
               >
-                <X className="h-6 w-6" aria-hidden="true" />
-              </Button>
-
-              {/* Centered Navigation Links - Premium animations */}
-              <div className="flex flex-col items-center gap-6 md:gap-8 px-6 py-20 w-full max-w-md mx-auto">
-                {navItems.map((item, index) => {
-                  const isActive = pathname === item.href || (item.href === "/" && pathname === "/")
-                  return (
-                    <Link
-                      key={item.href}
-                      href={item.href}
-                      onClick={(e) => {
-                        if (item.href.startsWith("#")) {
-                          e.preventDefault()
-                          handleNavClick(item.href)
-                        } else {
-                          setIsMobileMenuOpen(false)
-                        }
-                      }}
-                      className={cn(
-                        "group relative text-2xl font-body font-light tracking-wide text-white",
-                        "transition-all duration-500 ease-out animate-fade-in-up",
-                        "hover:text-terra-400 active:text-terra-500 active:scale-95",
-                        "focus:outline-none focus:ring-2 focus:ring-terra-500 focus:ring-offset-2 focus:ring-offset-transparent rounded-lg px-6 py-4 min-h-[56px] touch-manipulation w-full text-center",
-                        isActive && "text-terra-400"
-                      )}
-                      aria-current={isActive ? "page" : undefined}
-                      style={{
-                        animationDelay: `${index * 0.08}s`,
-                      }}
-                    >
-                      {item.label}
-                      {/* Gold underline for active/hover */}
-                      <span
-                        className={cn(
-                          "absolute bottom-2 left-1/2 -translate-x-1/2 h-0.5 bg-gradient-to-r from-terra-400 via-terra-500 to-terra-600 transition-all duration-500",
-                          isActive ? "w-3/4 opacity-100" : "w-0 group-hover:w-3/4 opacity-0 group-hover:opacity-100"
-                        )}
-                        aria-hidden="true"
-                      />
-                    </Link>
-                  )
-                })}
-
-                {/* Mobile Actions - Premium CTAs */}
-                <div className="flex flex-col items-center gap-4 mt-8 pt-8 border-t border-white/20 w-full max-w-xs">
-                  {/* Order Delivery Button - Prominent CTA */}
-                  <Link 
-                    href="/order-summary" 
-                    className="w-full group/order" 
-                    onClick={() => setIsMobileMenuOpen(false)}
-                  >
-                    <Button
-                      variant="premium"
-                      size="lg"
-                      className="w-full font-body font-semibold tracking-wide transition-all duration-300 min-h-[56px] text-lg touch-manipulation relative overflow-hidden hover:scale-105 active:scale-95 shadow-xl"
-                      aria-label="Order for Delivery"
-                    >
-                      <span className="relative z-10 flex items-center justify-center gap-2">
-                        <UtensilsCrossed className="h-5 w-5" />
-                        Order Delivery
-                        {cartItemCount > 0 && (
-                          <span className="ml-2 px-2 py-0.5 rounded-full bg-white/20 text-sm font-bold">
-                            {cartItemCount}
-                          </span>
-                        )}
-                      </span>
-                      <span className="absolute inset-0 -translate-x-full group-hover/order:translate-x-full transition-transform duration-700 ease-in-out bg-gradient-to-r from-transparent via-white/20 to-transparent" />
-                    </Button>
-                  </Link>
-
-                  {/* Reserve a Table Button */}
-                  <Link 
-                    href="/reservations" 
-                    className="w-full group/reserve" 
-                    onClick={() => setIsMobileMenuOpen(false)}
-                  >
-                    <Button
-                      variant="outline"
-                      size="lg"
-                      className="w-full font-body font-semibold tracking-wide border-2 border-white/80 text-white hover:bg-white/10 hover:border-white active:bg-white/20 active:border-white/80 transition-all duration-300 min-h-[56px] text-lg touch-manipulation relative overflow-hidden hover:scale-105 active:scale-95"
-                      aria-label="Reserve a Table"
-                    >
-                      <span className="relative z-10">Reserve a Table</span>
-                      <span className="absolute inset-0 bg-gradient-to-r from-terra-500/0 via-terra-500/20 to-terra-500/0 translate-x-[-100%] group-hover/reserve:translate-x-[100%] transition-transform duration-700 ease-in-out" />
-                    </Button>
-                  </Link>
-                </div>
+                Reserve a Table
+              </Link>
+              <Link
+                href="/order"
+                className="btn-accent w-full text-center mt-3"
+                onClick={() => {
+                  trackOrderClick("header_mobile_overlay")
+                  setIsMobileMenuOpen(false)
+                }}
+              >
+                Order Delivery
+              </Link>
+              <div className="flex justify-center pt-6 border-t border-white/10 mt-6">
+                <ThemeToggle className="text-white/80 hover:text-white" />
               </div>
-            </nav>
-          </>
+            </div>
+          </nav>
         )}
       </header>
     </>

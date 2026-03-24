@@ -4,6 +4,18 @@ import { useState, useEffect } from "react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { MapPin, Phone, Clock, Navigation, Calendar, UtensilsCrossed } from "lucide-react"
+
+const phones = [
+  { label: "Main Line", number: "055 703 2312" },
+  { label: "Reservations", number: "055 703 2335" },
+  { label: "WhatsApp", number: "024 395 2339" },
+  { label: "Events", number: "050 243 2037" },
+]
+
+function telHref(number: string) {
+  const digits = number.replace(/\s/g, "")
+  return `tel:+233${digits.slice(1)}`
+}
 import { cn } from "@/lib/utils"
 import { useTheme } from "@/lib/context/ThemeContext"
 
@@ -90,47 +102,46 @@ export function VisitUsSection() {
                   <h3 className="text-lg md:text-xl font-body font-light text-foreground mb-2">
                     Phone
                   </h3>
-                  <div className="space-y-1">
-                    <a
-                      href="tel:+233557032312"
-                      className="block text-base md:text-lg text-muted-foreground font-body font-light hover:text-foreground transition-colors"
-                    >
-                      055 703 2312
-                    </a>
-                    <a
-                      href="tel:+233557032335"
-                      className="block text-base md:text-lg text-muted-foreground font-body font-light hover:text-foreground transition-colors"
-                    >
-                      055 703 2335
-                    </a>
-                  <a
-                    href="tel:+233243952339"
-                      className="block text-base md:text-lg text-muted-foreground font-body font-light hover:text-foreground transition-colors"
-                  >
-                      024 395 2339
-                    </a>
-                    <a
-                      href="tel:+233502432037"
-                      className="block text-base md:text-lg text-muted-foreground font-body font-light hover:text-foreground transition-colors"
-                    >
-                      050 243 2037
-                  </a>
+                  <div className="space-y-4">
+                    {phones.map((p) => (
+                      <a
+                        key={p.label}
+                        href={telHref(p.number)}
+                        className="flex items-start gap-3 group"
+                      >
+                        <Phone className="w-4 h-4 text-terra-500 mt-0.5 flex-shrink-0" aria-hidden />
+                        <div>
+                          <p className="text-xs text-neutral-400 uppercase tracking-widest font-body">
+                            {p.label}
+                          </p>
+                          <p className="text-base md:text-lg text-neutral-800 font-body group-hover:text-terra-500 transition-colors">
+                            {p.number}
+                          </p>
+                        </div>
+                      </a>
+                    ))}
                   </div>
                 </div>
               </div>
 
               {/* Hours */}
               <div className="flex items-start gap-4">
-                <div className="flex-shrink-0 mt-1">
-                  <Clock className="h-6 w-6 text-terra-600" />
-                </div>
-                <div>
-                  <h3 className="text-lg md:text-xl font-body font-light text-foreground mb-2">
-                    Hours
-                  </h3>
-                  <p className="text-base md:text-lg text-muted-foreground font-body font-light leading-relaxed">
-                    We&apos;re Open 24/7
-                  </p>
+                <div className="flex items-center gap-3">
+                  <Clock className="w-5 h-5 text-terra-500 flex-shrink-0" aria-hidden />
+                  <div>
+                    <p className="font-body text-sm text-neutral-500 uppercase tracking-widest">
+                      Hours
+                    </p>
+                    <div className="flex flex-wrap items-center gap-2 mt-0.5">
+                      <span className="inline-flex items-center gap-1 bg-green-100 text-green-700 text-xs font-medium px-2 py-0.5 rounded-full border border-green-200">
+                        <span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse inline-block" />
+                        Open now
+                      </span>
+                      <span className="font-body text-neutral-800 text-sm">
+                        24 hours, 7 days
+                      </span>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>

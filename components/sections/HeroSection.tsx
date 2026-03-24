@@ -3,10 +3,11 @@
 import { useEffect, useState, useRef } from "react"
 import Link from "next/link"
 import Image from "next/image"
-import { ChevronDown, Star } from "lucide-react"
+import { ChevronDown } from "lucide-react"
 import { QuickActions } from "@/components/mobile/QuickActions"
 import { cn } from "@/lib/utils"
 import { useTheme } from "@/lib/context/ThemeContext"
+import { trackMenuClick, trackReservationClick } from "@/lib/analytics"
 
 const HERO_VIDEO_SRC =
   "/media/videos/filtered-b59b103f-f34d-4b58-a62d-c66524ad5ace.mp4"
@@ -17,6 +18,7 @@ export function HeroSection() {
   const [imageLoaded, setImageLoaded] = useState(false)
   const [imageError, setImageError] = useState(false)
   const [videoBgFailed, setVideoBgFailed] = useState(false)
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false)
   const parallaxRef = useRef<HTMLDivElement>(null)
   const { resolvedTheme } = useTheme()
   const isDark = resolvedTheme === "dark"
@@ -32,28 +34,29 @@ export function HeroSection() {
   const [currentImagePath, setCurrentImagePath] = useState(imagePaths[0])
 
   useEffect(() => {
-    // Staggered entrance animation
+    const mq = window.matchMedia("(prefers-reduced-motion: reduce)")
+    setPrefersReducedMotion(mq.matches)
+    const onMotionChange = () => setPrefersReducedMotion(mq.matches)
+    mq.addEventListener("change", onMotionChange)
+
     const timer = setTimeout(() => setIsVisible(true), 100)
-    
-    // Check if window is available (SSR safety)
-    if (typeof window !== "undefined") {
+
+    setIsMobile(window.innerWidth < 768)
+    const handleResize = () => {
       setIsMobile(window.innerWidth < 768)
-      
-      const handleResize = () => {
-        setIsMobile(window.innerWidth < 768)
-      }
-      window.addEventListener("resize", handleResize)
-      return () => {
-        clearTimeout(timer)
-        window.removeEventListener("resize", handleResize)
-      }
     }
-    return () => clearTimeout(timer)
+    window.addEventListener("resize", handleResize)
+
+    return () => {
+      mq.removeEventListener("change", onMotionChange)
+      clearTimeout(timer)
+      window.removeEventListener("resize", handleResize)
+    }
   }, [])
 
   // Enhanced Parallax scroll effect
   useEffect(() => {
-    if (isMobile || !parallaxRef.current) return
+    if (isMobile || prefersReducedMotion || !parallaxRef.current) return
 
     const handleScroll = () => {
       if (!parallaxRef.current) return
@@ -64,7 +67,7 @@ export function HeroSection() {
 
     window.addEventListener("scroll", handleScroll, { passive: true })
     return () => window.removeEventListener("scroll", handleScroll)
-  }, [isMobile])
+  }, [isMobile, prefersReducedMotion])
 
   const scrollToNext = () => {
     if (typeof document !== "undefined") {
@@ -96,7 +99,7 @@ export function HeroSection() {
           }}
         >
           {/* Optional full-bleed video; falls back to stills */}
-          {!videoBgFailed && (
+          {!prefersReducedMotion && !videoBgFailed && (
             <video
               className="absolute inset-0 z-[1] h-full w-full object-cover"
               autoPlay
@@ -122,7 +125,7 @@ export function HeroSection() {
               quality={90}
               className={cn(
                 "object-cover object-center relative z-0",
-                !videoBgFailed ? "opacity-0" : "opacity-100",
+                !videoBgFailed || prefersReducedMotion ? "opacity-100" : "opacity-0",
               )}
               sizes="100vw"
               onLoad={() => setImageLoaded(true)}
@@ -294,10 +297,10 @@ export function HeroSection() {
             Where passion meets palate in the heart of Accra. Experience exceptional flavors and warm hospitality.
           </p>
 
-          {/* Primary CTA — single action */}
+          {/* Primary + secondary CTAs */}
           <div 
             className={cn(
-              "flex justify-center w-full",
+              "flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-4 w-full",
               "transition-all duration-1000 ease-out",
               isMobile ? "mb-6 px-4" : "mb-8 md:mb-10 px-6",
               isVisible 
@@ -316,25 +319,36 @@ export function HeroSection() {
                 "focus:outline-none focus:ring-2 focus:ring-terra-500 focus:ring-offset-2 focus:ring-offset-black/40",
                 "shadow-lg hover:shadow-xl",
               )}
+              onClick={() => trackReservationClick("hero")}
             >
               Reserve a Table
+            </Link>
+            <Link
+              href="/menu"
+              className={cn(
+                "inline-flex items-center justify-center min-h-[44px] w-full max-w-sm sm:w-auto",
+                "border-2 border-white/80 text-white bg-transparent hover:bg-white/10",
+                "tracking-widest uppercase text-xs font-body",
+                "px-8 py-4 transition-all duration-300",
+                "focus:outline-none focus:ring-2 focus:ring-terra-500 focus:ring-offset-2 focus:ring-offset-black/40",
+              )}
+              onClick={() => trackMenuClick("hero")}
+            >
+              Explore Our Menu
             </Link>
           </div>
 
           {/* Operating Hours Text - Proper spacing, won't overlap */}
           <div 
             className={cn(
-              "px-4 w-full",
-              // Mobile: Proper spacing
+              "px-4 text-center w-full",
               isMobile ? "mb-5" : "mb-6 md:mb-8",
               "relative z-10"
             )}
             style={{ animationDelay: "0.6s" }}
           >
-            <p className="text-xs sm:text-sm md:text-base text-gray-300 text-center leading-relaxed">
-              <span className="inline">Walk-ins welcome</span>
-              <span className="inline"> | </span>
-              <span className="inline">We&apos;re Open 24/7</span>
+            <p className="text-center w-full text-white/70 font-body text-sm tracking-widest uppercase">
+              Walk-ins welcome &nbsp;·&nbsp; Open 24/7
             </p>
           </div>
 
@@ -350,41 +364,6 @@ export function HeroSection() {
           )}
 
           {/* Mobile Social Proof Banner - Proper spacing, won't overlap */}
-          {isMobile && (
-            <div className={cn(
-              "w-full mt-4",
-              // Extra bottom margin to prevent overlap with next section
-              "mb-8",
-              "relative z-10"
-            )}>
-              <div className="bg-black/30 backdrop-blur-md border-t border-neutral-100/10 rounded-t-lg">
-                <div className="section-shell-inner py-3">
-                  <div className="flex flex-col items-center justify-center gap-2 text-white/90">
-                    {/* Star Rating */}
-                    <div className="flex items-center gap-1.5">
-                      <div className="flex gap-0.5" aria-label="5 star rating">
-                        {[...Array(5)].map((_, i) => (
-                          <Star
-                            key={i}
-                            className="h-3.5 w-3.5 fill-terra-500 text-terra-500"
-                            aria-hidden="true"
-                          />
-                        ))}
-                      </div>
-                      <span className="text-xs font-body font-light whitespace-nowrap">
-                        Rated Accra&apos;s finest
-                      </span>
-                    </div>
-                    
-                    {/* Guest Count */}
-                    <span className="text-xs font-body font-light whitespace-nowrap">
-                      2,500+ satisfied guests
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          )}
         </div>
       </div>
 
@@ -407,40 +386,6 @@ export function HeroSection() {
         <ChevronDown className="h-6 w-6 md:h-7 md:w-7 opacity-70" aria-hidden="true" />
       </button>
 
-      {/* Desktop Social Proof Banner */}
-      {!isMobile && (
-        <div className="absolute bottom-0 left-0 right-0 z-10">
-          <div className="bg-black/30 backdrop-blur-md border-t border-neutral-100/10">
-            <div className="section-shell-inner py-3">
-              <div className="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-3 md:gap-6 text-white/90">
-                {/* Star Rating */}
-                <div className="flex items-center gap-1.5 sm:gap-2">
-                  <div className="flex gap-0.5 sm:gap-1" aria-label="5 star rating">
-                    {[...Array(5)].map((_, i) => (
-                      <Star
-                        key={i}
-                        className="h-3.5 w-3.5 sm:h-4 sm:w-4 md:h-5 md:w-5 fill-terra-500 text-terra-500"
-                        aria-hidden="true"
-                      />
-                    ))}
-                  </div>
-                  <span className="text-xs sm:text-sm md:text-base font-body font-light whitespace-nowrap">
-                    Rated Accra&apos;s finest
-                  </span>
-                </div>
-                
-                {/* Divider */}
-                <div className="hidden sm:block h-4 w-px bg-neutral-100/20" aria-hidden="true"></div>
-                
-                {/* Guest Count */}
-                <span className="text-xs sm:text-sm md:text-base font-body font-light whitespace-nowrap">
-                  2,500+ satisfied guests
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
     </section>
   )
 }

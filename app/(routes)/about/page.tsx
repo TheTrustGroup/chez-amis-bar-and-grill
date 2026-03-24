@@ -7,7 +7,8 @@ import { Philosophy } from "@/components/about/Philosophy"
 import { TeamGrid } from "@/components/about/TeamGrid"
 import { SpaceGallery } from "@/components/about/SpaceGallery"
 import { BehindTheScenesSection } from "@/components/sections/BehindTheScenesSection"
-import { Award, Star, BookOpen } from "lucide-react"
+import { Award, BookOpen } from "lucide-react"
+import { StarRating } from "@/components/ui/StarRating"
 import { useTheme } from "@/lib/context/ThemeContext"
 import { cn } from "@/lib/utils"
 
@@ -207,7 +208,7 @@ export default function AboutPage() {
                   "p-4 rounded-xl transition-all duration-500",
                   "bg-terra-500/10 group-hover:bg-terra-500/20 group-hover:scale-110"
                 )}>
-                  <Star className="h-8 w-8 md:h-10 md:w-10 text-terra-600 fill-terra-600 transition-transform duration-500 group-hover:scale-110" />
+                  <StarRating count={5} size={22} />
                 </div>
               </div>
               <h3 className={cn(

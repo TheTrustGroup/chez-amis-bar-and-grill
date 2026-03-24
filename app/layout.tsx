@@ -1,4 +1,5 @@
 import type { Metadata } from "next"
+import Script from "next/script"
 import { Cormorant_Garamond, Montserrat } from "next/font/google"
 import "@/styles/globals.css"
 import { CartProvider } from "@/lib/context/CartContext"
@@ -21,6 +22,7 @@ const montserrat = Montserrat({
 })
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://chezamisrestaurant.com"
+const gaMeasurementId = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -29,7 +31,7 @@ export const metadata: Metadata = {
     template: "%s | Chez Amis Restaurant",
   },
   description:
-    "Experience exceptional culinary artistry and warm hospitality in the heart of Accra. Signature Attieke dishes, Ivorian-Ghanaian fusion cuisine, fine dining, reservations, and private events. Open daily 9:30 AM - 12 AM.",
+    "Experience exceptional culinary artistry and warm hospitality in the heart of Accra. Signature Attieke dishes, Ivorian-Ghanaian fusion cuisine, fine dining, reservations, and private events. Open 24 hours, 7 days a week.",
   keywords: [
     "Chez Amis",
     "restaurant Accra",
@@ -132,6 +134,22 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
+        {gaMeasurementId ? (
+          <>
+            <Script
+              src={`https://www.googletagmanager.com/gtag/js?id=${gaMeasurementId}`}
+              strategy="afterInteractive"
+            />
+            <Script id="ga4-init" strategy="afterInteractive">
+              {`
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){dataLayer.push(arguments);}
+                gtag('js', new Date());
+                gtag('config', '${gaMeasurementId}', { anonymize_ip: true });
+              `}
+            </Script>
+          </>
+        ) : null}
         <script
           dangerouslySetInnerHTML={{
             __html: `

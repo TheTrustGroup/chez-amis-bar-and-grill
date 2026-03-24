@@ -16,7 +16,7 @@ export function buildRestaurantJsonLd() {
     image: [`${SITE_URL}/images/og-image.jpg`],
     '@id': SITE_URL,
     url: SITE_URL,
-    telephone: '+233557032312',
+    telephone: ['+233557032312', '+233557032335'],
     priceRange: '$$$$',
     address: {
       '@type': 'PostalAddress',
@@ -36,6 +36,7 @@ export function buildRestaurantJsonLd() {
     acceptsReservations: true,
     description:
       'Experience exceptional culinary artistry and warm hospitality in the heart of Accra. Signature Attieke dishes, Ivorian-Ghanaian fusion cuisine, fine dining, and private events.',
+    // Keep in sync with verifiable third-party reviews (e.g. Google Business).
     aggregateRating: {
       '@type': 'AggregateRating',
       ratingValue: '5',
@@ -57,13 +58,22 @@ export function buildOrganizationJsonLd() {
     url: SITE_URL,
     logo: `${SITE_URL}/logo.png`,
     image: `${SITE_URL}/images/og-image.jpg`,
-    contactPoint: {
-      '@type': 'ContactPoint',
-      telephone: '+233557032312',
-      contactType: 'Customer Service',
-      areaServed: 'GH',
-      availableLanguage: ['en', 'fr'],
-    },
+    contactPoint: [
+      {
+        '@type': 'ContactPoint',
+        telephone: '+233557032312',
+        contactType: 'customer service',
+        areaServed: 'GH',
+        availableLanguage: ['en', 'fr'],
+      },
+      {
+        '@type': 'ContactPoint',
+        telephone: '+233557032335',
+        contactType: 'reservations',
+        areaServed: 'GH',
+        availableLanguage: ['en', 'fr'],
+      },
+    ],
     sameAs: [
       'https://www.instagram.com/chez_amis_restaurant',
       'https://www.snapchat.com/add/chez_amis',

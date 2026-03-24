@@ -3,7 +3,8 @@
 import { useState, useEffect } from "react"
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Star, ChevronLeft, ChevronRight } from "lucide-react"
+import { ChevronLeft, ChevronRight } from "lucide-react"
+import { StarRating } from "@/components/ui/StarRating"
 import { Testimonial } from "@/lib/types"
 import { cn } from "@/lib/utils"
 
@@ -197,19 +198,8 @@ function TestimonialCard({ testimonial }: TestimonialCardProps) {
     <Card className="h-full shadow-md hover:shadow-lg transition-shadow duration-300">
       <CardContent className="card-padding">
         {/* Star Rating */}
-        <div className="flex gap-1 mb-4" role="img" aria-label={`${testimonial.rating} out of 5 stars`}>
-          {[...Array(5)].map((_, i) => (
-            <Star
-              key={i}
-              className={cn(
-                "h-5 w-5",
-                i < testimonial.rating
-                  ? "fill-amber-500 text-amber-500"
-                  : "fill-gray-200 text-gray-200"
-              )}
-              aria-hidden="true"
-            />
-          ))}
+        <div className="mb-4">
+          <StarRating count={testimonial.rating} size={20} color="#C4622D" />
         </div>
 
         {/* Quote */}

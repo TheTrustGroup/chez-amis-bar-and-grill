@@ -25,7 +25,7 @@ const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://chezamisrestaurant.
 
 export const metadata: Metadata = {
   title: "Chez Amis Restaurant",
-  description: "Experience exceptional culinary artistry and warm hospitality in the heart of Accra. Signature Attieke dishes, Ivorian-Ghanaian fusion cuisine, fine dining, reservations, and private events. Open daily 9:30 AM - 12 AM at 40 Boundary Rd, Accra.",
+  description: "Experience exceptional culinary artistry and warm hospitality in the heart of Accra. Signature Attieke dishes, Ivorian-Ghanaian fusion cuisine, fine dining, reservations, and private events. Open 24 hours, 7 days a week at 40 Boundary Rd, Accra.",
   keywords: [
     "Chez Amis",
     "restaurant Accra",

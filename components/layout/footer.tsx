@@ -1,22 +1,21 @@
 "use client"
 
-import { useState, useEffect } from "react"
 import Link from "next/link"
 import { Instagram, Mail, Phone, MapPin, Clock, UtensilsCrossed, Calendar } from "lucide-react"
-import { NewsletterSignup } from "./NewsletterSignup"
+import { ThemeToggle } from "@/components/ui/theme-toggle"
 import { SnapchatIcon } from "@/components/ui/snapchat-icon"
 import { cn } from "@/lib/utils"
 import { useTheme } from "@/lib/context/ThemeContext"
+import {
+  trackOrderClick,
+  trackPhoneClick,
+  trackReservationClick,
+} from "@/lib/analytics"
 
 export function Footer() {
   const currentYear = new Date().getFullYear()
-  const [isVisible, setIsVisible] = useState(false)
   const { resolvedTheme } = useTheme()
   const isDark = resolvedTheme === "dark"
-
-  useEffect(() => {
-    setIsVisible(true)
-  }, [])
 
   return (
     <footer
@@ -285,10 +284,17 @@ export function Footer() {
                           ? "text-white/70 hover:text-terra-400"
                           : "text-white/60 hover:text-terra-500"
                       )}
+                      onClick={() => trackPhoneClick(`footer_${phone.display}`)}
                     >
                       {phone.display}
                     </a>
                   ))}
+                  <Link
+                    href="/contact"
+                    className="text-xs text-terra-300 hover:text-terra-200 mt-1 inline-block"
+                  >
+                    View all contact numbers →
+                  </Link>
                 </div>
               </div>
 
@@ -354,6 +360,7 @@ export function Footer() {
                     : "text-terra-500 bg-terra-500/5 hover:bg-terra-500/10 hover:border-terra-500/50",
                   "hover:scale-105 active:scale-95"
                 )}
+                onClick={() => trackReservationClick("footer")}
               >
                 <Calendar className="h-4 w-4" />
                 Reserve a Table
@@ -369,6 +376,7 @@ export function Footer() {
                     : "text-terra-500 bg-terra-500/5 hover:bg-terra-500/10 hover:border-terra-500/50",
                   "hover:scale-105 active:scale-95"
                 )}
+                onClick={() => trackOrderClick("footer")}
               >
                 <UtensilsCrossed className="h-4 w-4" />
                 Order Delivery
@@ -376,151 +384,30 @@ export function Footer() {
             </div>
           </div>
         </div>
-      </div>
 
-      {/* Middle Section: Contact Bar - Premium */}
-      <div className={cn(
-        "border-t transition-colors duration-300",
-        isDark ? "border-green-700/50" : "border-green-700"
-      )}>
-        <div className="section-shell-inner section-padding-sm">
-          <div className={cn(
-            "flex flex-col md:flex-row items-center justify-center gap-4 md:gap-6",
-            "text-sm md:text-base font-body font-light",
-            "animate-fade-in-up"
-          )} style={{ animationDelay: "0.2s" }}>
-            <a
-              href="https://maps.google.com/?q=40+Boundary+Rd+Accra+Ghana"
-              target="_blank"
-              rel="noopener noreferrer"
-              className={cn(
-                "flex items-center gap-2 transition-all duration-300 min-h-[44px] md:min-h-0",
-                "px-3 py-2 rounded-lg",
-                isDark
-                  ? "text-white/70 hover:text-terra-400 hover:bg-terra-500/5"
-                  : "text-white/60 hover:text-terra-500 hover:bg-terra-500/5"
-              )}
+        <div
+          className={cn(
+            "border-t border-white/10 mt-12 pt-6",
+            "flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-white/40 font-body"
+          )}
+        >
+          <p>
+            © {currentYear} Chez Amis Bar &amp; Grill. All rights reserved.
+          </p>
+          <div className="flex flex-wrap items-center justify-center gap-6">
+            <ThemeToggle className="text-white/60 hover:text-white hover:bg-white/10" />
+            <Link
+              href="/privacy"
+              className="hover:text-white/70 transition-colors"
             >
-              <MapPin className="h-4 w-4 flex-shrink-0" />
-              <span>40 Boundary Rd, Accra</span>
-            </a>
-            <span className={cn(
-              "hidden md:inline transition-colors duration-300",
-              isDark ? "text-terra-500/30" : "text-terra-500/40"
-            )}>|</span>
-            <div className="flex items-center gap-2 flex-wrap justify-center">
-              <Phone className="h-4 w-4 flex-shrink-0" />
-              {[
-                { tel: "+233557032312", display: "055 703 2312" },
-                { tel: "+233557032335", display: "055 703 2335" },
-                { tel: "+233243952339", display: "024 395 2339" },
-                { tel: "+233502432037", display: "050 243 2037" },
-              ].map((phone, index) => (
-                <span key={phone.tel} className="flex items-center gap-2">
-                  {index > 0 && (
-                    <span className={cn(
-                      "transition-colors duration-300",
-                      isDark ? "text-terra-500/30" : "text-terra-500/40"
-                    )}>•</span>
-                  )}
-                  <a
-                    href={`tel:${phone.tel}`}
-                    className={cn(
-                      "transition-all duration-300 px-2 py-1 rounded",
-                      isDark
-                        ? "text-white/70 hover:text-terra-400 hover:bg-terra-500/5"
-                        : "text-white/60 hover:text-terra-500 hover:bg-terra-500/5"
-                    )}
-                  >
-                    {phone.display}
-                  </a>
-                </span>
-              ))}
-            </div>
-            <span className={cn(
-              "hidden md:inline transition-colors duration-300",
-              isDark ? "text-terra-500/30" : "text-terra-500/40"
-            )}>|</span>
-            <a
-              href="mailto:chez@chezamisrestaurant.com"
-              className={cn(
-                "flex items-center gap-2 transition-all duration-300 min-h-[44px] md:min-h-0",
-                "px-3 py-2 rounded-lg break-all",
-                isDark
-                  ? "text-white/70 hover:text-terra-400 hover:bg-terra-500/5"
-                  : "text-white/60 hover:text-terra-500 hover:bg-terra-500/5"
-              )}
+              Privacy Policy
+            </Link>
+            <Link
+              href="/terms"
+              className="hover:text-white/70 transition-colors"
             >
-              <Mail className="h-4 w-4 flex-shrink-0" />
-              <span className="hidden sm:inline">chez@chezamisrestaurant.com</span>
-              <span className="sm:hidden">Email Us</span>
-            </a>
-            <span className={cn(
-              "hidden md:inline transition-colors duration-300",
-              isDark ? "text-terra-500/30" : "text-terra-500/40"
-            )}>|</span>
-            <div className={cn(
-              "flex items-center gap-2 transition-colors duration-300",
-              isDark ? "text-white/70" : "text-white/60"
-            )}>
-              <Clock className="h-4 w-4 flex-shrink-0" />
-              <span>We&apos;re Open 24/7</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Bottom Bar - Premium */}
-      <div className={cn(
-        "border-t transition-colors duration-300",
-        isDark ? "border-green-700/50" : "border-green-700"
-      )}>
-        <div className="section-shell-inner section-padding-sm">
-          <div className={cn(
-            "flex flex-col md:flex-row items-center justify-between gap-4 md:gap-6",
-            "text-sm font-body font-light",
-            "animate-fade-in-up"
-          )} style={{ animationDelay: "0.3s" }}>
-            <div className={cn(
-              "text-center md:text-left transition-colors duration-300",
-              isDark ? "text-white/60" : "text-white/50"
-            )}>
-              © {currentYear} Chez Amis Bar and Grill. All rights reserved.
-            </div>
-            <nav className="flex items-center gap-3 md:gap-4 flex-wrap justify-center" aria-label="Legal navigation">
-              {[
-                { href: "/privacy", label: "Privacy Policy" },
-                { href: "/terms", label: "Terms of Service" },
-                { href: "/sitemap", label: "Sitemap" },
-              ].map((link, index) => (
-                <span key={link.href} className="flex items-center gap-3 md:gap-4">
-                  {index > 0 && (
-                    <span className={cn(
-                      "transition-colors duration-300",
-                      isDark ? "text-terra-500/30" : "text-terra-500/40"
-                    )}>|</span>
-                  )}
-                  <Link
-                    href={link.href}
-                    className={cn(
-                      "transition-all duration-300 px-2 py-1 rounded",
-                      "hover:underline underline-offset-2",
-                      isDark
-                        ? "text-white/60 hover:text-terra-400 hover:bg-terra-500/5"
-                        : "text-white/50 hover:text-terra-500 hover:bg-terra-500/5"
-                    )}
-                  >
-                    {link.label}
-                  </Link>
-                </span>
-              ))}
-            </nav>
-            <div className={cn(
-              "text-center md:text-right italic transition-colors duration-300",
-              isDark ? "text-white/50" : "text-white/40"
-            )}>
-              Crafted with passion in Accra, Ghana
-            </div>
+              Terms of Service
+            </Link>
           </div>
         </div>
       </div>

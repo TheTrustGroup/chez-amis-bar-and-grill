@@ -117,7 +117,7 @@ export default function PressPage() {
                   Located at 40 Boundary Road in East Legon, we offer an intimate dining experience that celebrates the rich culinary traditions of Côte d&apos;Ivoire and Ghana. Our menu features expertly grilled proteins, fresh seafood, and traditional dishes crafted with locally sourced ingredients.
                 </p>
                 <p>
-                  We are open daily from 9:30 AM to 12:00 AM, welcoming guests for lunch, dinner, and late-night dining. Our restaurant also offers private dining spaces for special events and celebrations.
+                  We are open 24 hours a day, 7 days a week, welcoming guests for lunch, dinner, and late-night dining. Our restaurant also offers private dining spaces for special events and celebrations.
                 </p>
               </div>
             </div>
@@ -150,7 +150,7 @@ export default function PressPage() {
                 </div>
                 <div>
                   <p className="text-terra-500 font-body font-medium mb-2">Hours</p>
-                  <p className="text-white/80">Daily 9:30 AM - 12:00 AM</p>
+                  <p className="text-white/80">Open 24/7</p>
                 </div>
               </div>
             </div>

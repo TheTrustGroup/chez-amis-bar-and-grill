@@ -128,24 +128,6 @@ export default function MenuPage() {
     return () => observer.disconnect()
   }, [setFilterCategory])
 
-  // Organize categories into main groups
-  const mainCategories = [
-    { id: "starters", name: "Starters", icon: "🥗" },
-    { id: "mains", name: "Main Courses", icon: "🍽️" },
-    { id: "desserts", name: "Desserts", icon: "🍰" },
-    { id: "signature", name: "Signature Dishes", icon: "⭐" },
-  ]
-
-  // Map existing categories to main groups
-  const getCategoryGroup = (categoryName: string) => {
-    const lower = categoryName.toLowerCase()
-    if (lower.includes("starter") || lower.includes("appetizer") || lower.includes("salad")) return "starters"
-    if (lower.includes("main") || lower.includes("entrée") || lower.includes("grill") || lower.includes("seafood") || lower.includes("pasta")) return "mains"
-    if (lower.includes("dessert") || lower.includes("sweet")) return "desserts"
-    if (lower.includes("signature") || lower.includes("attieke")) return "signature"
-    return "mains" // Default
-  }
-
   return (
     <div className={cn(
       "min-h-screen transition-colors duration-300",

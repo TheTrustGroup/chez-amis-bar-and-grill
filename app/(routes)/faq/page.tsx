@@ -15,7 +15,7 @@ export default function FAQPage() {
   const faqs = [
     {
       question: "What are your operating hours?",
-      answer: "We are open daily from 9:30 AM to 12:00 AM (midnight). We welcome guests for lunch, dinner, and late-night dining.",
+      answer: "We are open 24 hours a day, 7 days a week. We welcome guests for lunch, dinner, and late-night dining.",
     },
     {
       question: "Do you take reservations?",

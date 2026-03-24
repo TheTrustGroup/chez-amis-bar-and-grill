@@ -1,9 +1,9 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { Star, ChevronLeft, ChevronRight } from "lucide-react"
-import { Button } from "@/components/ui/button"
+import { ChevronLeft, ChevronRight } from "lucide-react"
 import { cn } from "@/lib/utils"
+import { StarRating } from "@/components/ui/StarRating"
 
 interface Testimonial {
   id: string
@@ -51,6 +51,9 @@ const testimonials: Testimonial[] = [
   },
 ]
 
+const arrowBtnClass =
+  "w-12 h-12 rounded-full bg-white border-2 border-green-500 text-green-600 hover:bg-green-500 hover:text-white flex items-center justify-center shadow-md transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-green-500"
+
 export function TestimonialsCarousel() {
   const [currentIndex, setCurrentIndex] = useState(0)
   const [isAutoPlaying, setIsAutoPlaying] = useState(true)
@@ -60,7 +63,7 @@ export function TestimonialsCarousel() {
 
     const interval = setInterval(() => {
       setCurrentIndex((prev) => (prev + 1) % testimonials.length)
-    }, 6000) // Change every 6 seconds
+    }, 6000)
 
     return () => clearInterval(interval)
   }, [isAutoPlaying])
@@ -95,55 +98,44 @@ export function TestimonialsCarousel() {
           <div className="w-20 h-px bg-terra-500 mx-auto mb-6"></div>
         </div>
 
-        {/* Carousel Container */}
-        <div className="relative max-w-4xl mx-auto">
-          {/* Navigation Arrows */}
-          <Button
-            variant="ghost"
-            size="icon"
-            className="absolute left-0 top-1/2 -translate-y-1/2 z-10 -translate-x-4 md:-translate-x-8 h-10 w-10 md:h-12 md:w-12 rounded-full bg-background/80 backdrop-blur-sm shadow-soft hover:bg-background border border-border/50"
+        <div
+          className="relative max-w-4xl mx-auto"
+          role="region"
+          aria-roledescription="carousel"
+          aria-label="Guest testimonials"
+        >
+          <button
+            type="button"
+            className={cn(arrowBtnClass, "absolute left-0 top-1/2 -translate-y-1/2 z-10 -translate-x-4 md:-translate-x-8")}
             onClick={goToPrevious}
             aria-label="Previous testimonial"
           >
             <ChevronLeft className="h-5 w-5 md:h-6 md:w-6" />
-          </Button>
-          <Button
-            variant="ghost"
-            size="icon"
-            className="absolute right-0 top-1/2 -translate-y-1/2 z-10 translate-x-4 md:translate-x-8 h-10 w-10 md:h-12 md:w-12 rounded-full bg-background/80 backdrop-blur-sm shadow-soft hover:bg-background border border-border/50"
+          </button>
+          <button
+            type="button"
+            className={cn(arrowBtnClass, "absolute right-0 top-1/2 -translate-y-1/2 z-10 translate-x-4 md:translate-x-8")}
             onClick={goToNext}
             aria-label="Next testimonial"
           >
             <ChevronRight className="h-5 w-5 md:h-6 md:w-6" />
-          </Button>
+          </button>
 
-          {/* Testimonial Content */}
           <div className="relative px-12 md:px-20 py-12 md:py-16">
-            {/* Decorative Opening Quote */}
-            <div className="absolute top-0 left-8 md:left-12 text-8xl md:text-9xl font-display text-terra-500/20 leading-none">
+            <div className="absolute top-0 left-8 md:left-12 text-8xl md:text-9xl font-display text-terra-200 leading-none">
               &ldquo;
             </div>
 
-            {/* Quote Text */}
-            <blockquote className="text-2xl md:text-3xl lg:text-4xl font-display font-light text-foreground leading-relaxed mb-8 md:mb-10 text-center relative z-10">
+            <blockquote
+              className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-display font-light text-neutral-800 leading-relaxed mb-8 md:mb-10 text-center relative z-10"
+              aria-live="polite"
+            >
               {currentTestimonial.quote}
             </blockquote>
 
-            {/* Attribution */}
             <div className="text-center space-y-3">
-              <div className="flex items-center justify-center gap-2">
-                {[...Array(5)].map((_, i) => (
-                  <Star
-                    key={i}
-                    className={cn(
-                      "h-4 w-4 md:h-5 md:w-5",
-                      i < currentTestimonial.rating
-                        ? "fill-terra-500 text-terra-500"
-                        : "fill-muted text-muted-foreground"
-                    )}
-                    aria-hidden="true"
-                  />
-                ))}
+              <div className="flex items-center justify-center">
+                <StarRating count={currentTestimonial.rating} />
               </div>
               <p className="text-base md:text-lg text-muted-foreground font-body font-light">
                 — {currentTestimonial.author}, {currentTestimonial.occasion}
@@ -151,7 +143,6 @@ export function TestimonialsCarousel() {
             </div>
           </div>
 
-          {/* Dots Indicator */}
           <div className="flex justify-center mt-8 space-x-2">
             {testimonials.map((_, index) => (
               <button
@@ -172,6 +163,3 @@ export function TestimonialsCarousel() {
     </section>
   )
 }
-
-
-

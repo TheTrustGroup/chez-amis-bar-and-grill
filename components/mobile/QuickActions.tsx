@@ -4,6 +4,7 @@ import Link from "next/link"
 import { Phone, MapPin } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
+import { trackDirectionsClick, trackPhoneClick } from "@/lib/analytics"
 
 interface QuickActionsProps {
   variant?: "hero" | "floating" | "inline"
@@ -32,11 +33,12 @@ export function QuickActions({ variant = "inline", className }: QuickActionsProp
     return (
       <div className={cn("fixed bottom-20 left-0 right-0 z-40 px-4 lg:hidden safe-area-bottom", className)}>
         <div className="flex gap-2 max-w-md mx-auto">
-          <a
-            href="tel:+233557032312"
-            className="flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-lg bg-terra-600 text-white font-body font-light tracking-wide shadow-lg active:scale-95 transition-transform"
-            aria-label="Call us now"
-          >
+            <a
+              href="tel:+233557032312"
+              className="flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-lg bg-terra-600 text-white font-body font-light tracking-wide shadow-lg active:scale-95 transition-transform"
+              aria-label="Call us now"
+              onClick={() => trackPhoneClick("quick_actions_floating")}
+            >
             <Phone className="h-5 w-5" />
             <span className="text-sm">Call Now</span>
           </a>
@@ -62,6 +64,10 @@ export function QuickActions({ variant = "inline", className }: QuickActionsProp
                 action.className
               )}
               aria-label={action.label}
+              onClick={() => {
+                if (action.action === "call") trackPhoneClick("quick_actions_hero")
+                if (action.action === "directions") trackDirectionsClick("quick_actions_hero")
+              }}
             >
               <Icon className="h-4 w-4" />
               <span>{action.label}</span>
@@ -89,6 +95,10 @@ export function QuickActions({ variant = "inline", className }: QuickActionsProp
               action.className
             )}
             aria-label={action.label}
+            onClick={() => {
+              if (action.action === "call") trackPhoneClick("quick_actions_inline")
+              if (action.action === "directions") trackDirectionsClick("quick_actions_inline")
+            }}
           >
             <Icon className="h-4 w-4" />
             <span>{action.label}</span>

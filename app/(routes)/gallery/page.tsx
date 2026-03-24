@@ -252,6 +252,7 @@ export default function GalleryPage() {
                         <VideoThumbnail
                           videoSrc={item.src}
                           alt={item.alt}
+                          poster={item.poster ?? item.thumbnail}
                           className="object-cover transition-transform duration-700 ease-out group-hover:scale-125"
                           priority={index < 8} // Only first 8 load immediately
                           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 25vw"
