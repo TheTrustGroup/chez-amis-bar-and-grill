@@ -375,14 +375,14 @@ export function HeroSection() {
           "bottom-[calc(7rem+env(safe-area-inset-bottom,0px))] md:bottom-24",
           "hover:text-terra-300 transition-all duration-500",
           "focus:outline-none focus:ring-2 focus:ring-terra-400 focus:ring-offset-2 focus:ring-offset-transparent rounded-full p-2",
-          "group animate-bounce"
+          "group"
         )}
         aria-label="Scroll to explore"
       >
         <span className="text-xs md:text-sm font-body font-light tracking-widest uppercase opacity-0 group-hover:opacity-100 transition-opacity duration-500">
           Scroll to explore
         </span>
-        <ChevronDown className="h-6 w-6 md:h-7 md:w-7 opacity-70" aria-hidden="true" />
+        <ChevronDown className="h-6 w-6 animate-bounce md:h-7 md:w-7 opacity-70" aria-hidden="true" />
       </button>
 
     </section>

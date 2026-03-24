@@ -1,17 +1,19 @@
 "use client"
 
+import { useState } from "react"
 import { ContactInfo } from "@/components/contact/ContactInfo"
 import { ContactForm } from "@/components/contact/ContactForm"
 import { MapSection } from "@/components/contact/MapSection"
-import { Phone, Instagram } from "lucide-react"
+import { Instagram, MapPin, Navigation, ChevronDown } from "lucide-react"
 import { SnapchatIcon } from "@/components/ui/snapchat-icon"
 import { useTheme } from "@/lib/context/ThemeContext"
 import { cn } from "@/lib/utils"
-import { PHONE_LINES } from "@/lib/data/siteContact"
+import { SITE_ADDRESS_LINES } from "@/lib/data/siteContact"
 
 export default function ContactPage() {
   const { resolvedTheme } = useTheme()
   const isDark = resolvedTheme === "dark"
+  const [showMobileForm, setShowMobileForm] = useState(false)
 
   return (
     <div className={cn(
@@ -82,20 +84,90 @@ export default function ContactPage() {
               </p>
             </div>
 
-            <div className={cn(
-              "rounded-xl border card-padding shadow-lg transition-all duration-300",
-              isDark 
-                ? "bg-green-600/50 border-green-700/50" 
-                : "bg-neutral-50 border-border/30"
-            )}>
+            <div className="md:hidden mb-4">
+              <button
+                type="button"
+                onClick={() => setShowMobileForm((prev) => !prev)}
+                className={cn(
+                  "flex w-full min-h-[48px] items-center justify-between rounded-lg border px-4 py-3 text-left transition-colors",
+                  isDark
+                    ? "border-green-600 bg-green-600/40 text-white hover:bg-green-600/60"
+                    : "border-border/40 bg-background text-foreground hover:bg-muted/40"
+                )}
+                aria-expanded={showMobileForm}
+                aria-controls="mobile-contact-form"
+              >
+                <span className="font-body text-sm font-light tracking-wide">
+                  {showMobileForm ? "Hide Contact Form" : "Open Contact Form"}
+                </span>
+                <ChevronDown className={cn("h-4 w-4 transition-transform", showMobileForm && "rotate-180")} />
+              </button>
+            </div>
+
+            <div
+              id="mobile-contact-form"
+              className={cn(
+                "rounded-xl border card-padding shadow-lg transition-all duration-300",
+                isDark ? "bg-green-600/50 border-green-700/50" : "bg-neutral-50 border-border/30",
+                "md:block",
+                showMobileForm ? "block" : "hidden"
+              )}
+            >
               <ContactForm />
             </div>
           </div>
         </div>
       </section>
 
-      {/* Map Section */}
-      <MapSection />
+      {/* Compact Location (Mobile) */}
+      <section
+        className={cn(
+          "section-shell md:hidden transition-colors duration-300",
+          isDark ? "bg-green-700/80" : "bg-neutral-50"
+        )}
+        aria-labelledby="location-heading-mobile"
+      >
+        <div className="section-shell-inner">
+          <div
+            className={cn(
+              "mx-auto max-w-2xl rounded-xl border card-padding shadow-md",
+              isDark ? "border-green-600 bg-green-600/40" : "border-border/30 bg-background"
+            )}
+          >
+            <div className="mb-4 flex items-center gap-3">
+              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-terra-500/10">
+                <MapPin className="h-5 w-5 text-terra-600" />
+              </div>
+              <h2
+                id="location-heading-mobile"
+                className={cn("text-lg font-display font-light", isDark ? "text-white" : "text-foreground")}
+              >
+                Visit Us
+              </h2>
+            </div>
+            <p className={cn("font-body text-sm font-light leading-relaxed", isDark ? "text-white/85" : "text-muted-foreground")}>
+              {SITE_ADDRESS_LINES[0]}
+              <br />
+              {SITE_ADDRESS_LINES[1]}
+            </p>
+            <a
+              href="https://maps.google.com/?q=Chez+Amis+Bar+and+Grill+40+Boundary+Rd+Accra"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-4 inline-flex min-h-[48px] items-center gap-2 rounded-lg border border-terra-500/60 px-4 py-2.5 font-body text-sm font-light tracking-wide text-foreground transition-colors hover:bg-terra-500/10"
+              aria-label="Get directions to Chez Amis"
+            >
+              <Navigation className="h-4 w-4" />
+              Get Directions
+            </a>
+          </div>
+        </div>
+      </section>
+
+      {/* Map Section (Tablet/Desktop) */}
+      <div className="hidden md:block">
+        <MapSection />
+      </div>
 
       {/* Social & Quick Contact */}
       <section
@@ -111,22 +183,22 @@ export default function ContactPage() {
                 "section-title mb-3",
                 isDark ? "text-white" : "text-neutral-900",
               )}>
-                Connect With Us
+                Follow Us
               </h2>
               <p className={cn(
                 "text-base md:text-lg font-body font-light",
                 isDark ? "text-white/80" : "text-muted-foreground",
               )}>
-                Follow our culinary journey on social media
+                Find updates, specials, and behind-the-scenes moments
               </p>
             </div>
 
-            <div className="flex flex-wrap justify-center gap-4 md:gap-6 mb-10 md:mb-12">
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 md:flex md:flex-wrap md:justify-center md:gap-6">
               <a
                 href="https://www.instagram.com/chez_amis_restaurant?igsh=dWFmbnA5MzlqaWk5"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group flex items-center gap-3 px-6 py-3 rounded-lg border border-border/50 hover:border-terra-500/50 hover:bg-terra-500/5 transition-all duration-300 min-h-[48px]"
+                className="group flex min-h-[48px] items-center gap-3 rounded-lg border border-border/50 px-4 py-3 transition-all duration-300 hover:border-terra-500/50 hover:bg-terra-500/5 md:px-6"
                 aria-label="Follow us on Instagram"
               >
                 <div className="p-2 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 group-hover:scale-110 transition-transform">
@@ -139,7 +211,7 @@ export default function ContactPage() {
                 href="https://www.snapchat.com/add/chez_amis"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group flex items-center gap-3 px-6 py-3 rounded-lg border border-border/50 hover:border-terra-500/50 hover:bg-terra-500/5 transition-all duration-300 min-h-[48px]"
+                className="group flex min-h-[48px] items-center gap-3 rounded-lg border border-border/50 px-4 py-3 transition-all duration-300 hover:border-terra-500/50 hover:bg-terra-500/5 md:px-6"
                 aria-label="Follow us on Snapchat"
               >
                 <div className="p-2 rounded-full bg-gradient-to-br from-yellow-400 to-yellow-500 group-hover:scale-110 transition-transform">
@@ -152,7 +224,7 @@ export default function ContactPage() {
                 href="https://www.tiktok.com/@chezamisrestaurant?_r=1&_t=ZM-920yX90ahAW"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group flex items-center gap-3 px-6 py-3 rounded-lg border border-border/50 hover:border-terra-500/50 hover:bg-terra-500/5 transition-all duration-300 min-h-[48px]"
+                className="group flex min-h-[48px] items-center gap-3 rounded-lg border border-border/50 px-4 py-3 transition-all duration-300 hover:border-terra-500/50 hover:bg-terra-500/5 md:px-6"
                 aria-label="Follow us on TikTok"
               >
                 <div className="p-2 rounded-full bg-black group-hover:scale-110 transition-transform">
@@ -167,24 +239,6 @@ export default function ContactPage() {
                 </div>
                 <span className="text-sm font-body font-light tracking-wide">TikTok</span>
               </a>
-            </div>
-
-            <div className="text-center pt-8 border-t border-border/30">
-              <p className="text-sm md:text-base text-muted-foreground font-body font-light mb-4">
-                Prefer to call? We&apos;re just a phone call away
-              </p>
-              <div className="flex flex-wrap items-center justify-center gap-3">
-                {PHONE_LINES.map((phone) => (
-                  <a
-                    key={phone.id}
-                    href={`tel:${phone.tel}`}
-                    className="inline-flex min-h-[48px] items-center justify-center gap-2 rounded-lg border border-terra-500/60 px-6 py-3 font-body text-base font-light tracking-wide text-foreground transition-all hover:bg-terra-500/10"
-                  >
-                    <Phone className="h-5 w-5 shrink-0" />
-                    {phone.display}
-                  </a>
-                ))}
-              </div>
             </div>
           </div>
         </div>
