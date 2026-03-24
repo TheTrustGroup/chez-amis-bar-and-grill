@@ -186,7 +186,7 @@ export function HeroSection() {
         "relative z-10 section-shell-inner max-w-[1200px]",
         "w-full",
         // Mobile: Add top padding to account for fixed header (80px) + extra spacing
-        isMobile ? "pt-24 pb-8" : "py-20 md:py-32",
+        isMobile ? "pt-24 pb-20" : "py-20 md:py-32",
         // Ensure content doesn't overlap when scrolling
         "flex flex-col items-center justify-center"
       )}>
@@ -201,6 +201,7 @@ export function HeroSection() {
           <div
             className={cn(
               "mb-4 md:mb-6 transition-all duration-1000 ease-out",
+              isMobile && "hidden",
               isVisible 
                 ? "opacity-100 translate-y-0" 
                 : "opacity-0 translate-y-8"
@@ -250,6 +251,7 @@ export function HeroSection() {
           <p 
             className={cn(
               "font-body font-light tracking-[0.25em] uppercase mb-6 md:mb-8",
+              isMobile && "hidden",
               "transition-all duration-1000 ease-out",
               isMobile ? "text-xs sm:text-sm" : "text-sm md:text-base lg:text-lg",
               "text-terra-300/90",
@@ -268,7 +270,7 @@ export function HeroSection() {
             className={cn(
               "font-display font-light text-white max-w-4xl mx-auto mb-4 md:mb-6",
               "transition-all duration-1000 ease-out",
-              isMobile ? "text-xl sm:text-2xl md:text-3xl" : "text-2xl sm:text-3xl md:text-4xl lg:text-5xl",
+              isMobile ? "text-xl sm:text-2xl" : "text-2xl sm:text-3xl md:text-4xl lg:text-5xl",
               "leading-tight",
               "drop-shadow-[0_4px_16px_rgba(0,0,0,0.8)]",
               isVisible 
@@ -284,6 +286,7 @@ export function HeroSection() {
           <p 
             className={cn(
               "font-body font-light max-w-2xl mx-auto leading-relaxed mb-8 md:mb-10",
+              isMobile && "hidden",
               "transition-all duration-1000 ease-out",
               isMobile ? "text-sm sm:text-base px-4" : "text-base md:text-lg lg:text-xl px-6",
               isDark ? "text-white/90" : "text-gray-100",
@@ -302,7 +305,7 @@ export function HeroSection() {
             className={cn(
               "flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-4 w-full",
               "transition-all duration-1000 ease-out",
-              isMobile ? "mb-6 px-4" : "mb-8 md:mb-10 px-6",
+              isMobile ? "mb-5 px-4" : "mb-8 md:mb-10 px-6",
               isVisible 
                 ? "opacity-100 translate-y-0" 
                 : "opacity-0 translate-y-8"
@@ -326,11 +329,12 @@ export function HeroSection() {
             <Link
               href="/menu"
               className={cn(
-                "inline-flex items-center justify-center min-h-[44px] w-full max-w-sm sm:w-auto",
-                "border-2 border-white/80 text-white bg-transparent hover:bg-white/10",
+                isMobile
+                  ? "inline-flex items-center justify-center min-h-[44px] w-full max-w-sm text-white/90 underline underline-offset-4"
+                  : "inline-flex items-center justify-center min-h-[44px] w-full max-w-sm sm:w-auto border-2 border-white/80 text-white bg-transparent hover:bg-white/10",
                 "tracking-widest uppercase text-xs font-body",
-                "px-8 py-4 transition-all duration-300",
-                "focus:outline-none focus:ring-2 focus:ring-terra-500 focus:ring-offset-2 focus:ring-offset-black/40",
+                isMobile ? "px-4 py-2.5" : "px-8 py-4",
+                "transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-terra-500 focus:ring-offset-2 focus:ring-offset-black/40",
               )}
               onClick={() => trackMenuClick("hero")}
             >
@@ -342,7 +346,7 @@ export function HeroSection() {
           <div
             className={cn(
               "relative z-10 flex w-full flex-col items-center justify-center px-4",
-              isMobile ? "mb-5" : "mb-6 md:mb-8"
+              isMobile ? "hidden" : "mb-6 md:mb-8"
             )}
             style={{ animationDelay: "0.6s" }}
           >
@@ -355,7 +359,7 @@ export function HeroSection() {
           {isMobile && (
             <div className={cn(
               "w-full",
-              "mb-5",
+              "hidden",
               "relative z-10"
             )}>
               <QuickActions variant="hero" />
@@ -379,7 +383,7 @@ export function HeroSection() {
         )}
         aria-label="Scroll to explore"
       >
-        <span className="text-xs md:text-sm font-body font-light tracking-widest uppercase opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+        <span className="hidden text-xs font-body font-light tracking-widest uppercase opacity-0 transition-opacity duration-500 group-hover:opacity-100 md:inline md:text-sm">
           Scroll to explore
         </span>
         <ChevronDown className="h-6 w-6 animate-bounce md:h-7 md:w-7 opacity-70" aria-hidden="true" />
