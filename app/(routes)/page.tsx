@@ -1,22 +1,11 @@
 import { HeroSection } from "@/components/sections/HeroSection"
-import { HeroIntroStrip } from "@/components/sections/HeroIntroStrip"
 import { IntroSection } from "@/components/sections/IntroSection"
-import { ExperienceSection } from "@/components/sections/ExperienceSection"
 import { SignatureCreations } from "@/components/sections/SignatureCreations"
 import { Metadata } from "next"
 import { RestaurantJsonLd } from "@/components/seo/RestaurantJsonLd"
 import dynamic from "next/dynamic"
 
 // Lazy load below-the-fold components for better initial page load
-const FeaturedGallerySection = dynamic(() => import("@/components/sections/FeaturedGallerySection").then(mod => ({ default: mod.FeaturedGallerySection })), {
-  loading: () => <div className="min-h-[400px] bg-gray-50 animate-pulse" />,
-})
-const PrivateEventsSection = dynamic(() => import("@/components/sections/PrivateEventsSection").then(mod => ({ default: mod.PrivateEventsSection })), {
-  loading: () => <div className="min-h-[400px] bg-gray-50 animate-pulse" />,
-})
-const TestimonialsCarousel = dynamic(() => import("@/components/sections/TestimonialsCarousel").then(mod => ({ default: mod.TestimonialsCarousel })), {
-  loading: () => <div className="min-h-[300px] bg-gray-50 animate-pulse" />,
-})
 const VisitUsSection = dynamic(() => import("@/components/sections/VisitUsSection").then(mod => ({ default: mod.VisitUsSection })), {
   loading: () => <div className="min-h-[400px] bg-gray-50 animate-pulse" />,
 })
@@ -78,13 +67,8 @@ export default function Home() {
       <RestaurantJsonLd />
       <div className="flex flex-col">
         <HeroSection />
-        <HeroIntroStrip />
         <IntroSection />
-        <ExperienceSection />
         <SignatureCreations />
-        <FeaturedGallerySection />
-        <PrivateEventsSection />
-        <TestimonialsCarousel />
         <VisitUsSection />
       </div>
     </>

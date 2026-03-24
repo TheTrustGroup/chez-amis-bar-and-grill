@@ -21,12 +21,12 @@ export default function CartPage() {
       <section className="section-shell">
         <div className="section-shell-inner">
         <div className="max-w-4xl mx-auto">
-          <div className="text-center section-heading-margin">
+          <div className="text-center mb-8 md:mb-10">
             <h1 className="hero-title tracking-tight text-neutral-900 dark:text-white mb-4">
               Your Selection
             </h1>
             <p className="text-muted-foreground text-lg font-body font-light">
-              Review your items before placing your order
+              Review items and checkout
             </p>
           </div>
 
@@ -38,7 +38,7 @@ export default function CartPage() {
                 Your Selection is Empty
               </CardTitle>
               <CardDescription className="font-body font-light">
-                Explore our menu to begin your culinary journey
+                Add items from the menu to continue.
               </CardDescription>
             </CardHeader>
             <CardContent>

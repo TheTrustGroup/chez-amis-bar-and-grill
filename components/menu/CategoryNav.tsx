@@ -28,41 +28,6 @@ export function CategoryNav({
   const { resolvedTheme } = useTheme()
   const isDark = resolvedTheme === "dark"
 
-  const scrollToCategory = (categoryId: string) => {
-    const element = document.getElementById(categoryId)
-    if (element) {
-      // Calculate proper offset for sticky header
-      const headerOffset = 120 // Account for header + mobile category tabs
-      const elementPosition = element.getBoundingClientRect().top
-      const offsetPosition = elementPosition + window.pageYOffset - headerOffset
-
-      // Ensure we don't scroll to negative position
-      const scrollPosition = Math.max(0, offsetPosition)
-
-      window.scrollTo({
-        top: scrollPosition,
-        behavior: "smooth",
-      })
-    } else {
-      // If element doesn't exist yet, wait for it to render
-      setTimeout(() => {
-        const element = document.getElementById(categoryId)
-        if (element) {
-          const headerOffset = 120
-          const elementPosition = element.getBoundingClientRect().top
-          const offsetPosition = elementPosition + window.pageYOffset - headerOffset
-          const scrollPosition = Math.max(0, offsetPosition)
-          
-          window.scrollTo({
-            top: scrollPosition,
-            behavior: "smooth",
-          })
-        }
-      }, 100)
-    }
-    onCategoryChange(categoryId)
-  }
-
   return (
     <aside className={cn(
       "sticky top-24 h-fit transition-colors duration-300",
@@ -72,7 +37,7 @@ export function CategoryNav({
         {menuCategories.map((category) => (
           <button
             key={category.id}
-            onClick={() => scrollToCategory(category.id)}
+            onClick={() => onCategoryChange(category.id)}
             className={cn(
               "block w-full text-left px-3 py-2.5 text-sm transition-all duration-300 rounded-md",
               "hover:scale-105 active:scale-95",

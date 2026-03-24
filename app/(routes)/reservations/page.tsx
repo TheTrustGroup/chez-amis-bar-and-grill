@@ -1,13 +1,15 @@
 "use client"
 
+import { useState } from "react"
 import { ReservationForm } from "@/components/reservations/ReservationForm"
-import { Clock, XCircle, Users } from "lucide-react"
+import { Clock, XCircle, Users, ChevronDown } from "lucide-react"
 import { useTheme } from "@/lib/context/ThemeContext"
 import { cn } from "@/lib/utils"
 
 export default function ReservationsPage() {
   const { resolvedTheme } = useTheme()
   const isDark = resolvedTheme === "dark"
+  const [showPolicies, setShowPolicies] = useState(false)
 
   return (
     <div className={cn(
@@ -66,18 +68,34 @@ export default function ReservationsPage() {
             <ReservationForm />
             </div>
 
-          {/* Reservation Policies - Premium */}
+          {/* Reservation Policies */}
           <div className={cn(
             "mt-10 md:mt-12 space-y-5 transition-colors duration-300",
             isDark ? "bg-green-600/30 rounded-xl p-6 md:p-8" : "bg-transparent"
           )}>
+            <button
+              type="button"
+              onClick={() => setShowPolicies((prev) => !prev)}
+              className={cn(
+                "flex w-full items-center justify-between rounded-lg border px-4 py-3 text-left md:hidden",
+                isDark
+                  ? "border-green-700/60 bg-green-700/30 text-white"
+                  : "border-border/40 bg-background text-foreground"
+              )}
+              aria-expanded={showPolicies}
+              aria-controls="reservation-policies"
+            >
+              <span className="text-sm font-body font-medium">Reservation Policies</span>
+              <ChevronDown className={cn("h-4 w-4 transition-transform", showPolicies && "rotate-180")} />
+            </button>
+
             <h3 className={cn(
-              "text-lg md:text-xl font-display font-light mb-5 transition-colors duration-300",
+              "hidden text-lg md:text-xl font-display font-light mb-5 transition-colors duration-300 md:block",
               isDark ? "text-white" : "text-foreground"
             )}>
               Reservation Policies
             </h3>
-            <div className="space-y-5">
+            <div id="reservation-policies" className={cn("space-y-5", showPolicies ? "block" : "hidden md:block")}>
               <div className="flex items-start gap-3 md:gap-4 group">
                 <div className={cn(
                   "p-2 rounded-lg bg-terra-500/10 flex-shrink-0 mt-0.5 transition-all duration-300",

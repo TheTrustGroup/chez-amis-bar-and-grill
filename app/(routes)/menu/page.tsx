@@ -52,48 +52,8 @@ export default function MenuPage() {
     setActiveCategory(filters.activeCategory)
   }, [filters.activeCategory])
 
-  // Scroll to category
-  const scrollToCategory = (categoryId: string) => {
-    // First try to get element from ref
-    let element = categoryRefs.current[categoryId]
-    
-    // If ref doesn't exist, try to get by ID (fallback)
-    if (!element) {
-      element = document.getElementById(categoryId)
-    }
-    
-    if (element) {
-      // Calculate proper offset for sticky header
-      const headerOffset = 120 // Account for header + mobile category tabs
-      const elementPosition = element.getBoundingClientRect().top
-      const offsetPosition = elementPosition + window.pageYOffset - headerOffset
-
-      // Ensure we don't scroll to negative position
-      const scrollPosition = Math.max(0, offsetPosition)
-
-      window.scrollTo({
-        top: scrollPosition,
-        behavior: "smooth",
-      })
-    } else {
-      // If element doesn't exist yet, wait for it to render
-      setTimeout(() => {
-        const element = document.getElementById(categoryId)
-        if (element) {
-          const headerOffset = 120
-          const elementPosition = element.getBoundingClientRect().top
-          const offsetPosition = elementPosition + window.pageYOffset - headerOffset
-          const scrollPosition = Math.max(0, offsetPosition)
-          
-          window.scrollTo({
-            top: scrollPosition,
-            behavior: "smooth",
-          })
-        }
-      }, 100)
-    }
-    
-    // Always update the filter category
+  const applyCategoryFilter = (categoryId: string) => {
+    setActiveCategory(categoryId)
     setFilterCategory(categoryId)
   }
 
@@ -111,7 +71,6 @@ export default function MenuPage() {
           const categoryId = entry.target.getAttribute("id")
           if (categoryId) {
             setActiveCategory(categoryId)
-            setFilterCategory(categoryId)
           }
         }
       })
@@ -134,9 +93,9 @@ export default function MenuPage() {
       "min-h-screen transition-colors duration-300",
       isDark ? "bg-green-700" : "bg-neutral-50"
     )}>
-      {/* Hero Section - Refined */}
+      {/* Hero Section - Desktop */}
       <section className={cn(
-        "relative h-[40vh] md:h-[45vh] min-h-[400px] md:min-h-[500px] flex items-center justify-center overflow-hidden",
+        "relative hidden h-[45vh] min-h-[500px] items-center justify-center overflow-hidden md:flex",
         "bg-gradient-to-br from-green-700 via-green-600 to-green-900"
       )}>
         <div className={cn(
@@ -161,6 +120,18 @@ export default function MenuPage() {
             "animate-fade-in-up"
           )} style={{ animationDelay: "0.2s" }}>
             Seasonal selections, crafted with passion
+          </p>
+        </div>
+      </section>
+
+      {/* Compact mobile page heading */}
+      <section className="section-shell py-6 md:hidden">
+        <div className="section-shell-inner">
+          <h1 className={cn("text-2xl font-display font-light", isDark ? "text-white" : "text-foreground")}>
+            Menu
+          </h1>
+          <p className={cn("mt-1 text-sm font-body font-light", isDark ? "text-white/70" : "text-muted-foreground")}>
+            Browse and add your items quickly.
           </p>
         </div>
       </section>
@@ -294,7 +265,7 @@ export default function MenuPage() {
                 return (
                   <button
                     key={category.id}
-                    onClick={() => scrollToCategory(category.id)}
+                    onClick={() => applyCategoryFilter(category.id)}
                     className={cn(
                       "px-4 rounded-full whitespace-nowrap font-body font-medium tracking-wide uppercase text-xs transition-all duration-200 flex-shrink-0 touch-manipulation min-h-[48px] flex items-center",
                       activeCategory === category.id
@@ -322,7 +293,7 @@ export default function MenuPage() {
               activeCategory={activeCategory}
               onCategoryChange={(id) => {
                 setFilterCategory(id)
-                if (id) scrollToCategory(id)
+                setActiveCategory(id)
               }}
               dietaryFilters={filters.dietaryFilters}
               onToggleDietaryFilter={toggleDietaryFilter}
@@ -611,7 +582,7 @@ export default function MenuPage() {
           type="button"
           onClick={() => setShowMobileCart(true)}
           className={cn(
-            "relative lg:hidden fixed bottom-[7.25rem] right-4 z-40 flex h-14 w-14 items-center justify-center rounded-full shadow-lg",
+            "lg:hidden fixed bottom-[7.25rem] right-4 z-40 flex h-14 w-14 items-center justify-center rounded-full shadow-lg",
             "bg-terra-500 text-white hover:bg-terra-600 active:scale-95 transition-all duration-200",
             "shadow-[var(--shadow-terra)] focus:outline-none focus:ring-2 focus:ring-terra-500 focus:ring-offset-2"
           )}
