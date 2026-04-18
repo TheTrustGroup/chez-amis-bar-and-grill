@@ -90,6 +90,7 @@ export default function MenuPage() {
 
   return (
     <div className={cn(
+      "print-menu-root",
       "min-h-screen transition-colors duration-300",
       isDark ? "bg-green-700" : "bg-neutral-50"
     )}>

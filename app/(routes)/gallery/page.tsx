@@ -534,7 +534,7 @@ export default function GalleryPage() {
                   controls
                   playsInline
                   preload="metadata"
-                  poster="/images/placeholders/video-placeholder.svg"
+                  poster="/media/images/img-6740.jpg"
                   className="w-full h-auto max-h-[75vh] rounded-lg shadow-2xl"
                   controlsList="nodownload noplaybackrate"
                   onError={() => {

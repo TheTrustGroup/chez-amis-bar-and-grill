@@ -3,6 +3,7 @@
 import { useParams, useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import { ArrowLeft, Phone, Mail, MapPin, Clock, Check, Printer } from 'lucide-react';
+import { PageHeader } from '@/components/admin/ui/PageHeader';
 
 interface Order {
   id: string;
@@ -120,10 +121,10 @@ export default function OrderDetailsPage() {
 
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center min-h-[400px]">
+      <div className="flex min-h-[320px] items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-amber-600 mx-auto mb-4"></div>
-          <p className="text-gray-600">Loading order details...</p>
+          <p className="text-muted-foreground">Loading order details...</p>
         </div>
       </div>
     );
@@ -132,10 +133,10 @@ export default function OrderDetailsPage() {
   if (!order) {
     return (
       <div className="text-center py-12">
-        <p className="text-gray-500">Order not found</p>
+        <p className="text-muted-foreground">Order not found</p>
         <button
           onClick={() => router.back()}
-          className="mt-4 text-amber-600 hover:text-amber-700"
+          className="mt-4 text-terra-700 hover:text-terra-800"
         >
           ← Back to Orders
         </button>
@@ -144,38 +145,37 @@ export default function OrderDetailsPage() {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="ui-stack-lg">
       
       {/* Header */}
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-4">
-          <button
-            onClick={() => router.back()}
-            className="p-2 hover:bg-gray-100 rounded-md transition-colors"
-          >
-            <ArrowLeft className="w-5 h-5" />
-          </button>
-          <div>
-            <h1 className="text-2xl font-semibold text-gray-900">
-              Order {order.orderId}
-            </h1>
-            <p className="text-gray-600 mt-1">{order.id}</p>
+      <PageHeader
+        title={`Order ${order.orderId}`}
+        subtitle={order.id}
+        actions={
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => router.back()}
+              className="inline-flex items-center gap-2 rounded-md border border-border px-3 py-2 text-sm hover:bg-muted/40"
+            >
+              <ArrowLeft className="w-4 h-4" />
+              Back
+            </button>
+            <button className="inline-flex items-center gap-2 rounded-md border border-border px-3 py-2 text-sm hover:bg-muted/40">
+              <Printer className="w-4 h-4" />
+              Print Receipt
+            </button>
           </div>
-        </div>
-        <button className="inline-flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-md hover:bg-gray-50 transition-colors">
-          <Printer className="w-4 h-4" />
-          Print Receipt
-        </button>
-      </div>
+        }
+      />
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
         
         {/* Order Details */}
-        <div className="lg:col-span-2 space-y-6">
+        <div className="ui-stack-md lg:col-span-2">
           
           {/* Status Update */}
-          <div className="bg-white rounded-lg shadow p-6">
-            <h2 className="text-lg font-semibold text-gray-900 mb-4">Update Status</h2>
+          <div className="ui-panel">
+            <h2 className="mb-4 text-base font-semibold text-foreground">Update Status</h2>
             
             {/* Status Update Message */}
             {updateMessage && (
@@ -188,18 +188,18 @@ export default function OrderDetailsPage() {
               </div>
             )}
 
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+            <div className="grid grid-cols-2 gap-2 md:grid-cols-3 md:gap-3">
               {['pending', 'preparing', 'ready', 'out-for-delivery', 'delivered', 'cancelled'].map((status) => (
                 <button
                   key={status}
                   onClick={() => updateStatus(status)}
                   disabled={isUpdating || order.status === status}
-                  className={`px-4 py-2 border-2 rounded-md font-medium capitalize transition-colors ${
+                  className={`h-11 rounded-md border px-3 text-sm font-medium capitalize transition-colors ${
                     order.status === status
-                      ? 'border-amber-500 bg-amber-50 text-amber-700 cursor-default'
+                      ? 'border-terra-500 bg-terra-50 text-terra-700 cursor-default'
                       : isUpdating
-                      ? 'border-gray-200 text-gray-400 cursor-not-allowed'
-                      : 'border-gray-200 hover:border-amber-500 hover:bg-amber-50'
+                      ? 'border-border text-muted-foreground cursor-not-allowed'
+                      : 'border-border hover:border-terra-400 hover:bg-terra-50'
                   }`}
                 >
                   {status.replace('-', ' ')}
@@ -208,7 +208,7 @@ export default function OrderDetailsPage() {
             </div>
             
             {/* Notification Info */}
-            <div className="mt-4 p-3 bg-blue-50 border border-blue-200 rounded-md">
+            <div className="mt-4 rounded-md border border-blue-200 bg-blue-50 p-3">
               <p className="text-xs text-blue-800">
                 <strong>Note:</strong> Customers will receive email and SMS notifications when status changes to:
                 <br />• <strong>Preparing</strong> - Email notification
@@ -219,57 +219,57 @@ export default function OrderDetailsPage() {
           </div>
 
           {/* Order Items */}
-          <div className="bg-white rounded-lg shadow p-6">
-            <h2 className="text-lg font-semibold text-gray-900 mb-4">Order Items</h2>
+          <div className="ui-panel">
+            <h2 className="mb-4 text-base font-semibold text-foreground">Order Items</h2>
             <div className="space-y-4">
               {order.items && order.items.length > 0 ? (
                 order.items.map((item, index) => (
-                  <div key={index} className="flex justify-between items-start py-3 border-b border-gray-200 last:border-0">
+                  <div key={index} className="flex items-start justify-between border-b border-border py-3 last:border-0">
                     <div className="flex-1">
-                      <p className="font-medium text-gray-900">{item.name}</p>
-                      <p className="text-sm text-gray-500">Quantity: {item.quantity}</p>
+                      <p className="font-medium text-foreground">{item.name}</p>
+                      <p className="text-sm text-muted-foreground">Quantity: {item.quantity}</p>
                       {item.specialInstructions && (
                         <p className="text-xs text-amber-600 mt-1">Note: {item.specialInstructions}</p>
                       )}
                     </div>
-                    <p className="font-semibold text-gray-900">
+                    <p className="font-semibold text-foreground">
                       GH₵ {(item.price * item.quantity).toFixed(2)}
                     </p>
                   </div>
                 ))
               ) : (
-                <p className="text-gray-500">No items found</p>
+                <p className="text-muted-foreground">No items found</p>
               )}
             </div>
 
             {/* Totals */}
             {order.payment && (
-              <div className="mt-6 pt-6 border-t border-gray-200 space-y-2">
+              <div className="mt-6 space-y-2 border-t border-border pt-6">
                 <div className="flex justify-between text-sm">
-                  <span className="text-gray-600">Subtotal</span>
+                  <span className="text-muted-foreground">Subtotal</span>
                   <span className="font-medium">GH₵ {order.payment.subtotal?.toFixed(2) || '0.00'}</span>
                 </div>
                 {order.payment.deliveryFee > 0 && (
                   <div className="flex justify-between text-sm">
-                    <span className="text-gray-600">Delivery Fee</span>
+                    <span className="text-muted-foreground">Delivery Fee</span>
                     <span className="font-medium">GH₵ {order.payment.deliveryFee.toFixed(2)}</span>
                   </div>
                 )}
                 {order.payment.serviceCharge > 0 && (
                   <div className="flex justify-between text-sm">
-                    <span className="text-gray-600">Service Charge</span>
+                    <span className="text-muted-foreground">Service Charge</span>
                     <span className="font-medium">GH₵ {order.payment.serviceCharge.toFixed(2)}</span>
                   </div>
                 )}
                 <div className="flex justify-between text-sm">
-                  <span className="text-gray-600">Tax (15%)</span>
+                  <span className="text-muted-foreground">Tax (15%)</span>
                   <span className="font-medium">GH₵ {order.payment.tax?.toFixed(2) || '0.00'}</span>
                 </div>
-                <div className="flex justify-between text-lg font-semibold pt-2 border-t border-gray-200">
+                <div className="flex justify-between border-t border-border pt-2 text-lg font-semibold">
                   <span>Total</span>
-                  <span className="text-amber-700">GH₵ {order.payment.total?.toFixed(2) || '0.00'}</span>
+                  <span className="text-terra-700">GH₵ {order.payment.total?.toFixed(2) || '0.00'}</span>
                 </div>
-                <div className="flex justify-between text-xs text-gray-500 mt-1">
+                <div className="mt-1 flex justify-between text-xs text-muted-foreground">
                   <span>Payment Method</span>
                   <span>{order.payment.method || 'N/A'}</span>
                 </div>
@@ -279,7 +279,7 @@ export default function OrderDetailsPage() {
 
           {/* Special Instructions */}
           {order.orderDetails?.specialRequests && (
-            <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-6">
+            <div className="ui-panel border-yellow-200 bg-yellow-50">
               <h3 className="font-semibold text-yellow-900 mb-2">Special Instructions</h3>
               <p className="text-yellow-800">{order.orderDetails.specialRequests}</p>
             </div>
@@ -287,25 +287,25 @@ export default function OrderDetailsPage() {
         </div>
 
         {/* Customer Info */}
-        <div className="space-y-6">
+        <div className="ui-stack-md">
           
           {/* Customer Details */}
-          <div className="bg-white rounded-lg shadow p-6">
-            <h2 className="text-lg font-semibold text-gray-900 mb-4">Customer Information</h2>
+          <div className="ui-panel">
+            <h2 className="mb-4 text-base font-semibold text-foreground">Customer Information</h2>
             <div className="space-y-4">
               <div>
-                <p className="text-sm text-gray-500 mb-1">Name</p>
-                <p className="font-medium text-gray-900">{order.customer.fullName}</p>
+                <p className="mb-1 text-sm text-muted-foreground">Name</p>
+                <p className="font-medium text-foreground">{order.customer.fullName}</p>
               </div>
               <div>
-                <p className="text-sm text-gray-500 mb-1">Phone</p>
+                <p className="mb-1 text-sm text-muted-foreground">Phone</p>
                 <a href={`tel:${order.customer.phone}`} className="flex items-center gap-2 text-amber-600 hover:text-amber-700">
                   <Phone className="w-4 h-4" />
                   {order.customer.phone}
                 </a>
               </div>
               <div>
-                <p className="text-sm text-gray-500 mb-1">Email</p>
+                <p className="mb-1 text-sm text-muted-foreground">Email</p>
                 <a href={`mailto:${order.customer.email}`} className="flex items-center gap-2 text-amber-600 hover:text-amber-700">
                   <Mail className="w-4 h-4" />
                   {order.customer.email}
@@ -315,33 +315,33 @@ export default function OrderDetailsPage() {
           </div>
 
           {/* Order Info */}
-          <div className="bg-white rounded-lg shadow p-6">
-            <h2 className="text-lg font-semibold text-gray-900 mb-4">Order Information</h2>
+          <div className="ui-panel">
+            <h2 className="mb-4 text-base font-semibold text-foreground">Order Information</h2>
             <div className="space-y-4">
               <div>
-                <p className="text-sm text-gray-500 mb-1">Order Type</p>
-                <p className="font-medium text-gray-900 capitalize">{order.orderType}</p>
+                <p className="mb-1 text-sm text-muted-foreground">Order Type</p>
+                <p className="font-medium capitalize text-foreground">{order.orderType}</p>
               </div>
               <div>
-                <p className="text-sm text-gray-500 mb-1">Order Date</p>
+                <p className="mb-1 text-sm text-muted-foreground">Order Date</p>
                 <div className="flex items-center gap-2">
-                  <Clock className="w-4 h-4 text-gray-400" />
-                  <span className="text-gray-900">{new Date(order.createdAt).toLocaleString()}</span>
+                  <Clock className="w-4 h-4 text-muted-foreground" />
+                  <span className="text-foreground">{new Date(order.createdAt).toLocaleString()}</span>
                 </div>
               </div>
               {order.orderType === 'delivery' && order.orderDetails?.deliveryAddress && (
                 <div>
-                  <p className="text-sm text-gray-500 mb-1">Delivery Address</p>
+                  <p className="mb-1 text-sm text-muted-foreground">Delivery Address</p>
                   <div className="flex items-start gap-2">
-                    <MapPin className="w-4 h-4 text-gray-400 mt-0.5" />
-                    <span className="text-gray-900">{order.orderDetails.deliveryAddress}</span>
+                    <MapPin className="mt-0.5 w-4 h-4 text-muted-foreground" />
+                    <span className="text-foreground">{order.orderDetails.deliveryAddress}</span>
                   </div>
                 </div>
               )}
               {order.orderType === 'dine-in' && order.orderDetails?.tableNumber && (
                 <div>
-                  <p className="text-sm text-gray-500 mb-1">Table Number</p>
-                  <p className="font-medium text-gray-900">Table {order.orderDetails.tableNumber}</p>
+                  <p className="mb-1 text-sm text-muted-foreground">Table Number</p>
+                  <p className="font-medium text-foreground">Table {order.orderDetails.tableNumber}</p>
                 </div>
               )}
             </div>

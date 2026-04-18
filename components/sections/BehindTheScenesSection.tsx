@@ -20,21 +20,17 @@ export function BehindTheScenesSection() {
         {/* Video Feature */}
         <div className="mb-12 md:mb-16">
           <div className="relative aspect-video rounded-xl overflow-hidden shadow-2xl bg-green-600">
-            {/* Placeholder for video - replace with actual video when available */}
-            <div className="absolute inset-0 flex items-center justify-center">
-              <div className="text-center text-white">
-                <Play className="w-16 h-16 mx-auto mb-4 opacity-50" />
-                <p className="font-body font-light">Cooking video coming soon</p>
-              </div>
-            </div>
-            {/* Uncomment when a dedicated hero cooking clip is ready:
             <video
               src="/media/videos/filtered-a59206d7-3709-4278-9712-9f5b1f6dc8bf.mp4"
-              poster="/images/placeholders/video-placeholder.svg"
+              poster="/media/images/img-6740.jpg"
               controls
               className="w-full h-full object-cover"
             />
-            */}
+            <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
+              <div className="rounded-full bg-black/30 p-4">
+                <Play className="w-8 h-8 text-white" />
+              </div>
+            </div>
           </div>
           <p className="text-center text-muted-foreground mt-4 font-body font-light">
             Watch our chef prepare our signature Attieke dish from start to finish

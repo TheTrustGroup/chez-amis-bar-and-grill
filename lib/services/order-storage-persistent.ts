@@ -10,19 +10,21 @@
  * This ensures zero data loss and persistent storage across server restarts
  */
 
-import type { OrderRequest } from '@/app/api/orders/route'
+import type { OrderRequest, OrderStatus } from '@/lib/types/orders'
+import { getSupabaseServerClient, hasSupabaseServerConfig } from '@/lib/services/supabase-server'
 import { promises as fs } from 'fs'
 import path from 'path'
 
 export interface StoredOrder extends OrderRequest {
   id: string
+  status: OrderStatus
   createdAt: string
-  status: 'pending' | 'preparing' | 'ready' | 'out-for-delivery' | 'delivered' | 'cancelled'
   updatedAt: string
 }
 
 // Storage configuration
-const STORAGE_BACKEND = process.env.ORDER_STORAGE_BACKEND || 'file' // 'file' | 'kv' | 'mongodb' | 'supabase'
+const STORAGE_BACKEND = (process.env.ORDER_STORAGE_BACKEND || 'file').toLowerCase() // 'file' | 'kv' | 'mongodb' | 'supabase'
+const SUPABASE_ORDERS_TABLE = 'restaurant_orders'
 
 // File storage path - use persistent location
 const STORAGE_DIR = path.join(process.cwd(), '.data')
@@ -33,6 +35,181 @@ const BACKUP_FILE = path.join(STORAGE_DIR, 'orders.backup.json')
 let memoryCache: StoredOrder[] = []
 let cacheTimestamp = 0
 const CACHE_TTL = 5000 // 5 seconds cache
+
+interface SupabaseOrderRow {
+  id: string
+  order_id: string
+  order_type: OrderRequest['orderType']
+  status: OrderStatus
+  customer: OrderRequest['customer']
+  items: OrderRequest['items']
+  order_details: OrderRequest['orderDetails']
+  payment: OrderRequest['payment']
+  created_at: string
+  updated_at: string
+}
+
+function shouldUseSupabaseOrdersBackend(): boolean {
+  if (STORAGE_BACKEND !== 'supabase') return false
+  if (!hasSupabaseServerConfig()) {
+    if (process.env.NODE_ENV === 'development') {
+      console.warn(
+        'ORDER_STORAGE_BACKEND is supabase but SUPABASE_SERVICE_ROLE_KEY is missing. Falling back to file storage.'
+      )
+    }
+    return false
+  }
+  return true
+}
+
+function mapSupabaseRowToStoredOrder(row: SupabaseOrderRow): StoredOrder {
+  return {
+    id: row.id,
+    orderId: row.order_id,
+    orderType: row.order_type,
+    status: row.status,
+    customer: row.customer,
+    items: row.items,
+    orderDetails: row.order_details,
+    payment: row.payment,
+    createdAt: row.created_at,
+    updatedAt: row.updated_at,
+  }
+}
+
+function isUuid(value: string): boolean {
+  return /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(value)
+}
+
+async function saveOrderToSupabase(orderData: OrderRequest): Promise<StoredOrder> {
+  const client = getSupabaseServerClient()
+  const payload = {
+    order_id: orderData.orderId,
+    order_type: orderData.orderType,
+    status: 'pending' as OrderStatus,
+    customer: orderData.customer,
+    items: orderData.items,
+    order_details: orderData.orderDetails,
+    payment: orderData.payment,
+  }
+
+  const { data, error } = await client
+    .from(SUPABASE_ORDERS_TABLE)
+    .upsert(payload, { onConflict: 'order_id' })
+    .select('*')
+    .single()
+
+  if (error || !data) {
+    throw new Error(`Supabase order save failed: ${error?.message || 'Unknown error'}`)
+  }
+
+  return mapSupabaseRowToStoredOrder(data as SupabaseOrderRow)
+}
+
+async function getAllOrdersFromSupabase(): Promise<StoredOrder[]> {
+  const client = getSupabaseServerClient()
+  const { data, error } = await client
+    .from(SUPABASE_ORDERS_TABLE)
+    .select('*')
+    .order('created_at', { ascending: false })
+
+  if (error) {
+    throw new Error(`Supabase get all orders failed: ${error.message}`)
+  }
+
+  return (data || []).map((row) => mapSupabaseRowToStoredOrder(row as SupabaseOrderRow))
+}
+
+async function getOrdersByStatusFromSupabase(status: OrderStatus): Promise<StoredOrder[]> {
+  const client = getSupabaseServerClient()
+  const { data, error } = await client
+    .from(SUPABASE_ORDERS_TABLE)
+    .select('*')
+    .eq('status', status)
+    .order('created_at', { ascending: false })
+
+  if (error) {
+    throw new Error(`Supabase get orders by status failed: ${error.message}`)
+  }
+
+  return (data || []).map((row) => mapSupabaseRowToStoredOrder(row as SupabaseOrderRow))
+}
+
+async function getOrderByIdFromSupabase(orderId: string): Promise<StoredOrder | undefined> {
+  const client = getSupabaseServerClient()
+
+  const byOrderIdResult = await client
+    .from(SUPABASE_ORDERS_TABLE)
+    .select('*')
+    .eq('order_id', orderId)
+    .maybeSingle()
+
+  if (byOrderIdResult.error) {
+    throw new Error(`Supabase get order by order_id failed: ${byOrderIdResult.error.message}`)
+  }
+  if (byOrderIdResult.data) {
+    return mapSupabaseRowToStoredOrder(byOrderIdResult.data as SupabaseOrderRow)
+  }
+
+  if (!isUuid(orderId)) {
+    return undefined
+  }
+
+  const byIdResult = await client
+    .from(SUPABASE_ORDERS_TABLE)
+    .select('*')
+    .eq('id', orderId)
+    .maybeSingle()
+
+  if (byIdResult.error) {
+    throw new Error(`Supabase get order by id failed: ${byIdResult.error.message}`)
+  }
+  if (!byIdResult.data) {
+    return undefined
+  }
+
+  return mapSupabaseRowToStoredOrder(byIdResult.data as SupabaseOrderRow)
+}
+
+async function updateOrderStatusInSupabase(orderId: string, status: OrderStatus): Promise<StoredOrder | null> {
+  const client = getSupabaseServerClient()
+  const lookup = await getOrderByIdFromSupabase(orderId)
+  if (!lookup) return null
+
+  const { data, error } = await client
+    .from(SUPABASE_ORDERS_TABLE)
+    .update({
+      status,
+      updated_at: new Date().toISOString(),
+    })
+    .eq('id', lookup.id)
+    .select('*')
+    .single()
+
+  if (error || !data) {
+    throw new Error(`Supabase update order status failed: ${error?.message || 'Unknown error'}`)
+  }
+
+  return mapSupabaseRowToStoredOrder(data as SupabaseOrderRow)
+}
+
+async function getOrdersCountByStatusFromSupabase(): Promise<Record<OrderStatus, number>> {
+  const counts: Record<OrderStatus, number> = {
+    pending: 0,
+    preparing: 0,
+    ready: 0,
+    'out-for-delivery': 0,
+    delivered: 0,
+    cancelled: 0,
+  }
+
+  const orders = await getAllOrdersFromSupabase()
+  for (const order of orders) {
+    counts[order.status] = (counts[order.status] || 0) + 1
+  }
+
+  return counts
+}
 
 /**
  * Ensure storage directory exists
@@ -168,6 +345,10 @@ async function getOrders(): Promise<StoredOrder[]> {
  * Save a new order with guaranteed persistence
  */
 export async function saveOrder(orderData: OrderRequest): Promise<StoredOrder> {
+  if (shouldUseSupabaseOrdersBackend()) {
+    return saveOrderToSupabase(orderData)
+  }
+
   const now = new Date().toISOString()
   const storedOrder: StoredOrder = {
     ...orderData,
@@ -236,6 +417,10 @@ export async function saveOrder(orderData: OrderRequest): Promise<StoredOrder> {
  * Get all orders (sorted by date, newest first)
  */
 export async function getAllOrders(): Promise<StoredOrder[]> {
+  if (shouldUseSupabaseOrdersBackend()) {
+    return getAllOrdersFromSupabase()
+  }
+
   try {
     const orders = await getOrders()
     return orders.sort((a, b) => 
@@ -253,7 +438,11 @@ export async function getAllOrders(): Promise<StoredOrder[]> {
 /**
  * Get orders by status
  */
-export async function getOrdersByStatus(status: StoredOrder['status']): Promise<StoredOrder[]> {
+export async function getOrdersByStatus(status: OrderStatus): Promise<StoredOrder[]> {
+  if (shouldUseSupabaseOrdersBackend()) {
+    return getOrdersByStatusFromSupabase(status)
+  }
+
   try {
     const orders = await getOrders()
     return orders
@@ -275,6 +464,10 @@ export async function getOrdersByStatus(status: StoredOrder['status']): Promise<
  * Get order by ID
  */
 export async function getOrderById(orderId: string): Promise<StoredOrder | undefined> {
+  if (shouldUseSupabaseOrdersBackend()) {
+    return getOrderByIdFromSupabase(orderId)
+  }
+
   try {
     const orders = await getOrders()
     return orders.find(order => order.orderId === orderId || order.id === orderId)
@@ -289,8 +482,12 @@ export async function getOrderById(orderId: string): Promise<StoredOrder | undef
  */
 export async function updateOrderStatus(
   orderId: string,
-  status: StoredOrder['status']
+  status: OrderStatus
 ): Promise<StoredOrder | null> {
+  if (shouldUseSupabaseOrdersBackend()) {
+    return updateOrderStatusInSupabase(orderId, status)
+  }
+
   try {
     const orders = await getOrders()
     const orderIndex = orders.findIndex(order => 
@@ -354,7 +551,11 @@ export async function getRecentOrders(limit: number = 50): Promise<StoredOrder[]
 /**
  * Get orders count by status
  */
-export async function getOrdersCountByStatus(): Promise<Record<StoredOrder['status'], number>> {
+export async function getOrdersCountByStatus(): Promise<Record<OrderStatus, number>> {
+  if (shouldUseSupabaseOrdersBackend()) {
+    return getOrdersCountByStatusFromSupabase()
+  }
+
   try {
     const orders = await getOrders()
     const counts: Record<string, number> = {
@@ -370,7 +571,7 @@ export async function getOrdersCountByStatus(): Promise<Record<StoredOrder['stat
       counts[order.status] = (counts[order.status] || 0) + 1
     })
 
-    return counts as Record<StoredOrder['status'], number>
+    return counts as Record<OrderStatus, number>
   } catch (error) {
     console.error('Error in getOrdersCountByStatus:', error)
     const counts: Record<string, number> = {
@@ -384,7 +585,7 @@ export async function getOrdersCountByStatus(): Promise<Record<StoredOrder['stat
     memoryCache.forEach(order => {
       counts[order.status] = (counts[order.status] || 0) + 1
     })
-    return counts as Record<StoredOrder['status'], number>
+    return counts as Record<OrderStatus, number>
   }
 }
 
@@ -392,6 +593,19 @@ export async function getOrdersCountByStatus(): Promise<Record<StoredOrder['stat
  * Health check - verify storage is working
  */
 export async function healthCheck(): Promise<{ healthy: boolean; orderCount: number; error?: string }> {
+  if (shouldUseSupabaseOrdersBackend()) {
+    try {
+      const orders = await getAllOrdersFromSupabase()
+      return { healthy: true, orderCount: orders.length }
+    } catch (error) {
+      return {
+        healthy: false,
+        orderCount: 0,
+        error: error instanceof Error ? error.message : 'Unknown error',
+      }
+    }
+  }
+
   try {
     const orders = await getOrders()
     return {

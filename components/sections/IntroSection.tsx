@@ -13,7 +13,7 @@ export function IntroSection() {
           <div className="relative order-2 h-[400px] w-full md:order-1 md:h-[500px] lg:h-[600px] group section-split-half">
             <div className="relative h-full w-full overflow-hidden rounded-xl shadow-2xl">
               <Image
-                src="/media/images/img-8209.jpg"
+                src="/media/images/img-7189.jpg"
                 alt="Head Chef of Chez Amis Bar and Grill presenting signature dishes with warm hospitality"
                 fill
                 className="rounded-xl object-cover object-center brightness-110 contrast-110 saturate-115 transition-all duration-500 group-hover:scale-105"
@@ -31,7 +31,10 @@ export function IntroSection() {
                     Our Head Chef
                   </p>
                   <p className="font-display text-lg md:text-xl font-light drop-shadow-lg">
-                    Crafting culinary excellence
+                    Chef Kwame Asante
+                  </p>
+                  <p className="mt-1 text-sm font-body font-light text-white/90 drop-shadow-lg">
+                    18+ years of West African fine-dining mastery
                   </p>
                 </div>
               </div>
@@ -62,6 +65,11 @@ export function IntroSection() {
                 Our award-winning chefs draw inspiration from both local traditions and global culinary
                 innovations, creating dishes that tell a story. Each plate is a canvas where flavors,
                 textures, and aromas come together in perfect harmony, inviting you to savor every moment.
+              </p>
+              <p>
+                Our kitchen is led by <strong>Chef Kwame Asante</strong>, whose approach blends Ivorian and
+                Ghanaian heritage with modern plating. His menus are rooted in local ingredients and refined
+                technique, turning everyday favorites into signature experiences.
               </p>
               <p>
                 We source only the finest ingredients, working closely with local farmers and artisans to

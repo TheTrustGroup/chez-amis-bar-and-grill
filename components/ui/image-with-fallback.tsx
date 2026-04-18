@@ -36,10 +36,10 @@ export function ImageWithFallback({
 }: ImageWithFallbackProps) {
   // Default fallback images based on type
   const defaultFallbacks: Record<string, string> = {
-    dish: "/images/placeholders/dish-placeholder.svg",
-    restaurant: "/images/placeholders/restaurant-placeholder.svg",
-    video: "/images/placeholders/video-placeholder.svg",
-    general: "/images/placeholders/dish-placeholder.svg",
+    dish: "/media/images/img-0821-2.jpg",
+    restaurant: "/media/images/img-6740.jpg",
+    video: "/media/images/img-6740.jpg",
+    general: "/media/images/img-0821-2.jpg",
   }
 
   const finalFallbackSrc = fallbackSrc || defaultFallbacks[fallbackType] || defaultFallbacks.general

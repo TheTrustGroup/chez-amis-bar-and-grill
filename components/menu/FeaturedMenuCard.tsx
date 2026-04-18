@@ -89,7 +89,7 @@ export function FeaturedMenuCard({ item, onAddToCart }: FeaturedMenuCardProps) {
         <div className="absolute inset-0 scale-100 group-hover:scale-110 transition-transform duration-500">
           {/* In production, replace with: */}
           {/* <Image
-            src={item.image || "/images/placeholders/dish-placeholder.svg"}
+            src={item.image}
             alt={item.name}
             fill
             className="object-cover"

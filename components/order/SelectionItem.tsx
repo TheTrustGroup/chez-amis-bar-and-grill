@@ -31,7 +31,7 @@ export function SelectionItem({ item, onUpdateQuantity, onRemove }: SelectionIte
           <div className="w-20 h-20 rounded-lg overflow-hidden border border-border/30 bg-gradient-to-br from-green-600 to-green-900">
             {/* In production, use Next.js Image */}
             {/* <Image
-              src={item.menuItem.image || "/images/placeholders/dish-placeholder.svg"}
+              src={item.menuItem.image}
               alt={item.menuItem.name}
               width={80}
               height={80}

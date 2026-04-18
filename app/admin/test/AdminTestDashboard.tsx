@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { CheckCircle, XCircle, Loader2 } from 'lucide-react';
+import { PageHeader } from '@/components/admin/ui/PageHeader';
 
 export default function AdminTestDashboard() {
   const [testResults, setTestResults] = useState<{[key: string]: 'pending' | 'pass' | 'fail'}>({});
@@ -134,25 +135,25 @@ export default function AdminTestDashboard() {
   const totalCount = Object.keys(testResults).length;
 
   return (
-    <div className="space-y-6">
-      <div>
-        <h1 className="text-2xl font-semibold text-gray-900">System Integration Tests</h1>
-        <p className="text-gray-600 mt-1">Verify all components are working correctly</p>
-      </div>
+    <div className="ui-stack-lg">
+      <PageHeader
+        title="System Integration Tests"
+        subtitle="Verify core order and notification flows."
+      />
 
-      <div className="bg-white rounded-lg shadow p-6">
+      <div className="ui-panel">
         <button
           onClick={runAllTests}
           disabled={isRunning}
-          className="px-6 py-3 bg-amber-600 text-white rounded-md hover:bg-amber-700 transition-colors disabled:opacity-50 font-medium mb-6"
+          className="mb-6 rounded-md border border-terra-500 px-4 py-2 text-sm font-medium text-terra-700 hover:bg-terra-50 disabled:opacity-50"
         >
           {isRunning ? 'Running Tests...' : 'Run All Tests'}
         </button>
 
         <div className="space-y-3">
           {tests.map(test => (
-            <div key={test} className="flex items-center justify-between p-4 border border-gray-200 rounded-lg">
-              <span className="font-medium text-gray-900">{test}</span>
+            <div key={test} className="flex items-center justify-between rounded-lg border border-border bg-muted/20 p-3">
+              <span className="font-medium text-foreground">{test}</span>
               <div>
                 {testResults[test] ? getStatusIcon(testResults[test]) : <div className="w-5 h-5" />}
               </div>
@@ -161,26 +162,26 @@ export default function AdminTestDashboard() {
         </div>
 
         {totalCount > 0 && (
-          <div className="mt-6 p-4 bg-gray-50 rounded-lg">
-            <h3 className="font-semibold text-gray-900 mb-2">Test Summary</h3>
+          <div className="mt-6 rounded-lg border border-border bg-muted/30 p-4">
+            <h3 className="mb-2 font-semibold text-foreground">Test Summary</h3>
             <div className="grid grid-cols-3 gap-4 text-center">
               <div>
                 <div className="text-2xl font-bold text-green-600">
                   {passedCount}
                 </div>
-                <div className="text-sm text-gray-600">Passed</div>
+                <div className="text-sm text-muted-foreground">Passed</div>
               </div>
               <div>
                 <div className="text-2xl font-bold text-red-600">
                   {failedCount}
                 </div>
-                <div className="text-sm text-gray-600">Failed</div>
+                <div className="text-sm text-muted-foreground">Failed</div>
               </div>
               <div>
-                <div className="text-2xl font-bold text-gray-600">
+                <div className="text-2xl font-bold text-muted-foreground">
                   {totalCount}
                 </div>
-                <div className="text-sm text-gray-600">Total</div>
+                <div className="text-sm text-muted-foreground">Total</div>
               </div>
             </div>
           </div>

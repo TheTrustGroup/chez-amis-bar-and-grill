@@ -17,7 +17,16 @@ interface OrderSummaryProps {
 }
 
 export function OrderSummary({ orderType, onPlaceOrder, canPlaceOrder = false, isSubmitting = false }: OrderSummaryProps) {
-  const { items, getSubtotal, getTax, getDeliveryFee, getServiceCharge, getGrandTotal } = useCartContext()
+  const {
+    items,
+    updateQuantity,
+    removeFromCart,
+    getSubtotal,
+    getTax,
+    getDeliveryFee,
+    getServiceCharge,
+    getGrandTotal,
+  } = useCartContext()
 
   const subtotal = getSubtotal()
   const tax = getTax()
@@ -61,28 +70,15 @@ export function OrderSummary({ orderType, onPlaceOrder, canPlaceOrder = false, i
           </p>
         ) : (
           <>
-            {/* Items List - Read-only, elegant */}
+            {/* Items List with quantity controls */}
             <div className="space-y-4 max-h-[400px] overflow-y-auto scrollbar-hide">
               {items.map((item) => (
-                <div key={item.id} className="flex gap-3 pb-4 border-b border-border/20 last:border-b-0">
-                  <div className="flex-shrink-0 w-16 h-16 rounded-lg overflow-hidden border border-border/30 bg-gradient-to-br from-green-600 to-green-900">
-                    {/* In production, use Next.js Image */}
-                    <div className="w-full h-full flex items-center justify-center text-neutral-200/20 text-xs">
-                      {item.menuItem.name.charAt(0)}
-                    </div>
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <h4 className="text-sm font-display font-light text-foreground mb-1">
-                      {item.menuItem.name}
-                    </h4>
-                    <p className="text-xs text-muted-foreground font-body font-light">
-                      Qty: {item.quantity}
-                    </p>
-                    <p className="text-sm font-display font-light text-terra-600 mt-1">
-                      GH₵ {item.subtotal.toFixed(2)}
-                    </p>
-                  </div>
-                </div>
+                <SelectionItem
+                  key={item.id}
+                  item={item}
+                  onUpdateQuantity={updateQuantity}
+                  onRemove={removeFromCart}
+                />
               ))}
             </div>
 

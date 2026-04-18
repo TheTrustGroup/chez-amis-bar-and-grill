@@ -2,7 +2,7 @@
 
 import { memo } from 'react'
 
-const DEFAULT_POSTER = '/images/placeholders/video-placeholder.svg'
+const DEFAULT_POSTER = '/media/images/img-6740.jpg'
 
 interface VideoThumbnailProps {
   videoSrc: string
@@ -23,7 +23,7 @@ export const VideoThumbnail = memo(function VideoThumbnail({
   priority = false,
   onThumbnailLoad,
 }: VideoThumbnailProps) {
-  const posterSrc = poster ?? DEFAULT_POSTER
+  const posterSrc = poster && !poster.endsWith('.svg') ? poster : DEFAULT_POSTER
 
   return (
     <div className={`relative w-full h-full overflow-hidden bg-green-600 ${className}`}>

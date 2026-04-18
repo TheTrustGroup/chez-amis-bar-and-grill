@@ -3,6 +3,8 @@
 import { useEffect, useState } from 'react';
 import { ShoppingBag, Calendar, DollarSign, TrendingUp, Clock, CheckCircle } from 'lucide-react';
 import Link from 'next/link';
+import { PageHeader } from '@/components/admin/ui/PageHeader';
+import { StatCard } from '@/components/admin/ui/StatCard';
 
 interface Order {
   id: string;
@@ -22,11 +24,15 @@ interface Order {
 
 interface Reservation {
   id: string;
-  customerName: string;
+  reservationNumber: string;
+  customer: {
+    fullName: string;
+  };
   date: string;
   time: string;
   guests: number;
-  status: 'pending' | 'confirmed' | 'cancelled';
+  status: 'confirmed' | 'seated' | 'completed' | 'cancelled' | 'no-show';
+  createdAt: string;
 }
 
 export default function AdminDashboard() {
@@ -43,39 +49,45 @@ export default function AdminDashboard() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // Fetch orders
-        const ordersResponse = await fetch('/api/orders/list');
+        const [ordersResponse, reservationsResponse] = await Promise.all([
+          fetch('/api/orders/list?limit=200', { cache: 'no-store' }),
+          fetch('/api/reservations/list?limit=200', { cache: 'no-store' }),
+        ]);
         const ordersData = await ordersResponse.json();
-        const allOrders = ordersData.orders || [];
+        const reservationsData = await reservationsResponse.json();
+        const allOrders = (ordersData.orders || []) as Order[];
+        const allReservations = (reservationsData.reservations || []) as Reservation[];
 
-        // Calculate today's date
         const today = new Date();
         today.setHours(0, 0, 0, 0);
+        const tomorrow = new Date(today);
+        tomorrow.setDate(today.getDate() + 1);
 
-        // Filter today's orders
-        const todayOrders = allOrders.filter((order: Order) => {
-          const orderDate = new Date(order.createdAt);
-          return orderDate >= today;
+        const todayOrders = allOrders.filter((order) => new Date(order.createdAt) >= today);
+        const activeReservations = allReservations.filter((reservation) => {
+          const reservationDate = new Date(`${reservation.date}T00:00:00`);
+          return (
+            reservationDate >= today &&
+            reservationDate < tomorrow &&
+            (reservation.status === 'confirmed' || reservation.status === 'seated')
+          );
         });
 
-        // Calculate revenue
-        const revenue = todayOrders.reduce((sum: number, order: Order) => {
-          return sum + (order.payment?.total || 0);
-        }, 0);
-
-        // Calculate average order value
+        const revenue = todayOrders.reduce((sum, order) => sum + (order.payment?.total || 0), 0);
         const avgOrderValue = todayOrders.length > 0 ? revenue / todayOrders.length : 0;
 
-        setOrders(todayOrders.slice(0, 3)); // Show 3 most recent
+        setOrders(todayOrders.slice(0, 3));
+        setReservations(
+          activeReservations
+            .sort((a, b) => a.time.localeCompare(b.time))
+            .slice(0, 3)
+        );
         setStats({
           totalOrdersToday: todayOrders.length,
-          activeReservations: 0, // TODO: Fetch from reservations API
+          activeReservations: activeReservations.length,
           revenueToday: revenue,
           avgOrderValue: avgOrderValue,
         });
-
-        // TODO: Fetch reservations when API is available
-        setReservations([]);
       } catch (error) {
         console.error('Error fetching dashboard data:', error);
       } finally {
@@ -100,8 +112,8 @@ export default function AdminDashboard() {
     {
       name: 'Active Reservations',
       value: stats.activeReservations.toString(),
-      change: '+4',
-      changeType: 'positive',
+      change: 'today',
+      changeType: 'neutral',
       icon: Calendar,
     },
     {
@@ -133,8 +145,8 @@ export default function AdminDashboard() {
   }));
 
   const upcomingReservations = reservations.map((reservation) => ({
-    id: reservation.id,
-    customer: reservation.customerName,
+    id: reservation.reservationNumber,
+    customer: reservation.customer.fullName,
     date: new Date(reservation.date).toLocaleDateString('en-US', { 
       weekday: 'short',
       month: 'short',
@@ -147,140 +159,134 @@ export default function AdminDashboard() {
 
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center min-h-[400px]">
+      <div className="flex items-center justify-center min-h-[320px]">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-amber-600 mx-auto mb-4"></div>
-          <p className="text-gray-600">Loading dashboard...</p>
+          <p className="text-muted-foreground">Loading dashboard...</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="space-y-6">
-      
-      {/* Welcome Section */}
-      <div className="bg-gradient-to-r from-amber-600 to-amber-500 rounded-lg p-6 text-white">
-        <h1 className="text-2xl font-semibold mb-2">Welcome back, Admin!</h1>
-        <p className="text-amber-100">Here&apos;s what&apos;s happening with your restaurant today.</p>
-      </div>
+    <div className="ui-stack-lg">
+      <PageHeader
+        title="Admin Dashboard"
+        subtitle="Live operations overview for orders and reservations."
+      />
 
       {/* Stats Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {statsData.map((stat) => (
-          <div key={stat.name} className="bg-white rounded-lg shadow p-6">
-            <div className="flex items-center justify-between mb-4">
-              <div className="w-12 h-12 bg-amber-50 rounded-lg flex items-center justify-center">
-                <stat.icon className="w-6 h-6 text-amber-600" />
-              </div>
-              <span className={`text-sm font-medium ${
-                stat.changeType === 'positive' ? 'text-green-600' : 'text-red-600'
-              }`}>
-                {stat.change}
-              </span>
-            </div>
-            <h3 className="text-2xl font-bold text-gray-900 mb-1">{stat.value}</h3>
-            <p className="text-sm text-gray-600">{stat.name}</p>
-          </div>
+          <StatCard
+            key={stat.name}
+            label={stat.name}
+            value={stat.value}
+            icon={stat.icon}
+            trend={stat.change}
+            trendTone={stat.changeType as 'positive' | 'neutral'}
+          />
         ))}
       </div>
 
       {/* Recent Orders & Upcoming Reservations */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
         
         {/* Recent Orders */}
-        <div className="bg-white rounded-lg shadow">
-          <div className="p-6 border-b border-gray-200">
-            <h2 className="text-lg font-semibold text-gray-900">Recent Orders</h2>
+        <div className="ui-panel p-0">
+          <div className="border-b border-border p-4 md:p-5">
+            <h2 className="text-base font-semibold text-foreground">Recent Orders</h2>
           </div>
-          <div className="p-6">
+          <div className="p-4 md:p-5">
             {recentOrders.length > 0 ? (
               <>
-                <div className="space-y-4">
+                <div className="space-y-3">
                   {recentOrders.map((order) => (
                     <Link 
                       key={order.id} 
                       href={`/admin/orders/${order.id}`}
-                      className="flex items-center justify-between p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors cursor-pointer block"
+                      className="block rounded-lg border border-border bg-muted/30 p-3 transition-colors hover:bg-muted/60"
                     >
-                      <div className="flex-1">
+                      <div className="flex items-start justify-between gap-3">
+                        <div>
                         <div className="flex items-center gap-2 mb-1">
-                          <span className="font-semibold text-gray-900">{order.id}</span>
-                          <span className={`px-2 py-1 rounded-full text-xs font-medium ${
+                            <span className="font-semibold text-foreground">{order.id}</span>
+                            <span className={`ui-status-pill ${
                             order.status === 'delivered' 
                               ? 'bg-green-100 text-green-700'
                               : order.status === 'ready'
                               ? 'bg-blue-100 text-blue-700'
-                              : 'bg-yellow-100 text-yellow-700'
+                              : 'bg-amber-100 text-amber-800'
                           }`}>
                             {order.status}
                           </span>
                         </div>
-                        <p className="text-sm text-gray-600">{order.customer} • {order.type}</p>
-                        <p className="text-xs text-gray-500 mt-1">{order.time}</p>
-                      </div>
-                      <div className="text-right">
-                        <p className="font-semibold text-gray-900">{order.total}</p>
+                          <p className="text-sm text-muted-foreground">{order.customer} • {order.type}</p>
+                          <p className="mt-1 text-xs text-muted-foreground">{order.time}</p>
+                        </div>
+                        <p className="font-semibold text-foreground">{order.total}</p>
                       </div>
                     </Link>
                   ))}
                 </div>
                 <Link href="/admin/orders">
-                  <button className="mt-4 w-full py-2 text-center text-amber-600 hover:text-amber-700 font-medium text-sm">
+                  <button className="mt-4 w-full rounded-md border border-border py-2 text-center text-sm font-medium text-terra-700 hover:bg-muted/40">
                     View All Orders →
                   </button>
                 </Link>
               </>
             ) : (
               <div className="text-center py-8">
-                <p className="text-gray-500">No recent orders</p>
+                <p className="text-muted-foreground">No recent orders</p>
               </div>
             )}
           </div>
         </div>
 
         {/* Upcoming Reservations */}
-        <div className="bg-white rounded-lg shadow">
-          <div className="p-6 border-b border-gray-200">
-            <h2 className="text-lg font-semibold text-gray-900">Upcoming Reservations</h2>
+        <div className="ui-panel p-0">
+          <div className="border-b border-border p-4 md:p-5">
+            <h2 className="text-base font-semibold text-foreground">Upcoming Reservations</h2>
           </div>
-          <div className="p-6">
+          <div className="p-4 md:p-5">
             {upcomingReservations.length > 0 ? (
               <>
-                <div className="space-y-4">
+                <div className="space-y-3">
                   {upcomingReservations.map((reservation) => (
-                    <div key={reservation.id} className="flex items-center justify-between p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors cursor-pointer">
+                    <div key={reservation.id} className="flex items-center justify-between rounded-lg border border-border bg-muted/30 p-3">
                       <div className="flex-1">
                         <div className="flex items-center gap-2 mb-1">
-                          <span className="font-semibold text-gray-900">{reservation.id}</span>
-                          <span className={`px-2 py-1 rounded-full text-xs font-medium ${
+                          <span className="font-semibold text-foreground">{reservation.id}</span>
+                          <span className={`ui-status-pill ${
                             reservation.status === 'confirmed'
                               ? 'bg-green-100 text-green-700'
-                              : 'bg-yellow-100 text-yellow-700'
+                              : reservation.status === 'seated'
+                                ? 'bg-blue-100 text-blue-700'
+                                : 'bg-amber-100 text-amber-800'
                           }`}>
                             {reservation.status}
                           </span>
                         </div>
-                        <p className="text-sm text-gray-600">{reservation.customer}</p>
-                        <p className="text-xs text-gray-500 mt-1">
+                        <p className="text-sm text-muted-foreground">{reservation.customer}</p>
+                        <p className="text-xs text-muted-foreground mt-1">
                           {reservation.date} at {reservation.time} • {reservation.guests} guests
                         </p>
                       </div>
                       <div>
-                        <Calendar className="w-5 h-5 text-gray-400" />
+                        <Calendar className="w-5 h-5 text-muted-foreground" />
                       </div>
                     </div>
                   ))}
                 </div>
                 <Link href="/admin/reservations">
-                  <button className="mt-4 w-full py-2 text-center text-amber-600 hover:text-amber-700 font-medium text-sm">
+                  <button className="mt-4 w-full rounded-md border border-border py-2 text-center text-sm font-medium text-terra-700 hover:bg-muted/40">
                     View All Reservations →
                   </button>
                 </Link>
               </>
             ) : (
               <div className="text-center py-8">
-                <p className="text-gray-500">No upcoming reservations</p>
+                <p className="text-muted-foreground">No upcoming reservations</p>
               </div>
             )}
           </div>
@@ -288,31 +294,31 @@ export default function AdminDashboard() {
       </div>
 
       {/* Quick Actions */}
-      <div className="bg-white rounded-lg shadow p-6">
-        <h2 className="text-lg font-semibold text-gray-900 mb-4">Quick Actions</h2>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div className="ui-panel">
+        <h2 className="mb-4 text-base font-semibold text-foreground">Quick Actions</h2>
+        <div className="grid grid-cols-2 gap-3 md:grid-cols-4 md:gap-4">
           <Link href="/admin/orders">
-            <button className="w-full p-4 border-2 border-gray-200 rounded-lg hover:border-amber-500 hover:bg-amber-50 transition-colors">
+            <button className="w-full rounded-lg border border-border p-4 transition-colors hover:border-terra-400 hover:bg-terra-50">
               <ShoppingBag className="w-6 h-6 text-amber-600 mx-auto mb-2" />
-              <p className="text-sm font-medium text-gray-900">View Orders</p>
+              <p className="text-sm font-medium text-foreground">View Orders</p>
             </button>
           </Link>
           <Link href="/admin/reservations">
-            <button className="w-full p-4 border-2 border-gray-200 rounded-lg hover:border-amber-500 hover:bg-amber-50 transition-colors">
+            <button className="w-full rounded-lg border border-border p-4 transition-colors hover:border-terra-400 hover:bg-terra-50">
               <Calendar className="w-6 h-6 text-amber-600 mx-auto mb-2" />
-              <p className="text-sm font-medium text-gray-900">View Reservations</p>
+              <p className="text-sm font-medium text-foreground">View Reservations</p>
             </button>
           </Link>
           <Link href="/admin/menu">
-            <button className="w-full p-4 border-2 border-gray-200 rounded-lg hover:border-amber-500 hover:bg-amber-50 transition-colors">
+            <button className="w-full rounded-lg border border-border p-4 transition-colors hover:border-terra-400 hover:bg-terra-50">
               <Clock className="w-6 h-6 text-amber-600 mx-auto mb-2" />
-              <p className="text-sm font-medium text-gray-900">Manage Menu</p>
+              <p className="text-sm font-medium text-foreground">Manage Menu</p>
             </button>
           </Link>
           <Link href="/admin/settings">
-            <button className="w-full p-4 border-2 border-gray-200 rounded-lg hover:border-amber-500 hover:bg-amber-50 transition-colors">
+            <button className="w-full rounded-lg border border-border p-4 transition-colors hover:border-terra-400 hover:bg-terra-50">
               <CheckCircle className="w-6 h-6 text-amber-600 mx-auto mb-2" />
-              <p className="text-sm font-medium text-gray-900">Settings</p>
+              <p className="text-sm font-medium text-foreground">Settings</p>
             </button>
           </Link>
         </div>

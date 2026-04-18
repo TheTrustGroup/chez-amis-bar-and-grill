@@ -87,7 +87,7 @@ export function BeverageCard({ beverage }: BeverageCardProps) {
             fill
             className="object-contain p-2"
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-            fallbackSrc="/images/placeholders/dish-placeholder.svg"
+            fallbackSrc="/media/images/img-0822-2.jpg"
           />
         </div>
       ) : null}

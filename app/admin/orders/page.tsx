@@ -3,6 +3,11 @@
 import { useState, useEffect } from 'react';
 import { Search, Filter, Download, Eye, Check, X, Clock, RefreshCw } from 'lucide-react';
 import Link from 'next/link';
+import { PageHeader } from '@/components/admin/ui/PageHeader';
+import { ActionButton } from '@/components/admin/ui/ActionButton';
+import { DataSectionCard } from '@/components/admin/ui/DataSectionCard';
+import { FilterToolbar } from '@/components/admin/ui/FilterToolbar';
+import { StatusBadge } from '@/components/admin/ui/StatusBadge';
 
 interface Order {
   id: string;
@@ -22,11 +27,11 @@ interface Order {
 }
 
 const statusConfig: Record<string, { label: string; color: string; icon: typeof Clock }> = {
-  pending: { label: 'Pending', color: 'bg-yellow-100 text-yellow-700', icon: Clock },
-  preparing: { label: 'Preparing', color: 'bg-purple-100 text-purple-700', icon: Clock },
+  pending: { label: 'Pending', color: 'bg-amber-100 text-amber-800', icon: Clock },
+  preparing: { label: 'Preparing', color: 'bg-terra-100 text-terra-700', icon: Clock },
   ready: { label: 'Ready', color: 'bg-green-100 text-green-700', icon: Check },
   'out-for-delivery': { label: 'Out for Delivery', color: 'bg-blue-100 text-blue-700', icon: Clock },
-  delivered: { label: 'Delivered', color: 'bg-gray-100 text-gray-700', icon: Check },
+  delivered: { label: 'Delivered', color: 'bg-neutral-200 text-neutral-700', icon: Check },
   cancelled: { label: 'Cancelled', color: 'bg-red-100 text-red-700', icon: X },
 };
 
@@ -207,62 +212,55 @@ export default function OrdersPage() {
 
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center min-h-[400px]">
+      <div className="flex min-h-[320px] items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-amber-600 mx-auto mb-4"></div>
-          <p className="text-gray-600">Loading orders...</p>
+          <p className="text-muted-foreground">Loading orders...</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="space-y-6">
+    <div className="ui-stack-lg">
       
-      {/* Page Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-        <div>
-          <h1 className="text-2xl font-semibold text-gray-900">Orders Management</h1>
-          <p className="text-gray-600 mt-1">
-            {isLoading ? 'Loading...' : `${orders.length} total orders`}
-          </p>
-        </div>
-        <div className="flex gap-3">
-          <button
-            onClick={fetchOrders}
-            disabled={isLoading}
-            className="inline-flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-md hover:bg-gray-50 transition-colors disabled:opacity-50"
-          >
-            <RefreshCw className={`w-4 h-4 ${isLoading ? 'animate-spin' : ''}`} />
-            Refresh
-          </button>
-          <button className="inline-flex items-center gap-2 px-4 py-2 bg-amber-600 text-white rounded-md hover:bg-amber-700 transition-colors">
-            <Download className="w-4 h-4" />
-            Export Orders
-          </button>
-        </div>
-      </div>
+      <PageHeader
+        title="Orders Management"
+        subtitle={isLoading ? 'Loading...' : `${orders.length} total orders`}
+        actions={
+          <>
+            <ActionButton
+              onClick={fetchOrders}
+              disabled={isLoading}
+              icon={<RefreshCw className={`h-4 w-4 ${isLoading ? 'animate-spin' : ''}`} />}
+            >
+              Refresh
+            </ActionButton>
+            <ActionButton tone="primary" icon={<Download className="h-4 w-4" />}>
+              Export Orders
+            </ActionButton>
+          </>
+        }
+      />
 
       {/* Error Message */}
       {error && (
-        <div className="bg-red-50 border border-red-200 rounded-lg p-4">
+        <div className="ui-panel border-red-200 bg-red-50">
           <p className="text-red-800">{error}</p>
         </div>
       )}
 
-      {/* Filters */}
-      <div className="bg-white rounded-lg shadow p-6">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <FilterToolbar>
           
           {/* Search */}
           <div className="relative">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
             <input
               type="text"
               placeholder="Search by order number or customer..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-amber-500 focus:border-transparent"
+              className="ui-control pl-10"
             />
           </div>
 
@@ -270,7 +268,7 @@ export default function OrdersPage() {
           <select
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
-            className="px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-amber-500 focus:border-transparent"
+            className="ui-control"
           >
             <option value="all">All Status</option>
             <option value="pending">Pending</option>
@@ -285,85 +283,87 @@ export default function OrdersPage() {
           <select
             value={typeFilter}
             onChange={(e) => setTypeFilter(e.target.value)}
-            className="px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-amber-500 focus:border-transparent"
+            className="ui-control"
           >
             <option value="all">All Types</option>
             <option value="dine-in">Dine-in</option>
             <option value="takeaway">Takeaway</option>
             <option value="delivery">Delivery</option>
           </select>
-        </div>
-      </div>
+      </FilterToolbar>
 
       {/* Orders Table */}
-      <div className="bg-white rounded-lg shadow overflow-hidden">
+      <DataSectionCard
+        title="Orders"
+        subtitle={`${filteredOrders.length} shown`}
+        className="overflow-hidden"
+        contentClassName="p-0"
+      >
         {isLoading ? (
           <div className="flex items-center justify-center py-12">
             <RefreshCw className="w-8 h-8 text-amber-600 animate-spin" />
-            <span className="ml-3 text-gray-600">Loading orders...</span>
+            <span className="ml-3 text-muted-foreground">Loading orders...</span>
           </div>
         ) : (
           <div className="overflow-x-auto">
           <table className="w-full">
-            <thead className="bg-gray-50 border-b border-gray-200">
+            <thead className="bg-muted/40 border-b border-border">
               <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-4 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider md:px-6">
                   Order
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-4 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider md:px-6">
                   Customer
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-4 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider md:px-6">
                   Type
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-4 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider md:px-6">
                   Total
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-4 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider md:px-6">
                   Status
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-4 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider md:px-6">
                   Date
                 </th>
-                <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-4 py-3 text-right text-xs font-medium text-muted-foreground uppercase tracking-wider md:px-6">
                   Actions
                 </th>
               </tr>
             </thead>
-            <tbody className="bg-white divide-y divide-gray-200">
+            <tbody className="bg-card divide-y divide-border">
               {filteredOrders.map((order) => {
                 const StatusIcon = statusConfig[order.status]?.icon || Clock;
                 const statusInfo = statusConfig[order.status] || statusConfig.pending;
                 return (
-                  <tr key={order.id} className="hover:bg-gray-50">
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="text-sm font-medium text-gray-900">{order.orderId}</div>
-                      <div className="text-xs text-gray-500">{order.id}</div>
+                  <tr key={order.id} className="hover:bg-muted/20">
+                    <td className="px-4 py-4 whitespace-nowrap md:px-6">
+                      <div className="text-sm font-medium text-foreground">{order.orderId}</div>
+                      <div className="text-xs text-muted-foreground">{order.id}</div>
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="text-sm font-medium text-gray-900">{order.customer.fullName}</div>
-                      <div className="text-xs text-gray-500">{order.customer.phone}</div>
+                    <td className="px-4 py-4 whitespace-nowrap md:px-6">
+                      <div className="text-sm font-medium text-foreground">{order.customer.fullName}</div>
+                      <div className="text-xs text-muted-foreground">{order.customer.phone}</div>
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <span className="px-2 py-1 text-xs font-medium bg-gray-100 text-gray-700 rounded-full capitalize">
-                        {order.orderType}
-                      </span>
+                    <td className="px-4 py-4 whitespace-nowrap md:px-6">
+                      <StatusBadge label={order.orderType} tone="neutral" className="capitalize" />
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="text-sm font-semibold text-gray-900">
+                    <td className="px-4 py-4 whitespace-nowrap md:px-6">
+                      <div className="text-sm font-semibold text-foreground">
                         GH₵ {order.payment?.total?.toFixed(2) || '0.00'}
                       </div>
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <span className={`inline-flex items-center gap-1 px-2 py-1 text-xs font-medium rounded-full ${statusInfo.color}`}>
+                    <td className="px-4 py-4 whitespace-nowrap md:px-6">
+                      <span className={`ui-status-pill ${statusInfo.color}`}>
                         <StatusIcon className="w-3 h-3" />
                         {statusInfo.label}
                       </span>
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td className="px-4 py-4 whitespace-nowrap text-sm text-muted-foreground md:px-6">
                       {new Date(order.createdAt).toLocaleString()}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                    <td className="px-4 py-4 whitespace-nowrap text-right text-sm font-medium md:px-6">
                       <div className="flex items-center justify-end gap-2">
                         <Link href={`/admin/orders/${order.orderId}`}>
                           <button 
@@ -392,10 +392,10 @@ export default function OrdersPage() {
                               }
                             }}
                             disabled={order.status === 'delivered'}
-                            className={`px-3 py-1.5 text-xs font-medium border border-gray-300 rounded-md focus:ring-2 focus:ring-amber-500 focus:border-transparent bg-white transition-colors ${
+                            className={`h-9 rounded-md border border-border bg-background px-3 text-xs font-medium focus:ring-2 focus:ring-amber-500 focus:border-transparent transition-colors ${
                               order.status === 'delivered' 
-                                ? 'cursor-not-allowed opacity-60 bg-gray-50' 
-                                : 'cursor-pointer hover:bg-gray-50'
+                                ? 'cursor-not-allowed opacity-60 bg-muted/40' 
+                                : 'cursor-pointer hover:bg-muted/30'
                             }`}
                             title={order.status === 'delivered' ? 'Delivered orders cannot be changed' : 'Update Order Status'}
                           >
@@ -420,8 +420,8 @@ export default function OrdersPage() {
           {/* Empty State */}
           {filteredOrders.length === 0 && !isLoading && (
             <div className="text-center py-12">
-              <p className="text-gray-500 text-lg">No orders found</p>
-              <p className="text-gray-400 text-sm mt-2">
+              <p className="text-muted-foreground text-lg">No orders found</p>
+              <p className="text-muted-foreground/70 text-sm mt-2">
                 {searchQuery || statusFilter !== 'all' || typeFilter !== 'all' 
                   ? 'Try adjusting your filters' 
                   : 'Orders will appear here when customers place them'}
@@ -430,7 +430,7 @@ export default function OrdersPage() {
           )}
         </div>
         )}
-      </div>
+      </DataSectionCard>
     </div>
   );
 }

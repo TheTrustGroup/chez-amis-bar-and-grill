@@ -34,9 +34,9 @@ export const GalleryImage = memo(function GalleryImage({
 
   // Fallback images
   const fallbackImages = {
-    dish: '/images/placeholders/dish-placeholder.svg',
-    video: '/images/placeholders/video-placeholder.svg',
-    restaurant: '/images/placeholders/restaurant-placeholder.svg',
+    dish: '/media/images/img-0821-2.jpg',
+    video: '/media/images/img-6740.jpg',
+    restaurant: '/media/images/img-6740.jpg',
   }
 
   const handleImageError = () => {

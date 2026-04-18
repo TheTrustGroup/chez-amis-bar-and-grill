@@ -29,7 +29,7 @@ export interface MenuItem {
   preparationTime?: string
 }
 
-export const DISH_PLACEHOLDER = '/images/placeholders/dish-placeholder.svg'
+export const DISH_PLACEHOLDER = '/media/images/img-0821-2.jpg'
 
 export interface MenuCategory {
   id: string
@@ -1677,34 +1677,36 @@ const baseMenuCategories: MenuCategory[] = menuCategoriesRaw.map(
   }),
 )
 
-const extendedMenuCategories: MenuCategory[] = legacyExtendedCategoryLabels.map((def) => ({
-  id: `ext-${def.id}`,
-  name: def.label,
-  description: 'Chef selections and pairings',
-  items: legacyExtendedMenuItems
-    .filter((item) => item.category === def.id)
-    .map((e) =>
-      normalizeMenuItem({
-        id: e.id,
-        name: e.name,
-        description: e.description,
-        price: e.portionSize?.regular ?? e.price,
-        category: e.category,
-        subcategory: e.preparation,
-        image: DISH_PLACEHOLDER,
-        allergens: [],
-        dietary: {
-          vegan: e.dietary.includes('vegan'),
-          vegetarian: e.dietary.includes('vegetarian'),
-          glutenFree: e.dietary.includes('gluten-free'),
-        },
-        featured: e.chefRecommended ?? false,
-        available: e.available,
-        pairingSuggestion: e.pairingSuggestion ?? undefined,
-        preparation: e.preparation,
-      }),
-    ),
-}))
+const extendedMenuCategories: MenuCategory[] = legacyExtendedCategoryLabels
+  .map((def) => ({
+    id: `ext-${def.id}`,
+    name: def.label,
+    description: 'Chef selections and pairings',
+    items: legacyExtendedMenuItems
+      .filter((item) => item.category === def.id)
+      .map((e) =>
+        normalizeMenuItem({
+          id: e.id,
+          name: e.name,
+          description: e.description,
+          price: e.portionSize?.regular ?? e.price,
+          category: def.label,
+          subcategory: e.preparation,
+          image: e.image || DISH_PLACEHOLDER,
+          allergens: [],
+          dietary: {
+            vegan: e.dietary.includes('vegan'),
+            vegetarian: e.dietary.includes('vegetarian'),
+            glutenFree: e.dietary.includes('gluten-free'),
+          },
+          featured: e.chefRecommended ?? false,
+          available: e.available,
+          pairingSuggestion: e.pairingSuggestion ?? undefined,
+          preparation: e.preparation,
+        }),
+      ),
+  }))
+  .filter((category) => category.items.length > 0)
 
 export const menuCategories: MenuCategory[] = [...baseMenuCategories, ...extendedMenuCategories]
 

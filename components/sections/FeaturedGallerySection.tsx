@@ -93,9 +93,7 @@ export function FeaturedGallerySection() {
                 {item.type === "video" ? (
                   <video
                     src={item.src}
-                    poster={
-                      item.poster ?? "/images/placeholders/video-placeholder.svg"
-                    }
+                    poster={item.poster ?? "/media/images/img-6740.jpg"}
                     className="absolute inset-0 z-[1] h-full w-full object-cover bg-green-600"
                     muted
                     playsInline
@@ -110,7 +108,7 @@ export function FeaturedGallerySection() {
                     className="object-cover transition-transform duration-500 group-hover:scale-110"
                     loading="lazy"
                     fallbackType="dish"
-                    fallbackSrc="/images/placeholders/dish-placeholder.svg"
+                    fallbackSrc="/media/images/img-0821-2.jpg"
                   />
                 )}
 

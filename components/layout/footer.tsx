@@ -1,8 +1,7 @@
 "use client"
 
 import Link from "next/link"
-import { Instagram, Mail, Phone, MapPin, Clock, UtensilsCrossed, Calendar } from "lucide-react"
-import { ThemeToggle } from "@/components/ui/theme-toggle"
+import { Instagram, Facebook, Mail, Phone, MapPin, Clock, UtensilsCrossed, Calendar } from "lucide-react"
 import { SnapchatIcon } from "@/components/ui/snapchat-icon"
 import { cn } from "@/lib/utils"
 import { useTheme } from "@/lib/context/ThemeContext"
@@ -41,7 +40,7 @@ export function Footer() {
                     <div className="h-0.5 w-8 bg-terra-500 group-hover:w-12 transition-all duration-300" aria-hidden="true"></div>
                   </div>
                   <span className={cn(
-                    "section-title transition-colors duration-300",
+                    "font-display text-3xl md:text-4xl font-light leading-tight transition-colors duration-300",
                     "text-terra-500 group-hover:text-terra-400"
                   )}>
                     Chez Amis
@@ -81,13 +80,29 @@ export function Footer() {
                   isDark
                     ? "text-white/70 hover:text-terra-400 hover:bg-terra-500/10"
                     : "text-white/60 hover:text-terra-500 hover:bg-terra-500/10",
-                  "hover:scale-110 active:scale-95",
+                  "active:scale-95",
                   "border border-transparent hover:border-terra-500/30"
                 )}
                 aria-label="Follow us on Instagram"
               >
                 <Instagram className="h-5 w-5 transition-transform duration-300 group-hover/social:scale-110" />
-                <span className="absolute inset-0 rounded-full bg-gradient-to-br from-purple-500/0 to-pink-500/0 group-hover/social:from-purple-500/10 group-hover/social:to-pink-500/10 transition-all duration-300" />
+              </a>
+              <a
+                href="https://www.facebook.com/share/1Eh4cywpM5/?mibextid=wwXIfr"
+                target="_blank"
+                rel="noopener noreferrer"
+                className={cn(
+                  "relative transition-all duration-300 rounded-full p-2.5 min-h-[44px] min-w-[44px] flex items-center justify-center",
+                  "group/social",
+                  isDark
+                    ? "text-white/70 hover:text-terra-400 hover:bg-terra-500/10"
+                    : "text-white/60 hover:text-terra-500 hover:bg-terra-500/10",
+                  "active:scale-95",
+                  "border border-transparent hover:border-terra-500/30"
+                )}
+                aria-label="Follow us on Facebook"
+              >
+                <Facebook className="h-5 w-5 transition-transform duration-300 group-hover/social:scale-110" />
               </a>
               <a
                 href="https://www.snapchat.com/add/chez_amis"
@@ -99,13 +114,12 @@ export function Footer() {
                   isDark
                     ? "text-white/70 hover:text-terra-400 hover:bg-terra-500/10"
                     : "text-white/60 hover:text-terra-500 hover:bg-terra-500/10",
-                  "hover:scale-110 active:scale-95",
+                  "active:scale-95",
                   "border border-transparent hover:border-terra-500/30"
                 )}
                 aria-label="Follow us on Snapchat"
               >
                 <SnapchatIcon className="h-5 w-5 transition-transform duration-300 group-hover/social:scale-110" />
-                <span className="absolute inset-0 rounded-full bg-gradient-to-br from-yellow-400/0 to-yellow-500/0 group-hover/social:from-yellow-400/10 group-hover/social:to-yellow-500/10 transition-all duration-300" />
               </a>
               <a
                 href="https://www.tiktok.com/@chezamisrestaurant?_r=1&_t=ZM-920yX90ahAW"
@@ -117,7 +131,7 @@ export function Footer() {
                   isDark
                     ? "text-white/70 hover:text-terra-400 hover:bg-terra-500/10"
                     : "text-white/60 hover:text-terra-500 hover:bg-terra-500/10",
-                  "hover:scale-110 active:scale-95",
+                  "active:scale-95",
                   "border border-transparent hover:border-terra-500/30"
                 )}
                 aria-label="Follow us on TikTok"
@@ -130,7 +144,6 @@ export function Footer() {
                 >
                   <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z" />
                 </svg>
-                <span className="absolute inset-0 rounded-full bg-black/0 group-hover/social:bg-black/10 transition-all duration-300" />
               </a>
             </div>
           </div>
@@ -357,7 +370,7 @@ export function Footer() {
                   isDark
                     ? "text-terra-400 bg-terra-500/5 hover:bg-terra-500/10 hover:border-terra-500/50"
                     : "text-terra-500 bg-terra-500/5 hover:bg-terra-500/10 hover:border-terra-500/50",
-                  "hover:scale-105 active:scale-95"
+                  "active:scale-95"
                 )}
                 onClick={() => trackReservationClick("footer")}
               >
@@ -373,7 +386,7 @@ export function Footer() {
                   isDark
                     ? "text-terra-400 bg-terra-500/5 hover:bg-terra-500/10 hover:border-terra-500/50"
                     : "text-terra-500 bg-terra-500/5 hover:bg-terra-500/10 hover:border-terra-500/50",
-                  "hover:scale-105 active:scale-95"
+                  "active:scale-95"
                 )}
                 onClick={() => trackOrderClick("footer")}
               >
@@ -394,7 +407,6 @@ export function Footer() {
             © {currentYear} Chez Amis Bar &amp; Grill. All rights reserved.
           </p>
           <div className="flex flex-wrap items-center justify-center gap-6">
-            <ThemeToggle className="text-white/60 hover:text-white hover:bg-white/10" />
             <Link
               href="/privacy"
               className="hover:text-white/70 transition-colors"

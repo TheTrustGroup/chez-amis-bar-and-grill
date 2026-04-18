@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { Menu, X, ShoppingBag } from "lucide-react"
+import { Menu, X, ShoppingBag, Instagram, Facebook } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { ThemeToggle } from "@/components/ui/theme-toggle"
 import { useCartContext } from "@/lib/context/CartContext"
@@ -17,6 +17,7 @@ import { CHECKOUT_PATH } from "@/lib/data/siteContact"
 
 const navItems = [
   { href: "/", label: "Home" },
+  { href: "/about", label: "About" },
   { href: "/menu", label: "Our Menu" },
   { href: "/gallery", label: "Gallery" },
   { href: "/private-events", label: "Private Dining" },
@@ -155,6 +156,28 @@ export function Header() {
             </nav>
 
             <div className="flex items-center gap-1 sm:gap-2 md:gap-3 flex-shrink-0">
+              <div className="hidden md:flex items-center gap-1">
+                <a
+                  href="https://www.instagram.com/chez_amis_restaurant?igsh=dWFmbnA5MzlqaWk5"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex h-10 w-10 items-center justify-center rounded-md text-white/70 hover:text-white hover:bg-white/10 transition-colors"
+                  aria-label="Chez Amis Instagram"
+                >
+                  <Instagram className="h-4 w-4" />
+                </a>
+                <a
+                  href="https://www.facebook.com/share/1Eh4cywpM5/?mibextid=wwXIfr"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex h-10 w-10 items-center justify-center rounded-md text-white/70 hover:text-white hover:bg-white/10 transition-colors"
+                  aria-label="Chez Amis Facebook"
+                >
+                  <Facebook className="h-4 w-4" />
+                </a>
+                <ThemeToggle className="text-white/70 hover:text-white hover:bg-white/10" />
+              </div>
+
               <Link
                 href="/cart"
                 className={cn(
@@ -263,7 +286,27 @@ export function Header() {
                 Order Delivery
               </Link>
               <div className="flex justify-center pt-6 border-t border-white/10 mt-6">
-                <ThemeToggle className="text-white/80 hover:text-white" />
+                <div className="flex items-center gap-2">
+                  <ThemeToggle className="text-white/80 hover:text-white" />
+                  <a
+                    href="https://www.instagram.com/chez_amis_restaurant?igsh=dWFmbnA5MzlqaWk5"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex h-10 w-10 items-center justify-center rounded-md text-white/80 hover:text-white hover:bg-white/10 transition-colors"
+                    aria-label="Chez Amis Instagram"
+                  >
+                    <Instagram className="h-4 w-4" />
+                  </a>
+                  <a
+                    href="https://www.facebook.com/share/1Eh4cywpM5/?mibextid=wwXIfr"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex h-10 w-10 items-center justify-center rounded-md text-white/80 hover:text-white hover:bg-white/10 transition-colors"
+                    aria-label="Chez Amis Facebook"
+                  >
+                    <Facebook className="h-4 w-4" />
+                  </a>
+                </div>
               </div>
             </div>
           </nav>

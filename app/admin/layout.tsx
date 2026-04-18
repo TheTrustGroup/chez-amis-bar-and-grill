@@ -6,6 +6,7 @@ import {
   LayoutDashboard, 
   ShoppingBag, 
   Calendar, 
+  Inbox,
   Menu as MenuIcon, 
   Settings, 
   LogOut,
@@ -18,6 +19,7 @@ const navigation = [
   { name: 'Dashboard', href: '/admin', icon: LayoutDashboard },
   { name: 'Orders', href: '/admin/orders', icon: ShoppingBag },
   { name: 'Reservations', href: '/admin/reservations', icon: Calendar },
+  { name: 'Outbox', href: '/admin/outbox', icon: Inbox },
   { name: 'Menu', href: '/admin/menu', icon: ChefHat },
   { name: 'Settings', href: '/admin/settings', icon: Settings },
 ];
@@ -64,10 +66,10 @@ export default function AdminLayout({
   // Show loading state while checking auth
   if (isChecking) {
     return (
-      <div className="min-h-screen bg-gray-100 flex items-center justify-center">
+      <div className="flex min-h-screen items-center justify-center bg-background">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-amber-600 mx-auto mb-4"></div>
-          <p className="text-gray-600">Loading...</p>
+          <p className="text-muted-foreground">Loading...</p>
         </div>
       </div>
     );
@@ -88,7 +90,7 @@ export default function AdminLayout({
   };
 
   return (
-    <div className="min-h-screen bg-gray-100">
+    <div className="min-h-screen bg-background">
       
       {/* Mobile Sidebar Overlay */}
       {sidebarOpen && (
@@ -160,34 +162,34 @@ export default function AdminLayout({
       <div className="lg:ml-64">
         
         {/* Top Bar */}
-        <header className="sticky top-0 z-30 h-16 bg-white border-b border-gray-200 flex items-center justify-between px-4 md:px-6">
+        <header className="sticky top-0 z-30 h-16 border-b border-border bg-card/95 backdrop-blur supports-[backdrop-filter]:bg-card/80 flex items-center justify-between px-4 md:px-6">
           <button
             onClick={() => setSidebarOpen(true)}
-            className="lg:hidden text-gray-600 hover:text-gray-900"
+            className="text-muted-foreground hover:text-foreground lg:hidden"
             aria-label="Open menu"
           >
             <MenuIcon className="w-6 h-6" />
           </button>
 
           <div className="flex-1 lg:flex-none ml-4 lg:ml-0">
-            <h2 className="text-base sm:text-lg font-semibold text-gray-900 truncate">
+            <h2 className="text-base sm:text-lg font-semibold text-foreground truncate">
               {navigation.find(item => item.href === pathname)?.name || 'Dashboard'}
             </h2>
           </div>
 
           <div className="flex items-center gap-2 sm:gap-4">
             <div className="text-right hidden sm:block">
-              <p className="text-sm font-medium text-gray-900">Admin User</p>
-              <p className="text-xs text-gray-500">admin@chezamisrestaurant.com</p>
+              <p className="text-sm font-medium text-foreground">Admin User</p>
+              <p className="text-xs text-muted-foreground">admin@chezamisrestaurant.com</p>
             </div>
-            <div className="w-10 h-10 bg-amber-100 rounded-full flex items-center justify-center flex-shrink-0">
+            <div className="w-10 h-10 bg-terra-100 rounded-full flex items-center justify-center flex-shrink-0">
               <span className="text-amber-700 font-semibold">A</span>
             </div>
           </div>
         </header>
 
         {/* Page Content */}
-        <main className="p-6">
+        <main className="ui-shell py-4 md:py-6">
           {children}
         </main>
       </div>

@@ -42,7 +42,7 @@ export function MobileMenuCard({ item }: MobileMenuCardProps) {
         {/* Image */}
         <div className="relative w-20 h-20 md:w-24 md:h-24 flex-shrink-0 rounded-md overflow-hidden border border-neutral-100">
           <Image
-            src={item.image || "/images/placeholders/dish-placeholder.svg"}
+            src={item.image || "/media/images/img-0821-2.jpg"}
             alt={item.name}
             fill
             sizes="(max-width: 768px) 80px, 96px"

@@ -10,7 +10,7 @@ import { PaymentSelector, type PaymentMethod } from "@/components/order/PaymentS
 import { OrderSummary } from "@/components/order/OrderSummary"
 import { useCartContext } from "@/lib/context/CartContext"
 import { PAYMENT_ON_DELIVERY_ONLY } from "@/lib/config/payments"
-import { Shield, Lock, Banknote } from "lucide-react"
+import { Shield, Lock, Banknote, MessageCircle } from "lucide-react"
 
 export default function PlaceOrderPage() {
   const router = useRouter()
@@ -58,6 +58,10 @@ export default function PlaceOrderPage() {
     !!formData.email &&
     !!formData.phone &&
     paymentMethod !== null
+
+  const whatsappFallbackLink = `https://wa.me/233243952339?text=${encodeURIComponent(
+    `Hello Chez Amis, I'd like to confirm my order from the website.\n\nName: ${formData.fullName || "Guest"}\nPhone: ${formData.phone || "N/A"}\nItems: ${items.length}\nEstimated total: GH₵ ${getGrandTotal(orderType || undefined).toFixed(2)}`
+  )}`
 
   const handlePlaceOrder = async () => {
     if (!canPlaceOrder || isSubmitting) return
@@ -328,6 +332,20 @@ export default function PlaceOrderPage() {
               {/* Place Order Button - Hidden on desktop (shown in OrderSummary sidebar instead) */}
               {/* On mobile, OrderSummary appears above with the button */}
               {/* On desktop, OrderSummary sidebar has the button */}
+              <div className="rounded-sm border border-border/40 bg-muted/20 p-4">
+                <p className="mb-3 text-sm text-muted-foreground font-body font-light">
+                  Need help confirming payment? Use WhatsApp and our team will assist right away.
+                </p>
+                <a
+                  href={whatsappFallbackLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex min-h-[44px] items-center gap-2 rounded-md border border-green-500/40 px-4 py-2 text-sm font-body font-medium text-green-700 transition-colors hover:bg-green-500/10 dark:text-green-300"
+                >
+                  <MessageCircle className="h-4 w-4" />
+                  Confirm on WhatsApp
+                </a>
+              </div>
             </div>
           </div>
 
