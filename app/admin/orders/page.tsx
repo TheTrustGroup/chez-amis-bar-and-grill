@@ -41,17 +41,22 @@ export default function OrdersPage() {
   const [statusFilter, setStatusFilter] = useState('all');
   const [typeFilter, setTypeFilter] = useState('all');
   const [isLoading, setIsLoading] = useState(true);
+  const [isRefreshing, setIsRefreshing] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    fetchOrders();
+    fetchOrders(false);
     // Auto-refresh every 30 seconds
-    const interval = setInterval(fetchOrders, 30000);
+    const interval = setInterval(() => fetchOrders(true), 30000);
     return () => clearInterval(interval);
   }, []);
 
-  const fetchOrders = async () => {
-    setIsLoading(true);
+  const fetchOrders = async (backgroundRefresh: boolean = false) => {
+    if (backgroundRefresh) {
+      setIsRefreshing(true);
+    } else {
+      setIsLoading(true);
+    }
     setError(null);
     
     try {
@@ -115,21 +120,24 @@ export default function OrdersPage() {
         if (process.env.NODE_ENV === 'development') {
           console.warn('⚠️ Invalid response structure:', data);
         }
-        setError(data.error || 'Invalid response from server');
-        setOrders([]);
+        setError(data.error || 'Invalid response from server. Showing last successful data.');
       }
     } catch (err) {
       if (err instanceof Error && err.name === 'AbortError') {
-        setError('Request timeout. Please try again.');
+        setError('Request timeout. Showing last successful data.');
       } else {
         if (process.env.NODE_ENV === 'development') {
           console.error('❌ Error fetching orders:', err);
         }
-        setError(err instanceof Error ? err.message : 'Failed to connect to server');
+        const message = err instanceof Error ? err.message : 'Failed to connect to server';
+        setError(`${message}. Showing last successful data.`);
       }
-      setOrders([]);
     } finally {
-      setIsLoading(false);
+      if (backgroundRefresh) {
+        setIsRefreshing(false);
+      } else {
+        setIsLoading(false);
+      }
     }
   };
 
@@ -230,9 +238,9 @@ export default function OrdersPage() {
         actions={
           <>
             <ActionButton
-              onClick={fetchOrders}
-              disabled={isLoading}
-              icon={<RefreshCw className={`h-4 w-4 ${isLoading ? 'animate-spin' : ''}`} />}
+              onClick={() => fetchOrders(true)}
+              disabled={isLoading || isRefreshing}
+              icon={<RefreshCw className={`h-4 w-4 ${(isLoading || isRefreshing) ? 'animate-spin' : ''}`} />}
             >
               Refresh
             </ActionButton>

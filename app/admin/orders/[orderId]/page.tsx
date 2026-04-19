@@ -45,20 +45,37 @@ export default function OrderDetailsPage() {
   const [order, setOrder] = useState<Order | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isUpdating, setIsUpdating] = useState(false);
+  const [isNotFound, setIsNotFound] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [updateMessage, setUpdateMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
 
   const fetchOrderDetails = async () => {
+    setErrorMessage(null);
+    setIsNotFound(false);
+
     try {
-      const response = await fetch('/api/orders/list');
+      const response = await fetch(`/api/orders/${encodeURIComponent(orderId)}`, {
+        cache: 'no-store',
+        headers: {
+          'Cache-Control': 'no-cache',
+        },
+      });
+
+      if (response.status === 404) {
+        setOrder(null);
+        setIsNotFound(true);
+        return;
+      }
+
       const data = await response.json();
-      if (response.ok && data.orders) {
-        const foundOrder = data.orders.find((o: Order) => o.orderId === orderId);
-        if (foundOrder) {
-          setOrder(foundOrder);
-        }
+      if (response.ok && data.order) {
+        setOrder(data.order as Order);
+      } else {
+        setErrorMessage(data.error || 'Unable to load order details right now.');
       }
     } catch (error) {
       console.error('Error fetching order details:', error);
+      setErrorMessage('Unable to load order details right now. Please try again.');
     } finally {
       setIsLoading(false);
     }
@@ -130,16 +147,34 @@ export default function OrderDetailsPage() {
     );
   }
 
-  if (!order) {
+  if (isNotFound || !order) {
     return (
       <div className="text-center py-12">
-        <p className="text-muted-foreground">Order not found</p>
-        <button
-          onClick={() => router.back()}
-          className="mt-4 text-terra-700 md:hover:text-terra-800 active:text-terra-800"
-        >
-          ← Back to Orders
-        </button>
+        <p className="text-muted-foreground">
+          {isNotFound ? 'Order not found' : 'Unable to load order details'}
+        </p>
+        {errorMessage && !isNotFound && (
+          <p className="mt-2 text-sm text-red-700">{errorMessage}</p>
+        )}
+        <div className="mt-4 flex items-center justify-center gap-3">
+          {!isNotFound && (
+            <button
+              onClick={() => {
+                setIsLoading(true);
+                fetchOrderDetails();
+              }}
+              className="rounded-md border border-border px-4 py-2 text-sm text-foreground md:hover:bg-muted/40 active:bg-muted/40"
+            >
+              Retry
+            </button>
+          )}
+          <button
+            onClick={() => router.back()}
+            className="text-terra-700 md:hover:text-terra-800 active:text-terra-800"
+          >
+            ← Back to Orders
+          </button>
+        </div>
       </div>
     );
   }
@@ -169,6 +204,11 @@ export default function OrderDetailsPage() {
       />
 
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
+        {errorMessage && (
+          <div className="lg:col-span-3 rounded-md border border-red-200 bg-red-50 p-3">
+            <p className="text-sm text-red-800">{errorMessage}</p>
+          </div>
+        )}
         
         {/* Order Details */}
         <div className="ui-stack-md lg:col-span-2">

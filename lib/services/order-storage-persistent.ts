@@ -25,6 +25,7 @@ export interface StoredOrder extends OrderRequest {
 // Storage configuration
 const STORAGE_BACKEND = (process.env.ORDER_STORAGE_BACKEND || 'file').toLowerCase() // 'file' | 'kv' | 'mongodb' | 'supabase'
 const SUPABASE_ORDERS_TABLE = 'restaurant_orders'
+const IS_PRODUCTION = process.env.NODE_ENV === 'production'
 
 // File storage path - use persistent location
 const STORAGE_DIR = path.join(process.cwd(), '.data')
@@ -50,8 +51,19 @@ interface SupabaseOrderRow {
 }
 
 function shouldUseSupabaseOrdersBackend(): boolean {
+  if (IS_PRODUCTION && STORAGE_BACKEND !== 'supabase') {
+    throw new Error(
+      `Unsafe order storage backend "${STORAGE_BACKEND}" in production. Set ORDER_STORAGE_BACKEND=supabase.`
+    )
+  }
+
   if (STORAGE_BACKEND !== 'supabase') return false
   if (!hasSupabaseServerConfig()) {
+    if (IS_PRODUCTION) {
+      throw new Error(
+        'ORDER_STORAGE_BACKEND is set to supabase but Supabase server credentials are missing. Set SUPABASE_SERVICE_ROLE_KEY and NEXT_PUBLIC_SUPABASE_URL.'
+      )
+    }
     if (process.env.NODE_ENV === 'development') {
       console.warn(
         'ORDER_STORAGE_BACKEND is supabase but SUPABASE_SERVICE_ROLE_KEY is missing. Falling back to file storage.'

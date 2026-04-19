@@ -5,6 +5,7 @@ import type { ReservationRequest, ReservationStatus, StoredReservation } from '@
 
 const STORAGE_BACKEND = (process.env.ORDER_STORAGE_BACKEND || 'file').toLowerCase()
 const SUPABASE_RESERVATIONS_TABLE = 'restaurant_reservations'
+const IS_PRODUCTION = process.env.NODE_ENV === 'production'
 const STORAGE_DIR = path.join(process.cwd(), '.data')
 const STORAGE_FILE = path.join(STORAGE_DIR, 'reservations.json')
 
@@ -32,7 +33,18 @@ const RESERVATION_STATUSES: ReservationStatus[] = [
 ]
 
 function shouldUseSupabaseReservationsBackend(): boolean {
+  if (IS_PRODUCTION && STORAGE_BACKEND !== 'supabase') {
+    throw new Error(
+      `Unsafe reservation storage backend "${STORAGE_BACKEND}" in production. Set ORDER_STORAGE_BACKEND=supabase.`
+    )
+  }
+
   if (STORAGE_BACKEND !== 'supabase') return false
+  if (!hasSupabaseServerConfig() && IS_PRODUCTION) {
+    throw new Error(
+      'ORDER_STORAGE_BACKEND is set to supabase but Supabase server credentials are missing. Set SUPABASE_SERVICE_ROLE_KEY and NEXT_PUBLIC_SUPABASE_URL.'
+    )
+  }
   return hasSupabaseServerConfig()
 }
 
