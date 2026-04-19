@@ -32,16 +32,21 @@ export default function ReservationsPage() {
   const [statusFilter, setStatusFilter] = useState('all');
   const [dateFilter, setDateFilter] = useState('');
   const [isLoading, setIsLoading] = useState(true);
+  const [isRefreshing, setIsRefreshing] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    fetchReservations();
-    const interval = setInterval(fetchReservations, 30000);
+    fetchReservations(false);
+    const interval = setInterval(() => fetchReservations(true), 30000);
     return () => clearInterval(interval);
   }, []);
 
-  const fetchReservations = async () => {
-    setIsLoading(true);
+  const fetchReservations = async (backgroundRefresh: boolean = false) => {
+    if (backgroundRefresh) {
+      setIsRefreshing(true);
+    } else {
+      setIsLoading(true);
+    }
     setError(null);
 
     try {
@@ -88,13 +93,17 @@ export default function ReservationsPage() {
       setReservations(normalizedReservations);
     } catch (fetchError) {
       if (fetchError instanceof Error && fetchError.name === 'AbortError') {
-        setError('Request timeout. Please try again.');
+        setError('Request timeout. Showing last successful data.');
       } else {
-        setError(fetchError instanceof Error ? fetchError.message : 'Failed to fetch reservations');
+        const message = fetchError instanceof Error ? fetchError.message : 'Failed to fetch reservations';
+        setError(`${message}. Showing last successful data.`);
       }
-      setReservations([]);
     } finally {
-      setIsLoading(false);
+      if (backgroundRefresh) {
+        setIsRefreshing(false);
+      } else {
+        setIsLoading(false);
+      }
     }
   };
 
@@ -160,9 +169,9 @@ export default function ReservationsPage() {
         subtitle={isLoading ? 'Loading reservations...' : `${reservations.length} total reservations`}
         actions={
           <ActionButton
-            onClick={fetchReservations}
-            disabled={isLoading}
-            icon={<RefreshCw className={`h-4 w-4 ${isLoading ? 'animate-spin' : ''}`} />}
+            onClick={() => fetchReservations(true)}
+            disabled={isLoading || isRefreshing}
+            icon={<RefreshCw className={`h-4 w-4 ${(isLoading || isRefreshing) ? 'animate-spin' : ''}`} />}
           >
             Refresh
           </ActionButton>

@@ -22,6 +22,12 @@ export default function PlaceOrderPage() {
   )
   const [formData, setFormData] = useState<Record<string, string>>({})
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const generateOrderId = () => {
+    const timestamp = new Date().toISOString().replace(/\D/g, '').slice(0, 14)
+    const entropy = crypto.randomUUID().slice(0, 8).toUpperCase()
+    return `CAG-${timestamp}-${entropy}`
+  }
+
   const [submitError, setSubmitError] = useState<string | null>(null)
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({})
   const step1Ref = useRef<HTMLDivElement | null>(null)
@@ -190,10 +196,7 @@ export default function PlaceOrderPage() {
     setFieldErrors({})
 
     try {
-      // Generate order ID
-      const orderId = `CAG-${new Date().getFullYear()}-${Math.floor(Math.random() * 10000)
-        .toString()
-        .padStart(4, "0")}`
+      const orderId = generateOrderId()
 
       // Calculate totals using context methods for consistency
       const subtotal = getSubtotal()

@@ -46,6 +46,12 @@ export default function AdminDashboard() {
   });
   const [isLoading, setIsLoading] = useState(true);
 
+  const formatStatusLabel = (status: string) =>
+    status
+      .split('-')
+      .map((segment) => segment.charAt(0).toUpperCase() + segment.slice(1))
+      .join(' ');
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -218,7 +224,7 @@ export default function AdminDashboard() {
                               ? 'bg-blue-100 text-blue-700'
                               : 'bg-amber-100 text-amber-800'
                           }`}>
-                            {order.status}
+                            {formatStatusLabel(order.status)}
                           </span>
                         </div>
                           <p className="text-sm text-muted-foreground">{order.customer} • {order.type}</p>
@@ -229,10 +235,11 @@ export default function AdminDashboard() {
                     </Link>
                   ))}
                 </div>
-                <Link href="/admin/orders">
-                  <button className="mt-4 w-full rounded-md border border-border py-2 text-center text-sm font-medium text-terra-700 md:hover:bg-muted/40 active:bg-muted/40">
-                    View All Orders →
-                  </button>
+                <Link
+                  href="/admin/orders"
+                  className="mt-4 inline-flex w-full items-center justify-center rounded-md border border-border px-3 py-2 text-center text-sm font-medium text-terra-700 md:hover:bg-muted/40 active:bg-muted/40"
+                >
+                  View All Orders →
                 </Link>
               </>
             ) : (
@@ -264,7 +271,7 @@ export default function AdminDashboard() {
                                 ? 'bg-blue-100 text-blue-700'
                                 : 'bg-amber-100 text-amber-800'
                           }`}>
-                            {reservation.status}
+                            {formatStatusLabel(reservation.status)}
                           </span>
                         </div>
                         <p className="text-sm text-muted-foreground">{reservation.customer}</p>
@@ -278,10 +285,11 @@ export default function AdminDashboard() {
                     </div>
                   ))}
                 </div>
-                <Link href="/admin/reservations">
-                  <button className="mt-4 w-full rounded-md border border-border py-2 text-center text-sm font-medium text-terra-700 md:hover:bg-muted/40 active:bg-muted/40">
-                    View All Reservations →
-                  </button>
+                <Link
+                  href="/admin/reservations"
+                  className="mt-4 inline-flex w-full items-center justify-center rounded-md border border-border px-3 py-2 text-center text-sm font-medium text-terra-700 md:hover:bg-muted/40 active:bg-muted/40"
+                >
+                  View All Reservations →
                 </Link>
               </>
             ) : (
@@ -297,29 +305,33 @@ export default function AdminDashboard() {
       <div className="ui-panel">
         <h2 className="mb-4 text-base font-semibold text-foreground">Quick Actions</h2>
         <div className="grid grid-cols-2 gap-3 md:grid-cols-4 md:gap-4">
-          <Link href="/admin/orders">
-            <button className="w-full rounded-lg border border-border p-4 transition-colors md:hover:border-terra-400 md:hover:bg-terra-50 active:border-terra-400 active:bg-terra-50">
-              <ShoppingBag className="w-6 h-6 text-amber-600 mx-auto mb-2" />
-              <p className="text-sm font-medium text-foreground">View Orders</p>
-            </button>
+          <Link
+            href="/admin/orders"
+            className="flex min-h-24 w-full flex-col items-center justify-center rounded-lg border border-border p-4 text-center transition-colors md:hover:border-terra-400 md:hover:bg-terra-50 active:border-terra-400 active:bg-terra-50"
+          >
+            <ShoppingBag className="mb-2 h-6 w-6 text-amber-600" />
+            <p className="text-sm font-medium text-foreground">View Orders</p>
           </Link>
-          <Link href="/admin/reservations">
-            <button className="w-full rounded-lg border border-border p-4 transition-colors md:hover:border-terra-400 md:hover:bg-terra-50 active:border-terra-400 active:bg-terra-50">
-              <Calendar className="w-6 h-6 text-amber-600 mx-auto mb-2" />
-              <p className="text-sm font-medium text-foreground">View Reservations</p>
-            </button>
+          <Link
+            href="/admin/reservations"
+            className="flex min-h-24 w-full flex-col items-center justify-center rounded-lg border border-border p-4 text-center transition-colors md:hover:border-terra-400 md:hover:bg-terra-50 active:border-terra-400 active:bg-terra-50"
+          >
+            <Calendar className="mb-2 h-6 w-6 text-amber-600" />
+            <p className="text-sm font-medium text-foreground">View Reservations</p>
           </Link>
-          <Link href="/admin/menu">
-            <button className="w-full rounded-lg border border-border p-4 transition-colors md:hover:border-terra-400 md:hover:bg-terra-50 active:border-terra-400 active:bg-terra-50">
-              <Clock className="w-6 h-6 text-amber-600 mx-auto mb-2" />
-              <p className="text-sm font-medium text-foreground">Manage Menu</p>
-            </button>
+          <Link
+            href="/admin/menu"
+            className="flex min-h-24 w-full flex-col items-center justify-center rounded-lg border border-border p-4 text-center transition-colors md:hover:border-terra-400 md:hover:bg-terra-50 active:border-terra-400 active:bg-terra-50"
+          >
+            <Clock className="mb-2 h-6 w-6 text-amber-600" />
+            <p className="text-sm font-medium text-foreground">Manage Menu</p>
           </Link>
-          <Link href="/admin/settings">
-            <button className="w-full rounded-lg border border-border p-4 transition-colors md:hover:border-terra-400 md:hover:bg-terra-50 active:border-terra-400 active:bg-terra-50">
-              <CheckCircle className="w-6 h-6 text-amber-600 mx-auto mb-2" />
-              <p className="text-sm font-medium text-foreground">Settings</p>
-            </button>
+          <Link
+            href="/admin/settings"
+            className="flex min-h-24 w-full flex-col items-center justify-center rounded-lg border border-border p-4 text-center transition-colors md:hover:border-terra-400 md:hover:bg-terra-50 active:border-terra-400 active:bg-terra-50"
+          >
+            <CheckCircle className="mb-2 h-6 w-6 text-amber-600" />
+            <p className="text-sm font-medium text-foreground">Settings</p>
           </Link>
         </div>
       </div>

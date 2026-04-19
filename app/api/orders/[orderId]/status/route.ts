@@ -9,7 +9,7 @@ export const dynamic = 'force-dynamic'
 export const revalidate = 0
 
 export interface OrderStatusUpdateRequest {
-  status: 'preparing' | 'ready' | 'out-for-delivery' | 'delivered' | 'cancelled'
+  status: 'pending' | 'preparing' | 'ready' | 'out-for-delivery' | 'delivered' | 'cancelled'
   customerPhone?: string
   customerName?: string
   customerEmail?: string
@@ -47,6 +47,38 @@ export async function POST(
       )
     }
 
+    const existingOrder = await getOrderById(orderId)
+    if (!existingOrder) {
+      return NextResponse.json(
+        { error: 'Order not found' },
+        { status: 404 }
+      )
+    }
+
+    if (existingOrder.status === 'delivered' && updateData.status !== 'delivered') {
+      return NextResponse.json(
+        { error: 'Cannot change status of a delivered order' },
+        { status: 400 }
+      )
+    }
+
+    if (existingOrder.status === updateData.status) {
+      return NextResponse.json({
+        success: true,
+        orderId,
+        status: updateData.status,
+        message: `Order status is already ${updateData.status}`,
+        order: existingOrder,
+        notification: {
+          statusUpdated: false,
+          notification: {
+            email: { sent: false, error: null },
+            sms: { sent: false, error: null },
+          },
+        },
+      })
+    }
+
     // Fetch order from storage if customer details not provided
     let customerPhone = updateData.customerPhone
     let customerName = updateData.customerName
@@ -57,20 +89,12 @@ export async function POST(
       if (process.env.NODE_ENV === 'development') {
         console.log('📦 Fetching order details from storage for:', orderId)
       }
-      const storedOrder = await getOrderById(orderId)
-      
-      if (!storedOrder) {
-        return NextResponse.json(
-          { error: 'Order not found' },
-          { status: 404 }
-        )
-      }
 
       // Use stored order details if not provided
-      customerPhone = customerPhone || storedOrder.customer?.phone || ''
-      customerName = customerName || (storedOrder.customer as any)?.fullName || (storedOrder.customer as any)?.name || ''
-      customerEmail = customerEmail || storedOrder.customer?.email || ''
-      orderType = orderType || storedOrder.orderType || 'delivery'
+      customerPhone = customerPhone || existingOrder.customer?.phone || ''
+      customerName = customerName || (existingOrder.customer as any)?.fullName || (existingOrder.customer as any)?.name || ''
+      customerEmail = customerEmail || existingOrder.customer?.email || ''
+      orderType = orderType || existingOrder.orderType || 'delivery'
 
       if (process.env.NODE_ENV === 'development') {
         console.log('✅ Retrieved order details:', {
@@ -91,7 +115,7 @@ export async function POST(
     }
 
     // Validate status
-    const validStatuses = ['preparing', 'ready', 'out-for-delivery', 'delivered', 'cancelled']
+    const validStatuses = ['pending', 'preparing', 'ready', 'out-for-delivery', 'delivered', 'cancelled']
     if (!validStatuses.includes(updateData.status)) {
       return NextResponse.json(
         { error: `Invalid status. Must be one of: ${validStatuses.join(', ')}` },
@@ -114,9 +138,22 @@ export async function POST(
       },
     }
 
-    // Send notifications based on status
+    // Update order status in storage first to avoid notifying on failed writes
+    const updatedOrder = await updateOrderStatus(orderId, updateData.status)
+    
+    if (!updatedOrder) {
+      return NextResponse.json(
+        { error: 'Order not found' },
+        { status: 404 }
+      )
+    }
+
+    // Send notifications based on status after persistence succeeds
     try {
       switch (updateData.status) {
+        case 'pending':
+          results.notificationType = 'pending'
+          break
         case 'preparing':
           // Send "order in progress" notification (Email + SMS)
           if (customerEmail) {
@@ -246,25 +283,6 @@ export async function POST(
       if (!results.notification.sms.error) {
         results.notification.sms.error = errorMsg
       }
-    }
-
-    // Prevent changing status of delivered orders
-    const existingOrder = await getOrderById(orderId)
-    if (existingOrder && existingOrder.status === 'delivered') {
-      return NextResponse.json(
-        { error: 'Cannot change status of a delivered order' },
-        { status: 400 }
-      )
-    }
-
-    // Update order status in storage (now async)
-    const updatedOrder = await updateOrderStatus(orderId, updateData.status)
-    
-    if (!updatedOrder) {
-      return NextResponse.json(
-        { error: 'Order not found' },
-        { status: 404 }
-      )
     }
 
     // Log status update (dev only)
