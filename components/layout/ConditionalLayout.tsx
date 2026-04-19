@@ -6,7 +6,6 @@ import { Header } from '@/components/layout/header'
 import { Footer } from '@/components/layout/footer'
 import { BottomNavigation } from '@/components/mobile/BottomNavigation'
 import { ScrollProgress } from '@/components/ui/scroll-progress'
-import { WhatsAppFloat } from '@/components/ui/WhatsAppFloat'
 import { initSmoothScroll } from '@/lib/utils/smoothScroll'
 
 /**
@@ -49,7 +48,6 @@ export function ConditionalLayout({ children }: { children: React.ReactNode }) {
       >
         {children}
       </main>
-      <WhatsAppFloat />
       <Footer />
       <BottomNavigation />
     </>

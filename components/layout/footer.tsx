@@ -1,10 +1,9 @@
 "use client"
 
 import Link from "next/link"
-import { Instagram, Mail, Phone } from "lucide-react"
+import { Instagram } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { useTheme } from "@/lib/context/ThemeContext"
-import { FOOTER_PHONE_LINES, SITE_EMAIL } from "@/lib/data/siteContact"
 import { getActiveSocialLinks } from "@/lib/data/socialLinks"
 import { SnapchatIcon } from "@/components/ui/snapchat-icon"
 
@@ -38,7 +37,7 @@ export function Footer() {
       role="contentinfo"
     >
       <div className="section-shell-inner py-8 md:py-10">
-        <div className="grid gap-6 md:grid-cols-[1.1fr_1fr_auto] md:items-center">
+        <div className="grid gap-6 md:grid-cols-[1.1fr_auto] md:items-center">
           <div className="space-y-1.5">
             <Link href="/" className="inline-flex flex-col">
               <span className="font-display text-2xl font-light text-terra-400">Chez Amis</span>
@@ -49,40 +48,7 @@ export function Footer() {
             </p>
           </div>
 
-          <nav
-            className="grid grid-cols-2 gap-2 text-sm md:justify-self-center"
-            aria-label="Footer quick links"
-          >
-            {[
-              { href: "/menu", label: "Menu" },
-              { href: "/reservations", label: "Reserve" },
-              { href: "/contact", label: "Contact" },
-              { href: "/about", label: "About" },
-            ].map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className="rounded-md px-2 py-2 text-white/80 transition-colors md:hover:text-terra-300 active:bg-white/10"
-              >
-                {link.label}
-              </Link>
-            ))}
-          </nav>
-
-          <div className="space-y-2 md:justify-self-end">
-            <a
-              href={`tel:${FOOTER_PHONE_LINES[0]?.tel ?? ""}`}
-              className="inline-flex items-center gap-2 text-sm text-white/80 transition-colors md:hover:text-terra-300"
-            >
-              <Phone className="h-4 w-4" />
-              {FOOTER_PHONE_LINES[0]?.display}
-            </a>
-            <a
-              href={`mailto:${SITE_EMAIL}`}
-              className="block text-sm text-white/80 transition-colors md:hover:text-terra-300 break-all [overflow-wrap:anywhere]"
-            >
-              {SITE_EMAIL}
-            </a>
+          <div className="md:justify-self-end">
             <div className="flex items-center gap-1 pt-1">
               {socialLinks.map((social) => (
                 <a
