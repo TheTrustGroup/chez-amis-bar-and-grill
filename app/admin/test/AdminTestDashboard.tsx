@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { CheckCircle, XCircle, Loader2 } from 'lucide-react';
 import { PageHeader } from '@/components/admin/ui/PageHeader';
+import { ActionButton } from '@/components/admin/ui/ActionButton';
 
 export default function AdminTestDashboard() {
   const [testResults, setTestResults] = useState<{[key: string]: 'pending' | 'pass' | 'fail'}>({});
@@ -142,13 +143,14 @@ export default function AdminTestDashboard() {
       />
 
       <div className="ui-panel">
-        <button
+        <ActionButton
           onClick={runAllTests}
           disabled={isRunning}
-          className="mb-6 rounded-md border border-terra-500 px-4 py-2 text-sm font-medium text-terra-700 hover:bg-terra-50 disabled:opacity-50"
+          tone="primary"
+          className="mb-6"
         >
           {isRunning ? 'Running Tests...' : 'Run All Tests'}
-        </button>
+        </ActionButton>
 
         <div className="space-y-3">
           {tests.map(test => (

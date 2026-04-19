@@ -1,7 +1,7 @@
 import { Metadata } from "next"
-import Link from "next/link"
 import { Button } from "@/components/ui/button"
-import { ArrowLeft, Mail, Phone, Briefcase, Users, Utensils, Heart } from "lucide-react"
+import { Mail, Phone, Briefcase, Users, Utensils, Heart } from "lucide-react"
+import { FOOTER_PHONE_LINES, SITE_EMAIL } from "@/lib/data/siteContact"
 
 export const metadata: Metadata = {
   title: "Careers - Join Our Team | Chez Amis Bar and Grill",
@@ -69,7 +69,7 @@ export default function CareersPage() {
               Join Our Team
             </h1>
             <p className="nav-page-subheading text-white/85 md:text-lg">
-              Be part of a team that&apos;s passionate about exceptional food and hospitality
+              Build your career with a team focused on great food and service.
             </p>
           </div>
         </div>
@@ -85,7 +85,7 @@ export default function CareersPage() {
                 Why Work at Chez Amis?
               </h2>
               <p className="text-base md:text-lg font-body font-light text-muted-foreground leading-relaxed">
-                At Chez Amis, we believe that great food comes from great people. We&apos;re looking for individuals who share our passion for authentic West African cuisine and exceptional hospitality.
+                We hire people who care about craft, consistency, and hospitality.
               </p>
             </div>
 
@@ -130,14 +130,6 @@ export default function CareersPage() {
                     <p className="text-muted-foreground font-body font-light leading-relaxed mb-4">
                       {position.description}
                     </p>
-                    <Link href="/contact">
-                      <Button
-                        variant="outline"
-                        className="border-2 border-terra-500/50 text-terra-600 md:hover:bg-terra-500/10 active:bg-terra-500/10 md:hover:border-terra-500 active:border-terra-500 font-body font-light"
-                      >
-                        Apply Now
-                      </Button>
-                    </Link>
                   </div>
                 ))}
               </div>
@@ -146,10 +138,10 @@ export default function CareersPage() {
             {/* General Application */}
             <div className="ui-card-compact bg-green-600 text-white border-green-500/40 p-6 md:p-8 space-y-5">
               <h2 className="text-xl md:text-2xl font-display font-light">
-                Don&apos;t See a Position That Fits?
+                Apply to Our Team
               </h2>
               <p className="text-white/80 font-body font-light leading-relaxed">
-                We&apos;re always looking for talented individuals to join our team. Even if you don&apos;t see a specific position listed, we&apos;d love to hear from you. Send us your resume and let us know how you&apos;d like to contribute to the Chez Amis experience.
+                Share your resume and preferred role. We review applications for both listed and upcoming openings.
               </p>
               <div className="pt-4 space-y-4">
                 <div className="flex items-center gap-4">
@@ -157,10 +149,10 @@ export default function CareersPage() {
                   <div>
                     <p className="font-body font-medium text-white">Email</p>
                     <a
-                      href="mailto:chez@chezamisrestaurant.com"
+                      href={`mailto:${SITE_EMAIL}`}
                       className="text-terra-400 md:hover:text-terra-300 transition-colors"
                     >
-                      chez@chezamisrestaurant.com
+                      {SITE_EMAIL}
                     </a>
                   </div>
                 </div>
@@ -168,58 +160,22 @@ export default function CareersPage() {
                   <Phone className="h-5 w-5 text-terra-500" />
                   <div>
                     <p className="font-body font-medium text-white">Phone</p>
-                    <div className="space-y-1">
-                      <a
-                        href="tel:+233557032312"
-                        className="block text-terra-400 md:hover:text-terra-300 transition-colors"
-                      >
-                        +233 055 703 2312
-                      </a>
-                      <a
-                        href="tel:+233557032335"
-                        className="block text-terra-400 md:hover:text-terra-300 transition-colors"
-                      >
-                        +233 055 703 2335
-                      </a>
                     <a
-                      href="tel:+233243952339"
-                        className="block text-terra-400 md:hover:text-terra-300 transition-colors"
+                      href={`tel:${FOOTER_PHONE_LINES[0]?.tel ?? ""}`}
+                      className="block text-terra-400 md:hover:text-terra-300 transition-colors"
                     >
-                        +233 024 395 2339
-                      </a>
-                      <a
-                        href="tel:+233502432037"
-                        className="block text-terra-400 md:hover:text-terra-300 transition-colors"
-                      >
-                        +233 050 243 2037
+                      {FOOTER_PHONE_LINES[0]?.display}
                     </a>
-                    </div>
                   </div>
                 </div>
               </div>
               <div className="pt-4">
-                <Link href="/contact">
-                  <Button
-                    variant="outline"
-                    className="border-2 border-terra-500/50 text-terra-400 md:hover:bg-terra-500/10 active:bg-terra-500/10 md:hover:border-terra-500 active:border-terra-500 font-body font-light"
-                  >
-                    Contact Us
+                <a href={`mailto:${SITE_EMAIL}`}>
+                  <Button className="bg-foreground text-background md:hover:bg-foreground/90 active:bg-foreground/90">
+                    Send Application
                   </Button>
-                </Link>
+                </a>
               </div>
-            </div>
-
-            {/* Back Button */}
-            <div className="pt-6">
-              <Link href="/">
-                <Button
-                  variant="outline"
-                  className="group border-2 border-foreground/20 text-foreground md:hover:bg-foreground/5 active:bg-foreground/5 md:hover:border-foreground/40 active:border-foreground/40 font-body font-light tracking-wide"
-                >
-                  <ArrowLeft className="mr-2 h-4 w-4 transition-transform md:group-hover:-translate-x-1" />
-                  Back to Home
-                </Button>
-              </Link>
             </div>
           </div>
         </div>

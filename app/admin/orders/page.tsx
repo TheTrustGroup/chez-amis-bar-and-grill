@@ -337,7 +337,7 @@ export default function OrdersPage() {
                 const StatusIcon = statusConfig[order.status]?.icon || Clock;
                 const statusInfo = statusConfig[order.status] || statusConfig.pending;
                 return (
-                  <tr key={order.id} className="hover:bg-muted/20">
+                  <tr key={order.id} className="md:hover:bg-muted/20">
                     <td className="px-4 py-4 whitespace-nowrap md:px-6">
                       <div className="text-sm font-medium text-foreground">{order.orderId}</div>
                       <div className="text-xs text-muted-foreground">{order.id}</div>
@@ -367,7 +367,7 @@ export default function OrdersPage() {
                       <div className="flex items-center justify-end gap-2">
                         <Link href={`/admin/orders/${order.orderId}`}>
                           <button 
-                            className="p-2 text-blue-600 hover:bg-blue-50 rounded-md transition-colors"
+                            className="rounded-md p-2 text-blue-600 transition-colors md:hover:bg-blue-50 active:bg-blue-50"
                             title="View Order Details"
                           >
                             <Eye className="w-4 h-4" />
@@ -395,7 +395,7 @@ export default function OrdersPage() {
                             className={`h-9 rounded-md border border-border bg-background px-3 text-xs font-medium focus:ring-2 focus:ring-amber-500 focus:border-transparent transition-colors ${
                               order.status === 'delivered' 
                                 ? 'cursor-not-allowed opacity-60 bg-muted/40' 
-                                : 'cursor-pointer hover:bg-muted/30'
+                                : 'cursor-pointer md:hover:bg-muted/30 active:bg-muted/30'
                             }`}
                             title={order.status === 'delivered' ? 'Delivered orders cannot be changed' : 'Update Order Status'}
                           >

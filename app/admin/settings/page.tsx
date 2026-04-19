@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { Save, Building, Clock, Mail, Phone, MapPin, Globe } from 'lucide-react';
 import { PageHeader } from '@/components/admin/ui/PageHeader';
+import { ActionButton } from '@/components/admin/ui/ActionButton';
 
 export default function SettingsPage() {
   const [settings, setSettings] = useState({
@@ -55,14 +56,14 @@ export default function SettingsPage() {
         title="Restaurant Settings"
         subtitle="Manage restaurant information and operational defaults."
         actions={
-          <button
+          <ActionButton
             onClick={handleSave}
             disabled={isSaving}
-            className="inline-flex items-center gap-2 rounded-md border border-terra-500 px-3 py-2 text-sm font-medium text-terra-700 hover:bg-terra-50 disabled:opacity-50"
+            tone="primary"
+            icon={<Save className="w-4 h-4" />}
           >
-            <Save className="w-4 h-4" />
             {isSaving ? 'Saving...' : 'Save Changes'}
-          </button>
+          </ActionButton>
         }
       />
 

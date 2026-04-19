@@ -136,7 +136,7 @@ export default function OrderDetailsPage() {
         <p className="text-muted-foreground">Order not found</p>
         <button
           onClick={() => router.back()}
-          className="mt-4 text-terra-700 hover:text-terra-800"
+          className="mt-4 text-terra-700 md:hover:text-terra-800 active:text-terra-800"
         >
           ← Back to Orders
         </button>
@@ -155,12 +155,12 @@ export default function OrderDetailsPage() {
           <div className="flex items-center gap-2">
             <button
               onClick={() => router.back()}
-              className="inline-flex items-center gap-2 rounded-md border border-border px-3 py-2 text-sm hover:bg-muted/40"
+              className="inline-flex items-center gap-2 rounded-md border border-border px-3 py-2 text-sm md:hover:bg-muted/40 active:bg-muted/40"
             >
               <ArrowLeft className="w-4 h-4" />
               Back
             </button>
-            <button className="inline-flex items-center gap-2 rounded-md border border-border px-3 py-2 text-sm hover:bg-muted/40">
+            <button className="inline-flex items-center gap-2 rounded-md border border-border px-3 py-2 text-sm md:hover:bg-muted/40 active:bg-muted/40">
               <Printer className="w-4 h-4" />
               Print Receipt
             </button>
@@ -199,7 +199,7 @@ export default function OrderDetailsPage() {
                       ? 'border-terra-500 bg-terra-50 text-terra-700 cursor-default'
                       : isUpdating
                       ? 'border-border text-muted-foreground cursor-not-allowed'
-                      : 'border-border hover:border-terra-400 hover:bg-terra-50'
+                      : 'border-border md:hover:border-terra-400 md:hover:bg-terra-50 active:border-terra-400 active:bg-terra-50'
                   }`}
                 >
                   {status.replace('-', ' ')}
@@ -299,14 +299,14 @@ export default function OrderDetailsPage() {
               </div>
               <div>
                 <p className="mb-1 text-sm text-muted-foreground">Phone</p>
-                <a href={`tel:${order.customer.phone}`} className="flex items-center gap-2 text-amber-600 hover:text-amber-700">
+                <a href={`tel:${order.customer.phone}`} className="flex items-center gap-2 text-amber-600 md:hover:text-amber-700 active:text-amber-700">
                   <Phone className="w-4 h-4" />
                   {order.customer.phone}
                 </a>
               </div>
               <div>
                 <p className="mb-1 text-sm text-muted-foreground">Email</p>
-                <a href={`mailto:${order.customer.email}`} className="flex items-center gap-2 text-amber-600 hover:text-amber-700">
+                <a href={`mailto:${order.customer.email}`} className="flex items-center gap-2 text-amber-600 md:hover:text-amber-700 active:text-amber-700">
                   <Mail className="w-4 h-4" />
                   {order.customer.email}
                 </a>

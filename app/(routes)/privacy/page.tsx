@@ -1,8 +1,6 @@
 "use client"
 
-import Link from "next/link"
-import { Button } from "@/components/ui/button"
-import { ArrowLeft } from "lucide-react"
+import { PHONE_LINES, SITE_ADDRESS_LINES, SITE_EMAIL } from "@/lib/data/siteContact"
 
 export default function PrivacyPolicyPage() {
   return (
@@ -158,29 +156,27 @@ export default function PrivacyPolicyPage() {
                   </p>
                   <div className="ui-card-compact bg-green-600/5 p-6 space-y-2 text-foreground">
                     <p><strong>Chez Amis Bar and Grill</strong></p>
-                    <p>40 Boundary Rd, Accra, Ghana</p>
+                    <p>{SITE_ADDRESS_LINES.join(", ")}</p>
                     <p>
-                      Email: <a href="mailto:chez@chezamisrestaurant.com" className="text-terra-600 md:hover:text-terra-700 underline">chez@chezamisrestaurant.com</a>
+                      Email:{" "}
+                      <a href={`mailto:${SITE_EMAIL}`} className="text-terra-600 md:hover:text-terra-700 underline">
+                        {SITE_EMAIL}
+                      </a>
                     </p>
                     <p>
-                      Phone: <a href="tel:+233557032312" className="text-terra-600 md:hover:text-terra-700 underline">055 703 2312</a> / <a href="tel:+233557032335" className="text-terra-600 md:hover:text-terra-700 underline">055 703 2335</a> / <a href="tel:+233243952339" className="text-terra-600 md:hover:text-terra-700 underline">024 395 2339</a> / <a href="tel:+233502432037" className="text-terra-600 md:hover:text-terra-700 underline">050 243 2037</a>
+                      Phone:{" "}
+                      {PHONE_LINES.map((line, index) => (
+                        <span key={line.id}>
+                          {index > 0 ? " / " : ""}
+                          <a href={`tel:${line.tel}`} className="text-terra-600 md:hover:text-terra-700 underline">
+                            {line.display}
+                          </a>
+                        </span>
+                      ))}
                     </p>
                   </div>
                 </div>
               </div>
-            </div>
-
-            {/* Back Button */}
-            <div className="mt-10 md:mt-12 text-center">
-              <Link href="/">
-                <Button
-                  variant="outline"
-                  className="group border-2 border-foreground/20 text-foreground md:hover:bg-foreground/5 active:bg-foreground/5 md:hover:border-foreground/40 active:border-foreground/40 font-body font-light tracking-wide"
-                >
-                  <ArrowLeft className="mr-2 h-4 w-4 transition-transform md:group-hover:-translate-x-1" />
-                  Back to Home
-                </Button>
-              </Link>
             </div>
           </div>
         </div>

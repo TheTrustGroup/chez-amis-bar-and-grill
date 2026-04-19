@@ -262,14 +262,14 @@ export default function ReservationsPage() {
 
                 <div className="flex items-center gap-2 text-sm text-muted-foreground">
                   <Phone className="w-4 h-4 text-muted-foreground" />
-                  <a href={`tel:${reservation.customer.phone}`} className="text-amber-600 hover:text-amber-700">
+                  <a href={`tel:${reservation.customer.phone}`} className="text-amber-600 md:hover:text-amber-700 active:text-amber-700">
                     {reservation.customer.phone}
                   </a>
                 </div>
 
                 <div className="flex items-center gap-2 text-sm text-muted-foreground">
                   <Mail className="w-4 h-4 text-muted-foreground" />
-                  <a href={`mailto:${reservation.customer.email}`} className="text-amber-600 hover:text-amber-700 truncate">
+                  <a href={`mailto:${reservation.customer.email}`} className="truncate text-amber-600 md:hover:text-amber-700 active:text-amber-700">
                     {reservation.customer.email}
                   </a>
                 </div>
@@ -295,7 +295,7 @@ export default function ReservationsPage() {
                   className={`ui-control ${
                     reservation.status === 'cancelled' || reservation.status === 'completed'
                       ? 'cursor-not-allowed opacity-60 bg-muted/40'
-                      : 'cursor-pointer bg-background hover:bg-muted/30'
+                      : 'cursor-pointer bg-background md:hover:bg-muted/30 active:bg-muted/30'
                   }`}
                 >
                   <option value="confirmed">Confirmed</option>

@@ -1,7 +1,5 @@
 import { Metadata } from "next"
 import Link from "next/link"
-import { Button } from "@/components/ui/button"
-import { ArrowLeft } from "lucide-react"
 
 export const metadata: Metadata = {
   title: "Sitemap - Chez Amis Bar and Grill",
@@ -47,7 +45,7 @@ export default function SitemapPage() {
       {/* Main Content */}
       <section className="section-shell">
         <div className="section-shell-inner">
-          <div className="max-w-3xl mx-auto space-y-6 md:space-y-8">
+          <div className="max-w-3xl mx-auto">
             <div className="ui-card-compact p-6 md:p-8 dark:bg-green-600/40 dark:border-green-700/50">
               <h2 className="section-title text-neutral-900 dark:text-white mb-4">
                 All Pages
@@ -64,19 +62,6 @@ export default function SitemapPage() {
                   </li>
                 ))}
               </ul>
-            </div>
-
-            {/* Back Button */}
-            <div className="pt-6">
-              <Link href="/">
-                <Button
-                  variant="outline"
-                  className="group border-2 border-foreground/20 text-foreground md:hover:bg-foreground/5 active:bg-foreground/5 md:hover:border-foreground/40 active:border-foreground/40 font-body font-light tracking-wide"
-                >
-                  <ArrowLeft className="mr-2 h-4 w-4 transition-transform md:group-hover:-translate-x-1" />
-                  Back to Home
-                </Button>
-              </Link>
             </div>
           </div>
         </div>

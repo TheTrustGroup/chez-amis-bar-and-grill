@@ -9,10 +9,10 @@ interface ActionButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 const toneClassMap: Record<ActionButtonTone, string> = {
-  default: 'border-border text-foreground md:hover:bg-muted/40',
-  primary: 'border-terra-500 text-terra-700 md:hover:bg-terra-50',
-  danger: 'border-red-300 text-red-700 md:hover:bg-red-50',
-  ghost: 'border-transparent text-muted-foreground md:hover:bg-muted/30 md:hover:text-foreground',
+  default: 'border-border text-foreground md:hover:bg-muted/40 active:bg-muted/40',
+  primary: 'border-terra-500 text-terra-700 md:hover:bg-terra-50 active:bg-terra-50',
+  danger: 'border-red-300 text-red-700 md:hover:bg-red-50 active:bg-red-50',
+  ghost: 'border-transparent text-muted-foreground md:hover:bg-muted/30 md:hover:text-foreground active:bg-muted/30 active:text-foreground',
 }
 
 export function ActionButton({

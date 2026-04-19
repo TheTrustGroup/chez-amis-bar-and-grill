@@ -3,7 +3,7 @@
 import { useState } from "react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
-import { ArrowLeft, ChevronDown, ChevronUp } from "lucide-react"
+import { ChevronDown, ChevronUp } from "lucide-react"
 import { useTheme } from "@/lib/context/ThemeContext"
 import { cn } from "@/lib/utils"
 import { PHONE_DISPLAY_COMMA, SITE_EMAIL } from "@/lib/data/siteContact"
@@ -201,39 +201,15 @@ export default function FAQPage() {
               Still have questions?
             </h2>
             <p className="text-white/80 font-body font-light leading-relaxed">
-              We&apos;re here to help! Contact us and we&apos;ll be happy to assist you.
+              Our team can help with reservations, orders, and event requests.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <div className="flex justify-center">
               <Link href="/contact">
-                <Button
-                  variant="outline"
-                  className="border-2 border-terra-500/50 text-terra-400 md:hover:bg-terra-500/10 active:bg-terra-500/10 md:hover:border-terra-500 active:border-terra-500 font-body font-light"
-                >
+                <Button className="bg-foreground text-background md:hover:bg-foreground/90 active:bg-foreground/90">
                   Contact Us
                 </Button>
               </Link>
-              <a href="tel:+233557032312">
-                <Button
-                  variant="outline"
-                  className="border-2 border-terra-500/50 text-terra-400 md:hover:bg-terra-500/10 active:bg-terra-500/10 md:hover:border-terra-500 active:border-terra-500 font-body font-light"
-                >
-                  Call Us
-                </Button>
-              </a>
             </div>
-          </div>
-
-          {/* Back Button */}
-          <div className="max-w-3xl mx-auto mt-10 md:mt-12">
-            <Link href="/">
-              <Button
-                variant="outline"
-                className="group border-2 border-foreground/20 text-foreground md:hover:bg-foreground/5 active:bg-foreground/5 md:hover:border-foreground/40 active:border-foreground/40 font-body font-light tracking-wide"
-              >
-                <ArrowLeft className="mr-2 h-4 w-4 transition-transform md:group-hover:-translate-x-1" />
-                Back to Home
-              </Button>
-            </Link>
           </div>
         </div>
       </section>

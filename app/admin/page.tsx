@@ -205,7 +205,7 @@ export default function AdminDashboard() {
                     <Link 
                       key={order.id} 
                       href={`/admin/orders/${order.id}`}
-                      className="block rounded-lg border border-border bg-muted/30 p-3 transition-colors hover:bg-muted/60"
+                      className="block rounded-lg border border-border bg-muted/30 p-3 transition-colors md:hover:bg-muted/60 active:bg-muted/60"
                     >
                       <div className="flex items-start justify-between gap-3">
                         <div>
@@ -230,7 +230,7 @@ export default function AdminDashboard() {
                   ))}
                 </div>
                 <Link href="/admin/orders">
-                  <button className="mt-4 w-full rounded-md border border-border py-2 text-center text-sm font-medium text-terra-700 hover:bg-muted/40">
+                  <button className="mt-4 w-full rounded-md border border-border py-2 text-center text-sm font-medium text-terra-700 md:hover:bg-muted/40 active:bg-muted/40">
                     View All Orders →
                   </button>
                 </Link>
@@ -279,7 +279,7 @@ export default function AdminDashboard() {
                   ))}
                 </div>
                 <Link href="/admin/reservations">
-                  <button className="mt-4 w-full rounded-md border border-border py-2 text-center text-sm font-medium text-terra-700 hover:bg-muted/40">
+                  <button className="mt-4 w-full rounded-md border border-border py-2 text-center text-sm font-medium text-terra-700 md:hover:bg-muted/40 active:bg-muted/40">
                     View All Reservations →
                   </button>
                 </Link>
@@ -298,25 +298,25 @@ export default function AdminDashboard() {
         <h2 className="mb-4 text-base font-semibold text-foreground">Quick Actions</h2>
         <div className="grid grid-cols-2 gap-3 md:grid-cols-4 md:gap-4">
           <Link href="/admin/orders">
-            <button className="w-full rounded-lg border border-border p-4 transition-colors hover:border-terra-400 hover:bg-terra-50">
+            <button className="w-full rounded-lg border border-border p-4 transition-colors md:hover:border-terra-400 md:hover:bg-terra-50 active:border-terra-400 active:bg-terra-50">
               <ShoppingBag className="w-6 h-6 text-amber-600 mx-auto mb-2" />
               <p className="text-sm font-medium text-foreground">View Orders</p>
             </button>
           </Link>
           <Link href="/admin/reservations">
-            <button className="w-full rounded-lg border border-border p-4 transition-colors hover:border-terra-400 hover:bg-terra-50">
+            <button className="w-full rounded-lg border border-border p-4 transition-colors md:hover:border-terra-400 md:hover:bg-terra-50 active:border-terra-400 active:bg-terra-50">
               <Calendar className="w-6 h-6 text-amber-600 mx-auto mb-2" />
               <p className="text-sm font-medium text-foreground">View Reservations</p>
             </button>
           </Link>
           <Link href="/admin/menu">
-            <button className="w-full rounded-lg border border-border p-4 transition-colors hover:border-terra-400 hover:bg-terra-50">
+            <button className="w-full rounded-lg border border-border p-4 transition-colors md:hover:border-terra-400 md:hover:bg-terra-50 active:border-terra-400 active:bg-terra-50">
               <Clock className="w-6 h-6 text-amber-600 mx-auto mb-2" />
               <p className="text-sm font-medium text-foreground">Manage Menu</p>
             </button>
           </Link>
           <Link href="/admin/settings">
-            <button className="w-full rounded-lg border border-border p-4 transition-colors hover:border-terra-400 hover:bg-terra-50">
+            <button className="w-full rounded-lg border border-border p-4 transition-colors md:hover:border-terra-400 md:hover:bg-terra-50 active:border-terra-400 active:bg-terra-50">
               <CheckCircle className="w-6 h-6 text-amber-600 mx-auto mb-2" />
               <p className="text-sm font-medium text-foreground">Settings</p>
             </button>

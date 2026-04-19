@@ -2,7 +2,6 @@
 
 import Link from "next/link"
 import {
-  BookOpen,
   Calendar,
   ExternalLink,
   FileText,
@@ -11,11 +10,13 @@ import {
   Phone,
   ShoppingBag,
   Users,
+  UtensilsCrossed,
 } from "lucide-react"
 import { useTheme } from "@/lib/context/ThemeContext"
 import { cn } from "@/lib/utils"
 
-const quickActions = [
+const essentialActions = [
+  { href: "/menu", label: "Menu", icon: UtensilsCrossed },
   { href: "/reservations", label: "Reserve a Table", icon: Calendar },
   { href: "/place-order", label: "Order Delivery", icon: ShoppingBag },
   { href: "/contact", label: "Contact Us", icon: Phone },
@@ -27,14 +28,11 @@ const quickActions = [
   },
 ]
 
-const moreLinks = [
-  { href: "/about", label: "About", icon: BookOpen },
+const exploreLinks = [
+  { href: "/about", label: "About", icon: FileText },
   { href: "/faq", label: "FAQs", icon: HelpCircle },
-  { href: "/private-events", label: "Private Dining", icon: Users },
+  { href: "/private-events", label: "Private Dining", icon: FileText },
   { href: "/catering", label: "Catering", icon: ShoppingBag },
-]
-
-const supportLinks = [
   { href: "/careers", label: "Careers", icon: Users },
   { href: "/press", label: "Press & Media", icon: FileText },
 ]
@@ -57,14 +55,14 @@ export default function MorePage() {
               More
             </h1>
             <p className={cn("nav-page-subheading max-w-xl", isDark ? "text-white/80" : "text-muted-foreground")}>
-              Quick links for actions and key pages.
+              Essential links, kept simple.
             </p>
           </div>
 
           <div className="ui-panel ui-stack-md">
-            <h2 className="ui-title text-lg">Quick Actions</h2>
+            <h2 className="ui-title text-lg">Essentials</h2>
             <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
-              {quickActions.map((item) => {
+              {essentialActions.map((item) => {
                 const Icon = item.icon
                 if (item.external) {
                   return (
@@ -99,9 +97,9 @@ export default function MorePage() {
           </div>
 
           <div className="ui-panel ui-stack-md">
-            <h2 className="ui-title text-lg">Navigation</h2>
+            <h2 className="ui-title text-lg">Explore</h2>
             <div className="grid grid-cols-1 gap-1">
-              {moreLinks.map((item) => {
+              {exploreLinks.map((item) => {
                 const Icon = item.icon
                 return (
                   <Link
@@ -117,47 +115,19 @@ export default function MorePage() {
             </div>
           </div>
 
-          <div className="ui-panel ui-stack-md">
-            <h2 className="ui-title text-lg">Support</h2>
-            <div className="grid grid-cols-1 gap-1">
-              {supportLinks.map((item) => {
-                const Icon = item.icon
-                return (
-                  <Link
-                    key={item.href}
-                    href={item.href}
-                    className="ui-list-row"
-                  >
-                    <Icon className="h-4 w-4 text-terra-600" />
-                    {item.label}
-                  </Link>
-                )
-              })}
+          <div className="flex flex-wrap items-center gap-3 text-sm">
+            <span className={cn("text-xs uppercase tracking-wider", isDark ? "text-white/60" : "text-muted-foreground")}>
+              Legal
+            </span>
+            <div className="flex flex-wrap items-center gap-2">
+              {legalLinks.map((item) => (
+                <Link key={item.href} href={item.href} className="ui-link-row min-h-[40px] px-3 py-1.5">
+                  <FileText className="h-3.5 w-3.5 text-terra-600" />
+                  {item.label}
+                </Link>
+              ))}
             </div>
           </div>
-
-          <div className="ui-panel ui-stack-md">
-            <h2 className="ui-title text-lg">Legal</h2>
-            <div className="grid grid-cols-1 gap-1">
-              {legalLinks.map((item) => {
-                const Icon = item.icon
-                return (
-                  <Link
-                    key={item.href}
-                    href={item.href}
-                    className="ui-list-row"
-                  >
-                    <Icon className="h-4 w-4 text-terra-600" />
-                    {item.label}
-                  </Link>
-                )
-              })}
-            </div>
-          </div>
-
-          <p className={cn("text-xs md:text-sm", isDark ? "text-white/70" : "text-muted-foreground")}>
-            Need help? Open Contact from Quick Actions.
-          </p>
         </div>
       </section>
     </div>

@@ -1,7 +1,7 @@
 import { Metadata } from "next"
-import Link from "next/link"
 import { Button } from "@/components/ui/button"
-import { Mail, Phone, MapPin, ArrowLeft } from "lucide-react"
+import { Mail, Phone } from "lucide-react"
+import { FOOTER_PHONE_LINES, SITE_EMAIL } from "@/lib/data/siteContact"
 
 export const metadata: Metadata = {
   title: "Press & Media - Chez Amis Bar and Grill",
@@ -19,7 +19,7 @@ export default function PressPage() {
               Press & Media
             </h1>
             <p className="nav-page-subheading text-white/85 md:text-lg">
-              We welcome media inquiries and are happy to provide information, images, and interviews.
+              Media resources and press contact for interviews or features.
             </p>
           </div>
         </div>
@@ -35,7 +35,7 @@ export default function PressPage() {
                 Media Inquiries
               </h2>
               <p className="text-base md:text-lg font-body font-light text-muted-foreground leading-relaxed">
-                For press inquiries, interview requests, or media coverage, please contact our team. We&apos;re available to provide:
+                For coverage requests, our team can share:
               </p>
               <ul className="space-y-3 text-muted-foreground">
                 <li className="flex items-start gap-3">
@@ -62,10 +62,10 @@ export default function PressPage() {
                   <div>
                     <p className="font-body font-medium text-foreground">Email</p>
                     <a
-                      href="mailto:chez@chezamisrestaurant.com"
+                      href={`mailto:${SITE_EMAIL}`}
                       className="text-terra-600 md:hover:text-terra-700 transition-colors"
                     >
-                      chez@chezamisrestaurant.com
+                      {SITE_EMAIL}
                     </a>
                   </div>
                 </div>
@@ -73,33 +73,20 @@ export default function PressPage() {
                   <Phone className="h-5 w-5 text-terra-500" />
                   <div>
                     <p className="font-body font-medium text-foreground">Phone</p>
-                    <div className="space-y-1">
-                      <a
-                        href="tel:+233557032312"
-                        className="block text-terra-600 md:hover:text-terra-700 transition-colors"
-                      >
-                        +233 055 703 2312
-                      </a>
-                      <a
-                        href="tel:+233557032335"
-                        className="block text-terra-600 md:hover:text-terra-700 transition-colors"
-                      >
-                        +233 055 703 2335
-                      </a>
                     <a
-                      href="tel:+233243952339"
-                        className="block text-terra-600 md:hover:text-terra-700 transition-colors"
+                      href={`tel:${FOOTER_PHONE_LINES[0]?.tel ?? ""}`}
+                      className="block text-terra-600 md:hover:text-terra-700 transition-colors"
                     >
-                      +233 024 395 2339
+                      {FOOTER_PHONE_LINES[0]?.display}
                     </a>
-                      <a
-                        href="tel:+233502432037"
-                        className="block text-terra-600 md:hover:text-terra-700 transition-colors"
-                      >
-                        +233 050 243 2037
-                      </a>
-                    </div>
                   </div>
+                </div>
+                <div className="pt-2">
+                  <a href={`mailto:${SITE_EMAIL}`}>
+                    <Button className="bg-foreground text-background md:hover:bg-foreground/90 active:bg-foreground/90">
+                      Send Press Inquiry
+                    </Button>
+                  </a>
                 </div>
               </div>
             </div>
@@ -155,18 +142,6 @@ export default function PressPage() {
               </div>
             </div>
 
-            {/* Back Button */}
-            <div className="pt-6">
-              <Link href="/">
-                <Button
-                  variant="outline"
-                  className="group border-2 border-foreground/20 text-foreground md:hover:bg-foreground/5 active:bg-foreground/5 md:hover:border-foreground/40 active:border-foreground/40 font-body font-light tracking-wide"
-                >
-                  <ArrowLeft className="mr-2 h-4 w-4 transition-transform md:group-hover:-translate-x-1" />
-                  Back to Home
-                </Button>
-              </Link>
-            </div>
           </div>
         </div>
       </section>

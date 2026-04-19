@@ -1,14 +1,10 @@
 "use client"
 
 import Link from "next/link"
-import { Instagram, Mail, Phone, Calendar, UtensilsCrossed } from "lucide-react"
+import { Instagram, Mail, Phone } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { useTheme } from "@/lib/context/ThemeContext"
-import {
-  trackOrderClick,
-  trackReservationClick,
-} from "@/lib/analytics"
-import { CHECKOUT_PATH, FOOTER_PHONE_LINES, SITE_EMAIL } from "@/lib/data/siteContact"
+import { FOOTER_PHONE_LINES, SITE_EMAIL } from "@/lib/data/siteContact"
 import { getActiveSocialLinks } from "@/lib/data/socialLinks"
 import { SnapchatIcon } from "@/components/ui/snapchat-icon"
 
@@ -42,26 +38,26 @@ export function Footer() {
       role="contentinfo"
     >
       <div className="section-shell-inner py-8 md:py-10">
-        <div className="grid gap-8 md:grid-cols-3 md:items-start">
-          <div className="space-y-2">
+        <div className="grid gap-6 md:grid-cols-[1.1fr_1fr_auto] md:items-center">
+          <div className="space-y-1.5">
             <Link href="/" className="inline-flex flex-col">
               <span className="font-display text-2xl font-light text-terra-400">Chez Amis</span>
               <span className="text-[11px] uppercase tracking-[0.2em] text-white/70">Bar and Grill</span>
             </Link>
             <p className={cn("text-sm font-body font-light", isDark ? "text-white/80" : "text-white/70")}>
-              Where passion meets palate
+              East Legon, Accra
             </p>
           </div>
 
           <nav
-            className="grid grid-cols-2 gap-2 text-sm"
+            className="grid grid-cols-2 gap-2 text-sm md:justify-self-center"
             aria-label="Footer quick links"
           >
             {[
               { href: "/menu", label: "Menu" },
               { href: "/reservations", label: "Reserve" },
               { href: "/contact", label: "Contact" },
-              { href: "/more", label: "More" },
+              { href: "/about", label: "About" },
             ].map((link) => (
               <Link
                 key={link.href}
@@ -73,7 +69,7 @@ export function Footer() {
             ))}
           </nav>
 
-          <div className="space-y-3">
+          <div className="space-y-2 md:justify-self-end">
             <a
               href={`tel:${FOOTER_PHONE_LINES[0]?.tel ?? ""}`}
               className="inline-flex items-center gap-2 text-sm text-white/80 transition-colors md:hover:text-terra-300"
@@ -87,7 +83,7 @@ export function Footer() {
             >
               {SITE_EMAIL}
             </a>
-            <div className="flex items-center gap-2 pt-1">
+            <div className="flex items-center gap-1 pt-1">
               {socialLinks.map((social) => (
                 <a
                   key={social.id}
@@ -100,22 +96,6 @@ export function Footer() {
                   {renderSocialIcon(social.id)}
                 </a>
               ))}
-              <Link
-                href="/reservations"
-                className="ml-1 inline-flex items-center gap-1 rounded-md border border-terra-500/40 px-3 py-2 text-xs font-body font-medium uppercase tracking-wider text-terra-300 transition-colors md:hover:bg-terra-500/10 active:bg-terra-500/10"
-                onClick={() => trackReservationClick("footer")}
-              >
-                <Calendar className="h-3.5 w-3.5" />
-                Reserve
-              </Link>
-              <Link
-                href={CHECKOUT_PATH}
-                className="inline-flex items-center gap-1 rounded-md border border-terra-500/40 px-3 py-2 text-xs font-body font-medium uppercase tracking-wider text-terra-300 transition-colors md:hover:bg-terra-500/10 active:bg-terra-500/10"
-                onClick={() => trackOrderClick("footer")}
-              >
-                <UtensilsCrossed className="h-3.5 w-3.5" />
-                Order
-              </Link>
             </div>
           </div>
         </div>
@@ -129,16 +109,16 @@ export function Footer() {
           <p>
             © {currentYear} Chez Amis Bar &amp; Grill. All rights reserved.
           </p>
-          <div className="flex flex-wrap items-center justify-center gap-6">
+          <div className="flex flex-wrap items-center justify-center gap-4">
             <Link
               href="/privacy"
-              className="md:hover:text-white/70 transition-colors"
+              className="transition-colors md:hover:text-white/70"
             >
               Privacy Policy
             </Link>
             <Link
               href="/terms"
-              className="md:hover:text-white/70 transition-colors"
+              className="transition-colors md:hover:text-white/70"
             >
               Terms of Service
             </Link>

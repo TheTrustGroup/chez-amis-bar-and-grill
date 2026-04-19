@@ -116,7 +116,7 @@ export default function AdminLayout({
           </div>
           <button
             onClick={() => setSidebarOpen(false)}
-            className="lg:hidden text-gray-400 hover:text-white"
+          className="lg:hidden text-gray-400 md:hover:text-white active:text-white"
           >
             <X className="w-5 h-5" />
           </button>
@@ -135,7 +135,7 @@ export default function AdminLayout({
                   flex items-center gap-3 px-4 py-3 rounded-lg transition-colors
                   ${isActive 
                     ? 'bg-amber-600 text-white' 
-                    : 'text-gray-300 hover:bg-gray-800 hover:text-white'
+                    : 'text-gray-300 md:hover:bg-gray-800 md:hover:text-white active:bg-gray-800 active:text-white'
                   }
                 `}
               >
@@ -150,7 +150,7 @@ export default function AdminLayout({
         <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-gray-800">
           <button
             onClick={handleLogout}
-            className="flex items-center gap-3 px-4 py-3 w-full text-gray-300 hover:bg-gray-800 hover:text-white rounded-lg transition-colors"
+            className="flex items-center gap-3 px-4 py-3 w-full text-gray-300 rounded-lg transition-colors md:hover:bg-gray-800 md:hover:text-white active:bg-gray-800 active:text-white"
           >
             <LogOut className="w-5 h-5" />
             <span className="font-medium">Logout</span>
@@ -165,7 +165,7 @@ export default function AdminLayout({
         <header className="sticky top-0 z-30 h-16 border-b border-border bg-card/95 backdrop-blur supports-[backdrop-filter]:bg-card/80 flex items-center justify-between px-4 md:px-6">
           <button
             onClick={() => setSidebarOpen(true)}
-            className="text-muted-foreground hover:text-foreground lg:hidden"
+            className="text-muted-foreground md:hover:text-foreground active:text-foreground lg:hidden"
             aria-label="Open menu"
           >
             <MenuIcon className="w-6 h-6" />

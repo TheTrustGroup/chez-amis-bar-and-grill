@@ -6,6 +6,7 @@ import { allMenuItems } from '@/lib/data/menuData';
 import Image from 'next/image';
 import { PageHeader } from '@/components/admin/ui/PageHeader';
 import { StatCard } from '@/components/admin/ui/StatCard';
+import { ActionButton } from '@/components/admin/ui/ActionButton';
 
 interface AdminMenuItem {
   id: string;
@@ -69,10 +70,9 @@ export default function MenuManagementPage() {
         title="Menu Management"
         subtitle="Manage menu items, categories, availability, and pricing."
         actions={
-          <button className="inline-flex items-center gap-2 rounded-md border border-terra-500 px-3 py-2 text-sm font-medium text-terra-700 hover:bg-terra-50">
-            <Plus className="w-4 h-4" />
+          <ActionButton tone="primary" icon={<Plus className="w-4 h-4" />}>
             Add Menu Item
-          </button>
+          </ActionButton>
         }
       />
 
@@ -111,7 +111,7 @@ export default function MenuManagementPage() {
         {filteredItems.length > 0 ? (
           <div className="divide-y divide-border">
             {filteredItems.map((item) => (
-              <div key={item.id} className="p-4 transition-colors hover:bg-muted/20 md:p-5">
+              <div key={item.id} className="p-4 transition-colors md:hover:bg-muted/20 active:bg-muted/20 md:p-5">
                 <div className="flex items-start justify-between gap-4">
                   {/* Image */}
                   {item.image && (
@@ -182,13 +182,13 @@ export default function MenuManagementPage() {
                   
                   <div className="flex items-center gap-2 flex-shrink-0">
                     <button 
-                      className="rounded-md p-2 text-blue-600 transition-colors hover:bg-blue-50"
+                      className="rounded-md p-2 text-blue-600 transition-colors md:hover:bg-blue-50 active:bg-blue-50"
                       aria-label={`Edit ${item.name}`}
                     >
                       <Edit className="w-4 h-4" />
                     </button>
                     <button 
-                      className="rounded-md p-2 text-red-600 transition-colors hover:bg-red-50"
+                      className="rounded-md p-2 text-red-600 transition-colors md:hover:bg-red-50 active:bg-red-50"
                       aria-label={`Delete ${item.name}`}
                     >
                       <Trash2 className="w-4 h-4" />

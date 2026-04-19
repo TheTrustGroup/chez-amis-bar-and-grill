@@ -120,7 +120,7 @@ export default function AdminLoginPage() {
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground md:hover:text-foreground active:text-foreground"
                 >
                   {showPassword ? (
                     <EyeOff className="w-5 h-5" />
@@ -135,7 +135,7 @@ export default function AdminLoginPage() {
             <button
               type="submit"
               disabled={isLoading}
-              className="h-12 w-full rounded-md bg-terra-600 text-white transition-colors hover:bg-terra-700 disabled:cursor-not-allowed disabled:opacity-50"
+              className="h-12 w-full rounded-md bg-terra-600 text-white transition-colors md:hover:bg-terra-700 active:bg-terra-700 disabled:cursor-not-allowed disabled:opacity-50"
             >
               {isLoading ? 'Signing in...' : 'Sign In'}
             </button>
@@ -151,7 +151,7 @@ export default function AdminLoginPage() {
 
         {/* Back to Website */}
         <div className="text-center mt-6">
-          <a href="/" className="text-sm text-white/70 transition-colors hover:text-terra-300">
+          <a href="/" className="text-sm text-white/70 transition-colors md:hover:text-terra-300 active:text-terra-300">
             ← Back to Website
           </a>
         </div>

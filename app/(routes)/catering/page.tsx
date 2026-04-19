@@ -1,7 +1,8 @@
 import { Metadata } from "next"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
-import { ArrowLeft, Phone, Mail, Calendar, Users, Utensils } from "lucide-react"
+import { Phone, Mail, Calendar, Users, Utensils } from "lucide-react"
+import { FOOTER_PHONE_LINES, SITE_EMAIL } from "@/lib/data/siteContact"
 
 export const metadata: Metadata = {
   title: "Catering Services - Chez Amis Bar and Grill",
@@ -19,7 +20,7 @@ export default function CateringPage() {
               Catering Services
             </h1>
             <p className="nav-page-subheading text-white/85 md:text-lg">
-              Bring the authentic flavors of Chez Amis to your event, office, or special occasion
+              Premium West African catering for events, offices, and private functions.
             </p>
           </div>
         </div>
@@ -36,10 +37,7 @@ export default function CateringPage() {
               </h2>
               <div className="prose prose-lg max-w-none space-y-4 text-muted-foreground font-body font-light leading-relaxed">
                 <p>
-                  Whether you&apos;re hosting a corporate event, celebrating a milestone, or organizing a gathering, our catering services bring the same quality and attention to detail that defines the Chez Amis dining experience.
-                </p>
-                <p>
-                  Our signature Attieke dishes, expertly grilled proteins, and traditional West African cuisine can be customized to suit your event size, dietary requirements, and preferences.
+                  Our team designs event menus around your guest count, service style, and dietary needs.
                 </p>
               </div>
             </div>
@@ -109,39 +107,19 @@ export default function CateringPage() {
                 Request a Catering Quote
               </h2>
               <p className="text-white/80 font-body font-light leading-relaxed">
-                Contact us to discuss your catering needs. We&apos;ll work with you to create a customized menu and service plan for your event.
+                Share your event details and we will prepare a tailored quote.
               </p>
               <div className="pt-4 space-y-4">
                 <div className="flex items-center gap-4">
                   <Phone className="h-5 w-5 text-terra-500" />
                   <div>
                     <p className="font-body font-medium text-white">Phone</p>
-                    <div className="space-y-1">
-                      <a
-                        href="tel:+233557032312"
-                        className="block text-terra-400 md:hover:text-terra-300 transition-colors"
-                      >
-                        +233 055 703 2312
-                      </a>
-                      <a
-                        href="tel:+233557032335"
-                        className="block text-terra-400 md:hover:text-terra-300 transition-colors"
-                      >
-                        +233 055 703 2335
-                      </a>
                     <a
-                      href="tel:+233243952339"
-                        className="block text-terra-400 md:hover:text-terra-300 transition-colors"
+                      href={`tel:${FOOTER_PHONE_LINES[0]?.tel ?? ""}`}
+                      className="block text-terra-400 md:hover:text-terra-300 transition-colors"
                     >
-                        +233 024 395 2339
-                      </a>
-                      <a
-                        href="tel:+233502432037"
-                        className="block text-terra-400 md:hover:text-terra-300 transition-colors"
-                      >
-                        +233 050 243 2037
+                      {FOOTER_PHONE_LINES[0]?.display}
                     </a>
-                    </div>
                   </div>
                 </div>
                 <div className="flex items-center gap-4">
@@ -149,10 +127,10 @@ export default function CateringPage() {
                   <div>
                     <p className="font-body font-medium text-white">Email</p>
                     <a
-                      href="mailto:chez@chezamisrestaurant.com"
+                      href={`mailto:${SITE_EMAIL}`}
                       className="text-terra-400 md:hover:text-terra-300 transition-colors"
                     >
-                      chez@chezamisrestaurant.com
+                      {SITE_EMAIL}
                     </a>
                   </div>
                 </div>
@@ -160,8 +138,7 @@ export default function CateringPage() {
               <div className="pt-4">
                 <Link href="/contact">
                   <Button
-                    variant="outline"
-                    className="border-2 border-terra-500/50 text-terra-400 md:hover:bg-terra-500/10 active:bg-terra-500/10 md:hover:border-terra-500 active:border-terra-500 font-body font-light"
+                    className="bg-foreground text-background md:hover:bg-foreground/90 active:bg-foreground/90"
                   >
                     Contact Us for Catering
                   </Button>
@@ -193,18 +170,6 @@ export default function CateringPage() {
               </div>
             </div>
 
-            {/* Back Button */}
-            <div className="pt-6">
-              <Link href="/">
-                <Button
-                  variant="outline"
-                  className="group border-2 border-foreground/20 text-foreground md:hover:bg-foreground/5 active:bg-foreground/5 md:hover:border-foreground/40 active:border-foreground/40 font-body font-light tracking-wide"
-                >
-                  <ArrowLeft className="mr-2 h-4 w-4 transition-transform md:group-hover:-translate-x-1" />
-                  Back to Home
-                </Button>
-              </Link>
-            </div>
           </div>
         </div>
       </section>
