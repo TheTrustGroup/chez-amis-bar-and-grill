@@ -10,14 +10,14 @@ export default function PrivacyPolicyPage() {
       {/* Hero Section */}
       <section className="section-shell bg-gradient-to-b from-green-600 via-green-700 to-green-600 text-white">
         <div className="section-shell-inner">
-          <div className="max-w-3xl mx-auto text-center space-y-6">
+          <div className="max-w-3xl mx-auto text-center space-y-4 md:space-y-5">
             <h1 className="nav-page-heading md:text-5xl tracking-tight">
               Privacy Policy
             </h1>
             <p className="nav-page-subheading text-white/85 md:text-lg">
               Your privacy is important to us
             </p>
-            <p className="text-sm font-body font-light text-white/60">
+            <p className="text-xs md:text-sm font-body font-light text-white/60">
               Last updated: {new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
             </p>
           </div>
@@ -28,10 +28,10 @@ export default function PrivacyPolicyPage() {
       <section className="section-shell">
         <div className="section-shell-inner">
           <div className="max-w-4xl mx-auto">
-            <div className="prose prose-lg max-w-none dark:prose-invert ui-card-compact bg-neutral-50 dark:bg-green-600/40 dark:border-green-700/50 p-8 md:p-10 space-y-8">
-              <div className="space-y-6 text-muted-foreground font-body font-light leading-relaxed">
+            <div className="prose prose-lg max-w-none dark:prose-invert ui-card-compact bg-neutral-50 dark:bg-green-600/40 dark:border-green-700/50 p-6 md:p-8 space-y-6">
+              <div className="space-y-5 text-muted-foreground font-body font-light leading-relaxed">
                 <div>
-                  <h2 className="text-2xl md:text-3xl font-display font-light text-neutral-900 dark:text-white mb-4">
+                  <h2 className="text-xl md:text-2xl font-display font-light text-neutral-900 dark:text-white mb-3">
                     Introduction
                   </h2>
                   <p>
@@ -40,7 +40,7 @@ export default function PrivacyPolicyPage() {
                 </div>
 
                 <div>
-                  <h2 className="text-2xl md:text-3xl font-display font-light text-neutral-900 dark:text-white mb-4">
+                  <h2 className="text-xl md:text-2xl font-display font-light text-neutral-900 dark:text-white mb-3">
                     Information We Collect
                   </h2>
                   <p className="mb-4">We may collect information about you in various ways:</p>
@@ -61,7 +61,7 @@ export default function PrivacyPolicyPage() {
                 </div>
 
                 <div>
-                  <h2 className="text-2xl md:text-3xl font-display font-light text-neutral-900 dark:text-white mb-4">
+                  <h2 className="text-xl md:text-2xl font-display font-light text-neutral-900 dark:text-white mb-3">
                     How We Use Your Information
                   </h2>
                   <p className="mb-4">We use the information we collect to:</p>
@@ -76,7 +76,7 @@ export default function PrivacyPolicyPage() {
                 </div>
 
                 <div>
-                  <h2 className="text-2xl md:text-3xl font-display font-light text-neutral-900 dark:text-white mb-4">
+                  <h2 className="text-xl md:text-2xl font-display font-light text-neutral-900 dark:text-white mb-3">
                     Information Sharing and Disclosure
                   </h2>
                   <p>
@@ -91,7 +91,7 @@ export default function PrivacyPolicyPage() {
                 </div>
 
                 <div>
-                  <h2 className="text-2xl md:text-3xl font-display font-light text-neutral-900 dark:text-white mb-4">
+                  <h2 className="text-xl md:text-2xl font-display font-light text-neutral-900 dark:text-white mb-3">
                     Data Security
                   </h2>
                   <p>
@@ -100,7 +100,7 @@ export default function PrivacyPolicyPage() {
                 </div>
 
                 <div>
-                  <h2 className="text-2xl md:text-3xl font-display font-light text-neutral-900 dark:text-white mb-4">
+                  <h2 className="text-xl md:text-2xl font-display font-light text-neutral-900 dark:text-white mb-3">
                     Your Rights
                   </h2>
                   <p className="mb-4">You have the right to:</p>
@@ -114,7 +114,7 @@ export default function PrivacyPolicyPage() {
                 </div>
 
                 <div>
-                  <h2 className="text-2xl md:text-3xl font-display font-light text-neutral-900 dark:text-white mb-4">
+                  <h2 className="text-xl md:text-2xl font-display font-light text-neutral-900 dark:text-white mb-3">
                     Cookies
                   </h2>
                   <p>
@@ -123,7 +123,7 @@ export default function PrivacyPolicyPage() {
                 </div>
 
                 <div>
-                  <h2 className="text-2xl md:text-3xl font-display font-light text-neutral-900 dark:text-white mb-4">
+                  <h2 className="text-xl md:text-2xl font-display font-light text-neutral-900 dark:text-white mb-3">
                     Third-Party Links
                   </h2>
                   <p>
@@ -132,7 +132,7 @@ export default function PrivacyPolicyPage() {
                 </div>
 
                 <div>
-                  <h2 className="text-2xl md:text-3xl font-display font-light text-neutral-900 dark:text-white mb-4">
+                  <h2 className="text-xl md:text-2xl font-display font-light text-neutral-900 dark:text-white mb-3">
                     Children&apos;s Privacy
                   </h2>
                   <p>
@@ -141,7 +141,7 @@ export default function PrivacyPolicyPage() {
                 </div>
 
                 <div>
-                  <h2 className="text-2xl md:text-3xl font-display font-light text-neutral-900 dark:text-white mb-4">
+                  <h2 className="text-xl md:text-2xl font-display font-light text-neutral-900 dark:text-white mb-3">
                     Changes to This Privacy Policy
                   </h2>
                   <p>
@@ -150,7 +150,7 @@ export default function PrivacyPolicyPage() {
                 </div>
 
                 <div>
-                  <h2 className="text-2xl md:text-3xl font-display font-light text-neutral-900 dark:text-white mb-4">
+                  <h2 className="text-xl md:text-2xl font-display font-light text-neutral-900 dark:text-white mb-3">
                     Contact Us
                   </h2>
                   <p className="mb-4">
@@ -171,7 +171,7 @@ export default function PrivacyPolicyPage() {
             </div>
 
             {/* Back Button */}
-            <div className="mt-12 text-center">
+            <div className="mt-10 md:mt-12 text-center">
               <Link href="/">
                 <Button
                   variant="outline"

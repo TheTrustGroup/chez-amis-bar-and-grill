@@ -32,8 +32,14 @@ const moreLinks = [
   { href: "/faq", label: "FAQs", icon: HelpCircle },
   { href: "/private-events", label: "Private Dining", icon: Users },
   { href: "/catering", label: "Catering", icon: ShoppingBag },
+]
+
+const supportLinks = [
   { href: "/careers", label: "Careers", icon: Users },
   { href: "/press", label: "Press & Media", icon: FileText },
+]
+
+const legalLinks = [
   { href: "/privacy", label: "Privacy Policy", icon: FileText },
   { href: "/terms", label: "Terms of Service", icon: FileText },
 ]
@@ -96,6 +102,44 @@ export default function MorePage() {
             <h2 className="ui-title text-lg">Navigation</h2>
             <div className="grid grid-cols-1 gap-1">
               {moreLinks.map((item) => {
+                const Icon = item.icon
+                return (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    className="ui-list-row"
+                  >
+                    <Icon className="h-4 w-4 text-terra-600" />
+                    {item.label}
+                  </Link>
+                )
+              })}
+            </div>
+          </div>
+
+          <div className="ui-panel ui-stack-md">
+            <h2 className="ui-title text-lg">Support</h2>
+            <div className="grid grid-cols-1 gap-1">
+              {supportLinks.map((item) => {
+                const Icon = item.icon
+                return (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    className="ui-list-row"
+                  >
+                    <Icon className="h-4 w-4 text-terra-600" />
+                    {item.label}
+                  </Link>
+                )
+              })}
+            </div>
+          </div>
+
+          <div className="ui-panel ui-stack-md">
+            <h2 className="ui-title text-lg">Legal</h2>
+            <div className="grid grid-cols-1 gap-1">
+              {legalLinks.map((item) => {
                 const Icon = item.icon
                 return (
                   <Link

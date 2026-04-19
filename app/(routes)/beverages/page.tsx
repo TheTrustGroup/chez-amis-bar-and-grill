@@ -53,13 +53,13 @@ export default function BeveragesPage() {
         <div className="relative z-10 text-center px-6 max-w-4xl mx-auto">
           <h1
             className={cn(
-              "nav-page-heading md:text-5xl tracking-tight text-white mb-3",
+              "nav-page-heading md:text-5xl tracking-tight text-white mb-2.5 md:mb-3",
               "drop-shadow-[0_4px_20px_rgba(0,0,0,0.8)]",
             )}
           >
             Our Beverages
           </h1>
-          <p className="nav-page-subheading text-white/90 md:text-lg mb-5 max-w-2xl mx-auto">
+          <p className="nav-page-subheading text-white/90 md:text-lg mb-4 max-w-2xl mx-auto">
             Curated selection of premium drinks
           </p>
           <div className="w-24 md:w-32 h-0.5 bg-gradient-to-r from-transparent via-terra-500 to-transparent mx-auto shadow-lg shadow-terra-500/40" />
@@ -68,7 +68,7 @@ export default function BeveragesPage() {
 
       <section className="section-shell">
         <div className="section-shell-inner">
-        <div className="mb-10">
+        <div className="mb-8 md:mb-10">
           <div className="relative max-w-md">
             <Search
               className={cn(
@@ -94,14 +94,14 @@ export default function BeveragesPage() {
           </div>
         </div>
 
-        <div className="mb-12">
+        <div className="mb-10">
           <ScrollArea className="w-full">
             <div className="flex gap-2 pb-4">
               <button
                 type="button"
                 onClick={() => setActiveCategory("all")}
                 className={cn(
-                  "px-4 md:px-5 py-2.5 md:py-3 rounded-full whitespace-nowrap font-body uppercase tracking-widest text-xs min-h-[48px] transition-all border-b-2 border-transparent",
+                  "px-4 md:px-5 py-2.5 md:py-3 rounded-full whitespace-nowrap font-body uppercase tracking-widest text-xs min-h-[48px] transition-all border-b-2 border-transparent active:bg-muted/40",
                   activeCategory === "all"
                     ? "border-terra-500 text-terra-600 dark:text-terra-400"
                     : isDark
@@ -117,7 +117,7 @@ export default function BeveragesPage() {
                   key={category.id}
                   onClick={() => setActiveCategory(category.id)}
                   className={cn(
-                    "px-4 md:px-5 py-2.5 md:py-3 rounded-full whitespace-nowrap font-body uppercase tracking-widest text-xs min-h-[48px] transition-all border-b-2 border-transparent",
+                    "px-4 md:px-5 py-2.5 md:py-3 rounded-full whitespace-nowrap font-body uppercase tracking-widest text-xs min-h-[48px] transition-all border-b-2 border-transparent active:bg-muted/40",
                     activeCategory === category.id
                       ? "border-terra-500 text-terra-600 dark:text-terra-400"
                       : isDark
@@ -134,8 +134,8 @@ export default function BeveragesPage() {
         </div>
 
         {filteredCategories.map((category) => (
-          <section key={category.id} className="mb-16 md:mb-24 last:mb-0">
-            <div className="mb-8 border-b border-terra-500/20 pb-6">
+          <section key={category.id} className="mb-14 md:mb-20 last:mb-0">
+            <div className="mb-6 md:mb-8 border-b border-terra-500/20 pb-5">
               <div className="flex items-center gap-3 mb-2">
                 <span className="text-3xl" aria-hidden>
                   {category.icon}
@@ -152,7 +152,7 @@ export default function BeveragesPage() {
               {category.description && (
                 <p
                   className={cn(
-                    "text-lg font-body font-light max-w-2xl mt-2",
+                    "text-base md:text-lg font-body font-light max-w-2xl mt-1.5",
                     isDark ? "text-white/80" : "text-muted-foreground",
                   )}
                 >

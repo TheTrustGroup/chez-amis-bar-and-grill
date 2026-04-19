@@ -14,7 +14,7 @@ export default function CateringPage() {
       {/* Hero Section */}
       <section className="section-shell bg-gradient-to-b from-green-600 via-green-700 to-green-600 text-white">
         <div className="section-shell-inner">
-          <div className="max-w-3xl mx-auto text-center space-y-6">
+          <div className="max-w-3xl mx-auto text-center space-y-4 md:space-y-5">
             <h1 className="nav-page-heading md:text-5xl tracking-tight">
               Catering Services
             </h1>
@@ -28,9 +28,9 @@ export default function CateringPage() {
       {/* Main Content */}
       <section className="section-shell">
         <div className="section-shell-inner">
-          <div className="max-w-4xl mx-auto space-y-12">
+          <div className="max-w-4xl mx-auto space-y-10 md:space-y-12">
             {/* Overview */}
-            <div className="space-y-6">
+            <div className="space-y-5">
               <h2 className="section-title text-neutral-900 dark:text-white">
                 Professional Catering for Every Occasion
               </h2>
@@ -45,13 +45,13 @@ export default function CateringPage() {
             </div>
 
             {/* Services */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="ui-card-compact p-6 space-y-4 dark:bg-green-600/40 dark:border-green-700/50">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-6">
+              <div className="ui-card-compact p-5 md:p-6 space-y-3.5 dark:bg-green-600/40 dark:border-green-700/50">
                 <div className="flex items-center gap-3">
                   <div className="p-3 rounded-full bg-terra-500/10">
                     <Users className="h-6 w-6 text-terra-600" />
                   </div>
-                  <h3 className="text-xl font-display font-light text-foreground">
+                  <h3 className="text-lg md:text-xl font-display font-light text-foreground">
                     Corporate Events
                   </h3>
                 </div>
@@ -60,12 +60,12 @@ export default function CateringPage() {
                 </p>
               </div>
 
-              <div className="ui-card-compact p-6 space-y-4 dark:bg-green-600/40 dark:border-green-700/50">
+              <div className="ui-card-compact p-5 md:p-6 space-y-3.5 dark:bg-green-600/40 dark:border-green-700/50">
                 <div className="flex items-center gap-3">
                   <div className="p-3 rounded-full bg-terra-500/10">
                     <Calendar className="h-6 w-6 text-terra-600" />
                   </div>
-                  <h3 className="text-xl font-display font-light text-foreground">
+                  <h3 className="text-lg md:text-xl font-display font-light text-foreground">
                     Special Occasions
                   </h3>
                 </div>
@@ -74,12 +74,12 @@ export default function CateringPage() {
                 </p>
               </div>
 
-              <div className="ui-card-compact p-6 space-y-4 dark:bg-green-600/40 dark:border-green-700/50">
+              <div className="ui-card-compact p-5 md:p-6 space-y-3.5 dark:bg-green-600/40 dark:border-green-700/50">
                 <div className="flex items-center gap-3">
                   <div className="p-3 rounded-full bg-terra-500/10">
                     <Utensils className="h-6 w-6 text-terra-600" />
                   </div>
-                  <h3 className="text-xl font-display font-light text-foreground">
+                  <h3 className="text-lg md:text-xl font-display font-light text-foreground">
                     Custom Menus
                   </h3>
                 </div>
@@ -88,12 +88,12 @@ export default function CateringPage() {
                 </p>
               </div>
 
-              <div className="ui-card-compact p-6 space-y-4 dark:bg-green-600/40 dark:border-green-700/50">
+              <div className="ui-card-compact p-5 md:p-6 space-y-3.5 dark:bg-green-600/40 dark:border-green-700/50">
                 <div className="flex items-center gap-3">
                   <div className="p-3 rounded-full bg-terra-500/10">
                     <Phone className="h-6 w-6 text-terra-600" />
                   </div>
-                  <h3 className="text-xl font-display font-light text-foreground">
+                  <h3 className="text-lg md:text-xl font-display font-light text-foreground">
                     Full Service
                   </h3>
                 </div>
@@ -104,14 +104,14 @@ export default function CateringPage() {
             </div>
 
             {/* Contact Section */}
-            <div className="ui-card-compact bg-green-600 text-white border-green-500/40 p-8 md:p-10 space-y-6">
-              <h2 className="text-2xl md:text-3xl font-display font-light">
+            <div className="ui-card-compact bg-green-600 text-white border-green-500/40 p-6 md:p-8 space-y-5">
+              <h2 className="text-xl md:text-2xl font-display font-light">
                 Request a Catering Quote
               </h2>
               <p className="text-white/80 font-body font-light leading-relaxed">
                 Contact us to discuss your catering needs. We&apos;ll work with you to create a customized menu and service plan for your event.
               </p>
-              <div className="pt-6 space-y-4">
+              <div className="pt-4 space-y-4">
                 <div className="flex items-center gap-4">
                   <Phone className="h-5 w-5 text-terra-500" />
                   <div>
@@ -170,8 +170,8 @@ export default function CateringPage() {
             </div>
 
             {/* Minimum Requirements */}
-            <div className="ui-card-compact p-8 space-y-4 dark:bg-green-600/40 dark:border-green-700/50">
-              <h3 className="text-2xl font-display font-light text-foreground">
+            <div className="ui-card-compact p-6 md:p-8 space-y-4 dark:bg-green-600/40 dark:border-green-700/50">
+              <h3 className="text-xl md:text-2xl font-display font-light text-foreground">
                 Catering Information
               </h3>
               <div className="space-y-3 text-muted-foreground font-body font-light">
@@ -194,7 +194,7 @@ export default function CateringPage() {
             </div>
 
             {/* Back Button */}
-            <div className="pt-8">
+            <div className="pt-6">
               <Link href="/">
                 <Button
                   variant="outline"

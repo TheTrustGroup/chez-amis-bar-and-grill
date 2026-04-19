@@ -33,7 +33,7 @@ export default function SitemapPage() {
       {/* Hero Section */}
       <section className="section-shell bg-gradient-to-b from-green-600 via-green-700 to-green-600 text-white">
         <div className="section-shell-inner">
-          <div className="max-w-3xl mx-auto text-center space-y-6">
+          <div className="max-w-3xl mx-auto text-center space-y-4 md:space-y-5">
             <h1 className="nav-page-heading md:text-5xl tracking-tight">
               Sitemap
             </h1>
@@ -47,9 +47,9 @@ export default function SitemapPage() {
       {/* Main Content */}
       <section className="section-shell">
         <div className="section-shell-inner">
-          <div className="max-w-3xl mx-auto space-y-8">
-            <div className="ui-card-compact p-8 md:p-10 dark:bg-green-600/40 dark:border-green-700/50">
-              <h2 className="section-title text-neutral-900 dark:text-white mb-6">
+          <div className="max-w-3xl mx-auto space-y-6 md:space-y-8">
+            <div className="ui-card-compact p-6 md:p-8 dark:bg-green-600/40 dark:border-green-700/50">
+              <h2 className="section-title text-neutral-900 dark:text-white mb-4">
                 All Pages
               </h2>
               <ul className="space-y-3">
@@ -67,7 +67,7 @@ export default function SitemapPage() {
             </div>
 
             {/* Back Button */}
-            <div className="pt-8">
+            <div className="pt-6">
               <Link href="/">
                 <Button
                   variant="outline"

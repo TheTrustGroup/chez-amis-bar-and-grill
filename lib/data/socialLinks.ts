@@ -23,7 +23,7 @@ const SOCIAL_LINKS: SocialLink[] = [
     id: "facebook",
     label: "Facebook",
     href: "https://www.facebook.com/share/1Eh4cywpM5/?mibextid=wwXIfr",
-    active: true,
+    active: false,
   },
   {
     id: "snapchat",

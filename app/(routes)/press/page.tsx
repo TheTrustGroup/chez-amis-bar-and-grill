@@ -14,7 +14,7 @@ export default function PressPage() {
       {/* Hero Section */}
       <section className="section-shell bg-gradient-to-b from-green-600 via-green-700 to-green-600 text-white">
         <div className="section-shell-inner">
-          <div className="max-w-3xl mx-auto text-center space-y-6">
+          <div className="max-w-3xl mx-auto text-center space-y-4 md:space-y-5">
             <h1 className="nav-page-heading md:text-5xl tracking-tight">
               Press & Media
             </h1>
@@ -28,13 +28,13 @@ export default function PressPage() {
       {/* Main Content */}
       <section className="section-shell">
         <div className="section-shell-inner">
-          <div className="max-w-4xl mx-auto space-y-12">
+          <div className="max-w-4xl mx-auto space-y-10 md:space-y-12">
             {/* Press Contact */}
-            <div className="ui-card-compact p-8 md:p-10 space-y-6 dark:bg-green-600/40 dark:border-green-700/50">
+            <div className="ui-card-compact p-6 md:p-8 space-y-5 dark:bg-green-600/40 dark:border-green-700/50">
               <h2 className="section-title text-neutral-900 dark:text-white">
                 Media Inquiries
               </h2>
-              <p className="text-lg font-body font-light text-muted-foreground leading-relaxed">
+              <p className="text-base md:text-lg font-body font-light text-muted-foreground leading-relaxed">
                 For press inquiries, interview requests, or media coverage, please contact our team. We&apos;re available to provide:
               </p>
               <ul className="space-y-3 text-muted-foreground">
@@ -56,7 +56,7 @@ export default function PressPage() {
                 </li>
               </ul>
 
-              <div className="pt-6 space-y-4">
+              <div className="pt-4 space-y-4">
                 <div className="flex items-center gap-4">
                   <Mail className="h-5 w-5 text-terra-500" />
                   <div>
@@ -105,11 +105,11 @@ export default function PressPage() {
             </div>
 
             {/* About Section */}
-            <div className="space-y-6">
+            <div className="space-y-5">
               <h2 className="section-title text-neutral-900 dark:text-white">
                 About Chez Amis
               </h2>
-              <div className="prose prose-lg max-w-none space-y-4 text-muted-foreground font-body font-light leading-relaxed">
+              <div className="prose prose-lg max-w-none space-y-3 text-muted-foreground font-body font-light leading-relaxed">
                 <p>
                   Chez Amis Bar and Grill is a premier dining destination in Accra, Ghana, specializing in authentic West African cuisine with a modern twist. Our signature dish, Attieke, has become a beloved favorite among locals and visitors alike.
                 </p>
@@ -123,11 +123,11 @@ export default function PressPage() {
             </div>
 
             {/* Key Facts */}
-            <div className="ui-card-compact bg-green-600 text-white border-green-500/40 p-8 md:p-10">
-              <h2 className="text-2xl md:text-3xl font-display font-light mb-6">
+            <div className="ui-card-compact bg-green-600 text-white border-green-500/40 p-6 md:p-8">
+              <h2 className="text-xl md:text-2xl font-display font-light mb-5">
                 Key Facts
               </h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                 <div>
                   <p className="text-terra-500 font-body font-medium mb-2">Established</p>
                   <p className="text-white/80">2024</p>
@@ -156,7 +156,7 @@ export default function PressPage() {
             </div>
 
             {/* Back Button */}
-            <div className="pt-8">
+            <div className="pt-6">
               <Link href="/">
                 <Button
                   variant="outline"

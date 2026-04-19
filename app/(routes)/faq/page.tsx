@@ -10,6 +10,7 @@ import { PHONE_DISPLAY_COMMA, SITE_EMAIL } from "@/lib/data/siteContact"
 
 export default function FAQPage() {
   const [openIndex, setOpenIndex] = useState<number | null>(0)
+  const [showMoreQuestions, setShowMoreQuestions] = useState(false)
   const { resolvedTheme } = useTheme()
   const isDark = resolvedTheme === "dark"
 
@@ -81,12 +82,15 @@ export default function FAQPage() {
     setOpenIndex(openIndex === index ? null : index)
   }
 
+  const primaryFaqs = faqs.slice(0, 8)
+  const secondaryFaqs = faqs.slice(8)
+
   return (
     <div className={cn("min-h-screen transition-colors", isDark ? "bg-green-700" : "bg-neutral-50")}>
       {/* Hero Section */}
       <section className="section-shell bg-gradient-to-b from-green-600 via-green-700 to-green-600 text-white">
         <div className="section-shell-inner">
-          <div className="max-w-3xl mx-auto text-center space-y-6">
+          <div className="max-w-3xl mx-auto text-center space-y-4 md:space-y-5">
             <h1 className="nav-page-heading md:text-5xl tracking-tight">
               Frequently Asked Questions
             </h1>
@@ -100,8 +104,14 @@ export default function FAQPage() {
       {/* Main Content */}
       <section className={cn("section-shell", isDark ? "bg-green-700" : "bg-neutral-50")}>
         <div className="section-shell-inner">
-          <div className="max-w-3xl mx-auto space-y-4">
-            {faqs.map((faq, index) => (
+          <div className="max-w-3xl mx-auto space-y-3.5 md:space-y-4">
+            <div className="ui-card-compact p-4 md:p-5 bg-green-600/10 border-green-500/30">
+              <p className="text-sm md:text-base font-body font-light text-foreground">
+                Start with the most common questions below. If you still need help, use Contact Us
+                and our team will respond quickly.
+              </p>
+            </div>
+            {primaryFaqs.map((faq, index) => (
               <div
                 key={index}
                 className={cn(
@@ -111,10 +121,10 @@ export default function FAQPage() {
               >
                 <button
                   onClick={() => toggleFAQ(index)}
-                  className="w-full px-6 py-5 text-left flex items-center justify-between gap-4 focus:outline-none focus:ring-2 focus:ring-terra-500/50 rounded-lg"
+                  className="w-full px-5 py-4 md:py-5 text-left flex items-center justify-between gap-4 focus:outline-none focus:ring-2 focus:ring-terra-500/50 rounded-lg"
                   aria-expanded={openIndex === index}
                 >
-                  <h3 className="text-lg md:text-xl font-display font-light text-foreground pr-4">
+                  <h3 className="text-base md:text-lg font-display font-light text-foreground pr-4">
                     {faq.question}
                   </h3>
                   {openIndex === index ? (
@@ -134,11 +144,60 @@ export default function FAQPage() {
                 )}
               </div>
             ))}
+            {secondaryFaqs.length > 0 && (
+              <div className="pt-2">
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={() => setShowMoreQuestions((prev) => !prev)}
+                  className="w-full border-2 border-terra-500/50 text-terra-400 md:hover:bg-terra-500/10 active:bg-terra-500/10 md:hover:border-terra-500 active:border-terra-500 font-body font-light"
+                >
+                  {showMoreQuestions ? "Hide More Questions" : "Show More Questions"}
+                </Button>
+              </div>
+            )}
+            {showMoreQuestions &&
+              secondaryFaqs.map((faq, extraIndex) => {
+                const index = primaryFaqs.length + extraIndex
+                return (
+                  <div
+                    key={index}
+                    className={cn(
+                      "ui-card-compact overflow-hidden transition-all md:hover:shadow-md",
+                      isDark ? "bg-green-600/40 border-green-700/50" : "bg-neutral-50 border-border/30",
+                    )}
+                  >
+                    <button
+                      onClick={() => toggleFAQ(index)}
+                      className="w-full px-5 py-4 md:py-5 text-left flex items-center justify-between gap-4 focus:outline-none focus:ring-2 focus:ring-terra-500/50 rounded-lg"
+                      aria-expanded={openIndex === index}
+                    >
+                      <h3 className="text-base md:text-lg font-display font-light text-foreground pr-4">
+                        {faq.question}
+                      </h3>
+                      {openIndex === index ? (
+                        <ChevronUp className="h-5 w-5 text-terra-600 flex-shrink-0" />
+                      ) : (
+                        <ChevronDown className="h-5 w-5 text-terra-600 flex-shrink-0" />
+                      )}
+                    </button>
+                    {openIndex === index && (
+                      <div className="px-6 pb-5">
+                        <div className="pt-2 border-t border-neutral-200/20">
+                          <p className="text-muted-foreground font-body font-light leading-relaxed">
+                            {faq.answer}
+                          </p>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                )
+              })}
           </div>
 
           {/* Contact Section */}
-          <div className="max-w-3xl mx-auto mt-12 ui-card-compact bg-green-600 text-white p-8 md:p-12 text-center space-y-6 border-green-500/40">
-            <h2 className="text-2xl md:text-3xl font-display font-light">
+          <div className="max-w-3xl mx-auto mt-10 md:mt-12 ui-card-compact bg-green-600 text-white p-6 md:p-8 text-center space-y-5 border-green-500/40">
+            <h2 className="text-xl md:text-2xl font-display font-light">
               Still have questions?
             </h2>
             <p className="text-white/80 font-body font-light leading-relaxed">
@@ -165,7 +224,7 @@ export default function FAQPage() {
           </div>
 
           {/* Back Button */}
-          <div className="max-w-3xl mx-auto mt-12">
+          <div className="max-w-3xl mx-auto mt-10 md:mt-12">
             <Link href="/">
               <Button
                 variant="outline"

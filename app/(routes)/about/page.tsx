@@ -45,13 +45,13 @@ export default function AboutPage() {
         
         <div className="relative z-10 text-center px-6 max-w-4xl mx-auto">
           <h1 className={cn(
-            "nav-page-heading md:text-5xl tracking-tight mb-4 md:mb-6",
+            "nav-page-heading md:text-5xl tracking-tight mb-3 md:mb-5",
             "text-white drop-shadow-[0_4px_20px_rgba(0,0,0,0.8)]",
             "animate-fade-in-up"
           )}>
             Our Story
           </h1>
-          <div className="w-20 md:w-28 h-0.5 bg-gradient-to-r from-transparent via-terra-500 to-transparent mx-auto mb-4 md:mb-6 shadow-lg shadow-terra-500/50" />
+          <div className="w-20 md:w-28 h-0.5 bg-gradient-to-r from-transparent via-terra-500 to-transparent mx-auto mb-3 md:mb-5 shadow-lg shadow-terra-500/50" />
           <p className={cn(
             "nav-page-subheading max-w-3xl mx-auto text-white/90 md:text-lg",
             "text-white/90 drop-shadow-[0_2px_10px_rgba(0,0,0,0.8)]",
@@ -85,29 +85,29 @@ export default function AboutPage() {
         <div className="absolute inset-0 bg-gradient-to-br from-terra-500/3 via-transparent to-green-500/3 pointer-events-none" aria-hidden="true" />
         
         <div className="section-shell-inner relative z-10">
-          <div className="text-center mb-12 md:mb-16">
+          <div className="text-center mb-10 md:mb-12">
             <h2
               id="awards-heading"
               className={cn(
-                "section-title mb-4",
+                "section-title mb-3",
                 isDark ? "text-white" : "text-foreground"
               )}
             >
               Honored to Serve You
             </h2>
-            <div className="w-24 md:w-32 h-0.5 bg-gradient-to-r from-transparent via-terra-500 to-transparent mx-auto mb-4 shadow-lg shadow-terra-500/50" />
+            <div className="w-24 md:w-32 h-0.5 bg-gradient-to-r from-transparent via-terra-500 to-transparent mx-auto mb-3 shadow-lg shadow-terra-500/50" />
             <p className={cn(
-              "text-lg md:text-xl font-body font-light max-w-2xl mx-auto",
+              "text-base md:text-lg font-body font-light max-w-2xl mx-auto",
               isDark ? "text-white/80" : "text-muted-foreground"
             )}>
               Recognition from our community and industry peers
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 md:gap-6">
             {/* TripAdvisor */}
             <div className={cn(
-              "text-center space-y-4 p-6 md:p-8 rounded-xl border transition-all duration-500",
+              "text-center space-y-3.5 p-5 md:p-6 rounded-xl border transition-all duration-500",
               "md:hover:shadow-lg md:hover:-translate-y-1 group",
               isDark 
                 ? "bg-green-600/50 border-green-700/50 md:hover:border-terra-500/40 active:border-terra-500/40"
@@ -137,7 +137,7 @@ export default function AboutPage() {
 
             {/* Ghana Restaurant Awards */}
             <div className={cn(
-              "text-center space-y-4 p-6 md:p-8 rounded-xl border transition-all duration-500",
+              "text-center space-y-3.5 p-5 md:p-6 rounded-xl border transition-all duration-500",
               "md:hover:shadow-lg md:hover:-translate-y-1 group",
               isDark 
                 ? "bg-green-600/50 border-green-700/50 md:hover:border-terra-500/40 active:border-terra-500/40"
@@ -167,7 +167,7 @@ export default function AboutPage() {
 
             {/* Featured in Magazine */}
             <div className={cn(
-              "text-center space-y-4 p-6 md:p-8 rounded-xl border transition-all duration-500",
+              "text-center space-y-3.5 p-5 md:p-6 rounded-xl border transition-all duration-500",
               "md:hover:shadow-lg md:hover:-translate-y-1 group",
               isDark 
                 ? "bg-green-600/50 border-green-700/50 md:hover:border-terra-500/40 active:border-terra-500/40"
@@ -197,7 +197,7 @@ export default function AboutPage() {
 
             {/* Reviews */}
             <div className={cn(
-              "text-center space-y-4 p-6 md:p-8 rounded-xl border transition-all duration-500",
+              "text-center space-y-3.5 p-5 md:p-6 rounded-xl border transition-all duration-500",
               "md:hover:shadow-lg md:hover:-translate-y-1 group",
               isDark 
                 ? "bg-green-600/50 border-green-700/50 md:hover:border-terra-500/40 active:border-terra-500/40"
@@ -236,12 +236,12 @@ export default function AboutPage() {
         <div className="absolute inset-0 bg-gradient-to-br from-terra-500/5 via-transparent to-green-500/5 pointer-events-none" aria-hidden="true" />
         
         <div className="section-shell-inner relative z-10">
-          <div className="max-w-4xl mx-auto text-center space-y-8 md:space-y-12">
+          <div className="max-w-4xl mx-auto text-center space-y-6 md:space-y-8">
             <div>
               <h2
                 id="commitment-heading"
                 className={cn(
-                  "section-title mb-6",
+                  "section-title mb-4",
                   isDark ? "text-white" : "text-foreground"
                 )}
               >
@@ -251,8 +251,8 @@ export default function AboutPage() {
             </div>
             
             <blockquote className={cn(
-              "text-xl md:text-2xl lg:text-3xl font-display font-light leading-relaxed italic",
-              "px-6 md:px-8 py-8 md:py-10 rounded-2xl",
+              "text-lg md:text-xl lg:text-2xl font-display font-light leading-relaxed italic",
+              "px-5 md:px-6 py-6 md:py-8 rounded-2xl",
               "border-l-4 border-terra-500/50",
               isDark 
                 ? "text-white/90 bg-green-600/30 border-green-700/50"

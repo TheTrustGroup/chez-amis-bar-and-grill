@@ -110,15 +110,15 @@ export default function GalleryPage() {
         <div className="relative z-10 h-full flex items-center justify-center text-center px-6">
           <div className="max-w-4xl">
             <h1 className={cn(
-              "nav-page-heading md:text-5xl tracking-tight mb-4 md:mb-6",
+              "nav-page-heading md:text-5xl tracking-tight mb-3 md:mb-5",
               "text-white drop-shadow-[0_4px_20px_rgba(0,0,0,0.8)]",
               "animate-fade-in-up"
             )}>
               Our Gallery
             </h1>
-            <div className="w-20 md:w-28 h-0.5 bg-gradient-to-r from-transparent via-terra-500 to-transparent mx-auto mb-4 md:mb-6 shadow-lg shadow-terra-500/50" />
+            <div className="w-20 md:w-28 h-0.5 bg-gradient-to-r from-transparent via-terra-500 to-transparent mx-auto mb-3 md:mb-5 shadow-lg shadow-terra-500/50" />
             <p className={cn(
-              "nav-page-subheading text-white/90 md:text-lg leading-relaxed",
+              "nav-page-subheading text-white/90 md:text-lg",
               "text-white/90 drop-shadow-[0_2px_10px_rgba(0,0,0,0.8)]",
               "animate-fade-in-up"
             )} style={{ animationDelay: "0.2s" }}>
@@ -216,7 +216,7 @@ export default function GalleryPage() {
             <div
               className={cn(
                 "columns-2 md:columns-3 lg:columns-4",
-                "[column-gap:0.5rem] md:[column-gap:0.75rem] lg:[column-gap:1rem]",
+                "[column-gap:0.45rem] md:[column-gap:0.65rem] lg:[column-gap:0.85rem]",
               )}
             >
               {filteredMedia.map((item, index) => {
@@ -236,7 +236,7 @@ export default function GalleryPage() {
                       }
                     }}
                     className={cn(
-                      "group relative mb-4 break-inside-avoid md:mb-6",
+                      "group relative mb-3 break-inside-avoid md:mb-4",
                       "rounded-sm overflow-hidden cursor-pointer transition-all duration-700 ease-out",
                       "md:hover:shadow-lg md:hover:-translate-y-1 md:hover:scale-[1.01]",
                       "border-2",
@@ -319,16 +319,16 @@ export default function GalleryPage() {
                     </div>
 
                     {/* Content Overlay - Premium Animation */}
-                    <div className="absolute inset-0 flex flex-col justify-end p-4 md:p-6 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-40">
+                    <div className="absolute inset-0 flex flex-col justify-end p-3 md:p-4 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-40">
                       <h3 className={cn(
-                        "text-base md:text-lg lg:text-xl font-display font-light mb-2",
+                        "text-sm md:text-base lg:text-lg font-display font-light mb-1.5",
                         "transform translate-y-6 md:group-hover:translate-y-0 transition-all duration-500 ease-out"
                       )}>
                         {item.title}
                       </h3>
                       {item.description && (
                         <p className={cn(
-                          "text-xs md:text-sm text-white/90 font-body font-light line-clamp-2",
+                          "text-xs text-white/90 font-body font-light line-clamp-2",
                           "transform translate-y-6 md:group-hover:translate-y-0 transition-all duration-500 ease-out delay-75"
                         )}>
                           {item.description}
@@ -364,12 +364,12 @@ export default function GalleryPage() {
             </div>
           ) : (
             <div className={cn(
-              "text-center py-20 md:py-24 rounded-xl transition-colors duration-300",
+              "text-center py-16 md:py-20 rounded-xl transition-colors duration-300",
               isDark ? "bg-green-600/30" : "bg-muted/30"
             )}>
               <div className="text-8xl mb-6">📸</div>
               <h3 className={cn(
-                "text-2xl md:text-3xl font-display font-light mb-4",
+                "text-xl md:text-2xl font-display font-light mb-3",
                 isDark ? "text-white" : "text-foreground"
               )}>
                 Gallery Coming Soon
@@ -395,7 +395,7 @@ export default function GalleryPage() {
           {/* Empty Category State */}
           {filteredMedia.length === 0 && galleryMedia.length > 0 && (
             <div className={cn(
-              "text-center py-20 md:py-24 rounded-xl transition-colors duration-300",
+              "text-center py-16 md:py-20 rounded-xl transition-colors duration-300",
               isDark ? "bg-green-600/30" : "bg-muted/30"
             )}>
               <div className="text-7xl mb-6">🔍</div>
@@ -433,14 +433,14 @@ export default function GalleryPage() {
       )}>
         <div className="section-shell-inner text-center">
           <h2 className={cn(
-            "section-title mb-6",
+            "section-title mb-4",
             "text-white"
           )}>
             Ready to Experience It Yourself?
           </h2>
-          <div className="w-24 md:w-32 h-0.5 bg-gradient-to-r from-transparent via-terra-500 to-transparent mx-auto mb-6 shadow-lg shadow-terra-500/50" />
+          <div className="w-24 md:w-32 h-0.5 bg-gradient-to-r from-transparent via-terra-500 to-transparent mx-auto mb-4 shadow-lg shadow-terra-500/50" />
           <p className={cn(
-            "text-lg md:text-xl mb-10 max-w-2xl mx-auto font-body font-light leading-relaxed",
+            "text-base md:text-lg mb-8 max-w-2xl mx-auto font-body font-light leading-relaxed",
             "text-white/80"
           )}>
             Reserve your table and taste the culinary excellence that awaits you at Chez Amis
@@ -554,7 +554,7 @@ export default function GalleryPage() {
 
             {/* Media Info - Positioned below video to avoid overlap */}
             <div className={`text-center text-white animate-fade-in ${filteredMedia[currentMediaIndex].type === 'video' ? 'mt-4' : 'mt-8'}`}>
-              <h3 className="text-2xl md:text-3xl font-display font-light mb-3">
+              <h3 className="text-xl md:text-2xl font-display font-light mb-2.5">
                 {filteredMedia[currentMediaIndex].title}
               </h3>
               {filteredMedia[currentMediaIndex].description && (

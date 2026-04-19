@@ -7,7 +7,7 @@ import { MapSection } from "@/components/contact/MapSection"
 import { MapPin, Navigation, ChevronDown } from "lucide-react"
 import { useTheme } from "@/lib/context/ThemeContext"
 import { cn } from "@/lib/utils"
-import { SITE_ADDRESS_LINES } from "@/lib/data/siteContact"
+import { FOOTER_PHONE_LINES, SITE_ADDRESS_LINES, SITE_EMAIL } from "@/lib/data/siteContact"
 
 export default function ContactPage() {
   const { resolvedTheme } = useTheme()
@@ -30,13 +30,13 @@ export default function ContactPage() {
         )} />
         <div className="relative z-10 text-center px-6 max-w-4xl mx-auto">
           <h1 className={cn(
-            "nav-page-heading md:text-5xl tracking-tight mb-4 md:mb-6",
+            "nav-page-heading md:text-5xl tracking-tight mb-3 md:mb-5",
             "text-white drop-shadow-[0_4px_20px_rgba(0,0,0,0.8)]",
             "animate-fade-in-up"
           )}>
             Get in Touch
           </h1>
-          <div className="w-20 md:w-28 h-0.5 bg-gradient-to-r from-transparent via-terra-500 to-transparent mx-auto mb-4 md:mb-6 shadow-lg shadow-terra-500/50" />
+          <div className="w-20 md:w-28 h-0.5 bg-gradient-to-r from-transparent via-terra-500 to-transparent mx-auto mb-3 md:mb-5 shadow-lg shadow-terra-500/50" />
           <p className={cn(
             "nav-page-subheading max-w-3xl mx-auto text-white/90 md:text-lg",
             "text-white/90 drop-shadow-[0_2px_10px_rgba(0,0,0,0.8)]",
@@ -53,6 +53,36 @@ export default function ContactPage() {
         isDark ? "bg-green-700/50" : "bg-neutral-50"
       )} aria-labelledby="contact-info-heading">
         <div className="section-shell-inner">
+          <div className="mb-6 md:mb-8 ui-card-compact p-4 md:p-5">
+            <h2
+              id="contact-info-heading"
+              className={cn("text-lg md:text-xl font-display font-light mb-3", isDark ? "text-white" : "text-foreground")}
+            >
+              Quick Contact
+            </h2>
+            <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-3">
+              <a
+                href={`tel:${FOOTER_PHONE_LINES[0]?.tel ?? ""}`}
+                className="ui-link-row"
+              >
+                Call {FOOTER_PHONE_LINES[0]?.display}
+              </a>
+              <a
+                href={`mailto:${SITE_EMAIL}`}
+                className="ui-link-row"
+              >
+                Email {SITE_EMAIL}
+              </a>
+              <a
+                href="https://maps.google.com/?q=Chez+Amis+Bar+and+Grill+40+Boundary+Rd+Accra"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="ui-link-row"
+              >
+                Open Directions
+              </a>
+            </div>
+          </div>
           <ContactInfo />
         </div>
       </section>
@@ -63,27 +93,27 @@ export default function ContactPage() {
         isDark ? "bg-green-700" : "bg-neutral-50"
       )} aria-labelledby="contact-form-heading">
         <div className="section-shell-inner">
-          <div className="max-w-2xl mx-auto">
-            <div className="text-center mb-10 md:mb-12">
+            <div className="max-w-2xl mx-auto">
+            <div className="text-center mb-8 md:mb-10">
               <h2
                 id="contact-form-heading"
                 className={cn(
-                  "section-title mb-4 transition-colors duration-300",
+                  "section-title mb-3 transition-colors duration-300",
                   isDark ? "text-white" : "text-neutral-900"
                 )}
               >
                 Send Us a Message
               </h2>
-              <div className="w-24 md:w-32 h-0.5 bg-gradient-to-r from-transparent via-terra-500 to-transparent mx-auto mb-4 shadow-lg shadow-terra-500/50" />
+              <div className="w-24 md:w-32 h-0.5 bg-gradient-to-r from-transparent via-terra-500 to-transparent mx-auto mb-3 shadow-lg shadow-terra-500/50" />
               <p className={cn(
-                "text-base md:text-lg font-body font-light transition-colors duration-300",
+                "text-sm md:text-base font-body font-light transition-colors duration-300",
                 isDark ? "text-white/80" : "text-muted-foreground"
               )}>
                 Fill out the form below and we&apos;ll get back to you soon
               </p>
             </div>
 
-            <div className="md:hidden mb-4">
+            <div className="md:hidden mb-3">
               <button
                 type="button"
                 onClick={() => setShowMobileForm((prev) => !prev)}

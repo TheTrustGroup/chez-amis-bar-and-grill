@@ -64,7 +64,7 @@ export default function CareersPage() {
       {/* Hero Section */}
       <section className="section-shell bg-gradient-to-b from-green-600 via-green-700 to-green-600 text-white">
         <div className="section-shell-inner">
-          <div className="max-w-3xl mx-auto text-center space-y-6">
+          <div className="max-w-3xl mx-auto text-center space-y-4 md:space-y-5">
             <h1 className="nav-page-heading md:text-5xl tracking-tight">
               Join Our Team
             </h1>
@@ -78,23 +78,23 @@ export default function CareersPage() {
       {/* Main Content */}
       <section className="section-shell">
         <div className="section-shell-inner">
-          <div className="max-w-4xl mx-auto space-y-12">
+          <div className="max-w-4xl mx-auto space-y-10 md:space-y-12">
             {/* Why Work With Us */}
-            <div className="space-y-6">
+            <div className="space-y-5">
               <h2 className="section-title text-neutral-900 dark:text-white">
                 Why Work at Chez Amis?
               </h2>
-              <p className="text-lg font-body font-light text-muted-foreground leading-relaxed">
+              <p className="text-base md:text-lg font-body font-light text-muted-foreground leading-relaxed">
                 At Chez Amis, we believe that great food comes from great people. We&apos;re looking for individuals who share our passion for authentic West African cuisine and exceptional hospitality.
               </p>
             </div>
 
             {/* Benefits Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-6">
               {benefits.map((benefit, index) => (
-                <div key={index} className="ui-card-compact p-6 space-y-4 dark:bg-green-600/40 dark:border-green-700/50">
+                <div key={index} className="ui-card-compact p-5 md:p-6 space-y-3.5 dark:bg-green-600/40 dark:border-green-700/50">
                   <div className="text-terra-600">{benefit.icon}</div>
-                  <h3 className="text-xl font-display font-light text-foreground">
+                  <h3 className="text-lg md:text-xl font-display font-light text-foreground">
                     {benefit.title}
                   </h3>
                   <p className="text-muted-foreground font-body font-light">
@@ -105,7 +105,7 @@ export default function CareersPage() {
             </div>
 
             {/* Open Positions */}
-            <div className="space-y-6">
+            <div className="space-y-5">
               <h2 className="section-title text-neutral-900 dark:text-white">
                 Open Positions
               </h2>
@@ -113,11 +113,11 @@ export default function CareersPage() {
                 {positions.map((position, index) => (
                   <div
                     key={index}
-                    className="ui-card-compact bg-neutral-50 dark:bg-green-600/40 p-6 md:p-8 dark:border-green-700/50 md:hover:shadow-md transition-shadow"
+                    className="ui-card-compact bg-neutral-50 dark:bg-green-600/40 p-5 md:p-6 dark:border-green-700/50 md:hover:shadow-md transition-shadow"
                   >
                     <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4 mb-4">
                       <div>
-                        <h3 className="text-xl md:text-2xl font-display font-light text-foreground mb-2">
+                        <h3 className="text-lg md:text-xl font-display font-light text-foreground mb-2">
                           {position.title}
                         </h3>
                         <div className="flex flex-wrap gap-3 text-sm text-muted-foreground">
@@ -144,8 +144,8 @@ export default function CareersPage() {
             </div>
 
             {/* General Application */}
-            <div className="ui-card-compact bg-green-600 text-white border-green-500/40 p-8 md:p-10 space-y-6">
-              <h2 className="text-2xl md:text-3xl font-display font-light">
+            <div className="ui-card-compact bg-green-600 text-white border-green-500/40 p-6 md:p-8 space-y-5">
+              <h2 className="text-xl md:text-2xl font-display font-light">
                 Don&apos;t See a Position That Fits?
               </h2>
               <p className="text-white/80 font-body font-light leading-relaxed">
@@ -210,7 +210,7 @@ export default function CareersPage() {
             </div>
 
             {/* Back Button */}
-            <div className="pt-8">
+            <div className="pt-6">
               <Link href="/">
                 <Button
                   variant="outline"

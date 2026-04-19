@@ -10,14 +10,14 @@ export default function TermsOfServicePage() {
       {/* Hero Section */}
       <section className="section-shell bg-gradient-to-b from-green-600 via-green-700 to-green-600 text-white">
         <div className="section-shell-inner">
-          <div className="max-w-3xl mx-auto text-center space-y-6">
+          <div className="max-w-3xl mx-auto text-center space-y-4 md:space-y-5">
             <h1 className="nav-page-heading md:text-5xl tracking-tight">
               Terms of Service
             </h1>
             <p className="nav-page-subheading text-white/85 md:text-lg">
               Please read these terms carefully
             </p>
-            <p className="text-sm font-body font-light text-white/60">
+            <p className="text-xs md:text-sm font-body font-light text-white/60">
               Last updated: {new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
             </p>
           </div>
@@ -28,10 +28,10 @@ export default function TermsOfServicePage() {
       <section className="section-shell">
         <div className="section-shell-inner">
           <div className="max-w-4xl mx-auto">
-            <div className="prose prose-lg max-w-none dark:prose-invert ui-card-compact bg-neutral-50 dark:bg-green-600/40 dark:border-green-700/50 p-8 md:p-10 space-y-8">
-              <div className="space-y-6 text-muted-foreground font-body font-light leading-relaxed">
+            <div className="prose prose-lg max-w-none dark:prose-invert ui-card-compact bg-neutral-50 dark:bg-green-600/40 dark:border-green-700/50 p-6 md:p-8 space-y-6">
+              <div className="space-y-5 text-muted-foreground font-body font-light leading-relaxed">
                 <div>
-                  <h2 className="text-2xl md:text-3xl font-display font-light text-neutral-900 dark:text-white mb-4">
+                  <h2 className="text-xl md:text-2xl font-display font-light text-neutral-900 dark:text-white mb-3">
                     Agreement to Terms
                   </h2>
                   <p>
@@ -40,7 +40,7 @@ export default function TermsOfServicePage() {
                 </div>
 
                 <div>
-                  <h2 className="text-2xl md:text-3xl font-display font-light text-neutral-900 dark:text-white mb-4">
+                  <h2 className="text-xl md:text-2xl font-display font-light text-neutral-900 dark:text-white mb-3">
                     Use of Our Services
                   </h2>
                   <p className="mb-4">You agree to use our services only for lawful purposes and in accordance with these Terms. You agree not to:</p>
@@ -55,7 +55,7 @@ export default function TermsOfServicePage() {
                 </div>
 
                 <div>
-                  <h2 className="text-2xl md:text-3xl font-display font-light text-neutral-900 dark:text-white mb-4">
+                  <h2 className="text-xl md:text-2xl font-display font-light text-neutral-900 dark:text-white mb-3">
                     Reservations
                   </h2>
                   <p className="mb-4">When making a reservation through our website:</p>
@@ -70,7 +70,7 @@ export default function TermsOfServicePage() {
                 </div>
 
                 <div>
-                  <h2 className="text-2xl md:text-3xl font-display font-light text-neutral-900 dark:text-white mb-4">
+                  <h2 className="text-xl md:text-2xl font-display font-light text-neutral-900 dark:text-white mb-3">
                     Orders and Payments
                   </h2>
                   <p className="mb-4">When placing orders through our website:</p>
@@ -85,7 +85,7 @@ export default function TermsOfServicePage() {
                 </div>
 
                 <div>
-                  <h2 className="text-2xl md:text-3xl font-display font-light text-neutral-900 dark:text-white mb-4">
+                  <h2 className="text-xl md:text-2xl font-display font-light text-neutral-900 dark:text-white mb-3">
                     Intellectual Property
                   </h2>
                   <p>
@@ -94,7 +94,7 @@ export default function TermsOfServicePage() {
                 </div>
 
                 <div>
-                  <h2 className="text-2xl md:text-3xl font-display font-light text-neutral-900 dark:text-white mb-4">
+                  <h2 className="text-xl md:text-2xl font-display font-light text-neutral-900 dark:text-white mb-3">
                     Disclaimers
                   </h2>
                   <p className="mb-4">
@@ -109,7 +109,7 @@ export default function TermsOfServicePage() {
                 </div>
 
                 <div>
-                  <h2 className="text-2xl md:text-3xl font-display font-light text-neutral-900 dark:text-white mb-4">
+                  <h2 className="text-xl md:text-2xl font-display font-light text-neutral-900 dark:text-white mb-3">
                     Limitation of Liability
                   </h2>
                   <p>
@@ -118,7 +118,7 @@ export default function TermsOfServicePage() {
                 </div>
 
                 <div>
-                  <h2 className="text-2xl md:text-3xl font-display font-light text-neutral-900 dark:text-white mb-4">
+                  <h2 className="text-xl md:text-2xl font-display font-light text-neutral-900 dark:text-white mb-3">
                     Indemnification
                   </h2>
                   <p>
@@ -127,7 +127,7 @@ export default function TermsOfServicePage() {
                 </div>
 
                 <div>
-                  <h2 className="text-2xl md:text-3xl font-display font-light text-neutral-900 dark:text-white mb-4">
+                  <h2 className="text-xl md:text-2xl font-display font-light text-neutral-900 dark:text-white mb-3">
                     Modifications to Terms
                   </h2>
                   <p>
@@ -136,7 +136,7 @@ export default function TermsOfServicePage() {
                 </div>
 
                 <div>
-                  <h2 className="text-2xl md:text-3xl font-display font-light text-neutral-900 dark:text-white mb-4">
+                  <h2 className="text-xl md:text-2xl font-display font-light text-neutral-900 dark:text-white mb-3">
                     Governing Law
                   </h2>
                   <p>
@@ -145,7 +145,7 @@ export default function TermsOfServicePage() {
                 </div>
 
                 <div>
-                  <h2 className="text-2xl md:text-3xl font-display font-light text-neutral-900 dark:text-white mb-4">
+                  <h2 className="text-xl md:text-2xl font-display font-light text-neutral-900 dark:text-white mb-3">
                     Contact Information
                   </h2>
                   <p className="mb-4">
@@ -166,7 +166,7 @@ export default function TermsOfServicePage() {
             </div>
 
             {/* Back Button */}
-            <div className="mt-12 text-center">
+            <div className="mt-10 md:mt-12 text-center">
               <Link href="/">
                 <Button
                   variant="outline"
