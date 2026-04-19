@@ -90,12 +90,12 @@ export default function AdminLoginPage() {
                 Email Address
               </label>
               <div className="relative">
-                <Mail className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-muted-foreground" />
+                <Mail className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                 <input
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="ui-control h-12 pl-10"
+                  className="ui-control h-12 pl-11"
                   placeholder="admin@chezamisrestaurant.com"
                   required
                 />
@@ -108,12 +108,12 @@ export default function AdminLoginPage() {
                 Password
               </label>
               <div className="relative">
-                <Lock className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-muted-foreground" />
+                <Lock className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                 <input
                   type={showPassword ? 'text' : 'password'}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="ui-control h-12 pl-10 pr-12"
+                  className="ui-control h-12 pl-11 pr-12"
                   placeholder="Enter password"
                   required
                 />

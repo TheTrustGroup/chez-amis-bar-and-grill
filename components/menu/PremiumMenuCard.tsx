@@ -10,6 +10,7 @@ import { cn } from "@/lib/utils"
 import { useCart } from "@/lib/hooks/useCart"
 import { useTheme } from "@/lib/context/ThemeContext"
 import { formatPrice } from "@/lib/utils/formatting"
+import { conciseMenuDescription } from "@/lib/utils/menu-description"
 import { ImageWithFallback } from "@/components/ui/image-with-fallback"
 import { LoadingSpinner } from "@/components/ui/loading-spinner"
 
@@ -70,26 +71,22 @@ export function PremiumMenuCard({ item, onAddToCart }: PremiumMenuCardProps) {
 
   return (
     <Card className={cn(
-      "group relative overflow-hidden flex flex-col h-full rounded-sm transition-all duration-500 ease-out",
-      "md:hover:shadow-2xl md:hover:-translate-y-2",
+      "group relative flex h-full flex-col overflow-hidden rounded-sm transition-all duration-300 ease-out",
       isDark 
-        ? "bg-green-600/50 border-green-700/50 md:hover:border-terra-500/40"
-        : "bg-card/50 backdrop-blur-sm border-border/50 md:hover:border-terra-500/40",
-      "md:hover:scale-[1.01]"
+        ? "border-green-700/50 bg-green-600/40 md:hover:border-terra-500/40"
+        : "border-border/50 bg-card md:hover:border-terra-500/40 md:hover:shadow-md"
     )}>
-      {/* Image Container with Premium Effects */}
+      {/* Image Container */}
       <div className="relative aspect-[4/3] w-full overflow-hidden rounded-none bg-gradient-to-br from-neutral-200 to-neutral-300">
-        {/* Dish Image with Fallback */}
         <ImageWithFallback
           src={item.image}
           alt={item.name}
           fill
-          className="object-cover transition-transform duration-500 ease-out md:group-hover:scale-105"
+          className="object-cover transition-transform duration-300 ease-out md:group-hover:scale-[1.02]"
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           priority={false}
         />
         
-        {/* Premium Badges */}
         <div className="absolute top-3 left-3 z-10 flex flex-col gap-2">
           {isSignature && (
             <Badge 
@@ -116,29 +113,16 @@ export function PremiumMenuCard({ item, onAddToCart }: PremiumMenuCardProps) {
             </Badge>
           )}
         </div>
-
-        {/* Hover Overlay Effect */}
-        <div className={cn(
-          "absolute inset-0 transition-opacity duration-500 z-10",
-          "bg-gradient-to-t from-black/70 via-black/30 to-transparent",
-          "opacity-0 md:group-hover:opacity-100"
-        )} />
-
-        {/* Gold Accent Glow on Hover */}
-        <div className={cn(
-          "absolute inset-0 opacity-0 md:group-hover:opacity-100 transition-opacity duration-500 z-10",
-          "bg-gradient-to-br from-terra-500/20 via-transparent to-transparent"
-        )} />
       </div>
 
       {/* Content Section */}
-      <CardContent className="flex-1 p-5 md:p-6 space-y-4">
+      <CardContent className="flex-1 space-y-3 p-5 md:p-6">
         {/* Title and Price */}
         <div className="flex items-start justify-between gap-3">
           <h3 className={cn(
             "text-lg md:text-xl font-display font-light leading-tight flex-1",
             isDark ? "text-white" : "text-foreground",
-            "md:group-hover:text-terra-600 transition-colors duration-300"
+            "transition-colors duration-300 md:group-hover:text-terra-600"
           )}>
             {item.name}
           </h3>
@@ -166,7 +150,7 @@ export function PremiumMenuCard({ item, onAddToCart }: PremiumMenuCardProps) {
           "text-sm md:text-base font-body font-light leading-relaxed line-clamp-2",
           isDark ? "text-white/80" : "text-muted-foreground"
         )}>
-          {item.description}
+          {conciseMenuDescription(item.description)}
         </p>
 
         {item.featured && (
@@ -178,15 +162,6 @@ export function PremiumMenuCard({ item, onAddToCart }: PremiumMenuCardProps) {
 
         {/* Tags and Dietary Info */}
         <div className="flex flex-wrap gap-2">
-          {item.tags && item.tags.map((tag, index) => (
-            <Badge
-              key={index}
-              variant="outline"
-              className="text-xs"
-            >
-              {String(tag)}
-            </Badge>
-          ))}
           {dietaryLabelList(item.dietary).map((diet, index) => (
             <Badge key={`diet-${index}`} variant="tag" className="text-xs">
               {diet}
@@ -223,7 +198,7 @@ export function PremiumMenuCard({ item, onAddToCart }: PremiumMenuCardProps) {
             ) : (
               <>
                 <ShoppingCart className="h-4 w-4 transition-transform duration-300 md:group-hover/btn:scale-110" />
-                Add to Order
+                Add
               </>
             )}
           </span>

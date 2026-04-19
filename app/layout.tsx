@@ -99,6 +99,11 @@ export const metadata: Metadata = {
   alternates: {
     canonical: siteUrl,
   },
+  icons: {
+    icon: [{ url: "/favicon.svg?v=2", type: "image/svg+xml" }],
+    shortcut: ["/favicon.svg?v=2"],
+    apple: [{ url: "/favicon.svg?v=2" }],
+  },
 }
 
 export default function RootLayout({

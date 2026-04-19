@@ -2,6 +2,7 @@ import {
   legacyExtendedMenuItems,
   legacyExtendedCategoryLabels,
 } from './extendedMenuImport'
+import { conciseMenuDescription } from '@/lib/utils/menu-description'
 
 /** Single source of truth for menu items — cart, menu UI, and admin */
 export interface MenuItem {
@@ -71,6 +72,7 @@ export function normalizeMenuItem(row: MenuItemRow): MenuItem {
 
   return {
     ...row,
+    description: conciseMenuDescription(row.description, 16),
     price,
     image: row.image ?? DISH_PLACEHOLDER,
     allergens: row.allergens ?? [],

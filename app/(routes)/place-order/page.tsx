@@ -10,7 +10,7 @@ import { PaymentSelector, type PaymentMethod } from "@/components/order/PaymentS
 import { OrderSummary } from "@/components/order/OrderSummary"
 import { useCartContext } from "@/lib/context/CartContext"
 import { PAYMENT_ON_DELIVERY_ONLY } from "@/lib/config/payments"
-import { Shield, Lock, Banknote, MessageCircle, CheckCircle2 } from "lucide-react"
+import { Shield, Lock, Banknote, MessageCircle } from "lucide-react"
 import { buildWhatsAppLink } from "@/lib/data/siteContact"
 
 export default function PlaceOrderPage() {
@@ -430,33 +430,15 @@ export default function PlaceOrderPage() {
               </div>
 
               <div className="space-y-4">
-                <div className="grid gap-2 rounded-md border border-border/60 bg-background/60 p-4 sm:grid-cols-2">
-                  {stepChecklist.map((step) => (
-                    <div key={step.id} className="flex items-center gap-2 text-sm">
-                      <span
-                        className={`inline-flex h-5 w-5 items-center justify-center rounded-full text-[11px] ${
-                          step.done ? "bg-green-600 text-white" : "bg-muted text-muted-foreground"
-                        }`}
-                      >
-                        {step.done ? "✓" : step.id}
-                      </span>
-                      <span className={step.done ? "text-foreground" : "text-muted-foreground"}>
-                        {step.label}
-                      </span>
-                    </div>
-                  ))}
+                <div className="rounded-md border border-border/60 bg-background/60 p-4 text-sm font-body">
+                  <p className="text-xs uppercase tracking-wide text-muted-foreground">Final check</p>
+                  <p className="mt-1 text-foreground">
+                    {formData.fullName || "Guest"} • {formData.phone || "No phone"} •{" "}
+                    {orderType ? orderType.replace("-", " ") : "No order type selected"}
+                  </p>
                 </div>
 
-                <div className="ui-card-compact border-border/40 bg-muted/20 p-4">
-                  <div className="flex items-start gap-3">
-                    <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-terra-600" />
-                    <p className="text-sm text-muted-foreground font-body font-light">
-                      Confirm your order details, then place your order as the final step.
-                    </p>
-                  </div>
-                </div>
-
-                <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground font-body font-light">
+                <div className="flex flex-wrap items-center gap-3 text-sm text-muted-foreground font-body font-light">
                   {PAYMENT_ON_DELIVERY_ONLY ? (
                     <>
                       <Banknote className="h-4 w-4 shrink-0" aria-hidden />
@@ -475,9 +457,6 @@ export default function PlaceOrderPage() {
                   )}
                 </div>
 
-                <p className="mb-3 text-sm text-muted-foreground font-body font-light">
-                  Need help confirming payment? Use WhatsApp and our team will assist right away.
-                </p>
                 <a
                   href={whatsappFallbackLink}
                   target="_blank"
@@ -485,16 +464,8 @@ export default function PlaceOrderPage() {
                   className="inline-flex min-h-[44px] items-center gap-2 rounded-md border border-green-500/40 px-4 py-2 text-sm font-body font-medium text-green-700 transition-colors md:hover:bg-green-500/10 active:bg-green-500/10 dark:text-green-300"
                 >
                   <MessageCircle className="h-4 w-4" />
-                  Confirm on WhatsApp
+                  Need help? Confirm on WhatsApp
                 </a>
-
-                <div className="rounded-md border border-border/60 bg-background/60 p-4 text-sm font-body">
-                  <p className="text-muted-foreground">Final check</p>
-                  <p className="mt-1 text-foreground">
-                    {formData.fullName || "Guest"} • {formData.phone || "No phone"} •{" "}
-                    {orderType ? orderType.replace("-", " ") : "No order type selected"}
-                  </p>
-                </div>
               </div>
 
               <p className="mt-4 text-sm text-muted-foreground font-body font-light">

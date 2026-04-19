@@ -47,20 +47,15 @@ export function IntroSection() {
 
             <div className="prose-readable space-y-4 text-base text-muted-foreground md:space-y-5 md:text-lg lg:text-xl">
               <p>
-                Chez Amis is built on one idea. Dining should feel personal, thoughtful, and memorable every
-                single time. We shape each service around pace, comfort, and flavor so guests can settle in,
-                connect, and enjoy food that feels both familiar and elevated.
+                Chez Amis is built on one idea: dining should feel personal, warm, and memorable every time.
               </p>
               <p>
                 Our kitchen, led by <strong>Chef Chez Amis</strong>, blends Ivorian and Ghanaian roots with
-                modern technique. Local ingredients guide the menu, seasonal shifts keep it fresh, and every
-                plate is finished with balance in mind. Depth of flavor, clean presentation, and consistency
-                matter as much as creativity.
+                modern technique and local ingredients.
               </p>
               <p>
-                The experience goes beyond the plate. Lighting, music, table flow, and warm attentive service
-                are designed to feel calm and intentional. Whether you are here for a quick meal or a long
-                evening, our goal is simple. Give you exceptional food and a space you want to return to.
+                From first welcome to final course, we focus on balanced flavor, attentive service, and a calm
+                setting you will want to return to.
               </p>
             </div>
 

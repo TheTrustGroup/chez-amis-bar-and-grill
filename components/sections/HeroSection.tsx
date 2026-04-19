@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState, useRef } from "react"
+import { useEffect, useState } from "react"
 import Link from "next/link"
 import Image from "next/image"
 import { ChevronDown } from "lucide-react"
@@ -19,7 +19,6 @@ export function HeroSection() {
   const [imageError, setImageError] = useState(false)
   const [videoBgFailed, setVideoBgFailed] = useState(false)
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false)
-  const parallaxRef = useRef<HTMLDivElement>(null)
   const { resolvedTheme } = useTheme()
   const isDark = resolvedTheme === "dark"
   
@@ -54,21 +53,6 @@ export function HeroSection() {
     }
   }, [])
 
-  // Enhanced Parallax scroll effect
-  useEffect(() => {
-    if (isMobile || prefersReducedMotion || !parallaxRef.current) return
-
-    const handleScroll = () => {
-      if (!parallaxRef.current) return
-      const scrolled = window.pageYOffset
-      const rate = scrolled * 0.5 // Increased parallax speed for more sophistication
-      parallaxRef.current.style.transform = `translateY(${rate}px) scale(1.05)`
-    }
-
-    window.addEventListener("scroll", handleScroll, { passive: true })
-    return () => window.removeEventListener("scroll", handleScroll)
-  }, [isMobile, prefersReducedMotion])
-
   const scrollToNext = () => {
     if (typeof document !== "undefined") {
       const nextSection = document.querySelector("section:not(:first-of-type)")
@@ -90,13 +74,9 @@ export function HeroSection() {
       {/* High-Resolution Background Image with Parallax */}
       <div className="absolute inset-0 z-0 overflow-hidden">
         {/* Parallax Background Layer */}
-        <div 
-          ref={parallaxRef}
-          className="absolute inset-0 will-change-transform transition-opacity duration-1000"
-          style={{ 
-            transform: "translateZ(0)",
-            opacity: imageLoaded ? 1 : 0
-          }}
+        <div
+          className="absolute inset-0 transition-opacity duration-700"
+          style={{ opacity: imageLoaded ? 1 : 0 }}
         >
           {/* Optional full-bleed video; falls back to stills */}
           {!prefersReducedMotion && !videoBgFailed && (
@@ -160,7 +140,7 @@ export function HeroSection() {
           aria-hidden="true"
         />
         
-        {/* Gradient overlay for depth and text readability */}
+        {/* Single gradient overlay for depth and text readability */}
         <div 
           className={cn(
             "absolute inset-0 z-10 transition-opacity duration-500",
@@ -168,15 +148,6 @@ export function HeroSection() {
               ? "bg-gradient-to-t from-black/80 via-black/40 to-transparent"
               : "bg-gradient-to-t from-black/75 via-black/35 to-transparent"
           )} 
-          aria-hidden="true"
-        />
-        
-        {/* Subtle vignette effect */}
-        <div 
-          className="absolute inset-0 z-10 bg-radial-gradient from-transparent via-transparent to-black/20"
-          style={{
-            background: "radial-gradient(ellipse at center, transparent 0%, rgba(0,0,0,0.1) 100%)"
-          }}
           aria-hidden="true"
         />
       </div>
