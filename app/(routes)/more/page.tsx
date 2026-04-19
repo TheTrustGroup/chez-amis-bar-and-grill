@@ -28,9 +28,9 @@ export default function MorePage() {
   const isDark = resolvedTheme === "dark"
 
   return (
-    <div className={cn("min-h-screen", isDark ? "bg-green-700" : "bg-neutral-50")}>
-      <section className={cn("section-shell pb-6 md:pb-8", isDark ? "bg-green-700" : "bg-neutral-50")}>
-        <div className="section-shell-inner ui-stack-lg">
+    <div className={cn(isDark ? "bg-green-700" : "bg-neutral-50")}>
+      <section className={cn("w-full overflow-hidden py-6 md:py-8", isDark ? "bg-green-700" : "bg-neutral-50")}>
+        <div className="section-shell-inner ui-stack-md">
           <div className="ui-stack-sm">
             <h1 className={cn("nav-page-heading", isDark ? "text-white" : "text-foreground")}>
               More
