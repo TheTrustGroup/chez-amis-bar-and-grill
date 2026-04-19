@@ -18,19 +18,14 @@ const utilityLinks = [
   { href: "/faq", label: "FAQs", icon: HelpCircle },
 ]
 
-const legalLinks = [
-  { href: "/privacy", label: "Privacy Policy", icon: FileText },
-  { href: "/terms", label: "Terms of Service", icon: FileText },
-]
-
 export default function MorePage() {
   const { resolvedTheme } = useTheme()
   const isDark = resolvedTheme === "dark"
 
   return (
     <div className={cn(isDark ? "bg-green-700" : "bg-neutral-50")}>
-      <section className={cn("w-full overflow-hidden py-6 md:py-8", isDark ? "bg-green-700" : "bg-neutral-50")}>
-        <div className="section-shell-inner ui-stack-md">
+      <section className={cn("w-full overflow-hidden py-5 md:py-6", isDark ? "bg-green-700" : "bg-neutral-50")}>
+        <div className="section-shell-inner ui-stack-sm">
           <div className="ui-stack-sm">
             <h1 className={cn("nav-page-heading", isDark ? "text-white" : "text-foreground")}>
               More
@@ -56,20 +51,6 @@ export default function MorePage() {
                   </Link>
                 )
               })}
-            </div>
-          </div>
-
-          <div className="flex flex-wrap items-center gap-3 text-sm">
-            <span className={cn("text-xs uppercase tracking-wider", isDark ? "text-white/60" : "text-muted-foreground")}>
-              Legal
-            </span>
-            <div className="flex flex-wrap items-center gap-2">
-              {legalLinks.map((item) => (
-                <Link key={item.href} href={item.href} className="ui-link-row min-h-[40px] px-3 py-1.5">
-                  <FileText className="h-3.5 w-3.5 text-terra-600" />
-                  {item.label}
-                </Link>
-              ))}
             </div>
           </div>
         </div>

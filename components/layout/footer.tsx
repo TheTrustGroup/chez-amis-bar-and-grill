@@ -36,7 +36,7 @@ export function Footer() {
       )}
       role="contentinfo"
     >
-      <div className="section-shell-inner py-7 pb-[calc(5rem+env(safe-area-inset-bottom,0px))] md:py-9 lg:pb-9">
+      <div className="section-shell-inner py-7 pb-[calc(4.75rem+env(safe-area-inset-bottom,0px))] md:py-9 lg:pb-9">
         <div className="grid gap-6 md:grid-cols-[1.1fr_auto] md:items-center">
           <div className="space-y-1.5">
             <Link href="/" className="inline-flex flex-col">

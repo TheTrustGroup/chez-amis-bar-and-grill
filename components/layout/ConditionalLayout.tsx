@@ -17,6 +17,7 @@ export function ConditionalLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname()
   const isAdminRoute = pathname?.startsWith('/admin')
   const shouldOffsetFromHeader = pathname !== '/'
+  const isMoreRoute = pathname === '/more'
 
   // Initialize smooth scroll for anchor links
   useEffect(() => {
@@ -42,7 +43,7 @@ export function ConditionalLayout({ children }: { children: React.ReactNode }) {
       <Header />
       <main
         id="main-content"
-        className={`min-h-screen pb-[5.5rem] lg:pb-0 ${
+        className={`${isMoreRoute ? "min-h-0" : "min-h-screen"} pb-[4.75rem] lg:pb-0 ${
           shouldOffsetFromHeader ? "route-offset pt-16 md:pt-20" : ""
         }`}
       >
