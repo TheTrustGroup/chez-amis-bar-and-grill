@@ -26,6 +26,8 @@ export const orderRequestSchema = z.object({
     guests: z.string().optional(),
     pickupTime: z.string().optional(),
     deliveryAddress: z.string().optional(),
+    deliveryTime: z.enum(['asap', 'scheduled']).optional(),
+    scheduledTime: z.string().optional(),
     specialRequests: z.string().optional(),
   }),
   payment: z.object({

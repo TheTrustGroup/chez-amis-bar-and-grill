@@ -8,6 +8,7 @@ import { BeverageCategory } from "@/lib/types/beverage"
 import { cn } from "@/lib/utils"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { useTheme } from "@/lib/context/ThemeContext"
+import { PageIntro } from "@/components/layout/PageIntro"
 
 export default function BeveragesPage() {
   const [activeCategory, setActiveCategory] = useState<BeverageCategory | "all">("all")
@@ -43,28 +44,7 @@ export default function BeveragesPage() {
         isDark ? "bg-green-700" : "bg-neutral-50",
       )}
     >
-      <section
-        className={cn(
-          "relative h-[40vh] min-h-[400px] flex items-center justify-center overflow-hidden",
-          "bg-gradient-to-br from-green-700 via-green-600 to-green-900",
-        )}
-      >
-        <div className="absolute inset-0 bg-black/45" aria-hidden />
-        <div className="relative z-10 text-center px-6 max-w-4xl mx-auto">
-          <h1
-            className={cn(
-              "nav-page-heading md:text-5xl tracking-tight text-white mb-2.5 md:mb-3",
-              "drop-shadow-[0_4px_20px_rgba(0,0,0,0.8)]",
-            )}
-          >
-            Our Beverages
-          </h1>
-          <p className="nav-page-subheading text-white/90 md:text-lg mb-4 max-w-2xl mx-auto">
-            Curated selection of premium drinks
-          </p>
-          <div className="w-24 md:w-32 h-0.5 bg-gradient-to-r from-transparent via-terra-500 to-transparent mx-auto shadow-lg shadow-terra-500/40" />
-        </div>
-      </section>
+      <PageIntro title="Our Beverages" description="Curated selection of premium drinks." />
 
       <section className="section-shell">
         <div className="section-shell-inner">

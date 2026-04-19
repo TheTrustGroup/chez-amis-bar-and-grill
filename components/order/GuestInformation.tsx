@@ -3,7 +3,6 @@
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Label } from "@/components/ui/label"
-import Link from "next/link"
 
 interface GuestInformationProps {
   formData: {
@@ -13,9 +12,14 @@ interface GuestInformationProps {
     specialRequests?: string
   }
   onFieldChange: (field: string, value: string) => void
+  fieldErrors?: {
+    fullName?: string
+    phone?: string
+    email?: string
+  }
 }
 
-export function GuestInformation({ formData, onFieldChange }: GuestInformationProps) {
+export function GuestInformation({ formData, onFieldChange, fieldErrors }: GuestInformationProps) {
   return (
     <div className="space-y-6">
       <div>
@@ -39,8 +43,13 @@ export function GuestInformation({ formData, onFieldChange }: GuestInformationPr
             onChange={(e) => onFieldChange("fullName", e.target.value)}
             className="mt-2 border-border/50 focus:border-terra-500/50 min-h-[44px] text-base md:text-sm"
             placeholder="Enter your full name"
+            autoComplete="name"
+            aria-invalid={Boolean(fieldErrors?.fullName)}
             required
           />
+          {fieldErrors?.fullName && (
+            <p className="mt-1 text-xs text-red-600 dark:text-red-300">{fieldErrors.fullName}</p>
+          )}
         </div>
 
         <div>
@@ -54,8 +63,14 @@ export function GuestInformation({ formData, onFieldChange }: GuestInformationPr
             onChange={(e) => onFieldChange("phone", e.target.value)}
             className="mt-2 border-border/50 focus:border-terra-500/50 min-h-[44px] text-base md:text-sm"
             placeholder="055 703 2312"
+            autoComplete="tel"
+            inputMode="tel"
+            aria-invalid={Boolean(fieldErrors?.phone)}
             required
           />
+          {fieldErrors?.phone && (
+            <p className="mt-1 text-xs text-red-600 dark:text-red-300">{fieldErrors.phone}</p>
+          )}
         </div>
 
         <div>
@@ -69,8 +84,13 @@ export function GuestInformation({ formData, onFieldChange }: GuestInformationPr
             onChange={(e) => onFieldChange("email", e.target.value)}
             className="mt-2 border-border/50 focus:border-terra-500/50 min-h-[44px] text-base md:text-sm"
             placeholder="your.email@example.com"
+            autoComplete="email"
+            aria-invalid={Boolean(fieldErrors?.email)}
             required
           />
+          {fieldErrors?.email && (
+            <p className="mt-1 text-xs text-red-600 dark:text-red-300">{fieldErrors.email}</p>
+          )}
         </div>
 
         <div>

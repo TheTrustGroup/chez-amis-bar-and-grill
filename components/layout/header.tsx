@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { Menu, X, ShoppingBag, Instagram } from "lucide-react"
+import { Menu, X, ShoppingBag } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { ThemeToggle } from "@/components/ui/theme-toggle"
 import { useCartContext } from "@/lib/context/CartContext"
@@ -14,20 +14,10 @@ import {
   trackReservationClick,
 } from "@/lib/analytics"
 import { CHECKOUT_PATH } from "@/lib/data/siteContact"
-import { getActiveSocialLinks } from "@/lib/data/socialLinks"
-import { SnapchatIcon } from "@/components/ui/snapchat-icon"
-
-const navItems = [
-  { href: "/", label: "Home" },
-  { href: "/about", label: "About" },
-  { href: "/menu", label: "Our Menu" },
-  { href: "/gallery", label: "Gallery" },
-  { href: "/private-events", label: "Private Dining" },
-  { href: "/contact", label: "Contact" },
-]
+import { primaryNavigation } from "@/lib/data/navigation"
 
 const navLinkClass =
-  "font-body text-sm tracking-widest uppercase whitespace-nowrap text-white/80 md:hover:text-white transition-colors duration-200 relative py-1 after:absolute after:bottom-0 after:left-0 after:w-0 after:h-px after:bg-terra-400 after:transition-all after:duration-300 md:hover:after:w-full aria-[current=page]:after:w-full aria-[current=page]:text-white"
+  "font-body text-sm font-medium whitespace-nowrap text-foreground/70 md:hover:text-foreground transition-colors duration-200 relative py-1 after:absolute after:bottom-0 after:left-0 after:w-0 after:h-px after:bg-terra-500 after:transition-all after:duration-300 md:hover:after:w-full aria-[current=page]:after:w-full aria-[current=page]:text-foreground"
 
 export function Header() {
   const pathname = usePathname()
@@ -35,23 +25,6 @@ export function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const { getCartItemCount } = useCartContext()
   const cartCount = getCartItemCount()
-  const isHome = pathname === "/"
-  const headerSocialLinks = getActiveSocialLinks(["instagram", "snapchat", "tiktok"])
-
-  const renderSocialIcon = (socialId: string) => {
-    if (socialId === "instagram") return <Instagram className="h-4 w-4" />
-    if (socialId === "snapchat") return <SnapchatIcon className="h-4 w-4" />
-    return (
-      <svg
-        className="h-4 w-4"
-        fill="currentColor"
-        viewBox="0 0 24 24"
-        aria-hidden="true"
-      >
-        <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z" />
-      </svg>
-    )
-  }
 
   useEffect(() => {
     const handleScroll = () => {
@@ -108,10 +81,8 @@ export function Header() {
   const headerBg = cn(
     "transition-all duration-300",
     isScrolled
-      ? "bg-green-900/95 backdrop-blur-md shadow-lg"
-      : isHome
-        ? "bg-transparent"
-        : "bg-green-800"
+      ? "bg-background/95 backdrop-blur-md border-b border-border/80"
+      : "bg-background/90 backdrop-blur-sm border-b border-border/60"
   )
 
   return (
@@ -126,7 +97,7 @@ export function Header() {
       <header
         className={cn(
           "fixed top-0 left-0 right-0 z-[100] w-full transition-all duration-300",
-          "h-16 md:h-20",
+          "h-16 md:h-[72px]",
           headerBg
         )}
         role="banner"
@@ -138,10 +109,10 @@ export function Header() {
               className="flex items-center gap-2 flex-shrink-0"
               aria-label="Chez Amis Bar and Grill - Home"
             >
-              <span className="font-display text-2xl font-light tracking-wide text-white leading-none whitespace-nowrap">
+              <span className="font-display text-2xl font-light tracking-wide text-foreground leading-none whitespace-nowrap">
                 Chez Amis
               </span>
-              <span className="hidden sm:block text-[10px] font-body tracking-[0.2em] uppercase text-white/50 leading-none mt-0.5 whitespace-nowrap">
+              <span className="hidden sm:block text-[10px] font-body tracking-[0.2em] uppercase text-muted-foreground leading-none mt-0.5 whitespace-nowrap">
                 Bar &amp; Grill
               </span>
             </Link>
@@ -151,7 +122,7 @@ export function Header() {
               role="navigation"
               aria-label="Main navigation"
             >
-              {navItems.map((item) => {
+              {primaryNavigation.map((item) => {
                 const isActive =
                   pathname === item.href || (item.href === "/" && pathname === "/")
                 return (
@@ -174,27 +145,15 @@ export function Header() {
             </nav>
 
             <div className="flex items-center gap-1 sm:gap-2 md:gap-3 flex-shrink-0">
-              <div className="hidden md:flex items-center gap-1">
-                {headerSocialLinks.map((social) => (
-                  <a
-                    key={social.id}
-                    href={social.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex h-10 w-10 items-center justify-center rounded-md text-white/70 md:hover:text-white md:hover:bg-white/10 active:bg-white/15 transition-colors"
-                    aria-label={`Chez Amis ${social.label}`}
-                  >
-                    {renderSocialIcon(social.id)}
-                  </a>
-                ))}
-                <ThemeToggle className="text-white/70 md:hover:text-white md:hover:bg-white/10 active:bg-white/15" />
+              <div className="hidden md:flex items-center">
+                <ThemeToggle className="text-foreground/70 md:hover:text-foreground md:hover:bg-muted active:bg-muted" />
               </div>
 
               <Link
                 href="/cart"
                 className={cn(
                   "relative hidden md:inline-flex h-12 w-12 items-center justify-center rounded-md",
-                  "text-white/70 md:hover:text-white md:hover:bg-white/10 active:bg-white/15 transition-colors"
+                  "text-foreground/70 md:hover:text-foreground md:hover:bg-muted active:bg-muted transition-colors"
                 )}
                 aria-label="View cart"
                 onClick={() => trackCartOpen("header")}
@@ -209,7 +168,7 @@ export function Header() {
 
               <Link
                 href="/reservations"
-                className="hidden md:inline-flex items-center gap-2 bg-terra-500 text-white font-body font-medium tracking-widest uppercase text-xs px-5 py-2.5 rounded-full flex-shrink-0 md:hover:bg-terra-600 active:bg-terra-700 transition-all duration-200 shadow-sm whitespace-nowrap"
+                className="hidden md:inline-flex items-center gap-2 bg-terra-500 text-white font-body font-medium tracking-wide uppercase text-xs px-5 py-2.5 rounded-full flex-shrink-0 md:hover:bg-terra-600 active:bg-terra-700 transition-all duration-200 whitespace-nowrap"
                 onClick={() => trackReservationClick("header_desktop")}
               >
                 Reserve a Table
@@ -218,7 +177,7 @@ export function Header() {
               <button
                 type="button"
                 className={cn(
-                  "flex h-12 w-12 shrink-0 items-center justify-center rounded-md text-white md:hover:bg-white/10 active:bg-white/15 transition-colors md:hidden"
+                  "flex h-12 w-12 shrink-0 items-center justify-center rounded-md text-foreground md:hover:bg-muted active:bg-muted transition-colors md:hidden"
                 )}
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
                 aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
@@ -238,13 +197,13 @@ export function Header() {
         {isMobileMenuOpen && (
           <nav
             id="mobile-menu"
-            className="md:hidden fixed inset-0 z-50 bg-green-900 flex flex-col px-6 pt-[4.75rem] pb-6 gap-6"
+            className="md:hidden fixed inset-0 z-50 bg-background flex flex-col px-6 pt-[4.75rem] pb-6 gap-6"
             role="navigation"
             aria-label="Mobile navigation"
           >
             <button
               type="button"
-              className="absolute top-2 right-3 flex h-11 w-11 items-center justify-center text-white md:hover:bg-white/10 active:bg-white/15 rounded-md transition-colors"
+              className="absolute top-2 right-3 flex h-11 w-11 items-center justify-center text-foreground md:hover:bg-muted active:bg-muted rounded-md transition-colors"
               onClick={() => setIsMobileMenuOpen(false)}
               aria-label="Close menu"
             >
@@ -252,7 +211,7 @@ export function Header() {
             </button>
 
             <div className="flex flex-col gap-0 overflow-y-auto flex-1">
-              {navItems.map((item) => {
+              {primaryNavigation.map((item) => {
                 const isActive =
                   pathname === item.href || (item.href === "/" && pathname === "/")
                 return (
@@ -267,7 +226,7 @@ export function Header() {
                         setIsMobileMenuOpen(false)
                       }
                     }}
-                    className="font-display text-3xl font-light text-white md:hover:text-terra-300 transition-colors py-2 border-b border-white/10"
+                    className="font-display text-3xl font-light text-foreground md:hover:text-terra-500 transition-colors py-2 border-b border-border/60"
                     aria-current={isActive ? "page" : undefined}
                   >
                     {item.label}
@@ -297,22 +256,8 @@ export function Header() {
               >
                 Order Delivery
               </Link>
-              <div className="flex justify-center pt-6 border-t border-white/10 mt-6">
-                <div className="flex items-center gap-2">
-                  <ThemeToggle className="text-white/80 md:hover:text-white" />
-                  {headerSocialLinks.map((social) => (
-                    <a
-                      key={social.id}
-                      href={social.href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex h-10 w-10 items-center justify-center rounded-md text-white/80 md:hover:text-white md:hover:bg-white/10 active:bg-white/15 transition-colors"
-                      aria-label={`Chez Amis ${social.label}`}
-                    >
-                      {renderSocialIcon(social.id)}
-                    </a>
-                  ))}
-                </div>
+              <div className="flex justify-center pt-6 border-t border-border/60 mt-6">
+                <ThemeToggle className="text-foreground/80 md:hover:text-foreground" />
               </div>
             </div>
           </nav>

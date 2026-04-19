@@ -61,7 +61,7 @@ export default function CartPage() {
             </div>
 
             <div className="lg:col-span-1">
-              <Card className="ui-card-compact lg:sticky lg:top-24 dark:bg-green-600/40 dark:border-green-700/50">
+              <Card className="ui-card-compact lg:sticky lg:top-[calc(72px+1rem)] dark:bg-green-600/40 dark:border-green-700/50">
                 <CardHeader>
                   <CardTitle className="font-display font-light">Order Summary</CardTitle>
                 </CardHeader>

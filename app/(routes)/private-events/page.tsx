@@ -23,6 +23,7 @@ import {
 import { Card, CardContent } from "@/components/ui/card"
 import { cn } from "@/lib/utils"
 import { useState } from "react"
+import { PageIntro } from "@/components/layout/PageIntro"
 
 const occasions = [
   {
@@ -141,20 +142,10 @@ export default function PrivateEventsPage() {
 
   return (
     <div className="min-h-screen bg-neutral-50 dark:bg-green-700 transition-colors">
-      {/* Hero Section */}
-      <section className="relative h-[35vh] md:h-[40vh] min-h-[350px] md:min-h-[400px] flex items-center justify-center overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-green-700 via-green-600 to-green-900"></div>
-        <div className="absolute inset-0 bg-black/30"></div>
-        <div className="relative z-10 text-center px-6 max-w-4xl mx-auto">
-          <h1 className="nav-page-heading md:text-5xl tracking-tight text-white mb-2.5 md:mb-3">
-            Private Dining & Special Events
-          </h1>
-          <div className="w-20 h-px bg-terra-500 mx-auto mb-2.5 md:mb-3"></div>
-          <p className="nav-page-subheading text-white/90 md:text-lg max-w-2xl mx-auto">
-            Intimate gatherings. Grand celebrations. Unforgettable moments.
-          </p>
-        </div>
-      </section>
+      <PageIntro
+        title="Private Dining & Special Events"
+        description="Intimate gatherings. Grand celebrations. Unforgettable moments."
+      />
 
       {/* Overview Section */}
       <section className="section-shell bg-neutral-50/40 dark:bg-green-600/40" aria-labelledby="overview-heading">
@@ -166,7 +157,6 @@ export default function PrivateEventsPage() {
             >
               Your Exclusive Space
             </h2>
-            <div className="w-20 h-px bg-terra-500 mx-auto mb-5"></div>
             <p className="text-base md:text-lg text-muted-foreground font-body font-light leading-relaxed">
               At Chez Amis, we believe that every celebration deserves a setting as special as the
               occasion itself. Our private dining spaces are designed to provide an intimate,

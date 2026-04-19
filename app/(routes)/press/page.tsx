@@ -2,6 +2,7 @@ import { Metadata } from "next"
 import { Button } from "@/components/ui/button"
 import { Mail, Phone } from "lucide-react"
 import { FOOTER_PHONE_LINES, SITE_EMAIL } from "@/lib/data/siteContact"
+import { PageIntro } from "@/components/layout/PageIntro"
 
 export const metadata: Metadata = {
   title: "Press & Media - Chez Amis Bar and Grill",
@@ -11,19 +12,10 @@ export const metadata: Metadata = {
 export default function PressPage() {
   return (
     <div className="min-h-screen bg-neutral-50 dark:bg-green-700 transition-colors">
-      {/* Hero Section */}
-      <section className="section-shell bg-gradient-to-b from-green-600 via-green-700 to-green-600 text-white">
-        <div className="section-shell-inner">
-          <div className="max-w-3xl mx-auto text-center space-y-4 md:space-y-5">
-            <h1 className="nav-page-heading md:text-5xl tracking-tight">
-              Press & Media
-            </h1>
-            <p className="nav-page-subheading text-white/85 md:text-lg">
-              Media resources and press contact for interviews or features.
-            </p>
-          </div>
-        </div>
-      </section>
+      <PageIntro
+        title="Press & Media"
+        description="Media resources and press contact for interviews or features."
+      />
 
       {/* Main Content */}
       <section className="section-shell">

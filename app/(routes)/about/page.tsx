@@ -11,6 +11,7 @@ import { Award, BookOpen } from "lucide-react"
 import { StarRating } from "@/components/ui/StarRating"
 import { useTheme } from "@/lib/context/ThemeContext"
 import { cn } from "@/lib/utils"
+import { PageIntro } from "@/components/layout/PageIntro"
 
 export default function AboutPage() {
   const { resolvedTheme } = useTheme()
@@ -23,44 +24,10 @@ export default function AboutPage() {
         isDark ? "bg-green-700" : "bg-neutral-50",
       )}
     >
-      {/* Hero Section - Refined and Luxurious */}
-      <section className={cn(
-        "relative h-[40vh] md:h-[45vh] min-h-[400px] md:min-h-[500px] flex items-center justify-center overflow-hidden",
-        "bg-gradient-to-br from-green-700 via-green-600 to-green-900"
-      )}>
-        {/* Elegant overlay */}
-        <div className={cn(
-          "absolute inset-0 transition-opacity duration-500",
-          isDark ? "bg-black/40" : "bg-black/50"
-        )} />
-        
-        {/* Decorative pattern overlay */}
-        <div 
-          className="absolute inset-0 opacity-5"
-          style={{
-            backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-4v4h4zm0-16v-4h-4v4h4zm-16 0v-4h-4v4h4zm0 16v-4h-4v4h4z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
-          }}
-          aria-hidden="true"
-        />
-        
-        <div className="relative z-10 text-center px-6 max-w-4xl mx-auto">
-          <h1 className={cn(
-            "nav-page-heading md:text-5xl tracking-tight mb-3 md:mb-5",
-            "text-white drop-shadow-[0_4px_20px_rgba(0,0,0,0.8)]",
-            "animate-fade-in-up"
-          )}>
-            Our Story
-          </h1>
-          <div className="w-20 md:w-28 h-0.5 bg-gradient-to-r from-transparent via-terra-500 to-transparent mx-auto mb-3 md:mb-5 shadow-lg shadow-terra-500/50" />
-          <p className={cn(
-            "nav-page-subheading max-w-3xl mx-auto text-white/90 md:text-lg",
-            "text-white/90 drop-shadow-[0_2px_10px_rgba(0,0,0,0.8)]",
-            "animate-fade-in-up"
-          )} style={{ animationDelay: "0.2s" }}>
-            A journey of passion, tradition, and culinary excellence
-          </p>
-        </div>
-      </section>
+      <PageIntro
+        title="Our Story"
+        description="A journey of passion, tradition, and culinary excellence."
+      />
 
       {/* Founder's Story */}
       <FounderStory />
@@ -82,8 +49,6 @@ export default function AboutPage() {
         "section-shell relative overflow-hidden",
         isDark ? "bg-green-700/50" : "bg-neutral-50"
       )} aria-labelledby="awards-heading">
-        <div className="absolute inset-0 bg-gradient-to-br from-terra-500/3 via-transparent to-green-500/3 pointer-events-none" aria-hidden="true" />
-        
         <div className="section-shell-inner relative z-10">
           <div className="text-center mb-10 md:mb-12">
             <h2
@@ -95,7 +60,6 @@ export default function AboutPage() {
             >
               Honored to Serve You
             </h2>
-            <div className="w-24 md:w-32 h-0.5 bg-gradient-to-r from-transparent via-terra-500 to-transparent mx-auto mb-3 shadow-lg shadow-terra-500/50" />
             <p className={cn(
               "text-base md:text-lg font-body font-light max-w-2xl mx-auto",
               isDark ? "text-white/80" : "text-muted-foreground"
@@ -233,8 +197,6 @@ export default function AboutPage() {
         "section-shell relative overflow-hidden",
         isDark ? "bg-green-700/30" : "bg-neutral-50"
       )} aria-labelledby="commitment-heading">
-        <div className="absolute inset-0 bg-gradient-to-br from-terra-500/5 via-transparent to-green-500/5 pointer-events-none" aria-hidden="true" />
-        
         <div className="section-shell-inner relative z-10">
           <div className="max-w-4xl mx-auto text-center space-y-6 md:space-y-8">
             <div>
@@ -247,7 +209,6 @@ export default function AboutPage() {
               >
                 Commitment to Excellence
               </h2>
-              <div className="w-24 md:w-32 h-0.5 bg-gradient-to-r from-transparent via-terra-500 to-transparent mx-auto shadow-lg shadow-terra-500/50" />
             </div>
             
             <blockquote className={cn(

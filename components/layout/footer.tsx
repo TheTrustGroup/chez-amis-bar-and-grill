@@ -6,6 +6,7 @@ import { cn } from "@/lib/utils"
 import { useTheme } from "@/lib/context/ThemeContext"
 import { getActiveSocialLinks } from "@/lib/data/socialLinks"
 import { SnapchatIcon } from "@/components/ui/snapchat-icon"
+import { footerNavigation, legalNavigation } from "@/lib/data/navigation"
 
 export function Footer() {
   const currentYear = new Date().getFullYear()
@@ -31,32 +32,46 @@ export function Footer() {
   return (
     <footer
       className={cn(
-        "border-t-4 border-terra-500 transition-colors duration-300",
-        isDark ? "bg-green-700 text-white" : "bg-green-600 text-white"
+        "border-t border-border/80 transition-colors duration-300",
+        isDark ? "bg-green-700 text-white" : "bg-background text-foreground"
       )}
       role="contentinfo"
     >
       <div className="section-shell-inner py-7 pb-[calc(4.75rem+env(safe-area-inset-bottom,0px))] md:py-9 lg:pb-9">
-        <div className="grid gap-6 md:grid-cols-[1.1fr_auto] md:items-center">
-          <div className="space-y-1.5">
+        <div className="grid gap-8 md:grid-cols-[1.1fr_auto] md:items-start">
+          <div className="space-y-4">
             <Link href="/" className="inline-flex flex-col">
-              <span className="font-display text-2xl font-light text-terra-400">Chez Amis</span>
-              <span className="text-[11px] uppercase tracking-[0.2em] text-white/70">Bar and Grill</span>
+              <span className="font-display text-2xl font-light text-terra-500">Chez Amis</span>
+              <span className={cn("text-[11px] uppercase tracking-[0.2em]", isDark ? "text-white/70" : "text-muted-foreground")}>
+                Bar and Grill
+              </span>
             </Link>
-            <p className={cn("text-sm font-body font-light", isDark ? "text-white/80" : "text-white/70")}>
+            <p className={cn("text-sm font-body font-light", isDark ? "text-white/80" : "text-muted-foreground")}>
               East Legon, Accra
             </p>
+            <div className="flex flex-wrap items-center gap-4 text-sm">
+              {footerNavigation.map((item) => (
+                <Link key={item.href} href={item.href} className="transition-colors md:hover:text-terra-500">
+                  {item.label}
+                </Link>
+              ))}
+            </div>
           </div>
 
-          <div className="md:justify-self-end">
-            <div className="flex items-center gap-1 pt-1">
+          <div className="md:justify-self-end md:text-right">
+            <div className="flex items-center gap-1 pt-1 md:justify-end">
               {socialLinks.map((social) => (
                 <a
                   key={social.id}
                   href={social.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex h-10 w-10 items-center justify-center rounded-md text-white/75 transition-colors md:hover:bg-white/10 md:hover:text-terra-300 active:bg-white/15"
+                  className={cn(
+                    "inline-flex h-10 w-10 items-center justify-center rounded-md transition-colors",
+                    isDark
+                      ? "text-white/75 md:hover:bg-white/10 md:hover:text-terra-300 active:bg-white/15"
+                      : "text-muted-foreground md:hover:bg-muted md:hover:text-terra-500 active:bg-muted"
+                  )}
                   aria-label={`Follow us on ${social.label}`}
                 >
                   {renderSocialIcon(social.id)}
@@ -68,26 +83,25 @@ export function Footer() {
 
         <div
           className={cn(
-            "border-t border-white/10 mt-6 pt-4 md:mt-8",
-            "flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-white/40 font-body"
+            "border-t mt-6 pt-4 md:mt-8",
+            isDark ? "border-white/10" : "border-border/80",
+            "flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-body",
+            isDark ? "text-white/40" : "text-muted-foreground"
           )}
         >
           <p>
             © {currentYear} Chez Amis Bar &amp; Grill. All rights reserved.
           </p>
           <div className="flex flex-wrap items-center justify-center gap-4">
-            <Link
-              href="/privacy"
-              className="transition-colors md:hover:text-white/70"
-            >
-              Privacy Policy
-            </Link>
-            <Link
-              href="/terms"
-              className="transition-colors md:hover:text-white/70"
-            >
-              Terms of Service
-            </Link>
+            {legalNavigation.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                className={cn("transition-colors", isDark ? "md:hover:text-white/70" : "md:hover:text-foreground")}
+              >
+                {item.label}
+              </Link>
+            ))}
           </div>
         </div>
       </div>

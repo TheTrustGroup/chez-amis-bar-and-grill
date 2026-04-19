@@ -30,6 +30,8 @@ export interface OrderRequest {
     guests?: string
     pickupTime?: string
     deliveryAddress?: string
+    deliveryTime?: 'asap' | 'scheduled'
+    scheduledTime?: string
     specialRequests?: string
   }
   payment: {

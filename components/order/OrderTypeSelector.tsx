@@ -51,6 +51,7 @@ export function OrderTypeSelector({ selectedType, onSelect }: OrderTypeSelectorP
             <button
               key={type.id}
               onClick={() => onSelect(type.id)}
+              data-order-type-button="true"
               className={cn(
                 "group relative p-6 md:p-8 rounded-lg border-2 transition-all duration-300 text-left",
                 "focus:outline-none focus:ring-2 focus:ring-terra-500 focus:ring-offset-2",

@@ -24,6 +24,8 @@ export interface OrderData {
     guests?: string
     pickupTime?: string
     deliveryAddress?: string
+    deliveryTime?: 'asap' | 'scheduled'
+    scheduledTime?: string
     specialRequests?: string
     estimatedTime?: string
   }

@@ -7,6 +7,7 @@ import { ChevronDown, ChevronUp } from "lucide-react"
 import { useTheme } from "@/lib/context/ThemeContext"
 import { cn } from "@/lib/utils"
 import { PHONE_DISPLAY_COMMA, SITE_EMAIL } from "@/lib/data/siteContact"
+import { PageIntro } from "@/components/layout/PageIntro"
 
 export default function FAQPage() {
   const [openIndex, setOpenIndex] = useState<number | null>(0)
@@ -87,19 +88,10 @@ export default function FAQPage() {
 
   return (
     <div className={cn("min-h-screen transition-colors", isDark ? "bg-green-700" : "bg-neutral-50")}>
-      {/* Hero Section */}
-      <section className="section-shell bg-gradient-to-b from-green-600 via-green-700 to-green-600 text-white">
-        <div className="section-shell-inner">
-          <div className="max-w-3xl mx-auto text-center space-y-4 md:space-y-5">
-            <h1 className="nav-page-heading md:text-5xl tracking-tight">
-              Frequently Asked Questions
-            </h1>
-            <p className="nav-page-subheading text-white/85 md:text-lg">
-              Find answers to common questions about dining at Chez Amis
-            </p>
-          </div>
-        </div>
-      </section>
+      <PageIntro
+        title="Frequently Asked Questions"
+        description="Find answers to common questions about dining at Chez Amis."
+      />
 
       {/* Main Content */}
       <section className={cn("section-shell", isDark ? "bg-green-700" : "bg-neutral-50")}>

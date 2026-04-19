@@ -1,26 +1,16 @@
 "use client"
 
 import { PHONE_LINES, SITE_ADDRESS_LINES, SITE_EMAIL } from "@/lib/data/siteContact"
+import { PageIntro } from "@/components/layout/PageIntro"
 
 export default function TermsOfServicePage() {
   return (
     <div className="min-h-screen bg-neutral-50 dark:bg-green-700 transition-colors">
-      {/* Hero Section */}
-      <section className="section-shell bg-gradient-to-b from-green-600 via-green-700 to-green-600 text-white">
-        <div className="section-shell-inner">
-          <div className="max-w-3xl mx-auto text-center space-y-4 md:space-y-5">
-            <h1 className="nav-page-heading md:text-5xl tracking-tight">
-              Terms of Service
-            </h1>
-            <p className="nav-page-subheading text-white/85 md:text-lg">
-              Please read these terms carefully
-            </p>
-            <p className="text-xs md:text-sm font-body font-light text-white/60">
-              Last updated: {new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
-            </p>
-          </div>
-        </div>
-      </section>
+      <PageIntro title="Terms of Service" description="Please read these terms carefully.">
+        <p className="text-xs md:text-sm font-body text-muted-foreground">
+          Last updated: {new Date().toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })}
+        </p>
+      </PageIntro>
 
       {/* Main Content */}
       <section className="section-shell">

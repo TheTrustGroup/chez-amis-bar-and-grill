@@ -91,6 +91,7 @@ export function PaymentSelector({ selectedMethod, onSelect }: PaymentSelectorPro
               key={method.id}
               type="button"
               onClick={() => onSelect(method.id)}
+              data-payment-method-button="true"
               className={cn(
                 "group w-full rounded-lg border-2 p-6 text-left transition-all duration-300",
                 "focus:outline-none focus:ring-2 focus:ring-terra-500 focus:ring-offset-2",

@@ -6,17 +6,12 @@ import { useCartContext } from "@/lib/context/CartContext"
 import { OrderType } from "./OrderTypeSelector"
 import { Clock } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
-import { cn } from "@/lib/utils"
 
 interface OrderSummaryProps {
   orderType: OrderType | null
-  onPlaceOrder?: () => void
-  canPlaceOrder?: boolean
-  isSubmitting?: boolean
 }
 
-export function OrderSummary({ orderType, onPlaceOrder, canPlaceOrder = false, isSubmitting = false }: OrderSummaryProps) {
+export function OrderSummary({ orderType }: OrderSummaryProps) {
   const {
     items,
     updateQuantity,
@@ -48,7 +43,7 @@ export function OrderSummary({ orderType, onPlaceOrder, canPlaceOrder = false, i
   }
 
   return (
-    <div className="lg:sticky lg:top-24 h-fit">
+    <div className="lg:sticky lg:top-[calc(72px+1rem)] h-fit">
       <div className="ui-card-compact p-6 md:p-8 space-y-6 dark:bg-green-600/40 dark:border-green-700/50">
         <div>
           <h2 className="text-2xl font-display font-light text-neutral-900 dark:text-white mb-4">
@@ -121,35 +116,12 @@ export function OrderSummary({ orderType, onPlaceOrder, canPlaceOrder = false, i
                 Ready in 35-45 minutes
               </p>
             </div>
-
-            {/* Place Order Button - Prominent, always visible */}
-            {onPlaceOrder && (
-              <div className="pt-4 space-y-3">
-                <Button
-                  onClick={onPlaceOrder}
-                  disabled={!canPlaceOrder || isSubmitting}
-                  size="lg"
-                  className="w-full font-body font-light tracking-wide bg-foreground text-background md:hover:bg-foreground/90 disabled:opacity-50 disabled:cursor-not-allowed text-lg px-8 py-7 shadow-lg md:hover:shadow-xl transition-all"
-                >
-                  {isSubmitting ? 'Placing Order...' : 'Place Order'}
-                </Button>
-                {!canPlaceOrder && (
-                  <p className="text-xs text-muted-foreground font-body font-light text-center px-2">
-                    {isSubmitting ? 'Processing your order...' : 'Complete all fields above to place your order'}
-                  </p>
-                )}
-              </div>
-            )}
-
-            {/* Modify Order Link */}
-            {onPlaceOrder && (
-              <Link
-                href="/menu"
-                className="block text-center text-sm text-muted-foreground md:hover:text-foreground font-body font-light underline underline-offset-2 transition-colors pt-2"
-              >
-                Modify Order
-              </Link>
-            )}
+            <Link
+              href="/menu"
+              className="block text-center text-sm text-muted-foreground md:hover:text-foreground font-body font-light underline underline-offset-2 transition-colors pt-2"
+            >
+              Modify Order
+            </Link>
           </>
         )}
       </div>

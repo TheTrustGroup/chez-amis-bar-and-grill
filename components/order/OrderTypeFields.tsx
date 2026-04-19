@@ -20,12 +20,14 @@ interface OrderTypeFieldsProps {
     scheduledTime?: string
   }
   onFieldChange: (field: string, value: string) => void
+  fieldErrors?: Record<string, string>
 }
 
 export function OrderTypeFields({
   orderType,
   formData,
   onFieldChange,
+  fieldErrors,
 }: OrderTypeFieldsProps) {
   if (orderType === "dine-in") {
     return (
@@ -41,8 +43,12 @@ export function OrderTypeFields({
               value={formData.date || ""}
               onChange={(e) => onFieldChange("date", e.target.value)}
               className="mt-2 border-border/50 focus:border-terra-500/50 min-h-[44px] text-base md:text-sm"
+              aria-invalid={Boolean(fieldErrors?.date)}
               required
             />
+            {fieldErrors?.date && (
+              <p className="mt-1 text-xs text-red-600 dark:text-red-300">{fieldErrors.date}</p>
+            )}
           </div>
           <div>
             <Label htmlFor="time" className="font-body font-light text-foreground">
@@ -54,8 +60,12 @@ export function OrderTypeFields({
               value={formData.time || ""}
               onChange={(e) => onFieldChange("time", e.target.value)}
               className="mt-2 border-border/50 focus:border-terra-500/50 min-h-[44px] text-base md:text-sm"
+              aria-invalid={Boolean(fieldErrors?.time)}
               required
             />
+            {fieldErrors?.time && (
+              <p className="mt-1 text-xs text-red-600 dark:text-red-300">{fieldErrors.time}</p>
+            )}
           </div>
         </div>
 
@@ -68,6 +78,7 @@ export function OrderTypeFields({
             value={formData.guests || ""}
             onChange={(e) => onFieldChange("guests", e.target.value)}
             className="mt-2 w-full h-12 md:h-10 rounded-md border border-border/50 bg-background px-3 py-2 text-base md:text-sm focus:outline-none focus:ring-2 focus:ring-terra-500 focus:ring-offset-1 min-h-[44px]"
+            aria-invalid={Boolean(fieldErrors?.guests)}
             required
           >
             <option value="">Select number of guests</option>
@@ -78,6 +89,9 @@ export function OrderTypeFields({
             ))}
             <option value="10+">10+ guests</option>
           </select>
+          {fieldErrors?.guests && (
+            <p className="mt-1 text-xs text-red-600 dark:text-red-300">{fieldErrors.guests}</p>
+          )}
         </div>
 
         <div>
@@ -131,29 +145,19 @@ export function OrderTypeFields({
             value={formData.pickupTime || ""}
             onChange={(e) => onFieldChange("pickupTime", e.target.value)}
             className="mt-2 border-border/50 focus:border-terra-500/50 min-h-[44px] text-base md:text-sm"
+            aria-invalid={Boolean(fieldErrors?.pickupTime)}
             required
             min={new Date().toISOString().slice(0, 16)}
             step="900"
           />
+          {fieldErrors?.pickupTime && (
+            <p className="mt-1 text-xs text-red-600 dark:text-red-300">{fieldErrors.pickupTime}</p>
+          )}
           <p className="mt-2 text-sm text-muted-foreground font-body font-light">
             We&apos;ll prepare your order in 15-minute intervals
           </p>
         </div>
 
-        <div>
-          <Label htmlFor="phone" className="font-body font-light text-foreground">
-            Phone Number for Notification
-          </Label>
-          <Input
-            id="phone"
-            type="tel"
-            value={formData.phone || ""}
-            onChange={(e) => onFieldChange("phone", e.target.value)}
-            className="mt-2 border-border/50 focus:border-terra-500/50 min-h-[44px] text-base md:text-sm"
-            placeholder="055 703 2312"
-            required
-          />
-        </div>
       </div>
     )
   }
@@ -171,8 +175,12 @@ export function OrderTypeFields({
             onChange={(e) => onFieldChange("deliveryAddress", e.target.value)}
             className="mt-2 border-border/50 focus:border-terra-500/50 min-h-[100px]"
             placeholder="Street address, area, city..."
+            aria-invalid={Boolean(fieldErrors?.deliveryAddress)}
             required
           />
+          {fieldErrors?.deliveryAddress && (
+            <p className="mt-1 text-xs text-red-600 dark:text-red-300">{fieldErrors.deliveryAddress}</p>
+          )}
         </div>
 
         <div>
@@ -184,6 +192,7 @@ export function OrderTypeFields({
               <input
                 type="radio"
                 name="deliveryTime"
+                id="deliveryTime-asap"
                 value="asap"
                 checked={formData.deliveryTime === "asap"}
                 onChange={(e) => onFieldChange("deliveryTime", e.target.value)}
@@ -195,6 +204,7 @@ export function OrderTypeFields({
               <input
                 type="radio"
                 name="deliveryTime"
+                id="deliveryTime-scheduled"
                 value="scheduled"
                 checked={formData.deliveryTime === "scheduled"}
                 onChange={(e) => onFieldChange("deliveryTime", e.target.value)}
@@ -203,6 +213,9 @@ export function OrderTypeFields({
               <span className="font-body font-light">Schedule for later</span>
             </label>
           </div>
+          {fieldErrors?.deliveryTime && (
+            <p className="mt-1 text-xs text-red-600 dark:text-red-300">{fieldErrors.deliveryTime}</p>
+          )}
         </div>
 
         {formData.deliveryTime === "scheduled" && (
@@ -216,26 +229,16 @@ export function OrderTypeFields({
               value={formData.scheduledTime || ""}
               onChange={(e) => onFieldChange("scheduledTime", e.target.value)}
               className="mt-2 border-border/50 focus:border-terra-500/50 min-h-[44px] text-base md:text-sm"
+              aria-invalid={Boolean(fieldErrors?.scheduledTime)}
               required
               min={new Date().toISOString().slice(0, 16)}
             />
+            {fieldErrors?.scheduledTime && (
+              <p className="mt-1 text-xs text-red-600 dark:text-red-300">{fieldErrors.scheduledTime}</p>
+            )}
           </div>
         )}
 
-        <div>
-          <Label htmlFor="phone" className="font-body font-light text-foreground">
-            Contact Phone
-          </Label>
-          <Input
-            id="phone"
-            type="tel"
-            value={formData.phone || ""}
-            onChange={(e) => onFieldChange("phone", e.target.value)}
-            className="mt-2 border-border/50 focus:border-terra-500/50 min-h-[44px] text-base md:text-sm"
-            placeholder="055 703 2312"
-            required
-          />
-        </div>
       </div>
     )
   }

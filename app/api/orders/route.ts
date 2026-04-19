@@ -131,55 +131,89 @@ export async function POST(request: NextRequest) {
           sms: { sent: false, error: adminResult.reason instanceof Error ? adminResult.reason.message : 'Unknown error' } 
         }
 
+    const safeEnqueue = async (
+      args: Parameters<typeof enqueueFailedNotification>[0],
+      reason: string
+    ) => {
+      try {
+        await enqueueFailedNotification(args)
+      } catch (outboxError) {
+        logWarn({
+          event: 'order.notification_outbox.enqueue_failed',
+          route: '/api/orders',
+          requestId,
+          metadata: {
+            orderId: orderData.orderId,
+            channel: args.channel,
+            recipient: args.recipient,
+            reason,
+            message: outboxError instanceof Error ? outboxError.message : 'Unknown outbox error',
+          },
+        })
+      }
+    }
+
     if (!customerNotifications.email.sent) {
-      await enqueueFailedNotification({
-        eventType: 'order_customer_notification',
-        channel: 'email',
-        recipient: orderData.customer.email,
-        payload: {
-          template: 'order-confirmation',
-          subject: `Order Confirmation #${orderData.orderId} - Chez Amis Bar and Grill`,
-          data: notificationData as unknown as Record<string, unknown>,
+      await safeEnqueue(
+        {
+          eventType: 'order_customer_notification',
+          channel: 'email',
+          recipient: orderData.customer.email,
+          payload: {
+            template: 'order-confirmation',
+            subject: `Order Confirmation #${orderData.orderId} - Chez Amis Bar and Grill`,
+            data: notificationData as unknown as Record<string, unknown>,
+          },
+          errorMessage: customerNotifications.email.error || undefined,
         },
-        errorMessage: customerNotifications.email.error || undefined,
-      })
+        'customer_email_failed'
+      )
     }
     if (!customerNotifications.sms.sent) {
-      await enqueueFailedNotification({
-        eventType: 'order_customer_notification',
-        channel: 'sms',
-        recipient: orderData.customer.phone,
-        payload: {
-          template: 'order-confirmation',
-          data: notificationData as unknown as Record<string, unknown>,
+      await safeEnqueue(
+        {
+          eventType: 'order_customer_notification',
+          channel: 'sms',
+          recipient: orderData.customer.phone,
+          payload: {
+            template: 'order-confirmation',
+            data: notificationData as unknown as Record<string, unknown>,
+          },
+          errorMessage: customerNotifications.sms.error || undefined,
         },
-        errorMessage: customerNotifications.sms.error || undefined,
-      })
+        'customer_sms_failed'
+      )
     }
     if (!adminNotifications.email.sent) {
-      await enqueueFailedNotification({
-        eventType: 'order_admin_notification',
-        channel: 'email',
-        recipient: process.env.ADMIN_EMAIL || 'chez@chezamisrestaurant.com',
-        payload: {
-          template: 'admin-order',
-          subject: 'New Order - Chez Amis',
-          data: notificationData as unknown as Record<string, unknown>,
+      await safeEnqueue(
+        {
+          eventType: 'order_admin_notification',
+          channel: 'email',
+          recipient: process.env.ADMIN_EMAIL || 'chez@chezamisrestaurant.com',
+          payload: {
+            template: 'admin-order',
+            subject: 'New Order - Chez Amis',
+            data: notificationData as unknown as Record<string, unknown>,
+          },
+          errorMessage: adminNotifications.email.error || undefined,
         },
-        errorMessage: adminNotifications.email.error || undefined,
-      })
+        'admin_email_failed'
+      )
     }
     if (!adminNotifications.sms.sent) {
-      await enqueueFailedNotification({
-        eventType: 'order_admin_notification',
-        channel: 'sms',
-        recipient: process.env.ADMIN_PHONE || process.env.NEXT_PUBLIC_PHONE || '+233557032312',
-        payload: {
-          template: 'admin-order',
-          data: notificationData as unknown as Record<string, unknown>,
+      await safeEnqueue(
+        {
+          eventType: 'order_admin_notification',
+          channel: 'sms',
+          recipient: process.env.ADMIN_PHONE || process.env.NEXT_PUBLIC_PHONE || '+233557032312',
+          payload: {
+            template: 'admin-order',
+            data: notificationData as unknown as Record<string, unknown>,
+          },
+          errorMessage: adminNotifications.sms.error || undefined,
         },
-        errorMessage: adminNotifications.sms.error || undefined,
-      })
+        'admin_sms_failed'
+      )
     }
 
     // Return success even if notifications fail (order is still placed)

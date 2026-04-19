@@ -2,6 +2,7 @@ import { Metadata } from "next"
 import { Button } from "@/components/ui/button"
 import { Mail, Phone, Briefcase, Users, Utensils, Heart } from "lucide-react"
 import { FOOTER_PHONE_LINES, SITE_EMAIL } from "@/lib/data/siteContact"
+import { PageIntro } from "@/components/layout/PageIntro"
 
 export const metadata: Metadata = {
   title: "Careers - Join Our Team | Chez Amis Bar and Grill",
@@ -61,19 +62,10 @@ export default function CareersPage() {
 
   return (
     <div className="min-h-screen bg-neutral-50 dark:bg-green-700 transition-colors">
-      {/* Hero Section */}
-      <section className="section-shell bg-gradient-to-b from-green-600 via-green-700 to-green-600 text-white">
-        <div className="section-shell-inner">
-          <div className="max-w-3xl mx-auto text-center space-y-4 md:space-y-5">
-            <h1 className="nav-page-heading md:text-5xl tracking-tight">
-              Join Our Team
-            </h1>
-            <p className="nav-page-subheading text-white/85 md:text-lg">
-              Build your career with a team focused on great food and service.
-            </p>
-          </div>
-        </div>
-      </section>
+      <PageIntro
+        title="Join Our Team"
+        description="Build your career with a team focused on great food and service."
+      />
 
       {/* Main Content */}
       <section className="section-shell">

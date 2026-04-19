@@ -10,6 +10,7 @@ import { galleryMedia, galleryCategories, type MediaCategory, type MediaItem } f
 import { cn } from '@/lib/utils'
 import { useTheme } from '@/lib/context/ThemeContext'
 import { useFocusTrap } from '@/lib/utils/useFocusTrap'
+import { PageIntro } from '@/components/layout/PageIntro'
 
 // Helper to determine fallback type
 const getFallbackType = (item: MediaItem): 'dish' | 'video' | 'restaurant' => {
@@ -98,40 +99,15 @@ export default function GalleryPage() {
       "min-h-screen transition-colors duration-300",
       isDark ? "bg-green-700" : "bg-background"
     )}>
-      {/* Hero Section - Premium */}
-      <section className={cn(
-        "relative h-[45vh] min-h-[350px] md:min-h-[500px] overflow-hidden",
-        "bg-gradient-to-br from-green-700 via-green-600 to-green-900"
-      )}>
-        <div className={cn(
-          "absolute inset-0 transition-opacity duration-300",
-          isDark ? "bg-black/40" : "bg-black/50"
-        )} />
-        <div className="relative z-10 h-full flex items-center justify-center text-center px-6">
-          <div className="max-w-4xl">
-            <h1 className={cn(
-              "nav-page-heading md:text-5xl tracking-tight mb-3 md:mb-5",
-              "text-white drop-shadow-[0_4px_20px_rgba(0,0,0,0.8)]",
-              "animate-fade-in-up"
-            )}>
-              Our Gallery
-            </h1>
-            <div className="w-20 md:w-28 h-0.5 bg-gradient-to-r from-transparent via-terra-500 to-transparent mx-auto mb-3 md:mb-5 shadow-lg shadow-terra-500/50" />
-            <p className={cn(
-              "nav-page-subheading text-white/90 md:text-lg",
-              "text-white/90 drop-shadow-[0_2px_10px_rgba(0,0,0,0.8)]",
-              "animate-fade-in-up"
-            )} style={{ animationDelay: "0.2s" }}>
-              A visual journey through our culinary excellence and warm hospitality
-            </p>
-          </div>
-        </div>
-      </section>
+      <PageIntro
+        title="Our Gallery"
+        description="A visual journey through our culinary excellence and warm hospitality."
+      />
 
       {/* Category Filter Tabs - Premium */}
       <section className={cn(
         "sticky top-20 z-40 border-b transition-colors duration-300",
-        "backdrop-blur-xl shadow-lg",
+        "backdrop-blur-xl",
         isDark 
           ? "bg-green-700/95 border-green-700/50"
           : "bg-background/95 border-border/50"
@@ -438,7 +414,6 @@ export default function GalleryPage() {
           )}>
             Ready to Experience It Yourself?
           </h2>
-          <div className="w-24 md:w-32 h-0.5 bg-gradient-to-r from-transparent via-terra-500 to-transparent mx-auto mb-4 shadow-lg shadow-terra-500/50" />
           <p className={cn(
             "text-base md:text-lg mb-8 max-w-2xl mx-auto font-body font-light leading-relaxed",
             "text-white/80"

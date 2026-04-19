@@ -15,6 +15,7 @@ import { useOrder } from "@/lib/hooks/useOrder"
 import { cn } from "@/lib/utils"
 import { useTheme } from "@/lib/context/ThemeContext"
 import { PHONE_DISPLAY_ALL, SITE_EMAIL } from "@/lib/data/siteContact"
+import { PageIntro } from "@/components/layout/PageIntro"
 
 export default function MenuPage() {
   const [showMobileCart, setShowMobileCart] = useState(false)
@@ -91,48 +92,11 @@ export default function MenuPage() {
       "min-h-screen transition-colors duration-300",
       isDark ? "bg-green-700" : "bg-neutral-50"
     )}>
-      {/* Hero Section - Desktop */}
-      <section className={cn(
-        "relative hidden h-[45vh] min-h-[500px] items-center justify-center overflow-hidden md:flex",
-        "bg-gradient-to-br from-green-700 via-green-600 to-green-900"
-      )}>
-        <div className={cn(
-          "absolute inset-0 transition-opacity duration-300",
-          isDark ? "bg-black/40" : "bg-black/50"
-        )} />
-        <div className="absolute top-4 right-4 md:top-6 md:right-8 z-20">
+      <PageIntro title="Our Menu" description="Browse dishes and add to cart." className="print-menu-buttons">
+        <div className="pt-2">
           <PrintMenu variant="header" />
         </div>
-        <div className="relative z-10 text-center px-6 max-w-4xl mx-auto">
-          <h1 className={cn(
-            "nav-page-heading md:text-5xl tracking-tight",
-            "mb-4 md:mb-6 text-white drop-shadow-[0_4px_20px_rgba(0,0,0,0.8)]",
-            "animate-fade-in-up"
-          )}>
-            Our Menu
-          </h1>
-          <div className="w-20 md:w-28 h-0.5 bg-gradient-to-r from-transparent via-terra-500 to-transparent mx-auto mb-4 md:mb-6 shadow-lg shadow-terra-500/50" />
-          <p className={cn(
-            "nav-page-subheading md:text-lg max-w-3xl mx-auto leading-relaxed",
-            "text-white/90 drop-shadow-[0_2px_10px_rgba(0,0,0,0.8)]",
-            "animate-fade-in-up"
-          )} style={{ animationDelay: "0.2s" }}>
-            Browse dishes and add to cart
-          </p>
-        </div>
-      </section>
-
-      {/* Compact mobile page heading */}
-      <section className="section-shell py-6 md:hidden">
-        <div className="section-shell-inner">
-          <h1 className={cn("nav-page-heading", isDark ? "text-white" : "text-foreground")}>
-            Menu
-          </h1>
-          <p className={cn("nav-page-subheading", isDark ? "text-white/75" : "text-muted-foreground")}>
-            Browse dishes and add to cart.
-          </p>
-        </div>
-      </section>
+      </PageIntro>
 
       {/* Main Content */}
       <section className={cn("section-shell transition-colors duration-300")}>
@@ -187,8 +151,7 @@ export default function MenuPage() {
           "sticky top-20 z-30 mb-8 md:mb-12 border-b transition-colors duration-300",
           isDark 
             ? "bg-green-700/95 backdrop-blur-xl border-green-700/50"
-            : "bg-background/95 backdrop-blur-xl border-border/50",
-          "shadow-lg"
+            : "bg-background/95 backdrop-blur-xl border-border/50"
         )}>
           <div className="overflow-x-auto scrollbar-hide -mx-4 px-4 md:mx-0 md:px-6 py-3">
             <div className="flex gap-2 min-w-max md:min-w-0 md:justify-center md:flex-wrap md:gap-3">
@@ -360,7 +323,6 @@ export default function MenuPage() {
                     )}>
                       {category.name}
                     </h2>
-                    <div className="w-24 md:w-32 h-0.5 bg-gradient-to-r from-transparent via-terra-500 to-transparent shadow-lg shadow-terra-500/50" />
                     {category.description && (
                       <p className={cn(
                         "mt-4 text-base md:text-lg font-body font-light max-w-2xl",
@@ -480,7 +442,6 @@ export default function MenuPage() {
                         )}>
                           {category.name}
                         </h2>
-                        <div className="w-24 md:w-32 h-0.5 bg-gradient-to-r from-transparent via-terra-500 to-transparent shadow-lg shadow-terra-500/50" />
                       </div>
 
                       {/* List View Items */}

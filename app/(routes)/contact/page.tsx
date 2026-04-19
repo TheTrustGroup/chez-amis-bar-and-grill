@@ -8,6 +8,7 @@ import { MapPin, Navigation, ChevronDown } from "lucide-react"
 import { useTheme } from "@/lib/context/ThemeContext"
 import { cn } from "@/lib/utils"
 import { FOOTER_PHONE_LINES, SITE_ADDRESS_LINES, SITE_EMAIL } from "@/lib/data/siteContact"
+import { PageIntro } from "@/components/layout/PageIntro"
 
 export default function ContactPage() {
   const { resolvedTheme } = useTheme()
@@ -19,33 +20,10 @@ export default function ContactPage() {
       "min-h-screen transition-colors duration-300",
       isDark ? "bg-green-700" : "bg-neutral-50"
     )}>
-      {/* Hero Section - Premium */}
-      <section className={cn(
-        "relative h-[40vh] md:h-[45vh] min-h-[400px] md:min-h-[500px] flex items-center justify-center overflow-hidden",
-        "bg-gradient-to-br from-green-700 via-green-600 to-green-900"
-      )}>
-        <div className={cn(
-          "absolute inset-0 transition-opacity duration-300",
-          isDark ? "bg-black/40" : "bg-black/50"
-        )} />
-        <div className="relative z-10 text-center px-6 max-w-4xl mx-auto">
-          <h1 className={cn(
-            "nav-page-heading md:text-5xl tracking-tight mb-3 md:mb-5",
-            "text-white drop-shadow-[0_4px_20px_rgba(0,0,0,0.8)]",
-            "animate-fade-in-up"
-          )}>
-            Get in Touch
-          </h1>
-          <div className="w-20 md:w-28 h-0.5 bg-gradient-to-r from-transparent via-terra-500 to-transparent mx-auto mb-3 md:mb-5 shadow-lg shadow-terra-500/50" />
-          <p className={cn(
-            "nav-page-subheading max-w-3xl mx-auto text-white/90 md:text-lg",
-            "text-white/90 drop-shadow-[0_2px_10px_rgba(0,0,0,0.8)]",
-            "animate-fade-in-up"
-          )} style={{ animationDelay: "0.2s" }}>
-            We&apos;re here to help and look forward to connecting with you
-          </p>
-        </div>
-      </section>
+      <PageIntro
+        title="Get in Touch"
+        description="We're here to help and look forward to connecting with you."
+      />
 
       {/* Contact Information */}
       <section className={cn(
@@ -104,7 +82,6 @@ export default function ContactPage() {
               >
                 Send Us a Message
               </h2>
-              <div className="w-24 md:w-32 h-0.5 bg-gradient-to-r from-transparent via-terra-500 to-transparent mx-auto mb-3 shadow-lg shadow-terra-500/50" />
               <p className={cn(
                 "text-sm md:text-base font-body font-light transition-colors duration-300",
                 isDark ? "text-white/80" : "text-muted-foreground"
