@@ -32,12 +32,34 @@ export function MobileCart({ isOpen, onClose }: MobileCartProps) {
   const total = getGrandTotal()
 
   useEffect(() => {
+    document.body.classList.toggle("mobile-cart-open", isOpen)
+    window.dispatchEvent(
+      new CustomEvent("mobile-cart-visibility", {
+        detail: { open: isOpen },
+      })
+    )
+
     if (isOpen) {
       const prev = document.body.style.overflow
       document.body.style.overflow = "hidden"
       return () => {
         document.body.style.overflow = prev
+        document.body.classList.remove("mobile-cart-open")
+        window.dispatchEvent(
+          new CustomEvent("mobile-cart-visibility", {
+            detail: { open: false },
+          })
+        )
       }
+    }
+
+    return () => {
+      document.body.classList.remove("mobile-cart-open")
+      window.dispatchEvent(
+        new CustomEvent("mobile-cart-visibility", {
+          detail: { open: false },
+        })
+      )
     }
   }, [isOpen])
 
@@ -64,7 +86,7 @@ export function MobileCart({ isOpen, onClose }: MobileCartProps) {
       {isOpen && (
         <button
           type="button"
-          className="fixed inset-0 z-40 bg-black/50 lg:hidden"
+          className="fixed inset-0 z-[110] bg-black/50 lg:hidden"
           aria-label="Close cart overlay"
           onClick={onClose}
         />
@@ -72,7 +94,7 @@ export function MobileCart({ isOpen, onClose }: MobileCartProps) {
 
       <div
         className={cn(
-          "fixed inset-x-0 bottom-0 z-50 flex max-h-[80vh] flex-col rounded-t-2xl bg-white shadow-2xl transition-transform duration-300 ease-out lg:hidden",
+          "fixed inset-x-0 bottom-0 z-[120] flex max-h-[80vh] flex-col rounded-t-2xl bg-white shadow-2xl transition-transform duration-300 ease-out lg:hidden",
           "pb-[max(1rem,env(safe-area-inset-bottom))]",
           isOpen ? "translate-y-0" : "translate-y-full pointer-events-none"
         )}
@@ -175,18 +197,7 @@ export function MobileCart({ isOpen, onClose }: MobileCartProps) {
                   }}
                   className="w-full bg-terra-500 text-white md:hover:bg-terra-600 active:bg-terra-700 min-h-[48px] shadow-[var(--shadow-terra)]"
                 >
-                  Place Order
-                </Button>
-                <Button
-                  type="button"
-                  variant="outline"
-                  onClick={() => {
-                    router.push("/reservations")
-                    onClose()
-                  }}
-                  className="w-full min-h-[48px] border-green-500 text-green-600 md:hover:bg-green-50 active:bg-green-100"
-                >
-                  Reserve a Table
+                  Checkout
                 </Button>
               </div>
             </>

@@ -5,7 +5,6 @@ import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { Menu, X, ShoppingBag } from "lucide-react"
 import { cn } from "@/lib/utils"
-import { ThemeToggle } from "@/components/ui/theme-toggle"
 import { useCartContext } from "@/lib/context/CartContext"
 import { scrollToElement } from "@/lib/utils/smoothScroll"
 import {
@@ -145,10 +144,6 @@ export function Header() {
             </nav>
 
             <div className="flex items-center gap-1 sm:gap-2 md:gap-3 flex-shrink-0">
-              <div className="hidden md:flex items-center">
-                <ThemeToggle className="text-foreground/70 md:hover:text-foreground md:hover:bg-muted active:bg-muted" />
-              </div>
-
               <Link
                 href="/cart"
                 className={cn(
@@ -256,9 +251,6 @@ export function Header() {
               >
                 Order Delivery
               </Link>
-              <div className="flex justify-center pt-6 border-t border-border/60 mt-6">
-                <ThemeToggle className="text-foreground/80 md:hover:text-foreground" />
-              </div>
             </div>
           </nav>
         )}

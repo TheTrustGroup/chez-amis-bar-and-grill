@@ -27,7 +27,6 @@ export default function PlaceOrderPage() {
   const step1Ref = useRef<HTMLDivElement | null>(null)
   const step2Ref = useRef<HTMLDivElement | null>(null)
   const step3Ref = useRef<HTMLDivElement | null>(null)
-  const step4Ref = useRef<HTMLDivElement | null>(null)
 
   const handleFieldChange = (field: string, value: string) => {
     setSubmitError(null)
@@ -76,10 +75,9 @@ export default function PlaceOrderPage() {
   const canProceedToStep4 = canProceedToStep3 && hasGuestDetails && paymentMethod !== null
   const canPlaceOrder = canProceedToStep4
   const stepChecklist = [
-    { id: 1, label: "Order type", done: canProceedToStep2 },
-    { id: 2, label: "Order details", done: hasOrderTypeFields },
-    { id: 3, label: "Customer details", done: hasGuestDetails },
-    { id: 4, label: "Payment method", done: paymentMethod !== null },
+    { id: 1, label: "Order details", done: canProceedToStep3 },
+    { id: 2, label: "Contact & payment", done: canProceedToStep4 },
+    { id: 3, label: "Review & place order", done: canPlaceOrder },
   ]
 
   const whatsappFallbackLink = buildWhatsAppLink(
@@ -88,13 +86,13 @@ export default function PlaceOrderPage() {
 
   useEffect(() => {
     if (canProceedToStep3 && window.innerWidth < 1024) {
-      step3Ref.current?.scrollIntoView({ behavior: "smooth", block: "start" })
+      step2Ref.current?.scrollIntoView({ behavior: "smooth", block: "start" })
     }
   }, [canProceedToStep3])
 
   useEffect(() => {
     if (canProceedToStep4 && window.innerWidth < 1024) {
-      step4Ref.current?.scrollIntoView({ behavior: "smooth", block: "start" })
+      step3Ref.current?.scrollIntoView({ behavior: "smooth", block: "start" })
     }
   }, [canProceedToStep4])
 
@@ -169,10 +167,10 @@ export default function PlaceOrderPage() {
 
     if (!paymentMethod) {
       errors.paymentMethod = "Select a payment option to continue."
-      return { valid: false, errors, firstStep: 3 as const, firstInvalidField: "paymentMethod" }
+      return { valid: false, errors, firstStep: 2 as const, firstInvalidField: "paymentMethod" }
     }
 
-    return { valid: true, errors, firstStep: 4 as const, firstInvalidField: null }
+    return { valid: true, errors, firstStep: 3 as const, firstInvalidField: null }
   }
 
   const handlePlaceOrder = async () => {
@@ -371,7 +369,7 @@ export default function PlaceOrderPage() {
             <div ref={step1Ref} className="ui-card-compact p-5 md:p-6 dark:bg-green-600/40 dark:border-green-700/50">
               <div className="mb-5 flex items-center gap-3">
                 <span className="inline-flex h-7 w-7 items-center justify-center rounded-full border border-terra-500/50 text-xs font-medium text-terra-600">1</span>
-                <p className="text-sm font-body font-medium tracking-wide text-muted-foreground uppercase">Order Type</p>
+                <p className="text-sm font-body font-medium tracking-wide text-muted-foreground uppercase">Order & Fulfillment Details</p>
               </div>
               {fieldErrors.orderType && (
                 <p className="mb-3 text-xs text-red-600 dark:text-red-300">{fieldErrors.orderType}</p>
@@ -400,37 +398,31 @@ export default function PlaceOrderPage() {
               <div ref={step2Ref} className="ui-card-compact p-5 md:p-6 dark:bg-green-600/40 dark:border-green-700/50">
                 <div className="mb-5 flex items-center gap-3">
                   <span className="inline-flex h-7 w-7 items-center justify-center rounded-full border border-terra-500/50 text-xs font-medium text-terra-600">2</span>
-                  <p className="text-sm font-body font-medium tracking-wide text-muted-foreground uppercase">Customer Details</p>
+                  <p className="text-sm font-body font-medium tracking-wide text-muted-foreground uppercase">Contact & Payment</p>
                 </div>
                 <GuestInformation
                   formData={formData}
                   onFieldChange={handleFieldChange}
                   fieldErrors={fieldErrors}
                 />
-              </div>
-            )}
-
-            {/* Step 3: Payment Method */}
-            {canProceedToStep3 && (
-              <div ref={step3Ref} className="ui-card-compact p-5 md:p-6 dark:bg-green-600/40 dark:border-green-700/50">
-                <div className="mb-5 flex items-center gap-3">
-                  <span className="inline-flex h-7 w-7 items-center justify-center rounded-full border border-terra-500/50 text-xs font-medium text-terra-600">3</span>
-                  <p className="text-sm font-body font-medium tracking-wide text-muted-foreground uppercase">Payment</p>
-                </div>
-                <PaymentSelector
-                  selectedMethod={paymentMethod}
-                  onSelect={handlePaymentSelect}
-                />
-                {fieldErrors.paymentMethod && (
-                  <p className="mt-3 text-xs text-red-600 dark:text-red-300">{fieldErrors.paymentMethod}</p>
+                {canProceedToStep3 && (
+                  <div className="mt-8 border-t border-border/50 pt-6">
+                    <PaymentSelector
+                      selectedMethod={paymentMethod}
+                      onSelect={handlePaymentSelect}
+                    />
+                    {fieldErrors.paymentMethod && (
+                      <p className="mt-3 text-xs text-red-600 dark:text-red-300">{fieldErrors.paymentMethod}</p>
+                    )}
+                  </div>
                 )}
               </div>
             )}
 
-            {/* Step 4: Final Review */}
-            <div ref={step4Ref} className="ui-card-compact p-5 md:p-6 dark:bg-green-600/40 dark:border-green-700/50">
+            {/* Step 3: Final Review */}
+            <div ref={step3Ref} className="ui-card-compact p-5 md:p-6 dark:bg-green-600/40 dark:border-green-700/50">
               <div className="mb-5 flex items-center gap-3">
-                <span className="inline-flex h-7 w-7 items-center justify-center rounded-full border border-terra-500/50 text-xs font-medium text-terra-600">4</span>
+                <span className="inline-flex h-7 w-7 items-center justify-center rounded-full border border-terra-500/50 text-xs font-medium text-terra-600">3</span>
                 <p className="text-sm font-body font-medium tracking-wide text-muted-foreground uppercase">Review & Place Order</p>
               </div>
 
