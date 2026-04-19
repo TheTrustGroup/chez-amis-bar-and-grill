@@ -1,13 +1,11 @@
 "use client"
 
 import Link from "next/link"
-import { Instagram, Facebook, Mail, Phone, MapPin, Clock, UtensilsCrossed, Calendar } from "lucide-react"
-import { SnapchatIcon } from "@/components/ui/snapchat-icon"
+import { Instagram, Facebook, Mail, Phone, Calendar, UtensilsCrossed } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { useTheme } from "@/lib/context/ThemeContext"
 import {
   trackOrderClick,
-  trackPhoneClick,
   trackReservationClick,
 } from "@/lib/analytics"
 import { CHECKOUT_PATH, FOOTER_PHONE_LINES, SITE_EMAIL } from "@/lib/data/siteContact"
@@ -17,13 +15,7 @@ export function Footer() {
   const currentYear = new Date().getFullYear()
   const { resolvedTheme } = useTheme()
   const isDark = resolvedTheme === "dark"
-  const compactSocialLinks = getActiveSocialLinks(["instagram", "facebook"])
-  const fullSocialLinks = getActiveSocialLinks([
-    "instagram",
-    "facebook",
-    "snapchat",
-    "tiktok",
-  ])
+  const socialLinks = getActiveSocialLinks(["instagram", "facebook"])
 
   return (
     <footer
@@ -33,9 +25,9 @@ export function Footer() {
       )}
       role="contentinfo"
     >
-      <div className="section-shell-inner section-padding-md">
-        <div className="md:hidden space-y-6">
-          <div className="space-y-3">
+      <div className="section-shell-inner py-8 md:py-10">
+        <div className="grid gap-8 md:grid-cols-3 md:items-start">
+          <div className="space-y-2">
             <Link href="/" className="inline-flex flex-col">
               <span className="font-display text-2xl font-light text-terra-400">Chez Amis</span>
               <span className="text-[11px] uppercase tracking-[0.2em] text-white/70">Bar and Grill</span>
@@ -44,373 +36,73 @@ export function Footer() {
               Where passion meets palate
             </p>
           </div>
-          <div className="grid grid-cols-2 gap-2">
-            <Link href="/about" className="rounded-md px-2 py-2 text-sm text-white/80 md:hover:text-terra-300 active:bg-white/10">
-              About
-            </Link>
-            <Link href="/menu" className="rounded-md px-2 py-2 text-sm text-white/80 md:hover:text-terra-300 active:bg-white/10">
-              Menu
-            </Link>
-            <Link href="/reservations" className="rounded-md px-2 py-2 text-sm text-white/80 md:hover:text-terra-300 active:bg-white/10">
-              Reserve
-            </Link>
-            <Link href="/more" className="rounded-md px-2 py-2 text-sm text-white/80 md:hover:text-terra-300 active:bg-white/10">
-              More
-            </Link>
-          </div>
-          <div className="flex items-center gap-2">
-            {compactSocialLinks.map((social) => (
-              <a
-                key={social.id}
-                href={social.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex h-10 w-10 items-center justify-center rounded-md text-white/75 md:hover:bg-white/10 md:hover:text-terra-300 active:bg-white/15"
-                aria-label={`Follow us on ${social.label}`}
+
+          <nav
+            className="grid grid-cols-2 gap-2 text-sm"
+            aria-label="Footer quick links"
+          >
+            {[
+              { href: "/menu", label: "Menu" },
+              { href: "/reservations", label: "Reserve" },
+              { href: "/contact", label: "Contact" },
+              { href: "/more", label: "More" },
+            ].map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className="rounded-md px-2 py-2 text-white/80 transition-colors md:hover:text-terra-300 active:bg-white/10"
               >
-                {social.id === "instagram" ? (
-                  <Instagram className="h-4 w-4" />
-                ) : (
-                  <Facebook className="h-4 w-4" />
-                )}
-              </a>
+                {link.label}
+              </Link>
             ))}
+          </nav>
+
+          <div className="space-y-3">
+            <a
+              href={`tel:${FOOTER_PHONE_LINES[0]?.tel ?? ""}`}
+              className="inline-flex items-center gap-2 text-sm text-white/80 transition-colors md:hover:text-terra-300"
+            >
+              <Phone className="h-4 w-4" />
+              {FOOTER_PHONE_LINES[0]?.display}
+            </a>
             <a
               href={`mailto:${SITE_EMAIL}`}
-              className="text-sm text-white/75 md:hover:text-terra-300 active:text-terra-200"
-              aria-label="Send us an email"
+              className="block text-sm text-white/80 transition-colors md:hover:text-terra-300 break-all [overflow-wrap:anywhere]"
             >
               {SITE_EMAIL}
             </a>
-          </div>
-        </div>
-
-        <div className={cn(
-          "hidden md:grid",
-          "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12 lg:gap-16",
-          "animate-fade-in-up"
-        )}>
-          {/* Column 1: About Chez Amis - Premium Branding */}
-          <div className="space-y-6">
-            <div>
-              <Link href="/" className="inline-block group">
-                <div className="flex flex-col items-start">
-                  <div className="flex items-center gap-2 mb-1">
-                    <div className="h-0.5 w-8 bg-terra-500 md:group-hover:w-12 transition-all duration-300" aria-hidden="true"></div>
-                  </div>
-                  <span className={cn(
-                    "font-display text-3xl md:text-4xl font-light leading-tight transition-colors duration-300",
-                    "text-terra-500 md:group-hover:text-terra-400"
-                  )}>
-                    Chez Amis
-                  </span>
-                  <span className={cn(
-                    "text-xs font-body font-light tracking-[0.2em] uppercase transition-colors duration-300",
-                    isDark ? "text-white/80" : "text-white/70"
-                  )}>
-                    Bar and Grill
-                  </span>
-                </div>
-              </Link>
-            </div>
-            <p className={cn(
-              "text-sm font-body font-light italic transition-colors duration-300",
-              isDark ? "text-white/80" : "text-white/70"
-            )}>
-              Where passion meets palate
-            </p>
-            <p className={cn(
-              "text-sm font-body font-light leading-relaxed transition-colors duration-300",
-              isDark ? "text-white/70" : "text-white/60"
-            )}>
-              An intimate culinary journey in the heart of Accra. We craft unforgettable dining
-              experiences with locally sourced ingredients and time-honored techniques.
-            </p>
-            
-            {/* Social Media Icons - Premium */}
-            <div className="flex items-center gap-3 pt-2">
-              {fullSocialLinks.map((social) => (
+            <div className="flex items-center gap-2 pt-1">
+              {socialLinks.map((social) => (
                 <a
                   key={social.id}
                   href={social.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className={cn(
-                    "relative transition-all duration-300 rounded-full p-2.5 min-h-[44px] min-w-[44px] flex items-center justify-center",
-                    "group/social",
-                    isDark
-                      ? "text-white/70 md:hover:text-terra-400 md:hover:bg-terra-500/10"
-                      : "text-white/60 md:hover:text-terra-500 md:hover:bg-terra-500/10",
-                    "active:scale-95",
-                    "border border-transparent md:hover:border-terra-500/30"
-                  )}
+                  className="inline-flex h-10 w-10 items-center justify-center rounded-md text-white/75 transition-colors md:hover:bg-white/10 md:hover:text-terra-300 active:bg-white/15"
                   aria-label={`Follow us on ${social.label}`}
                 >
                   {social.id === "instagram" ? (
-                    <Instagram className="h-5 w-5 transition-transform duration-300 md:group-hover/social:scale-110" />
-                  ) : social.id === "facebook" ? (
-                    <Facebook className="h-5 w-5 transition-transform duration-300 md:group-hover/social:scale-110" />
-                  ) : social.id === "snapchat" ? (
-                    <SnapchatIcon className="h-5 w-5 transition-transform duration-300 md:group-hover/social:scale-110" />
+                    <Instagram className="h-4 w-4" />
                   ) : (
-                    <svg
-                      className="h-5 w-5 transition-transform duration-300 md:group-hover/social:scale-110"
-                      fill="currentColor"
-                      viewBox="0 0 24 24"
-                      aria-hidden="true"
-                    >
-                      <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z" />
-                    </svg>
+                    <Facebook className="h-4 w-4" />
                   )}
                 </a>
               ))}
-            </div>
-          </div>
-
-          {/* Column 2: Quick Links - Premium */}
-          <div className="space-y-6">
-            <h3 className={cn(
-              "text-lg md:text-xl font-display font-light transition-colors duration-300",
-              isDark ? "text-white" : "text-white"
-            )}>
-              Quick Links
-            </h3>
-            <nav className="space-y-2 md:space-y-3" aria-label="Footer navigation">
-              {[
-                { href: "/about", label: "About Our Story" },
-                { href: "/menu", label: "View Menu" },
-                { href: "/reservations", label: "Reservations" },
-                { href: "/private-events", label: "Private Dining" },
-                { href: "/careers", label: "Careers" },
-                { href: "/press", label: "Press & Media" },
-              ].map((link) => (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  className={cn(
-                    "block text-sm md:text-base font-body font-light transition-all duration-300",
-                    "py-2 md:py-1.5 min-h-[44px] md:min-h-0 flex items-center group/link relative",
-                    "rounded-md px-2 -ml-2",
-                    isDark
-                      ? "text-white/70 md:hover:text-terra-400 md:hover:bg-terra-500/5"
-                      : "text-white/60 md:hover:text-terra-500 md:hover:bg-terra-500/5"
-                  )}
-                >
-                  <span className="relative flex items-center gap-2">
-                    <span className="w-1 h-1 rounded-full bg-terra-500/0 md:group-hover/link:bg-terra-500 transition-all duration-300" />
-                    {link.label}
-                    <span className={cn(
-                      "absolute bottom-0 left-0 w-0 h-0.5 transition-all duration-300",
-                      "bg-gradient-to-r from-terra-500 to-terra-400",
-                      "md:group-hover/link:w-full"
-                    )} />
-                  </span>
-                </Link>
-              ))}
-            </nav>
-          </div>
-
-          {/* Column 3: Guest Services - Premium */}
-          <div className="space-y-6">
-            <h3 className={cn(
-              "text-lg md:text-xl font-display font-light transition-colors duration-300",
-              isDark ? "text-white" : "text-white"
-            )}>
-              Guest Services
-            </h3>
-            <nav className="space-y-2 md:space-y-3" aria-label="Guest services navigation">
-              {[
-                { href: "/contact", label: "Contact Us" },
-                { href: "/faq", label: "FAQs" },
-                { href: "/catering", label: "Catering" },
-              ].map((link) => (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  className={cn(
-                    "block text-sm md:text-base font-body font-light transition-all duration-300",
-                    "py-2 md:py-1.5 min-h-[44px] md:min-h-0 flex items-center group/link relative",
-                    "rounded-md px-2 -ml-2",
-                    isDark
-                      ? "text-white/70 md:hover:text-terra-400 md:hover:bg-terra-500/5"
-                      : "text-white/60 md:hover:text-terra-500 md:hover:bg-terra-500/5"
-                  )}
-                >
-                  <span className="relative flex items-center gap-2">
-                    <span className="w-1 h-1 rounded-full bg-terra-500/0 md:group-hover/link:bg-terra-500 transition-all duration-300" />
-                    {link.label}
-                    <span className={cn(
-                      "absolute bottom-0 left-0 w-0 h-0.5 transition-all duration-300",
-                      "bg-gradient-to-r from-terra-500 to-terra-400",
-                      "md:group-hover/link:w-full"
-                    )} />
-                  </span>
-                </Link>
-              ))}
-            </nav>
-          </div>
-
-          {/* Column 4: Contact & Hours - Premium */}
-          <div className="space-y-6">
-            <h3 className={cn(
-              "text-lg md:text-xl font-display font-light transition-colors duration-300",
-              isDark ? "text-white" : "text-white"
-            )}>
-              Contact & Hours
-            </h3>
-            
-            <div className="space-y-4">
-              {/* Address */}
-              <div className="flex items-start gap-3 group">
-                <div className={cn(
-                  "flex-shrink-0 mt-1 p-2 rounded-lg transition-all duration-300",
-                  "bg-terra-500/10 md:group-hover:bg-terra-500/20 md:group-hover:scale-110"
-                )}>
-                  <MapPin className={cn(
-                    "h-4 w-4 transition-colors duration-300",
-                    isDark ? "text-terra-400" : "text-terra-500"
-                  )} />
-                </div>
-                <div>
-                  <p className={cn(
-                    "text-sm md:text-base font-body font-light leading-relaxed transition-colors duration-300",
-                    isDark ? "text-white/80" : "text-white/70"
-                  )}>
-                    <a
-                      href="https://maps.google.com/?q=40+Boundary+Rd+Accra+Ghana"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className={cn(
-                        "md:hover:text-terra-400 transition-colors duration-300",
-                        "underline-offset-2 md:hover:underline"
-                      )}
-                    >
-                      40 Boundary Rd<br />
-                      Accra, Ghana
-                    </a>
-                  </p>
-                </div>
-              </div>
-
-              {/* Phone */}
-              <div className="flex items-start gap-3 group">
-                <div className={cn(
-                  "flex-shrink-0 mt-1 p-2 rounded-lg transition-all duration-300",
-                  "bg-terra-500/10 md:group-hover:bg-terra-500/20 md:group-hover:scale-110"
-                )}>
-                  <Phone className={cn(
-                    "h-4 w-4 transition-colors duration-300",
-                    isDark ? "text-terra-400" : "text-terra-500"
-                  )} />
-                </div>
-                <div className="min-w-0 space-y-1">
-                  {FOOTER_PHONE_LINES.map((phone) => (
-                    <a
-                      key={phone.tel}
-                      href={`tel:${phone.tel}`}
-                      className={cn(
-                        "block text-sm md:text-base font-body font-light transition-colors duration-300",
-                        isDark
-                          ? "text-white/70 md:hover:text-terra-400"
-                          : "text-white/60 md:hover:text-terra-500"
-                      )}
-                      onClick={() => trackPhoneClick(`footer_${phone.display}`)}
-                    >
-                      {phone.display}
-                    </a>
-                  ))}
-                  <Link
-                    href="/contact"
-                    className="text-xs text-terra-300 md:hover:text-terra-200 mt-1 inline-block"
-                  >
-                    View all contact numbers →
-                  </Link>
-                </div>
-              </div>
-
-              {/* Email */}
-              <div className="flex items-start gap-3 group">
-                <div className={cn(
-                  "flex-shrink-0 mt-1 p-2 rounded-lg transition-all duration-300",
-                  "bg-terra-500/10 md:group-hover:bg-terra-500/20 md:group-hover:scale-110"
-                )}>
-                  <Mail className={cn(
-                    "h-4 w-4 transition-colors duration-300",
-                    isDark ? "text-terra-400" : "text-terra-500"
-                  )} />
-                </div>
-                <div className="min-w-0 flex-1 max-w-full overflow-hidden">
-                  <a
-                    href={`mailto:${SITE_EMAIL}`}
-                    className={cn(
-                      "block text-sm md:text-base font-body font-light transition-colors duration-300",
-                      "break-all [overflow-wrap:anywhere]",
-                      "underline-offset-2 md:hover:underline",
-                      isDark
-                        ? "text-white/70 md:hover:text-terra-400"
-                        : "text-white/60 md:hover:text-terra-500"
-                    )}
-                  >
-                    {SITE_EMAIL}
-                  </a>
-                </div>
-              </div>
-
-              {/* Hours */}
-              <div className="flex items-start gap-3 group">
-                <div className={cn(
-                  "flex-shrink-0 mt-1 p-2 rounded-lg transition-all duration-300",
-                  "bg-terra-500/10 md:group-hover:bg-terra-500/20 md:group-hover:scale-110"
-                )}>
-                  <Clock className={cn(
-                    "h-4 w-4 transition-colors duration-300",
-                    isDark ? "text-terra-400" : "text-terra-500"
-                  )} />
-                </div>
-                <div>
-                  <p className={cn(
-                    "text-sm md:text-base font-body font-light transition-colors duration-300",
-                    isDark ? "text-white/80" : "text-white/70"
-                  )}>
-                    We&apos;re Open 24/7
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            {/* Quick CTAs */}
-            <div className="pt-4 space-y-3">
               <Link
                 href="/reservations"
-                className={cn(
-                  "flex items-center gap-2 text-sm font-body font-medium transition-all duration-300",
-                  "px-4 py-2 rounded-lg min-h-[44px]",
-                  "border border-terra-500/30",
-                  isDark
-                    ? "text-terra-400 bg-terra-500/5 md:hover:bg-terra-500/10 md:hover:border-terra-500/50"
-                    : "text-terra-500 bg-terra-500/5 md:hover:bg-terra-500/10 md:hover:border-terra-500/50",
-                  "active:scale-95"
-                )}
+                className="ml-1 inline-flex items-center gap-1 rounded-md border border-terra-500/40 px-3 py-2 text-xs font-body font-medium uppercase tracking-wider text-terra-300 transition-colors md:hover:bg-terra-500/10 active:bg-terra-500/10"
                 onClick={() => trackReservationClick("footer")}
               >
-                <Calendar className="h-4 w-4" />
-                Reserve a Table
+                <Calendar className="h-3.5 w-3.5" />
+                Reserve
               </Link>
               <Link
                 href={CHECKOUT_PATH}
-                className={cn(
-                  "flex items-center gap-2 text-sm font-body font-medium transition-all duration-300",
-                  "px-4 py-2 rounded-lg min-h-[44px]",
-                  "border border-terra-500/30",
-                  isDark
-                    ? "text-terra-400 bg-terra-500/5 md:hover:bg-terra-500/10 md:hover:border-terra-500/50"
-                    : "text-terra-500 bg-terra-500/5 md:hover:bg-terra-500/10 md:hover:border-terra-500/50",
-                  "active:scale-95"
-                )}
+                className="inline-flex items-center gap-1 rounded-md border border-terra-500/40 px-3 py-2 text-xs font-body font-medium uppercase tracking-wider text-terra-300 transition-colors md:hover:bg-terra-500/10 active:bg-terra-500/10"
                 onClick={() => trackOrderClick("footer")}
               >
-                <UtensilsCrossed className="h-4 w-4" />
-                Order Delivery
+                <UtensilsCrossed className="h-3.5 w-3.5" />
+                Order
               </Link>
             </div>
           </div>
@@ -418,7 +110,7 @@ export function Footer() {
 
         <div
           className={cn(
-            "border-t border-white/10 mt-8 pt-5 md:mt-12 md:pt-6",
+            "border-t border-white/10 mt-6 pt-4 md:mt-8",
             "flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-white/40 font-body"
           )}
         >

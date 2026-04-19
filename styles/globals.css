@@ -319,6 +319,11 @@
     @apply w-full overflow-hidden py-12 md:py-16;
   }
 
+  /* When routed content sits below fixed header, tighten first section top padding. */
+  .route-offset > .section-shell:first-child {
+    @apply pt-4 md:pt-6;
+  }
+
   .section-shell-inner {
     @apply mx-auto w-full max-w-screen-xl px-4 sm:px-6 lg:px-8;
   }

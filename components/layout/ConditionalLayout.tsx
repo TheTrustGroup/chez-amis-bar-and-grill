@@ -17,6 +17,7 @@ import { initSmoothScroll } from '@/lib/utils/smoothScroll'
 export function ConditionalLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname()
   const isAdminRoute = pathname?.startsWith('/admin')
+  const shouldOffsetFromHeader = pathname !== '/'
 
   // Initialize smooth scroll for anchor links
   useEffect(() => {
@@ -42,7 +43,9 @@ export function ConditionalLayout({ children }: { children: React.ReactNode }) {
       <Header />
       <main
         id="main-content"
-        className="min-h-screen pb-[5.5rem] lg:pb-0"
+        className={`min-h-screen pb-[5.5rem] lg:pb-0 ${
+          shouldOffsetFromHeader ? "route-offset pt-16 md:pt-20" : ""
+        }`}
       >
         {children}
       </main>
