@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils"
 import { useTheme } from "@/lib/context/ThemeContext"
 import { getActiveSocialLinks } from "@/lib/data/socialLinks"
 import { SnapchatIcon } from "@/components/ui/snapchat-icon"
-import { footerNavigation, legalNavigation } from "@/lib/data/navigation"
+import { legalNavigation } from "@/lib/data/navigation"
 
 export function Footer() {
   const currentYear = new Date().getFullYear()
@@ -49,13 +49,6 @@ export function Footer() {
             <p className={cn("text-sm font-body font-light", isDark ? "text-white/80" : "text-muted-foreground")}>
               East Legon, Accra
             </p>
-            <div className="flex flex-wrap items-center gap-4 text-sm">
-              {footerNavigation.map((item) => (
-                <Link key={item.href} href={item.href} className="transition-colors md:hover:text-terra-500">
-                  {item.label}
-                </Link>
-              ))}
-            </div>
           </div>
 
           <div className="md:justify-self-end md:text-right">
