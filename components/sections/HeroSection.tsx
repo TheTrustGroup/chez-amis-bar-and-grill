@@ -14,8 +14,6 @@ const HERO_VIDEO_SRC =
 
 export function HeroSection() {
   const [isVisible, setIsVisible] = useState(false)
-  const [isMobile, setIsMobile] = useState(false)
-  const [imageLoaded, setImageLoaded] = useState(false)
   const [imageError, setImageError] = useState(false)
   const [videoBgFailed, setVideoBgFailed] = useState(false)
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false)
@@ -40,16 +38,9 @@ export function HeroSection() {
 
     const timer = setTimeout(() => setIsVisible(true), 100)
 
-    setIsMobile(window.innerWidth < 768)
-    const handleResize = () => {
-      setIsMobile(window.innerWidth < 768)
-    }
-    window.addEventListener("resize", handleResize)
-
     return () => {
       mq.removeEventListener("change", onMotionChange)
       clearTimeout(timer)
-      window.removeEventListener("resize", handleResize)
     }
   }, [])
 
@@ -66,18 +57,14 @@ export function HeroSection() {
     <section 
       className={cn(
         "relative flex items-center justify-center overflow-hidden text-center",
-        "min-h-[85vh] sm:min-h-screen",
-        isMobile && "mobile-hero"
+        "min-h-[85vh] sm:min-h-screen"
       )}
       aria-label="Hero section"
     >
       {/* High-Resolution Background Image with Parallax */}
       <div className="absolute inset-0 z-0 overflow-hidden">
         {/* Parallax Background Layer */}
-        <div
-          className="absolute inset-0 transition-opacity duration-700"
-          style={{ opacity: imageLoaded ? 1 : 0 }}
-        >
+        <div className="absolute inset-0">
           {/* Optional full-bleed video; falls back to stills */}
           {!prefersReducedMotion && !videoBgFailed && (
             <video
@@ -89,7 +76,6 @@ export function HeroSection() {
               preload="none"
               poster="/media/images/img-8209.jpg"
               aria-hidden
-              onLoadedData={() => setImageLoaded(true)}
               onError={() => setVideoBgFailed(true)}
             >
               <source src={HERO_VIDEO_SRC} type="video/mp4" />
@@ -108,27 +94,16 @@ export function HeroSection() {
                 !videoBgFailed || prefersReducedMotion ? "opacity-100" : "opacity-0",
               )}
               sizes="100vw"
-              onLoad={() => setImageLoaded(true)}
               onError={() => {
                 const currentIndex = imagePaths.indexOf(currentImagePath)
                 if (currentIndex < imagePaths.length - 1) {
                   setCurrentImagePath(imagePaths[currentIndex + 1])
                 } else {
                   setImageError(true)
-                  setImageLoaded(false)
                 }
               }}
             />
           )}
-          
-          {/* Base scrim while media loads */}
-          <div className={cn(
-            "absolute inset-0 z-0 transition-opacity duration-1000",
-            imageLoaded ? "opacity-0" : "opacity-100",
-            isDark 
-              ? "bg-gradient-to-br from-green-700 via-green-600 to-green-900"
-              : "bg-gradient-to-br from-green-600 via-green-700 to-green-800"
-          )} />
         </div>
         
         {/* Elegant Overlay - Adaptive for light/dark mode */}
@@ -156,8 +131,7 @@ export function HeroSection() {
       <div className={cn(
         "relative z-10 section-shell-inner max-w-[1200px]",
         "w-full",
-        // Mobile: Add top padding to account for fixed header (80px) + extra spacing
-        isMobile ? "pt-24 pb-20" : "py-20 md:py-32",
+        "pt-24 pb-20 md:py-32",
         // Ensure content doesn't overlap when scrolling
         "flex flex-col items-center justify-center"
       )}>
@@ -172,7 +146,7 @@ export function HeroSection() {
           <div
             className={cn(
               "mb-4 md:mb-6 transition-all duration-1000 ease-out",
-              isMobile && "hidden",
+              "hidden md:block",
               isVisible 
                 ? "opacity-100 translate-y-0" 
                 : "opacity-0 translate-y-8"
@@ -181,7 +155,7 @@ export function HeroSection() {
           >
             <p className={cn(
               "font-body font-light tracking-[0.2em] uppercase",
-              isMobile ? "text-xs sm:text-sm" : "text-sm md:text-base",
+              "text-sm md:text-base",
               "text-terra-400/90",
               "drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)]"
             )}>
@@ -222,9 +196,9 @@ export function HeroSection() {
           <p 
             className={cn(
               "font-body font-light tracking-[0.25em] uppercase mb-6 md:mb-8",
-              isMobile && "hidden",
+              "hidden md:block",
               "transition-all duration-1000 ease-out",
-              isMobile ? "text-xs sm:text-sm" : "text-sm md:text-base lg:text-lg",
+              "text-sm md:text-base lg:text-lg",
               "text-terra-300/90",
               "drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)]",
               isVisible 
@@ -241,7 +215,7 @@ export function HeroSection() {
             className={cn(
               "font-display font-light text-white max-w-4xl mx-auto mb-4 md:mb-6",
               "transition-all duration-1000 ease-out",
-              isMobile ? "text-xl sm:text-2xl" : "text-2xl sm:text-3xl md:text-4xl lg:text-5xl",
+              "text-xl sm:text-2xl md:text-4xl lg:text-5xl",
               "leading-tight",
               "drop-shadow-[0_4px_16px_rgba(0,0,0,0.8)]",
               isVisible 
@@ -257,9 +231,9 @@ export function HeroSection() {
           <p 
             className={cn(
               "font-body font-light max-w-2xl mx-auto leading-relaxed mb-8 md:mb-10",
-              isMobile && "hidden",
+              "hidden md:block",
               "transition-all duration-1000 ease-out",
-              isMobile ? "text-sm sm:text-base px-4" : "text-base md:text-lg lg:text-xl px-6",
+              "text-base md:text-lg lg:text-xl px-6",
               isDark ? "text-white/90" : "text-gray-100",
               "drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)]",
               isVisible 
@@ -276,7 +250,7 @@ export function HeroSection() {
             className={cn(
               "flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-4 w-full",
               "transition-all duration-1000 ease-out",
-              isMobile ? "mb-5 px-4" : "mb-8 md:mb-10 px-6",
+              "mb-5 px-4 md:mb-10 md:px-6",
               isVisible 
                 ? "opacity-100 translate-y-0" 
                 : "opacity-0 translate-y-8"
@@ -300,11 +274,10 @@ export function HeroSection() {
             <Link
               href="/menu"
               className={cn(
-                isMobile
-                  ? "inline-flex items-center justify-center min-h-[44px] w-full max-w-sm text-white/90 underline underline-offset-4"
-                  : "inline-flex items-center justify-center min-h-[44px] w-full max-w-sm sm:w-auto border-2 border-white/80 text-white bg-transparent md:hover:bg-white/10",
+                "inline-flex items-center justify-center min-h-[44px] w-full max-w-sm sm:w-auto border-2 border-white/80 text-white bg-transparent md:hover:bg-white/10",
+                "md:border-white/80 border-white/0 underline underline-offset-4 md:no-underline",
                 "tracking-widest uppercase text-xs font-body",
-                isMobile ? "px-4 py-2.5" : "px-8 py-4",
+                "px-8 py-4",
                 "transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-terra-500 focus:ring-offset-2 focus:ring-offset-black/40",
               )}
               onClick={() => trackMenuClick("hero")}
@@ -317,7 +290,7 @@ export function HeroSection() {
           <div
             className={cn(
               "relative z-10 flex w-full flex-col items-center justify-center px-4",
-              isMobile ? "hidden" : "mb-6 md:mb-8"
+              "hidden md:flex md:mb-8"
             )}
             style={{ animationDelay: "0.6s" }}
           >
@@ -327,15 +300,9 @@ export function HeroSection() {
           </div>
 
           {/* Mobile Quick Actions - Proper spacing */}
-          {isMobile && (
-            <div className={cn(
-              "w-full",
-              "hidden",
-              "relative z-10"
-            )}>
+          <div className="relative z-10 w-full md:hidden">
               <QuickActions variant="hero" />
-            </div>
-          )}
+          </div>
 
           {/* Mobile Social Proof Banner - Proper spacing, won't overlap */}
         </div>
