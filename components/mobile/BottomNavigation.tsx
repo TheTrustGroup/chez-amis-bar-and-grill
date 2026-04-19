@@ -22,6 +22,7 @@ export function BottomNavigation() {
   const cartItemCount = getCartItemCount()
   const [isMobile, setIsMobile] = useState(false)
   const [isMobileCartOpen, setIsMobileCartOpen] = useState(false)
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 
   // Check if mobile on mount and resize
   useEffect(() => {
@@ -48,8 +49,19 @@ export function BottomNavigation() {
       window.removeEventListener("mobile-cart-visibility", handleCartVisibility as EventListener)
   }, [])
 
+  useEffect(() => {
+    const handleMenuVisibility = (event: Event) => {
+      const detail = (event as CustomEvent<{ open?: boolean }>).detail
+      setIsMobileMenuOpen(Boolean(detail?.open))
+    }
+
+    window.addEventListener("mobile-menu-visibility", handleMenuVisibility as EventListener)
+    return () =>
+      window.removeEventListener("mobile-menu-visibility", handleMenuVisibility as EventListener)
+  }, [])
+
   // Don't show on desktop - use CSS to hide as well for SSR safety
-  if (!isMobile || isMobileCartOpen) {
+  if (!isMobile || isMobileCartOpen || isMobileMenuOpen) {
     return null
   }
 

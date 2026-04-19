@@ -9,10 +9,9 @@ import { useCartContext } from "@/lib/context/CartContext"
 import { scrollToElement } from "@/lib/utils/smoothScroll"
 import {
   trackCartOpen,
-  trackOrderClick,
   trackReservationClick,
 } from "@/lib/analytics"
-import { CHECKOUT_PATH } from "@/lib/data/siteContact"
+import { CHECKOUT_PATH, PRIMARY_PHONE, buildWhatsAppLink } from "@/lib/data/siteContact"
 import { primaryNavigation } from "@/lib/data/navigation"
 
 const navLinkClass =
@@ -40,11 +39,21 @@ export function Header() {
       document.body.classList.add("menu-open")
       document.body.style.top = `-${scrollY}px`
       document.body.style.touchAction = "none"
+      window.dispatchEvent(
+        new CustomEvent("mobile-menu-visibility", {
+          detail: { open: true },
+        })
+      )
     } else {
       document.body.classList.remove("menu-open")
       const scrollY = document.body.style.top
       document.body.style.top = ""
       document.body.style.touchAction = ""
+      window.dispatchEvent(
+        new CustomEvent("mobile-menu-visibility", {
+          detail: { open: false },
+        })
+      )
       if (scrollY) {
         window.scrollTo(0, parseInt(scrollY || "0", 10) * -1)
       }
@@ -53,6 +62,11 @@ export function Header() {
       document.body.classList.remove("menu-open")
       document.body.style.top = ""
       document.body.style.touchAction = ""
+      window.dispatchEvent(
+        new CustomEvent("mobile-menu-visibility", {
+          detail: { open: false },
+        })
+      )
     }
   }, [isMobileMenuOpen])
 
@@ -76,6 +90,16 @@ export function Header() {
       setIsMobileMenuOpen(false)
     }
   }
+
+  const mobileMenuItems = [
+    { href: "/", label: "Home" },
+    { href: "/menu", label: "Menu" },
+    { href: "/reservations", label: "Reservations" },
+    { href: cartCount > 0 ? CHECKOUT_PATH : "/menu", label: cartCount > 0 ? "Checkout" : "Order" },
+    { href: "/private-events", label: "Private Events" },
+    { href: "/contact", label: "Contact" },
+    { href: "/more", label: "More" },
+  ]
 
   const headerBg = cn(
     "transition-all duration-300",
@@ -192,7 +216,7 @@ export function Header() {
         {isMobileMenuOpen && (
           <nav
             id="mobile-menu"
-            className="md:hidden fixed inset-0 z-50 bg-background flex flex-col px-6 pt-[4.75rem] pb-6 gap-6"
+            className="md:hidden fixed inset-0 z-[120] bg-background flex flex-col px-6 pt-[4.75rem] pb-6 gap-6"
             role="navigation"
             aria-label="Mobile navigation"
           >
@@ -206,7 +230,7 @@ export function Header() {
             </button>
 
             <div className="flex flex-col gap-0 overflow-y-auto flex-1">
-              {primaryNavigation.map((item) => {
+              {mobileMenuItems.map((item) => {
                 const isActive =
                   pathname === item.href || (item.href === "/" && pathname === "/")
                 return (
@@ -230,27 +254,25 @@ export function Header() {
               })}
             </div>
 
-            <div className="mt-auto flex flex-col gap-0 pt-4">
-              <Link
-                href="/reservations"
-                className="btn-primary w-full text-center"
-                onClick={() => {
-                  trackReservationClick("header_mobile_overlay")
-                  setIsMobileMenuOpen(false)
-                }}
-              >
-                Reserve a Table
-              </Link>
-              <Link
-                href={CHECKOUT_PATH}
-                className="btn-accent mt-3 w-full text-center"
-                onClick={() => {
-                  trackOrderClick("header_mobile_overlay")
-                  setIsMobileMenuOpen(false)
-                }}
-              >
-                Order Delivery
-              </Link>
+            <div className="mt-auto pt-4 border-t border-border/60">
+              <div className="flex items-center gap-3">
+                <a
+                  href={`tel:${PRIMARY_PHONE.tel}`}
+                  className="ui-link-row flex-1 justify-center"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  Call
+                </a>
+                <a
+                  href={buildWhatsAppLink()}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="ui-link-row flex-1 justify-center"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  WhatsApp
+                </a>
+              </div>
             </div>
           </nav>
         )}
