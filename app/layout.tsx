@@ -69,10 +69,10 @@ export const metadata: Metadata = {
       "Experience exceptional culinary artistry and warm hospitality in the heart of Accra. Signature Attieke dishes, Ivorian-Ghanaian fusion cuisine, fine dining, and private events.",
     images: [
       {
-        url: "/images/og-image.jpg",
+        url: "/media/images/img-0821-2.jpg",
         width: 1200,
         height: 630,
-        alt: "Chez Amis Bar and Grill - Premium Dining Experience",
+        alt: "Chez Amis Bar and Grill",
       },
     ],
   },
@@ -81,7 +81,7 @@ export const metadata: Metadata = {
     title: "Chez Amis Restaurant",
     description:
       "Experience exceptional culinary artistry and warm hospitality. Signature Attieke dishes, Ivorian-Ghanaian fusion cuisine.",
-    images: ["/images/og-image.jpg"],
+    images: ["/media/images/img-0821-2.jpg"],
     creator: "@chezamisrestaurant",
   },
   robots: {

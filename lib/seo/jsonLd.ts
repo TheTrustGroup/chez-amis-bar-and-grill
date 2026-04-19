@@ -14,7 +14,7 @@ export function buildRestaurantJsonLd() {
     '@context': 'https://schema.org',
     '@type': 'Restaurant',
     name: 'Chez Amis Bar and Grill',
-    image: [`${SITE_URL}/images/og-image.jpg`],
+    image: [`${SITE_URL}/media/images/img-0821-2.jpg`],
     '@id': SITE_URL,
     url: SITE_URL,
     telephone: PHONE_LINES.map((p) => p.tel),
@@ -58,7 +58,7 @@ export function buildOrganizationJsonLd() {
     name: 'Chez Amis Bar and Grill',
     url: SITE_URL,
     logo: `${SITE_URL}/logo.png`,
-    image: `${SITE_URL}/images/og-image.jpg`,
+    image: `${SITE_URL}/media/images/img-0821-2.jpg`,
     contactPoint: [
       {
         '@type': 'ContactPoint',

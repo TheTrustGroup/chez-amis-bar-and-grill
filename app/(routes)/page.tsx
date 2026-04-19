@@ -41,10 +41,10 @@ export const metadata: Metadata = {
     siteName: "Chez Amis Restaurant",
     images: [
       {
-        url: "/images/og-image.jpg",
+        url: "/media/images/img-0821-2.jpg",
         width: 1200,
         height: 630,
-        alt: "Chez Amis Bar and Grill - Premium Dining Experience",
+        alt: "Chez Amis Bar and Grill",
       },
     ],
     locale: "en_US",
@@ -54,7 +54,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Chez Amis Restaurant",
     description: "Experience exceptional culinary artistry and warm hospitality. Signature Attieke dishes, Ivorian-Ghanaian fusion cuisine.",
-    images: ["/images/og-image.jpg"],
+    images: ["/media/images/img-0821-2.jpg"],
   },
   alternates: {
     canonical: siteUrl,
