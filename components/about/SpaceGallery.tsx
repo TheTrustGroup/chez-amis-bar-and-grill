@@ -130,7 +130,7 @@ export function SpaceGallery() {
                 </p>
               </div>
               {/* Hover Overlay */}
-              <div className="absolute inset-0 bg-terra-500/0 group-hover:bg-terra-500/10 transition-colors duration-500" aria-hidden />
+              <div className="absolute inset-0 bg-terra-500/0 md:group-hover:bg-terra-500/10 transition-colors duration-500" aria-hidden />
             </button>
           ))}
         </div>
@@ -154,7 +154,7 @@ export function SpaceGallery() {
               <Button
                 variant="ghost"
                 size="icon"
-                className="absolute left-4 top-1/2 -translate-y-1/2 z-10 h-12 w-12 rounded-full bg-background/80 backdrop-blur-sm hover:bg-background border border-border/50"
+                className="absolute left-4 top-1/2 -translate-y-1/2 z-10 h-12 w-12 rounded-full bg-background/80 backdrop-blur-sm md:hover:bg-background border border-border/50"
                 onClick={(e) => {
                   e.stopPropagation()
                   goToPrevious()
@@ -166,7 +166,7 @@ export function SpaceGallery() {
               <Button
                 variant="ghost"
                 size="icon"
-                className="absolute right-4 top-1/2 -translate-y-1/2 z-10 h-12 w-12 rounded-full bg-background/80 backdrop-blur-sm hover:bg-background border border-border/50"
+                className="absolute right-4 top-1/2 -translate-y-1/2 z-10 h-12 w-12 rounded-full bg-background/80 backdrop-blur-sm md:hover:bg-background border border-border/50"
                 onClick={(e) => {
                   e.stopPropagation()
                   goToNext()
@@ -183,7 +183,7 @@ export function SpaceGallery() {
                   e.stopPropagation()
                   closeLightbox()
                 }}
-                className="absolute top-4 right-4 z-10 min-h-[44px] min-w-[44px] p-2 rounded-full bg-background/80 backdrop-blur-sm hover:bg-background transition-colors flex items-center justify-center"
+                className="absolute top-4 right-4 z-10 min-h-[44px] min-w-[44px] p-2 rounded-full bg-background/80 backdrop-blur-sm md:hover:bg-background transition-colors flex items-center justify-center"
                 aria-label="Close gallery"
               >
                 <X className="h-5 w-5" aria-hidden />

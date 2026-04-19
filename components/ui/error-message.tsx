@@ -24,7 +24,7 @@ export function ErrorMessage({ message, onDismiss, className }: ErrorMessageProp
       {onDismiss && (
         <button
           onClick={onDismiss}
-          className="flex-shrink-0 text-red-600 hover:text-red-800 transition-colors"
+          className="flex-shrink-0 text-red-600 md:hover:text-red-800 transition-colors"
           aria-label="Dismiss error"
         >
           <X className="h-4 w-4" />

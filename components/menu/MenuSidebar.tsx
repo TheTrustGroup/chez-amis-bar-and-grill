@@ -40,7 +40,7 @@ export function MenuSidebar({
                   "focus:outline-none focus:ring-2 focus:ring-terra-500 focus:ring-offset-2 focus:ring-offset-transparent rounded-sm",
                   isActive
                     ? "text-terra-600 font-body font-medium"
-                    : "text-muted-foreground hover:text-foreground font-body font-light"
+                    : "text-muted-foreground md:hover:text-foreground font-body font-light"
                 )}
                 aria-current={isActive ? "page" : undefined}
               >
@@ -86,7 +86,7 @@ export function MenuSidebar({
                       "focus:outline-none focus:ring-2 focus:ring-terra-500 focus:ring-offset-2 focus:ring-offset-transparent rounded-sm",
                       isActive
                         ? "text-terra-600"
-                        : "text-muted-foreground hover:text-foreground"
+                        : "text-muted-foreground md:hover:text-foreground"
                     )}
                   >
                     <Icon className="h-4 w-4" />
@@ -117,7 +117,7 @@ export function MenuSidebar({
                 <Button
                   variant="outline"
                   size="sm"
-                  className="w-full font-body font-light tracking-wide border-terra-500/60 text-foreground hover:bg-terra-500/10"
+                  className="w-full font-body font-light tracking-wide border-terra-500/60 text-foreground md:hover:bg-terra-500/10"
                 >
                   Review Order
                 </Button>

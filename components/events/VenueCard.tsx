@@ -51,7 +51,7 @@ const venues: Venue[] = [
 export function VenueCard({ venue }: { venue: Venue }) {
   const Icon = venue.icon
   return (
-    <Card className="group relative overflow-hidden border-0 bg-card/50 backdrop-blur-sm hover:shadow-elegant transition-all duration-500 h-full">
+    <Card className="group relative overflow-hidden border-0 bg-card/50 backdrop-blur-sm md:hover:shadow-elegant transition-all duration-500 h-full">
       <div className="relative w-full h-[300px] md:h-[350px] overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-green-600 via-green-700 to-green-900"></div>
         {/* Gradient Overlay */}

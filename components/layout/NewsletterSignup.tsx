@@ -71,7 +71,7 @@ export function NewsletterSignup() {
             <Button
               type="submit"
               disabled={isSubmitting}
-              className="bg-terra-500 text-neutral-900 hover:bg-terra-600 active:bg-terra-700 font-body font-light tracking-wide px-6 min-h-[44px] touch-manipulation focus:outline-none focus:ring-2 focus:ring-terra-500 focus:ring-offset-2 focus:ring-offset-green-600"
+              className="bg-terra-500 text-neutral-900 md:hover:bg-terra-600 active:bg-terra-700 font-body font-light tracking-wide px-6 min-h-[44px] touch-manipulation focus:outline-none focus:ring-2 focus:ring-terra-500 focus:ring-offset-2 focus:ring-offset-green-600"
             >
               {isSubmitting ? "..." : "Subscribe"}
             </Button>

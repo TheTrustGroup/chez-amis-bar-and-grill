@@ -180,7 +180,7 @@ export function OrderTypeFields({
             Delivery Time
           </Label>
           <div className="space-y-3">
-            <label className="flex items-center gap-3 p-4 rounded-lg border border-border/50 hover:border-terra-500/50 hover:bg-terra-500/5 cursor-pointer transition-all">
+            <label className="flex items-center gap-3 p-4 rounded-lg border border-border/50 md:hover:border-terra-500/50 md:hover:bg-terra-500/5 cursor-pointer transition-all">
               <input
                 type="radio"
                 name="deliveryTime"
@@ -191,7 +191,7 @@ export function OrderTypeFields({
               />
               <span className="font-body font-light">ASAP (35-45 minutes)</span>
             </label>
-            <label className="flex items-center gap-3 p-4 rounded-lg border border-border/50 hover:border-terra-500/50 hover:bg-terra-500/5 cursor-pointer transition-all">
+            <label className="flex items-center gap-3 p-4 rounded-lg border border-border/50 md:hover:border-terra-500/50 md:hover:bg-terra-500/5 cursor-pointer transition-all">
               <input
                 type="radio"
                 name="deliveryTime"

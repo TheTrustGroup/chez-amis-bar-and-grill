@@ -7,7 +7,7 @@ import { PHONE_LINES, SITE_EMAIL } from "@/lib/data/siteContact"
 export function ContactInfo() {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 grid-gap-section max-w-4xl mx-auto">
-      <Card className="border border-border/30 bg-background hover:shadow-elegant hover:border-terra-500/30 transition-all duration-300 h-full flex flex-col">
+      <Card className="ui-card-compact h-full flex flex-col bg-background md:hover:border-terra-500/30 md:hover:shadow-md transition-all duration-300">
         <CardContent className="card-padding space-y-5 flex-1 flex flex-col">
           <div className="flex items-center gap-3 mb-5">
             <div className="p-2.5 rounded-lg bg-terra-500/10 flex-shrink-0">
@@ -31,7 +31,7 @@ export function ContactInfo() {
                     <p className="text-xs text-neutral-400 uppercase tracking-widest font-body">
                       {p.label}
                     </p>
-                    <p className="text-neutral-800 font-body group-hover:text-terra-500 transition-colors">
+                    <p className="text-neutral-800 font-body md:group-hover:text-terra-500 transition-colors">
                       {p.display}
                     </p>
                   </div>
@@ -48,7 +48,7 @@ export function ContactInfo() {
               </div>
               <a
                 href={`mailto:${SITE_EMAIL}`}
-                className="block text-base text-foreground font-body font-light hover:text-terra-600 transition-colors break-all mb-4"
+                className="block text-base text-foreground font-body font-light md:hover:text-terra-600 transition-colors break-all mb-4"
               >
                 {SITE_EMAIL}
               </a>
@@ -57,7 +57,7 @@ export function ContactInfo() {
         </CardContent>
       </Card>
 
-      <Card className="border border-border/30 bg-background hover:shadow-elegant hover:border-terra-500/30 transition-all duration-300 h-full flex flex-col">
+      <Card className="ui-card-compact h-full flex flex-col bg-background md:hover:border-terra-500/30 md:hover:shadow-md transition-all duration-300">
         <CardContent className="card-padding space-y-5 flex-1 flex flex-col">
           <div className="flex items-center gap-3 mb-5">
             <div className="p-2.5 rounded-lg bg-terra-500/10 flex-shrink-0">

@@ -1,7 +1,7 @@
 "use client"
 
 import { ImageWithFallback } from "@/components/ui/image-with-fallback"
-import { Coffee, Droplets, Beer, Wine, GlassWater, Sparkles, ThermometerSun, Snowflake } from "lucide-react"
+import { Coffee, Droplets, Beer, Wine, GlassWater, Flame, ThermometerSun, Snowflake } from "lucide-react"
 import { Beverage } from "@/lib/types/beverage"
 import type { MenuItem } from "@/lib/data/menuData"
 import { DISH_PLACEHOLDER } from "@/lib/data/menuData"
@@ -16,13 +16,13 @@ interface BeverageCardProps {
 const categoryIcons: Record<string, React.ReactNode> = {
   'hot-beverages': <Coffee className="w-5 h-5" />,
   'fresh-juices-smoothies': <Droplets className="w-5 h-5" />,
-  'soft-drinks': <Sparkles className="w-5 h-5" />,
+  'soft-drinks': <GlassWater className="w-5 h-5" />,
   'beers': <Beer className="w-5 h-5" />,
   'wines': <Wine className="w-5 h-5" />,
   'cocktails': <GlassWater className="w-5 h-5" />,
   'spirits': <Wine className="w-5 h-5" />,
   'mocktails': <GlassWater className="w-5 h-5" />,
-  'shisha': <Sparkles className="w-5 h-5" />,
+  'shisha': <Flame className="w-5 h-5" />,
 }
 
 const temperatureIcons: Record<string, React.ReactNode> = {
@@ -59,11 +59,11 @@ export function BeverageCard({ beverage }: BeverageCardProps) {
   }
 
   return (
-    <div className="bg-white rounded-lg border border-gray-200 p-6 hover:shadow-lg transition-all duration-300 group">
+    <div className="bg-white rounded-lg border border-gray-200 p-6 md:hover:shadow-lg transition-all duration-300 group">
       {/* Header with Icon and Price */}
       <div className="flex items-start justify-between mb-3">
         <div className="flex items-center gap-2">
-          <div className="text-amber-600 group-hover:text-amber-700 transition-colors">
+          <div className="text-amber-600 md:group-hover:text-amber-700 transition-colors">
             {categoryIcons[beverage.category] || <GlassWater className="w-5 h-5" />}
           </div>
           <h4 className="text-lg font-display text-gray-900">{beverage.name}</h4>
@@ -174,7 +174,7 @@ export function BeverageCard({ beverage }: BeverageCardProps) {
         className={cn(
           "w-full mt-4 border-2 rounded-md transition-all duration-200",
           beverage.available !== false
-            ? "border-amber-500 text-amber-700 hover:bg-amber-500 hover:text-white"
+            ? "border-amber-500 text-amber-700 md:hover:bg-amber-500 md:hover:text-white"
             : "border-gray-300 text-gray-400 cursor-not-allowed"
         )}
       >

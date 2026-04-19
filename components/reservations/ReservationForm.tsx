@@ -14,6 +14,7 @@ import Link from "next/link"
 import { Phone, MessageCircle, CheckCircle2 } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { useTheme } from "@/lib/context/ThemeContext"
+import { buildWhatsAppLink, WHATSAPP_PHONE } from "@/lib/data/siteContact"
 
 export function ReservationForm() {
   const router = useRouter()
@@ -35,6 +36,9 @@ export function ReservationForm() {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isSubmitted, setIsSubmitted] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const whatsappReservationLink = buildWhatsAppLink(
+    "Hello Chez Amis, I want to make a reservation."
+  )
 
   const handleFieldChange = (field: string, value: string | SeatingPreference | null) => {
     setFormData((prev) => ({ ...prev, [field]: value }))
@@ -211,8 +215,8 @@ export function ReservationForm() {
             type="button"
             className={cn(
               "flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-[var(--border)] text-lg font-medium transition-colors",
-              "hover:bg-green-50 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2",
-              isDark && "border-green-700 hover:bg-green-700/50 text-white"
+              "md:hover:bg-green-50 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2",
+              isDark && "border-green-700 md:hover:bg-green-700/50 text-white"
             )}
             aria-label="Decrease party size"
             onClick={() => {
@@ -236,8 +240,8 @@ export function ReservationForm() {
             type="button"
             className={cn(
               "flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-[var(--border)] text-lg font-medium transition-colors",
-              "hover:bg-green-50 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2",
-              isDark && "border-green-700 hover:bg-green-700/50 text-white"
+              "md:hover:bg-green-50 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2",
+              isDark && "border-green-700 md:hover:bg-green-700/50 text-white"
             )}
             aria-label="Increase party size"
             onClick={() => {
@@ -251,7 +255,7 @@ export function ReservationForm() {
         </div>
         {partySizeNum >= 8 && (
           <p className="mt-3 text-center text-sm font-body text-terra-600 dark:text-terra-400">
-            For parties of 8+, please call us to confirm seating — we’re happy to help.
+            For parties of 8+, please call us to confirm seating. We are happy to help.
           </p>
         )}
         {showLargePartyNote && (
@@ -266,7 +270,7 @@ export function ReservationForm() {
               href="/contact"
               className={cn(
                 "underline underline-offset-2 transition-colors duration-300",
-                isDark ? "text-terra-400 hover:text-terra-300" : "text-terra-600 hover:text-terra-700"
+                isDark ? "text-terra-400 md:hover:text-terra-300" : "text-terra-600 md:hover:text-terra-700"
               )}
             >
               contact us
@@ -488,9 +492,9 @@ export function ReservationForm() {
           className={cn(
             "w-full font-body font-semibold tracking-wide text-base md:text-lg",
             "px-8 py-3 md:py-4 min-h-[52px] md:min-h-[56px]",
-            "transition-all duration-300 hover:scale-[1.02] active:scale-[0.98]",
-            "shadow-xl hover:shadow-2xl hover:shadow-terra-500/30",
-            "disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
+            "transition-all duration-300 md:hover:scale-[1.02] active:scale-[0.98]",
+            "shadow-xl md:hover:shadow-2xl md:hover:shadow-terra-500/30",
+            "disabled:opacity-50 disabled:cursor-not-allowed disabled:md:hover:scale-100"
           )}
         >
           {isSubmitting ? (
@@ -527,10 +531,10 @@ export function ReservationForm() {
             className={cn(
               "flex items-center justify-center gap-2 px-5 py-2.5 rounded-lg border transition-all duration-300",
               "text-sm font-body font-medium min-h-[44px] touch-manipulation",
-              "hover:scale-105 active:scale-95",
+              "md:hover:scale-105 active:scale-95",
               isDark
-                ? "border-green-700/50 text-white/70 hover:border-terra-500/50 hover:bg-terra-500/10 hover:text-terra-400"
-                : "border-border/50 text-foreground hover:border-terra-500/50 hover:bg-terra-500/5"
+                ? "border-green-700/50 text-white/70 md:hover:border-terra-500/50 md:hover:bg-terra-500/10 md:hover:text-terra-400"
+                : "border-border/50 text-foreground md:hover:border-terra-500/50 md:hover:bg-terra-500/5"
             )}
             aria-label="Call us to make a reservation"
           >
@@ -538,21 +542,21 @@ export function ReservationForm() {
             Call Us
           </a>
           <a
-            href="https://wa.me/233557032312"
+            href={whatsappReservationLink}
             target="_blank"
             rel="noopener noreferrer"
             className={cn(
               "flex items-center justify-center gap-2 px-5 py-2.5 rounded-lg border transition-all duration-300",
               "text-sm font-body font-medium min-h-[44px] touch-manipulation",
-              "hover:scale-105 active:scale-95",
+              "md:hover:scale-105 active:scale-95",
               isDark
-                ? "border-green-700/50 text-white/70 hover:border-terra-500/50 hover:bg-terra-500/10 hover:text-terra-400"
-                : "border-border/50 text-foreground hover:border-terra-500/50 hover:bg-terra-500/5"
+                ? "border-green-700/50 text-white/70 md:hover:border-terra-500/50 md:hover:bg-terra-500/10 md:hover:text-terra-400"
+                : "border-border/50 text-foreground md:hover:border-terra-500/50 md:hover:bg-terra-500/5"
             )}
             aria-label="Reserve via WhatsApp"
           >
             <MessageCircle className="h-4 w-4" />
-            WhatsApp
+            WhatsApp ({WHATSAPP_PHONE.display})
           </a>
         </div>
       </div>

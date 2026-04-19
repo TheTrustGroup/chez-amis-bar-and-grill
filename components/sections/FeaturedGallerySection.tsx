@@ -85,7 +85,7 @@ export function FeaturedGallerySection() {
                 onClick={() => openModal(item)}
                 className={cn(
                   "group relative aspect-square rounded-lg overflow-hidden cursor-pointer",
-                  "shadow-lg hover:shadow-xl transition-all duration-300",
+                  "shadow-lg md:hover:shadow-xl transition-all duration-300",
                   "bg-green-600" // Fallback background
                 )}
               >
@@ -105,7 +105,7 @@ export function FeaturedGallerySection() {
                     alt={item.alt}
                     fill
                     sizes="(max-width: 768px) 50vw, 25vw"
-                    className="object-cover transition-transform duration-500 group-hover:scale-110"
+                    className="object-cover transition-transform duration-500 md:group-hover:scale-110"
                     loading="lazy"
                     fallbackType="dish"
                     fallbackSrc="/media/images/img-0821-2.jpg"
@@ -113,12 +113,12 @@ export function FeaturedGallerySection() {
                 )}
 
                 {/* Overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent opacity-0 md:group-hover:opacity-100 transition-opacity duration-300" />
 
                 {/* Video Play Button */}
                 {item.type === "video" && (
                   <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="w-12 h-12 md:w-16 md:h-16 bg-terra-500/90 backdrop-blur-sm rounded-full flex items-center justify-center group-hover:scale-110 transition-transform shadow-lg">
+                    <div className="w-12 h-12 md:w-16 md:h-16 bg-terra-500/90 backdrop-blur-sm rounded-full flex items-center justify-center md:group-hover:scale-110 transition-transform shadow-lg">
                       <Play className="w-6 h-6 md:w-8 md:h-8 text-white ml-1" fill="white" />
                     </div>
                   </div>
@@ -142,7 +142,7 @@ export function FeaturedGallerySection() {
           )} style={{ animationDelay: "0.3s" }}>
             <Link
               href="/gallery"
-              className="bg-terra-500 text-white hover:bg-terra-600 font-body font-medium tracking-widest uppercase text-xs px-8 py-4 rounded-full transition-all duration-200 inline-flex items-center gap-2"
+              className="bg-terra-500 text-white md:hover:bg-terra-600 font-body font-medium tracking-widest uppercase text-xs px-8 py-4 rounded-full transition-all duration-200 inline-flex items-center gap-2"
             >
               View Full Gallery
               <ArrowRight className="w-4 h-4" />
@@ -164,7 +164,7 @@ export function FeaturedGallerySection() {
           {/* Close Button */}
           <button
             onClick={closeModal}
-            className="absolute top-4 right-4 z-50 bg-white/10 backdrop-blur-sm p-3 rounded-full hover:bg-white/20 transition-colors min-h-[44px] min-w-[44px] flex items-center justify-center"
+            className="absolute top-4 right-4 z-50 bg-white/10 backdrop-blur-sm p-3 rounded-full md:hover:bg-white/20 transition-colors min-h-[44px] min-w-[44px] flex items-center justify-center"
             aria-label="Close featured media"
           >
             <X className="w-6 h-6 text-white" />

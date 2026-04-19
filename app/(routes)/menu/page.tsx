@@ -1,11 +1,10 @@
 "use client"
 
 import { useState, useEffect, useRef, Suspense } from "react"
-import { Search, ShoppingBag, AlertCircle, UtensilsCrossed, Grid3x3, List } from "lucide-react"
+import { Search, ShoppingBag } from "lucide-react"
 import { menuCategories, itemMatchesDietaryFilters } from "@/lib/data/menuData"
 import { PremiumMenuItem } from "@/components/menu/PremiumMenuItem"
 import { PremiumMenuCard } from "@/components/menu/PremiumMenuCard"
-import { CategoryNav } from "@/components/menu/CategoryNav"
 import { CartSidebar } from "@/components/menu/CartSidebar"
 import { MobileCart } from "@/components/menu/MobileCart"
 import { PrintMenu } from "@/components/menu/PrintMenu"
@@ -14,7 +13,6 @@ import { MenuItemSkeleton } from "@/components/ui/skeleton"
 import { useMenuFilters } from "@/lib/hooks/useMenuFilters"
 import { useOrder } from "@/lib/hooks/useOrder"
 import { cn } from "@/lib/utils"
-import { ScrollArea } from "@/components/ui/scroll-area"
 import { useTheme } from "@/lib/context/ThemeContext"
 import { PHONE_DISPLAY_ALL, SITE_EMAIL } from "@/lib/data/siteContact"
 
@@ -23,7 +21,7 @@ export default function MenuPage() {
   const [showAllergenInfo, setShowAllergenInfo] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
   const [activeCategory, setActiveCategory] = useState<string | null>(null)
-  const [viewMode, setViewMode] = useState<"list" | "grid">("grid")
+  const viewMode: "list" | "grid" = "grid"
   const categoryRefs = useRef<{ [key: string]: HTMLElement | null }>({})
   const { resolvedTheme } = useTheme()
   const isDark = resolvedTheme === "dark"
@@ -33,7 +31,6 @@ export default function MenuPage() {
     filteredItems,
     updateSearchQuery,
     setActiveCategory: setFilterCategory,
-    toggleDietaryFilter,
     clearFilters,
   } = useMenuFilters()
 
@@ -108,19 +105,19 @@ export default function MenuPage() {
         </div>
         <div className="relative z-10 text-center px-6 max-w-4xl mx-auto">
           <h1 className={cn(
-            "hero-title tracking-tight",
-            "mb-6 md:mb-8 text-white drop-shadow-[0_4px_20px_rgba(0,0,0,0.8)]",
+            "nav-page-heading md:text-5xl tracking-tight",
+            "mb-4 md:mb-6 text-white drop-shadow-[0_4px_20px_rgba(0,0,0,0.8)]",
             "animate-fade-in-up"
           )}>
             Our Menu
           </h1>
-          <div className="w-24 md:w-32 h-0.5 bg-gradient-to-r from-transparent via-terra-500 to-transparent mx-auto mb-6 md:mb-8 shadow-lg shadow-terra-500/50" />
+          <div className="w-20 md:w-28 h-0.5 bg-gradient-to-r from-transparent via-terra-500 to-transparent mx-auto mb-4 md:mb-6 shadow-lg shadow-terra-500/50" />
           <p className={cn(
-            "text-lg md:text-xl lg:text-2xl font-body font-light max-w-3xl mx-auto leading-relaxed",
+            "nav-page-subheading md:text-lg max-w-3xl mx-auto leading-relaxed",
             "text-white/90 drop-shadow-[0_2px_10px_rgba(0,0,0,0.8)]",
             "animate-fade-in-up"
           )} style={{ animationDelay: "0.2s" }}>
-            Seasonal selections, crafted with passion
+            Browse dishes and add to cart
           </p>
         </div>
       </section>
@@ -128,11 +125,11 @@ export default function MenuPage() {
       {/* Compact mobile page heading */}
       <section className="section-shell py-6 md:hidden">
         <div className="section-shell-inner">
-          <h1 className={cn("text-2xl font-display font-light", isDark ? "text-white" : "text-foreground")}>
+          <h1 className={cn("nav-page-heading", isDark ? "text-white" : "text-foreground")}>
             Menu
           </h1>
-          <p className={cn("mt-1 text-sm font-body font-light", isDark ? "text-white/70" : "text-muted-foreground")}>
-            Browse and add your items quickly.
+          <p className={cn("nav-page-subheading", isDark ? "text-white/75" : "text-muted-foreground")}>
+            Browse dishes and add to cart.
           </p>
         </div>
       </section>
@@ -167,39 +164,6 @@ export default function MenuPage() {
 
           {/* View Mode Toggle & Actions */}
           <div className="flex items-center gap-3">
-            {/* View Mode Toggle - Desktop Only */}
-            <div className={cn(
-              "hidden md:flex items-center gap-2 p-1 rounded-lg border transition-colors duration-300",
-              isDark 
-                ? "bg-green-600/50 border-green-700/50" 
-                : "bg-muted/50 border-border/50"
-            )}>
-              <button
-                onClick={() => setViewMode("grid")}
-                className={cn(
-                  "p-2 rounded transition-all duration-300 hover:scale-110 active:scale-95",
-                  viewMode === "grid"
-                    ? "bg-terra-500 text-neutral-900 shadow-md"
-                    : isDark ? "text-white/60 hover:text-white" : "text-muted-foreground hover:text-foreground"
-                )}
-                aria-label="Grid view"
-              >
-                <Grid3x3 className="h-4 w-4" />
-              </button>
-              <button
-                onClick={() => setViewMode("list")}
-                className={cn(
-                  "p-2 rounded transition-all duration-300 hover:scale-110 active:scale-95",
-                  viewMode === "list"
-                    ? "bg-terra-500 text-neutral-900 shadow-md"
-                    : isDark ? "text-white/60 hover:text-white" : "text-muted-foreground hover:text-foreground"
-                )}
-                aria-label="List view"
-              >
-                <List className="h-4 w-4" />
-              </button>
-            </div>
-
             {/* Allergen Info (print lives in hero) */}
             <div className="flex items-center gap-3">
               <button
@@ -207,8 +171,8 @@ export default function MenuPage() {
                 className={cn(
                   "text-xs md:text-sm transition-colors min-h-[32px] px-3 py-1.5 rounded-md",
                   isDark 
-                    ? "text-white/70 hover:text-white hover:bg-green-700/50"
-                    : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
+                    ? "text-white/70 md:hover:text-white md:hover:bg-green-700/50 active:bg-green-700/50"
+                    : "text-muted-foreground md:hover:text-foreground md:hover:bg-muted/50 active:bg-muted/50"
                 )}
                 aria-label="View allergen information"
               >
@@ -239,8 +203,8 @@ export default function MenuPage() {
                   activeCategory === null
                     ? "bg-green-500 text-white shadow-sm"
                     : isDark
-                    ? "bg-green-800/80 text-white/80 hover:text-white"
-                    : "bg-neutral-100 text-neutral-500 hover:text-neutral-700"
+                    ? "bg-green-800/80 text-white/80 md:hover:text-white"
+                    : "bg-neutral-100 text-neutral-500 md:hover:text-neutral-700"
                 )}
                 aria-label="View all categories"
               >
@@ -272,8 +236,8 @@ export default function MenuPage() {
                       activeCategory === category.id
                         ? "bg-green-500 text-white shadow-sm"
                         : isDark
-                        ? "bg-green-800/80 text-white/80 hover:text-white"
-                        : "bg-neutral-100 text-neutral-500 hover:text-neutral-700"
+                        ? "bg-green-800/80 text-white/80 md:hover:text-white"
+                        : "bg-neutral-100 text-neutral-500 md:hover:text-neutral-700"
                     )}
                     title={category.name}
                     aria-label={`View ${category.name} category`}
@@ -287,20 +251,7 @@ export default function MenuPage() {
         </div>
 
         {/* Three-Column Layout */}
-        <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 lg:gap-12">
-          {/* Left Sidebar - Category Navigation (Desktop) */}
-          <div className="hidden lg:block lg:col-span-1">
-            <CategoryNav
-              activeCategory={activeCategory}
-              onCategoryChange={(id) => {
-                setFilterCategory(id)
-                setActiveCategory(id)
-              }}
-              dietaryFilters={filters.dietaryFilters}
-              onToggleDietaryFilter={toggleDietaryFilter}
-            />
-          </div>
-
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 lg:gap-10">
           {/* Main Content - Menu Items */}
           <div className="lg:col-span-3">
             {/* View Mode: Grid or List */}
@@ -584,7 +535,7 @@ export default function MenuPage() {
           onClick={() => setShowMobileCart(true)}
           className={cn(
             "lg:hidden fixed bottom-[7.25rem] right-4 z-40 flex h-14 w-14 items-center justify-center rounded-full shadow-lg",
-            "bg-terra-500 text-white hover:bg-terra-600 active:scale-95 transition-all duration-200",
+            "bg-terra-500 text-white md:hover:bg-terra-600 active:bg-terra-600 active:scale-95 transition-all duration-200",
             "shadow-[var(--shadow-terra)] focus:outline-none focus:ring-2 focus:ring-terra-500 focus:ring-offset-2"
           )}
           aria-label={`View your selection (${itemCount} items)`}

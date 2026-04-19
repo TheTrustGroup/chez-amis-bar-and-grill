@@ -15,10 +15,10 @@ export default function CateringPage() {
       <section className="section-shell bg-gradient-to-b from-green-600 via-green-700 to-green-600 text-white">
         <div className="section-shell-inner">
           <div className="max-w-3xl mx-auto text-center space-y-6">
-            <h1 className="hero-title tracking-tight">
+            <h1 className="nav-page-heading md:text-5xl tracking-tight">
               Catering Services
             </h1>
-            <p className="text-lg md:text-xl font-body font-light text-white/80">
+            <p className="nav-page-subheading text-white/85 md:text-lg">
               Bring the authentic flavors of Chez Amis to your event, office, or special occasion
             </p>
           </div>
@@ -46,7 +46,7 @@ export default function CateringPage() {
 
             {/* Services */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="rounded-sm border border-border/30 bg-neutral-50 dark:bg-green-600/40 dark:border-green-700/50 p-6 space-y-4">
+              <div className="ui-card-compact p-6 space-y-4 dark:bg-green-600/40 dark:border-green-700/50">
                 <div className="flex items-center gap-3">
                   <div className="p-3 rounded-full bg-terra-500/10">
                     <Users className="h-6 w-6 text-terra-600" />
@@ -60,7 +60,7 @@ export default function CateringPage() {
                 </p>
               </div>
 
-              <div className="rounded-sm border border-border/30 bg-neutral-50 dark:bg-green-600/40 dark:border-green-700/50 p-6 space-y-4">
+              <div className="ui-card-compact p-6 space-y-4 dark:bg-green-600/40 dark:border-green-700/50">
                 <div className="flex items-center gap-3">
                   <div className="p-3 rounded-full bg-terra-500/10">
                     <Calendar className="h-6 w-6 text-terra-600" />
@@ -74,7 +74,7 @@ export default function CateringPage() {
                 </p>
               </div>
 
-              <div className="rounded-sm border border-border/30 bg-neutral-50 dark:bg-green-600/40 dark:border-green-700/50 p-6 space-y-4">
+              <div className="ui-card-compact p-6 space-y-4 dark:bg-green-600/40 dark:border-green-700/50">
                 <div className="flex items-center gap-3">
                   <div className="p-3 rounded-full bg-terra-500/10">
                     <Utensils className="h-6 w-6 text-terra-600" />
@@ -88,7 +88,7 @@ export default function CateringPage() {
                 </p>
               </div>
 
-              <div className="rounded-sm border border-border/30 bg-neutral-50 dark:bg-green-600/40 dark:border-green-700/50 p-6 space-y-4">
+              <div className="ui-card-compact p-6 space-y-4 dark:bg-green-600/40 dark:border-green-700/50">
                 <div className="flex items-center gap-3">
                   <div className="p-3 rounded-full bg-terra-500/10">
                     <Phone className="h-6 w-6 text-terra-600" />
@@ -104,7 +104,7 @@ export default function CateringPage() {
             </div>
 
             {/* Contact Section */}
-            <div className="bg-green-600 text-white rounded-lg p-8 md:p-12 space-y-6">
+            <div className="ui-card-compact bg-green-600 text-white border-green-500/40 p-8 md:p-10 space-y-6">
               <h2 className="text-2xl md:text-3xl font-display font-light">
                 Request a Catering Quote
               </h2>
@@ -119,25 +119,25 @@ export default function CateringPage() {
                     <div className="space-y-1">
                       <a
                         href="tel:+233557032312"
-                        className="block text-terra-400 hover:text-terra-300 transition-colors"
+                        className="block text-terra-400 md:hover:text-terra-300 transition-colors"
                       >
                         +233 055 703 2312
                       </a>
                       <a
                         href="tel:+233557032335"
-                        className="block text-terra-400 hover:text-terra-300 transition-colors"
+                        className="block text-terra-400 md:hover:text-terra-300 transition-colors"
                       >
                         +233 055 703 2335
                       </a>
                     <a
                       href="tel:+233243952339"
-                        className="block text-terra-400 hover:text-terra-300 transition-colors"
+                        className="block text-terra-400 md:hover:text-terra-300 transition-colors"
                     >
                         +233 024 395 2339
                       </a>
                       <a
                         href="tel:+233502432037"
-                        className="block text-terra-400 hover:text-terra-300 transition-colors"
+                        className="block text-terra-400 md:hover:text-terra-300 transition-colors"
                       >
                         +233 050 243 2037
                     </a>
@@ -150,7 +150,7 @@ export default function CateringPage() {
                     <p className="font-body font-medium text-white">Email</p>
                     <a
                       href="mailto:chez@chezamisrestaurant.com"
-                      className="text-terra-400 hover:text-terra-300 transition-colors"
+                      className="text-terra-400 md:hover:text-terra-300 transition-colors"
                     >
                       chez@chezamisrestaurant.com
                     </a>
@@ -161,7 +161,7 @@ export default function CateringPage() {
                 <Link href="/contact">
                   <Button
                     variant="outline"
-                    className="border-2 border-terra-500/50 text-terra-400 hover:bg-terra-500/10 hover:border-terra-500 font-body font-light"
+                    className="border-2 border-terra-500/50 text-terra-400 md:hover:bg-terra-500/10 active:bg-terra-500/10 md:hover:border-terra-500 active:border-terra-500 font-body font-light"
                   >
                     Contact Us for Catering
                   </Button>
@@ -170,7 +170,7 @@ export default function CateringPage() {
             </div>
 
             {/* Minimum Requirements */}
-            <div className="rounded-sm border border-border/30 bg-neutral-50 dark:bg-green-600/40 dark:border-green-700/50 p-8 space-y-4">
+            <div className="ui-card-compact p-8 space-y-4 dark:bg-green-600/40 dark:border-green-700/50">
               <h3 className="text-2xl font-display font-light text-foreground">
                 Catering Information
               </h3>
@@ -198,9 +198,9 @@ export default function CateringPage() {
               <Link href="/">
                 <Button
                   variant="outline"
-                  className="group border-2 border-foreground/20 text-foreground hover:bg-foreground/5 hover:border-foreground/40 font-body font-light tracking-wide"
+                  className="group border-2 border-foreground/20 text-foreground md:hover:bg-foreground/5 active:bg-foreground/5 md:hover:border-foreground/40 active:border-foreground/40 font-body font-light tracking-wide"
                 >
-                  <ArrowLeft className="mr-2 h-4 w-4 transition-transform group-hover:-translate-x-1" />
+                  <ArrowLeft className="mr-2 h-4 w-4 transition-transform md:group-hover:-translate-x-1" />
                   Back to Home
                 </Button>
               </Link>

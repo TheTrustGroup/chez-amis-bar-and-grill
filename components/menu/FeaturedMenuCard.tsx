@@ -41,7 +41,7 @@ export function FeaturedMenuCard({ item, onAddToCart }: FeaturedMenuCardProps) {
   }
 
   return (
-    <Card className="group relative overflow-hidden flex flex-col h-full transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
+    <Card className="group relative overflow-hidden flex flex-col h-full transition-all duration-300 md:hover:shadow-lg md:hover:-translate-y-1">
       {/* Image Container */}
       <div className="relative h-48 md:h-56 overflow-hidden bg-gradient-to-br from-neutral-200 to-neutral-300">
         {/* Placeholder Image - in production, use Next.js Image */}
@@ -49,7 +49,7 @@ export function FeaturedMenuCard({ item, onAddToCart }: FeaturedMenuCardProps) {
           <div className="text-4xl">🍽️</div>
         </div>
         {/* Image overlay on hover */}
-        <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300"></div>
+        <div className="absolute inset-0 bg-black/0 md:group-hover:bg-black/10 transition-colors duration-300"></div>
         
         {/* Badges */}
         {item.tags && item.tags.length > 0 && (
@@ -58,7 +58,7 @@ export function FeaturedMenuCard({ item, onAddToCart }: FeaturedMenuCardProps) {
               <Badge
                 key={index}
                 variant={tag === "bestseller" ? "category" : tag === "new" ? "tag" : "outline"}
-                className="bg-white/90 text-neutral-900 hover:bg-white"
+                className="bg-white/90 text-neutral-900 md:hover:bg-white"
               >
                 {tag}
               </Badge>
@@ -71,7 +71,7 @@ export function FeaturedMenuCard({ item, onAddToCart }: FeaturedMenuCardProps) {
           onClick={handleFavorite}
           className={cn(
             "absolute top-3 right-3 z-10 p-2 rounded-full transition-all duration-300",
-            "bg-white/90 hover:bg-white shadow-sm",
+            "bg-white/90 md:hover:bg-white shadow-sm",
             "focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2",
             isFavorite && "bg-primary/20"
           )}
@@ -86,7 +86,7 @@ export function FeaturedMenuCard({ item, onAddToCart }: FeaturedMenuCardProps) {
         </button>
 
         {/* Image Zoom Effect */}
-        <div className="absolute inset-0 scale-100 group-hover:scale-110 transition-transform duration-500">
+        <div className="absolute inset-0 scale-100 md:group-hover:scale-110 transition-transform duration-500">
           {/* In production, replace with: */}
           {/* <Image
             src={item.image}

@@ -4,8 +4,7 @@ import { useState } from "react"
 import { ContactInfo } from "@/components/contact/ContactInfo"
 import { ContactForm } from "@/components/contact/ContactForm"
 import { MapSection } from "@/components/contact/MapSection"
-import { Instagram, MapPin, Navigation, ChevronDown } from "lucide-react"
-import { SnapchatIcon } from "@/components/ui/snapchat-icon"
+import { MapPin, Navigation, ChevronDown } from "lucide-react"
 import { useTheme } from "@/lib/context/ThemeContext"
 import { cn } from "@/lib/utils"
 import { SITE_ADDRESS_LINES } from "@/lib/data/siteContact"
@@ -31,15 +30,15 @@ export default function ContactPage() {
         )} />
         <div className="relative z-10 text-center px-6 max-w-4xl mx-auto">
           <h1 className={cn(
-            "hero-title tracking-tight mb-6 md:mb-8",
+            "nav-page-heading md:text-5xl tracking-tight mb-4 md:mb-6",
             "text-white drop-shadow-[0_4px_20px_rgba(0,0,0,0.8)]",
             "animate-fade-in-up"
           )}>
             Get in Touch
           </h1>
-          <div className="w-24 md:w-32 h-0.5 bg-gradient-to-r from-transparent via-terra-500 to-transparent mx-auto mb-6 md:mb-8 shadow-lg shadow-terra-500/50" />
+          <div className="w-20 md:w-28 h-0.5 bg-gradient-to-r from-transparent via-terra-500 to-transparent mx-auto mb-4 md:mb-6 shadow-lg shadow-terra-500/50" />
           <p className={cn(
-            "text-lg md:text-xl lg:text-2xl font-body font-light leading-relaxed max-w-3xl mx-auto",
+            "nav-page-subheading max-w-3xl mx-auto text-white/90 md:text-lg",
             "text-white/90 drop-shadow-[0_2px_10px_rgba(0,0,0,0.8)]",
             "animate-fade-in-up"
           )} style={{ animationDelay: "0.2s" }}>
@@ -89,10 +88,10 @@ export default function ContactPage() {
                 type="button"
                 onClick={() => setShowMobileForm((prev) => !prev)}
                 className={cn(
-                  "flex w-full min-h-[48px] items-center justify-between rounded-lg border px-4 py-3 text-left transition-colors",
+                  "ui-link-row w-full justify-between px-4 py-3 text-left",
                   isDark
-                    ? "border-green-600 bg-green-600/40 text-white hover:bg-green-600/60"
-                    : "border-border/40 bg-background text-foreground hover:bg-muted/40"
+                    ? "border-green-600 bg-green-600/40 text-white md:hover:bg-green-600/60 active:bg-green-600/60"
+                    : "bg-background text-foreground"
                 )}
                 aria-expanded={showMobileForm}
                 aria-controls="mobile-contact-form"
@@ -107,7 +106,7 @@ export default function ContactPage() {
             <div
               id="mobile-contact-form"
               className={cn(
-                "rounded-xl border card-padding shadow-lg transition-all duration-300",
+                "ui-card-compact card-padding transition-all duration-300",
                 isDark ? "bg-green-600/50 border-green-700/50" : "bg-neutral-50 border-border/30",
                 "md:block",
                 showMobileForm ? "block" : "hidden"
@@ -130,7 +129,7 @@ export default function ContactPage() {
         <div className="section-shell-inner">
           <div
             className={cn(
-              "mx-auto max-w-2xl rounded-xl border card-padding shadow-md",
+              "ui-card-compact mx-auto max-w-2xl card-padding",
               isDark ? "border-green-600 bg-green-600/40" : "border-border/30 bg-background"
             )}
           >
@@ -154,7 +153,7 @@ export default function ContactPage() {
               href="https://maps.google.com/?q=Chez+Amis+Bar+and+Grill+40+Boundary+Rd+Accra"
               target="_blank"
               rel="noopener noreferrer"
-              className="mt-4 inline-flex min-h-[48px] items-center gap-2 rounded-lg border border-terra-500/60 px-4 py-2.5 font-body text-sm font-light tracking-wide text-foreground transition-colors hover:bg-terra-500/10"
+              className="mt-4 inline-flex min-h-[48px] items-center gap-2 rounded-lg border border-terra-500/60 px-4 py-2.5 font-body text-sm font-light tracking-wide text-foreground transition-colors md:hover:bg-terra-500/10 active:bg-terra-500/10"
               aria-label="Get directions to Chez Amis"
             >
               <Navigation className="h-4 w-4" />
@@ -169,77 +168,6 @@ export default function ContactPage() {
         <MapSection />
       </div>
 
-      {/* Social & Quick Contact */}
-      <section
-        className={cn(
-          "section-shell transition-colors duration-300",
-          isDark ? "bg-green-700/80" : "bg-neutral-50",
-        )}
-      >
-        <div className="section-shell-inner">
-          <div className="max-w-4xl mx-auto">
-            <div className="text-center mb-10 md:mb-12">
-              <h2 className={cn(
-                "section-title mb-3",
-                isDark ? "text-white" : "text-neutral-900",
-              )}>
-                Follow Us
-              </h2>
-              <p className={cn(
-                "text-base md:text-lg font-body font-light",
-                isDark ? "text-white/80" : "text-muted-foreground",
-              )}>
-                Find updates, specials, and behind-the-scenes moments
-              </p>
-            </div>
-
-            <div className="flex items-center justify-center gap-3 md:gap-4">
-              <a
-                href="https://www.instagram.com/chez_amis_restaurant?igsh=dWFmbnA5MzlqaWk5"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group inline-flex h-11 w-11 items-center justify-center rounded-full border border-border/50 transition-all duration-300 hover:border-terra-500/50 hover:bg-terra-500/5"
-                aria-label="Follow us on Instagram"
-              >
-                <div className="p-2 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 group-hover:scale-110 transition-transform">
-                  <Instagram className="h-5 w-5 text-white" />
-                </div>
-              </a>
-
-              <a
-                href="https://www.snapchat.com/add/chez_amis"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group inline-flex h-11 w-11 items-center justify-center rounded-full border border-border/50 transition-all duration-300 hover:border-terra-500/50 hover:bg-terra-500/5"
-                aria-label="Follow us on Snapchat"
-              >
-                <div className="p-2 rounded-full bg-gradient-to-br from-yellow-400 to-yellow-500 group-hover:scale-110 transition-transform">
-                  <SnapchatIcon className="h-5 w-5 text-white" />
-                </div>
-              </a>
-
-              <a
-                href="https://www.tiktok.com/@chezamisrestaurant?_r=1&_t=ZM-920yX90ahAW"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group inline-flex h-11 w-11 items-center justify-center rounded-full border border-border/50 transition-all duration-300 hover:border-terra-500/50 hover:bg-terra-500/5"
-                aria-label="Follow us on TikTok"
-              >
-                <div className="p-2 rounded-full bg-black group-hover:scale-110 transition-transform">
-                  <svg
-                    className="h-5 w-5 text-white"
-                    fill="currentColor"
-                    viewBox="0 0 24 24"
-                    aria-hidden="true"
-                  >
-                    <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z" />
-                  </svg>
-                </div>
-              </a>
-            </div>
-          </div>
-        </div>
-      </section>
     </div>
   )
 }

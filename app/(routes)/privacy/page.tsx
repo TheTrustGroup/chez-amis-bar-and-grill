@@ -11,10 +11,10 @@ export default function PrivacyPolicyPage() {
       <section className="section-shell bg-gradient-to-b from-green-600 via-green-700 to-green-600 text-white">
         <div className="section-shell-inner">
           <div className="max-w-3xl mx-auto text-center space-y-6">
-            <h1 className="hero-title tracking-tight">
+            <h1 className="nav-page-heading md:text-5xl tracking-tight">
               Privacy Policy
             </h1>
-            <p className="text-lg md:text-xl font-body font-light text-white/80">
+            <p className="nav-page-subheading text-white/85 md:text-lg">
               Your privacy is important to us
             </p>
             <p className="text-sm font-body font-light text-white/60">
@@ -28,7 +28,7 @@ export default function PrivacyPolicyPage() {
       <section className="section-shell">
         <div className="section-shell-inner">
           <div className="max-w-4xl mx-auto">
-            <div className="prose prose-lg max-w-none dark:prose-invert rounded-sm border border-border/30 bg-neutral-50 dark:bg-green-600/40 dark:border-green-700/50 p-8 md:p-12 space-y-8">
+            <div className="prose prose-lg max-w-none dark:prose-invert ui-card-compact bg-neutral-50 dark:bg-green-600/40 dark:border-green-700/50 p-8 md:p-10 space-y-8">
               <div className="space-y-6 text-muted-foreground font-body font-light leading-relaxed">
                 <div>
                   <h2 className="text-2xl md:text-3xl font-display font-light text-neutral-900 dark:text-white mb-4">
@@ -156,14 +156,14 @@ export default function PrivacyPolicyPage() {
                   <p className="mb-4">
                     If you have questions about this Privacy Policy or wish to exercise your rights, please contact us:
                   </p>
-                  <div className="bg-green-600/5 rounded-lg p-6 space-y-2 text-foreground">
+                  <div className="ui-card-compact bg-green-600/5 p-6 space-y-2 text-foreground">
                     <p><strong>Chez Amis Bar and Grill</strong></p>
                     <p>40 Boundary Rd, Accra, Ghana</p>
                     <p>
-                      Email: <a href="mailto:chez@chezamisrestaurant.com" className="text-terra-600 hover:text-terra-700 underline">chez@chezamisrestaurant.com</a>
+                      Email: <a href="mailto:chez@chezamisrestaurant.com" className="text-terra-600 md:hover:text-terra-700 underline">chez@chezamisrestaurant.com</a>
                     </p>
                     <p>
-                      Phone: <a href="tel:+233557032312" className="text-terra-600 hover:text-terra-700 underline">055 703 2312</a> / <a href="tel:+233557032335" className="text-terra-600 hover:text-terra-700 underline">055 703 2335</a> / <a href="tel:+233243952339" className="text-terra-600 hover:text-terra-700 underline">024 395 2339</a> / <a href="tel:+233502432037" className="text-terra-600 hover:text-terra-700 underline">050 243 2037</a>
+                      Phone: <a href="tel:+233557032312" className="text-terra-600 md:hover:text-terra-700 underline">055 703 2312</a> / <a href="tel:+233557032335" className="text-terra-600 md:hover:text-terra-700 underline">055 703 2335</a> / <a href="tel:+233243952339" className="text-terra-600 md:hover:text-terra-700 underline">024 395 2339</a> / <a href="tel:+233502432037" className="text-terra-600 md:hover:text-terra-700 underline">050 243 2037</a>
                     </p>
                   </div>
                 </div>
@@ -175,9 +175,9 @@ export default function PrivacyPolicyPage() {
               <Link href="/">
                 <Button
                   variant="outline"
-                  className="group border-2 border-foreground/20 text-foreground hover:bg-foreground/5 hover:border-foreground/40 font-body font-light tracking-wide"
+                  className="group border-2 border-foreground/20 text-foreground md:hover:bg-foreground/5 active:bg-foreground/5 md:hover:border-foreground/40 active:border-foreground/40 font-body font-light tracking-wide"
                 >
-                  <ArrowLeft className="mr-2 h-4 w-4 transition-transform group-hover:-translate-x-1" />
+                  <ArrowLeft className="mr-2 h-4 w-4 transition-transform md:group-hover:-translate-x-1" />
                   Back to Home
                 </Button>
               </Link>

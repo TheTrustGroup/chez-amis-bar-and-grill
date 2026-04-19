@@ -229,16 +229,16 @@ export default function OrderConfirmationPage() {
 
           {/* Thank You Message */}
           <div className="space-y-4">
-            <h1 className="hero-title tracking-tight text-neutral-900 dark:text-white">
+            <h1 className="nav-page-heading md:text-5xl tracking-tight text-neutral-900 dark:text-white">
               Thank You, {orderData.customerName}!
             </h1>
-            <p className="text-lg md:text-xl text-muted-foreground font-body font-light">
+            <p className="nav-page-subheading text-muted-foreground md:text-lg">
               Your order has been confirmed
             </p>
           </div>
 
           {/* Order Number */}
-          <div className="rounded-sm border border-border/30 bg-neutral-50 dark:bg-green-600/40 dark:border-green-700/50 p-6">
+          <div className="ui-card-compact p-6 dark:bg-green-600/40 dark:border-green-700/50">
             <p className="text-sm text-muted-foreground font-body font-light mb-2">
               Order Number
             </p>
@@ -248,7 +248,7 @@ export default function OrderConfirmationPage() {
           </div>
 
           {/* Order Summary */}
-          <div className="rounded-sm border border-border/30 bg-neutral-50 dark:bg-green-600/40 dark:border-green-700/50 p-6 md:p-8 text-left space-y-6">
+          <div className="ui-card-compact p-6 md:p-8 text-left space-y-6 dark:bg-green-600/40 dark:border-green-700/50">
             <div className="flex items-center gap-3 pb-4 border-b border-border/30">
               <OrderIcon className="h-5 w-5 text-terra-600 shrink-0" aria-hidden />
               <div>
@@ -419,7 +419,7 @@ export default function OrderConfirmationPage() {
           </div>
 
           {/* What's Next */}
-          <div className="rounded-sm border border-border/30 bg-neutral-50 dark:bg-green-600/40 dark:border-green-700/50 p-6 md:p-8">
+          <div className="ui-card-compact p-6 md:p-8 dark:bg-green-600/40 dark:border-green-700/50">
             <h2 className="text-xl md:text-2xl font-display font-light text-neutral-900 dark:text-white mb-3">
               What&apos;s Next?
             </h2>

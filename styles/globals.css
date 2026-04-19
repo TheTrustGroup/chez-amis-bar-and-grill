@@ -101,11 +101,11 @@
 
     /* Layout density */
     --page-max-width: 80rem;
-    --content-gap-sm: 0.75rem;
-    --content-gap-md: 1rem;
-    --content-gap-lg: 1.5rem;
-    --panel-padding: 1rem;
-    --panel-padding-lg: 1.25rem;
+    --content-gap-sm: 0.5rem;
+    --content-gap-md: 0.875rem;
+    --content-gap-lg: 1.25rem;
+    --panel-padding: 0.875rem;
+    --panel-padding-lg: 1rem;
   }
 
   .dark {
@@ -274,17 +274,41 @@
     @apply inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-xs font-medium;
   }
 
+  .ui-card-compact {
+    @apply rounded-lg border bg-card text-card-foreground shadow-sm;
+    border-color: color-mix(in srgb, var(--border) 70%, transparent);
+  }
+
+  .ui-link-row {
+    @apply flex min-h-[44px] items-center gap-2 rounded-md border px-3 py-2 text-sm transition-colors;
+    border-color: color-mix(in srgb, var(--border) 60%, transparent);
+    @apply md:hover:bg-muted/40;
+  }
+
+  .ui-list-row {
+    @apply flex min-h-[44px] items-center gap-2 rounded-md px-2.5 text-sm transition-colors;
+    @apply md:hover:bg-muted/40;
+  }
+
+  .nav-page-heading {
+    @apply font-display text-3xl font-light tracking-tight leading-tight md:text-4xl;
+  }
+
+  .nav-page-subheading {
+    @apply mt-1 font-body text-sm font-light leading-relaxed text-muted-foreground md:text-base;
+  }
+
   /* Major sections (hero bands, primary page blocks) */
   .section-padding {
-    @apply py-16 md:py-24;
+    @apply py-12 md:py-16;
   }
 
   .section-padding-md {
-    @apply py-12 md:py-20;
+    @apply py-10 md:py-14;
   }
 
   .section-padding-sm {
-    @apply py-8 md:py-16;
+    @apply py-6 md:py-10;
   }
 
   /**
@@ -292,7 +316,7 @@
    * (avoids double-padding; inner matches former container-custom).
    */
   .section-shell {
-    @apply w-full overflow-hidden py-16 md:py-24;
+    @apply w-full overflow-hidden py-12 md:py-16;
   }
 
   .section-shell-inner {
@@ -301,7 +325,7 @@
 
   /** Stacked mobile → split desktop (never row-first) */
   .section-split {
-    @apply flex flex-col gap-8 md:flex-row md:items-center lg:gap-16;
+    @apply flex flex-col gap-6 md:flex-row md:items-center lg:gap-10;
   }
 
   .section-split-half {
@@ -325,7 +349,7 @@
 
   /** Heading block spacing under titles */
   .section-heading-margin {
-    @apply mb-6 md:mb-12;
+    @apply mb-4 md:mb-8;
   }
 
   /** Card interior — Law 4 */

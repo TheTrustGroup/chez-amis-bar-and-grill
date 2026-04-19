@@ -25,7 +25,7 @@ export function PrivateEventsSection() {
       {/* Centered Content Box */}
       <div className="relative z-10 section-shell-inner">
         <div className="max-w-3xl mx-auto px-1 sm:px-0">
-          <div className="bg-black/50 backdrop-blur-md rounded-lg p-5 sm:p-8 md:p-12 border border-neutral-100/10">
+          <div className="ui-card-compact bg-black/50 backdrop-blur-md p-5 sm:p-8 md:p-10 border border-neutral-100/10">
             <h2
               id="private-events-heading"
               className="text-2xl sm:text-3xl md:section-title text-white mb-3 md:mb-6 text-center font-display font-light"
@@ -48,7 +48,7 @@ export function PrivateEventsSection() {
                   size="default"
                   className={cn(
                     "w-full sm:w-auto sm:min-w-[200px] md:min-w-[220px]",
-                    "shadow-xl hover:shadow-2xl hover:shadow-terra-500/40",
+                    "shadow-md md:hover:shadow-lg md:hover:shadow-terra-500/20",
                     "backdrop-blur-sm md:text-base"
                   )}
                   aria-label="Request Private Dining"
@@ -65,7 +65,7 @@ export function PrivateEventsSection() {
                   className={cn(
                     "w-full sm:w-auto sm:min-w-[200px] md:min-w-[220px]",
                     "border-2 border-neutral-100/60 text-white bg-neutral-100/5",
-                    "hover:bg-neutral-100/10 hover:border-neutral-50 hover:shadow-lg hover:shadow-neutral-100/20",
+                    "md:hover:bg-neutral-100/10 md:hover:border-neutral-50 md:hover:shadow-lg md:hover:shadow-neutral-100/20",
                     "backdrop-blur-sm md:text-base"
                   )}
                   aria-label="View Event Packages"

@@ -78,7 +78,7 @@ export function CartSidebar() {
                         <button
                           type="button"
                           onClick={() => decreaseQuantity(item.id)}
-                          className="flex h-8 w-8 items-center justify-center rounded border border-neutral-200 hover:bg-green-50 transition-colors"
+                          className="flex h-8 w-8 items-center justify-center rounded border border-neutral-200 md:hover:bg-green-50 transition-colors"
                           aria-label="Decrease quantity"
                         >
                           <Minus className="h-2.5 w-2.5" />
@@ -87,7 +87,7 @@ export function CartSidebar() {
                         <button
                           type="button"
                           onClick={() => increaseQuantity(item.id)}
-                          className="flex h-8 w-8 items-center justify-center rounded border border-neutral-200 hover:bg-green-50 transition-colors"
+                          className="flex h-8 w-8 items-center justify-center rounded border border-neutral-200 md:hover:bg-green-50 transition-colors"
                           aria-label="Increase quantity"
                         >
                           <Plus className="h-2.5 w-2.5" />
@@ -122,7 +122,7 @@ export function CartSidebar() {
               <button
                 type="button"
                 onClick={() => router.push(CHECKOUT_PATH)}
-                className="w-full min-h-[48px] rounded-full bg-terra-500 px-4 py-3 text-sm font-body font-medium uppercase tracking-widest text-white shadow-[var(--shadow-terra)] hover:bg-terra-600 transition-colors"
+                className="w-full min-h-[48px] rounded-full bg-terra-500 px-4 py-3 text-sm font-body font-medium uppercase tracking-widest text-white shadow-[var(--shadow-terra)] md:hover:bg-terra-600 transition-colors"
                 aria-label="Place your order"
               >
                 Place Order
@@ -130,7 +130,7 @@ export function CartSidebar() {
               <button
                 type="button"
                 onClick={() => router.push("/reservations")}
-                className="w-full min-h-[48px] rounded-full border border-green-500 bg-transparent px-4 py-3 text-sm font-body font-medium uppercase tracking-widest text-green-600 hover:bg-green-50 transition-colors"
+                className="w-full min-h-[48px] rounded-full border border-green-500 bg-transparent px-4 py-3 text-sm font-body font-medium uppercase tracking-widest text-green-600 md:hover:bg-green-50 transition-colors"
                 aria-label="Reserve a table"
               >
                 Reserve Table

@@ -111,7 +111,7 @@ export function MobileMenuCard({ item }: MobileMenuCardProps) {
               e.stopPropagation()
               handleAddToOrder()
             }}
-            className="w-full bg-foreground text-background hover:bg-foreground/90 font-body font-light tracking-wide h-12"
+            className="w-full bg-foreground text-background md:hover:bg-foreground/90 font-body font-light tracking-wide h-12"
             size="lg"
           >
             <Plus className="h-5 w-5 mr-2" />

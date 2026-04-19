@@ -49,7 +49,7 @@ export function OrderSummary({ orderType, onPlaceOrder, canPlaceOrder = false, i
 
   return (
     <div className="lg:sticky lg:top-24 h-fit">
-      <div className="rounded-sm border border-border/30 bg-neutral-50 dark:bg-green-600/40 dark:border-green-700/50 p-6 md:p-8 space-y-6 shadow-sm">
+      <div className="ui-card-compact p-6 md:p-8 space-y-6 dark:bg-green-600/40 dark:border-green-700/50">
         <div>
           <h2 className="text-2xl font-display font-light text-neutral-900 dark:text-white mb-4">
             Your Order
@@ -129,7 +129,7 @@ export function OrderSummary({ orderType, onPlaceOrder, canPlaceOrder = false, i
                   onClick={onPlaceOrder}
                   disabled={!canPlaceOrder || isSubmitting}
                   size="lg"
-                  className="w-full font-body font-light tracking-wide bg-foreground text-background hover:bg-foreground/90 disabled:opacity-50 disabled:cursor-not-allowed text-lg px-8 py-7 shadow-lg hover:shadow-xl transition-all"
+                  className="w-full font-body font-light tracking-wide bg-foreground text-background md:hover:bg-foreground/90 disabled:opacity-50 disabled:cursor-not-allowed text-lg px-8 py-7 shadow-lg md:hover:shadow-xl transition-all"
                 >
                   {isSubmitting ? 'Placing Order...' : 'Place Order'}
                 </Button>
@@ -145,7 +145,7 @@ export function OrderSummary({ orderType, onPlaceOrder, canPlaceOrder = false, i
             {onPlaceOrder && (
               <Link
                 href="/menu"
-                className="block text-center text-sm text-muted-foreground hover:text-foreground font-body font-light underline underline-offset-2 transition-colors pt-2"
+                className="block text-center text-sm text-muted-foreground md:hover:text-foreground font-body font-light underline underline-offset-2 transition-colors pt-2"
               >
                 Modify Order
               </Link>

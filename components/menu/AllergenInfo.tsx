@@ -44,7 +44,7 @@ export function AllergenInfo({ isOpen, onClose }: AllergenInfoProps) {
             </div>
             <button
               onClick={onClose}
-              className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+              className="p-2 md:hover:bg-gray-100 rounded-full transition-colors"
               aria-label="Close"
             >
               <X className="w-5 h-5" />
@@ -65,7 +65,7 @@ export function AllergenInfo({ isOpen, onClose }: AllergenInfoProps) {
                 {commonAllergens.map((allergen) => (
                   <div
                     key={allergen.name}
-                    className="flex items-start gap-3 p-4 border border-gray-200 rounded-lg hover:border-amber-500 transition-colors"
+                    className="flex items-start gap-3 p-4 border border-gray-200 rounded-lg md:hover:border-amber-500 transition-colors"
                   >
                     <span className="text-2xl">{allergen.icon}</span>
                     <div>
@@ -100,7 +100,7 @@ export function AllergenInfo({ isOpen, onClose }: AllergenInfoProps) {
           <div className="sticky bottom-0 bg-white border-t border-gray-200 px-6 py-4">
             <Button
               onClick={onClose}
-              className="w-full bg-amber-500 text-white hover:bg-amber-600"
+              className="w-full bg-amber-500 text-white md:hover:bg-amber-600"
             >
               Close
             </Button>

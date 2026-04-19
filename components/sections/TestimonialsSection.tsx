@@ -138,7 +138,7 @@ export function TestimonialsSection() {
           <Button
             variant="ghost"
             size="icon"
-            className="absolute left-0 top-1/2 -translate-y-1/2 z-10 -translate-x-4 md:-translate-x-8 min-h-[48px] min-w-[48px] h-12 w-12 rounded-full bg-background shadow-lg hover:bg-accent border border-border"
+            className="absolute left-0 top-1/2 -translate-y-1/2 z-10 -translate-x-4 md:-translate-x-8 min-h-[48px] min-w-[48px] h-12 w-12 rounded-full bg-background shadow-lg md:hover:bg-accent border border-border"
             onClick={goToPrevious}
             aria-label="Previous testimonial"
           >
@@ -148,7 +148,7 @@ export function TestimonialsSection() {
           <Button
             variant="ghost"
             size="icon"
-            className="absolute right-0 top-1/2 -translate-y-1/2 z-10 translate-x-4 md:translate-x-8 min-h-[48px] min-w-[48px] h-12 w-12 rounded-full bg-background shadow-lg hover:bg-accent border border-border"
+            className="absolute right-0 top-1/2 -translate-y-1/2 z-10 translate-x-4 md:translate-x-8 min-h-[48px] min-w-[48px] h-12 w-12 rounded-full bg-background shadow-lg md:hover:bg-accent border border-border"
             onClick={goToNext}
             aria-label="Next testimonial"
           >
@@ -177,7 +177,7 @@ export function TestimonialsSection() {
                   "h-2 w-2 rounded-full transition-all duration-300",
                   index === currentIndex
                     ? "bg-primary w-8"
-                    : "bg-muted hover:bg-primary/50"
+                    : "bg-muted md:hover:bg-primary/50"
                 )}
                 aria-label={`Go to testimonial ${index + 1}`}
               />
@@ -195,7 +195,7 @@ interface TestimonialCardProps {
 
 function TestimonialCard({ testimonial }: TestimonialCardProps) {
   return (
-    <Card className="h-full shadow-md hover:shadow-lg transition-shadow duration-300">
+    <Card className="h-full shadow-md md:hover:shadow-lg transition-shadow duration-300">
       <CardContent className="card-padding">
         {/* Star Rating */}
         <div className="mb-4">

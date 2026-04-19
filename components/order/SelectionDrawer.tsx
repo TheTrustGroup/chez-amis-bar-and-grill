@@ -61,7 +61,7 @@ export function SelectionDrawer({ isOpen, onClose }: SelectionDrawerProps) {
             </h2>
             <button
               onClick={onClose}
-              className="p-2 rounded-sm hover:bg-muted transition-colors focus:outline-none focus:ring-2 focus:ring-terra-500 focus:ring-offset-2"
+              className="p-2 rounded-sm md:hover:bg-muted transition-colors focus:outline-none focus:ring-2 focus:ring-terra-500 focus:ring-offset-2"
               aria-label="Close selection drawer"
             >
               <X className="h-5 w-5" />
@@ -144,7 +144,7 @@ export function SelectionDrawer({ isOpen, onClose }: SelectionDrawerProps) {
               <div className="space-y-3">
                 <Button
                   onClick={handlePlaceOrder}
-                  className="w-full font-body font-light tracking-wide bg-foreground text-background hover:bg-foreground/90"
+                  className="w-full font-body font-light tracking-wide bg-foreground text-background md:hover:bg-foreground/90"
                   size="lg"
                 >
                   Proceed to Checkout
@@ -152,7 +152,7 @@ export function SelectionDrawer({ isOpen, onClose }: SelectionDrawerProps) {
                 <Link href="/menu" onClick={onClose} className="block">
                   <Button
                     variant="ghost"
-                    className="w-full font-body font-light tracking-wide text-muted-foreground hover:text-foreground"
+                    className="w-full font-body font-light tracking-wide text-muted-foreground md:hover:text-foreground"
                   >
                     Continue Browsing Menu
                   </Button>

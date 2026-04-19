@@ -45,7 +45,7 @@ export default function FAQPage() {
     {
       question: "What payment methods do you accept?",
       answer:
-        "We accept cash, mobile money, and card payments at the restaurant. For website orders, you pay when your order is delivered or when you pick it up—online payment is coming soon.",
+        "We accept cash, mobile money, and card payments at the restaurant. For website orders, you pay when your order is delivered or when you pick it up. Online payment is coming soon.",
     },
     {
       question: "Do you offer delivery or takeaway?",
@@ -87,10 +87,10 @@ export default function FAQPage() {
       <section className="section-shell bg-gradient-to-b from-green-600 via-green-700 to-green-600 text-white">
         <div className="section-shell-inner">
           <div className="max-w-3xl mx-auto text-center space-y-6">
-            <h1 className="hero-title tracking-tight">
+            <h1 className="nav-page-heading md:text-5xl tracking-tight">
               Frequently Asked Questions
             </h1>
-            <p className="text-lg md:text-xl font-body font-light text-white/80">
+            <p className="nav-page-subheading text-white/85 md:text-lg">
               Find answers to common questions about dining at Chez Amis
             </p>
           </div>
@@ -105,7 +105,7 @@ export default function FAQPage() {
               <div
                 key={index}
                 className={cn(
-                  "rounded-lg border overflow-hidden transition-all hover:shadow-md",
+                  "ui-card-compact overflow-hidden transition-all md:hover:shadow-md",
                   isDark ? "bg-green-600/40 border-green-700/50" : "bg-neutral-50 border-border/30",
                 )}
               >
@@ -137,7 +137,7 @@ export default function FAQPage() {
           </div>
 
           {/* Contact Section */}
-          <div className="max-w-3xl mx-auto mt-12 bg-green-600 text-white rounded-lg p-8 md:p-12 text-center space-y-6">
+          <div className="max-w-3xl mx-auto mt-12 ui-card-compact bg-green-600 text-white p-8 md:p-12 text-center space-y-6 border-green-500/40">
             <h2 className="text-2xl md:text-3xl font-display font-light">
               Still have questions?
             </h2>
@@ -148,7 +148,7 @@ export default function FAQPage() {
               <Link href="/contact">
                 <Button
                   variant="outline"
-                  className="border-2 border-terra-500/50 text-terra-400 hover:bg-terra-500/10 hover:border-terra-500 font-body font-light"
+                  className="border-2 border-terra-500/50 text-terra-400 md:hover:bg-terra-500/10 active:bg-terra-500/10 md:hover:border-terra-500 active:border-terra-500 font-body font-light"
                 >
                   Contact Us
                 </Button>
@@ -156,7 +156,7 @@ export default function FAQPage() {
               <a href="tel:+233557032312">
                 <Button
                   variant="outline"
-                  className="border-2 border-terra-500/50 text-terra-400 hover:bg-terra-500/10 hover:border-terra-500 font-body font-light"
+                  className="border-2 border-terra-500/50 text-terra-400 md:hover:bg-terra-500/10 active:bg-terra-500/10 md:hover:border-terra-500 active:border-terra-500 font-body font-light"
                 >
                   Call Us
                 </Button>
@@ -169,9 +169,9 @@ export default function FAQPage() {
             <Link href="/">
               <Button
                 variant="outline"
-                className="group border-2 border-foreground/20 text-foreground hover:bg-foreground/5 hover:border-foreground/40 font-body font-light tracking-wide"
+                className="group border-2 border-foreground/20 text-foreground md:hover:bg-foreground/5 active:bg-foreground/5 md:hover:border-foreground/40 active:border-foreground/40 font-body font-light tracking-wide"
               >
-                <ArrowLeft className="mr-2 h-4 w-4 transition-transform group-hover:-translate-x-1" />
+                <ArrowLeft className="mr-2 h-4 w-4 transition-transform md:group-hover:-translate-x-1" />
                 Back to Home
               </Button>
             </Link>

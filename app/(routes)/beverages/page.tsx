@@ -53,13 +53,13 @@ export default function BeveragesPage() {
         <div className="relative z-10 text-center px-6 max-w-4xl mx-auto">
           <h1
             className={cn(
-              "hero-title tracking-tight text-white mb-4",
+              "nav-page-heading md:text-5xl tracking-tight text-white mb-3",
               "drop-shadow-[0_4px_20px_rgba(0,0,0,0.8)]",
             )}
           >
             Our Beverages
           </h1>
-          <p className="text-lg md:text-xl text-white/90 font-body font-light mb-6 max-w-2xl mx-auto">
+          <p className="nav-page-subheading text-white/90 md:text-lg mb-5 max-w-2xl mx-auto">
             Curated selection of premium drinks
           </p>
           <div className="w-24 md:w-32 h-0.5 bg-gradient-to-r from-transparent via-terra-500 to-transparent mx-auto shadow-lg shadow-terra-500/40" />
@@ -105,8 +105,8 @@ export default function BeveragesPage() {
                   activeCategory === "all"
                     ? "border-terra-500 text-terra-600 dark:text-terra-400"
                     : isDark
-                      ? "text-white/70 hover:text-white"
-                      : "text-muted-foreground hover:text-foreground",
+                      ? "text-white/70 md:hover:text-white"
+                      : "text-muted-foreground md:hover:text-foreground",
                 )}
               >
                 All Beverages
@@ -121,8 +121,8 @@ export default function BeveragesPage() {
                     activeCategory === category.id
                       ? "border-terra-500 text-terra-600 dark:text-terra-400"
                       : isDark
-                        ? "text-white/70 hover:text-white"
-                        : "text-muted-foreground hover:text-foreground",
+                        ? "text-white/70 md:hover:text-white"
+                        : "text-muted-foreground md:hover:text-foreground",
                   )}
                 >
                   <span className="mr-2">{category.icon}</span>

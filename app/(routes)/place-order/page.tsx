@@ -11,6 +11,7 @@ import { OrderSummary } from "@/components/order/OrderSummary"
 import { useCartContext } from "@/lib/context/CartContext"
 import { PAYMENT_ON_DELIVERY_ONLY } from "@/lib/config/payments"
 import { Shield, Lock, Banknote, MessageCircle } from "lucide-react"
+import { buildWhatsAppLink } from "@/lib/data/siteContact"
 
 export default function PlaceOrderPage() {
   const router = useRouter()
@@ -59,9 +60,9 @@ export default function PlaceOrderPage() {
     !!formData.phone &&
     paymentMethod !== null
 
-  const whatsappFallbackLink = `https://wa.me/233243952339?text=${encodeURIComponent(
+  const whatsappFallbackLink = buildWhatsAppLink(
     `Hello Chez Amis, I'd like to confirm my order from the website.\n\nName: ${formData.fullName || "Guest"}\nPhone: ${formData.phone || "N/A"}\nItems: ${items.length}\nEstimated total: GH₵ ${getGrandTotal(orderType || undefined).toFixed(2)}`
-  )}`
+  )
 
   const handlePlaceOrder = async () => {
     if (!canPlaceOrder || isSubmitting) return
@@ -201,10 +202,10 @@ export default function PlaceOrderPage() {
     return (
       <div className="min-h-screen flex flex-col items-center justify-center bg-neutral-50 dark:bg-green-700 transition-colors section-padding-sm">
         <div className="section-shell-inner w-full max-w-md text-center">
-          <h1 className="hero-title tracking-tight text-neutral-900 dark:text-white mb-4">
+          <h1 className="nav-page-heading md:text-4xl tracking-tight text-neutral-900 dark:text-white mb-3">
             Your Selection is Empty
           </h1>
-          <p className="text-muted-foreground font-body font-light mb-8 prose-readable mx-auto">
+          <p className="nav-page-subheading text-muted-foreground mb-7 prose-readable mx-auto">
             Explore our menu to begin your culinary journey
           </p>
           <Button
@@ -225,10 +226,10 @@ export default function PlaceOrderPage() {
       {/* Header */}
       <section className="w-full overflow-hidden border-b border-border/50 bg-neutral-50 dark:bg-green-600/40 section-padding-sm">
         <div className="section-shell-inner">
-          <h1 className="hero-title tracking-tight text-neutral-900 dark:text-white mb-2">
+          <h1 className="nav-page-heading md:text-4xl tracking-tight text-neutral-900 dark:text-white mb-1">
             Place Your Order
           </h1>
-          <p className="text-lg text-muted-foreground font-body font-light">
+          <p className="nav-page-subheading text-muted-foreground">
             We&apos;re delighted to serve you
           </p>
         </div>
@@ -293,7 +294,7 @@ export default function PlaceOrderPage() {
                     {PAYMENT_ON_DELIVERY_ONLY ? (
                       <>
                         <Banknote className="h-4 w-4 shrink-0" aria-hidden />
-                        <span>No online payment — pay when you receive your order</span>
+                        <span>No online payment. Pay when you receive your order.</span>
                       </>
                     ) : (
                       <>
@@ -312,7 +313,7 @@ export default function PlaceOrderPage() {
                     By placing this order, you agree to our{" "}
                     <a
                       href="/terms"
-                      className="underline underline-offset-2 hover:text-foreground transition-colors"
+                      className="underline underline-offset-2 md:hover:text-foreground transition-colors"
                     >
                       terms of service
                     </a>
@@ -332,7 +333,7 @@ export default function PlaceOrderPage() {
               {/* Place Order Button - Hidden on desktop (shown in OrderSummary sidebar instead) */}
               {/* On mobile, OrderSummary appears above with the button */}
               {/* On desktop, OrderSummary sidebar has the button */}
-              <div className="rounded-sm border border-border/40 bg-muted/20 p-4">
+              <div className="ui-card-compact border-border/40 bg-muted/20 p-4">
                 <p className="mb-3 text-sm text-muted-foreground font-body font-light">
                   Need help confirming payment? Use WhatsApp and our team will assist right away.
                 </p>
@@ -340,7 +341,7 @@ export default function PlaceOrderPage() {
                   href={whatsappFallbackLink}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex min-h-[44px] items-center gap-2 rounded-md border border-green-500/40 px-4 py-2 text-sm font-body font-medium text-green-700 transition-colors hover:bg-green-500/10 dark:text-green-300"
+                  className="inline-flex min-h-[44px] items-center gap-2 rounded-md border border-green-500/40 px-4 py-2 text-sm font-body font-medium text-green-700 transition-colors md:hover:bg-green-500/10 active:bg-green-500/10 dark:text-green-300"
                 >
                   <MessageCircle className="h-4 w-4" />
                   Confirm on WhatsApp

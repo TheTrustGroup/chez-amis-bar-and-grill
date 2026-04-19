@@ -46,7 +46,7 @@ export function ToastContainer() {
           <p className="flex-1 text-sm font-medium">{toast.message}</p>
           <button
             onClick={() => removeToast(toast.id)}
-            className="flex-shrink-0 text-current opacity-50 hover:opacity-100 transition-opacity"
+            className="flex-shrink-0 text-current opacity-50 md:hover:opacity-100 transition-opacity"
             aria-label="Dismiss notification"
           >
             <X className="h-4 w-4" />

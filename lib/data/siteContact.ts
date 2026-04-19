@@ -35,6 +35,22 @@ export const FOOTER_PHONE_LINES: PhoneLine[] = PHONE_LINES.filter((p) =>
 )
 
 export const PRIMARY_PHONE = PHONE_LINES[0]
+/** Change the WhatsApp line in `PHONE_LINES` (id: "whatsapp") to update this globally. */
+export const WHATSAPP_PHONE =
+  PHONE_LINES.find((line) => line.id === "whatsapp") ?? PRIMARY_PHONE
+
+const getWhatsAppDigits = (tel: string) => tel.replace(/\D/g, "")
+
+export const WHATSAPP_NUMBER_DIGITS = getWhatsAppDigits(WHATSAPP_PHONE.tel)
+
+/** Default prefilled message used by floating and fallback WhatsApp CTAs. */
+export const DEFAULT_WHATSAPP_MESSAGE =
+  "Hello Chez Amis, I'd like to make an order or reservation." as const
+
+/** Build wa.me links from one source to avoid hardcoded numbers/messages in UI files. */
+export function buildWhatsAppLink(message: string = DEFAULT_WHATSAPP_MESSAGE) {
+  return `https://wa.me/${WHATSAPP_NUMBER_DIGITS}?text=${encodeURIComponent(message)}`
+}
 
 /** Single string for print headers, etc. */
 export const PHONE_DISPLAY_ALL = PHONE_LINES.map((p) => p.display).join(" · ")

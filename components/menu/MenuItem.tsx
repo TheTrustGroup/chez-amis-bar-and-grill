@@ -43,21 +43,21 @@ export function MenuItem({ item }: MenuItemProps) {
       <div className="flex flex-col md:flex-row gap-6 md:gap-8">
         {/* Image */}
         <div className="flex-shrink-0">
-          <div className="relative w-full md:w-[200px] h-[200px] rounded-lg overflow-hidden border border-border/30 group-hover:shadow-elegant transition-all duration-500">
+          <div className="relative w-full md:w-[200px] h-[200px] rounded-lg overflow-hidden border border-border/30 md:group-hover:shadow-elegant transition-all duration-500">
             <div className="absolute inset-0 bg-gradient-to-br from-green-600 via-green-700 to-green-900">
               {/* In production, use Next.js Image */}
               {/* <Image
                 src={item.image}
                 alt={item.name}
                 fill
-                className="object-cover transition-transform duration-500 group-hover:scale-105"
+                className="object-cover transition-transform duration-500 md:group-hover:scale-105"
               /> */}
               <div className="absolute inset-0 flex items-center justify-center text-neutral-200/20 font-display text-lg">
                 {item.name}
               </div>
             </div>
             {/* Gold tint on hover */}
-            <div className="absolute inset-0 bg-terra-500/0 group-hover:bg-terra-500/10 transition-colors duration-500"></div>
+            <div className="absolute inset-0 bg-terra-500/0 md:group-hover:bg-terra-500/10 transition-colors duration-500"></div>
           </div>
         </div>
 
@@ -81,7 +81,7 @@ export function MenuItem({ item }: MenuItemProps) {
                 {labels.map((diet) => (
                   <div
                     key={diet}
-                    className="text-muted-foreground group-hover:text-terra-600 transition-colors"
+                    className="text-muted-foreground md:group-hover:text-terra-600 transition-colors"
                     title={diet}
                   >
                     {getDietaryIcon(diet)}
@@ -136,7 +136,7 @@ export function MenuItem({ item }: MenuItemProps) {
               variant="outline"
               size="sm"
               onClick={handleSelect}
-              className="font-body font-light tracking-wide border-terra-500/60 text-foreground hover:bg-terra-500/10 hover:border-terra-500 transition-all duration-300"
+              className="font-body font-light tracking-wide border-terra-500/60 text-foreground md:hover:bg-terra-500/10 md:hover:border-terra-500 transition-all duration-300"
               aria-label={`Select ${item.name}`}
             >
               Select

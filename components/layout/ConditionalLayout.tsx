@@ -42,7 +42,7 @@ export function ConditionalLayout({ children }: { children: React.ReactNode }) {
       <Header />
       <main
         id="main-content"
-        className="min-h-screen pb-28 lg:pb-0"
+        className="min-h-screen pb-[5.5rem] lg:pb-0"
       >
         {children}
       </main>

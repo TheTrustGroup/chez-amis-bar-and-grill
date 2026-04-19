@@ -13,7 +13,7 @@ import { useTheme } from "@/lib/context/ThemeContext"
 // Get signature dishes (items with 'signature' tag - Attieke dishes)
 const signatureDishes: MenuItem[] = allMenuItems
   .filter((item) => item.tags?.includes('signature'))
-  .slice(0, 6)
+  .slice(0, 4)
 
 export function SignatureCreations() {
   const [isVisible, setIsVisible] = useState(false)
@@ -48,7 +48,7 @@ export function SignatureCreations() {
             "text-lg md:text-xl font-body font-light max-w-2xl mx-auto transition-colors duration-300",
             isDark ? "text-white/80" : "text-muted-foreground"
           )}>
-            Our chef&apos;s most celebrated dishes, each a masterpiece of flavor and presentation
+            A quick look at our signature dishes
           </p>
         </div>
 
@@ -60,8 +60,8 @@ export function SignatureCreations() {
                 key={dish.id}
                 className={cn(
                   "group relative flex-shrink-0 w-[400px] h-[500px] rounded-lg overflow-hidden",
-                  "transition-all duration-700 ease-out",
-                  "hover:shadow-elegant"
+                  "transition-all duration-500 ease-out",
+                  "md:hover:shadow-elegant"
                 )}
               >
                 {/* Image Container */}
@@ -71,7 +71,7 @@ export function SignatureCreations() {
                       src={dish.image}
                       alt={`${dish.name} - ${dish.description}`}
                       fill
-                      className="object-cover transition-transform duration-700 group-hover:scale-110"
+                      className="object-cover transition-transform duration-500 md:group-hover:scale-105"
                       sizes="400px"
                     />
                   ) : (
@@ -113,8 +113,7 @@ export function SignatureCreations() {
               key={dish.id}
               className={cn(
                 "group relative w-full h-[400px] rounded-lg overflow-hidden",
-                "transition-all duration-700 ease-out",
-                "hover:shadow-elegant"
+                  "transition-all duration-300 ease-out"
               )}
             >
               {/* Image Container */}
@@ -124,7 +123,7 @@ export function SignatureCreations() {
                     src={dish.image}
                     alt={`${dish.name} - ${dish.description}`}
                     fill
-                    className="object-cover transition-transform duration-700 group-hover:scale-110"
+                    className="object-cover transition-transform duration-300"
                     sizes="100vw"
                   />
                 ) : (
@@ -171,12 +170,12 @@ export function SignatureCreations() {
                 "min-w-[240px]",
                 "border-2",
                 isDark
-                  ? "border-terra-500/50 text-white bg-terra-500/5 hover:bg-terra-500/10 hover:border-terra-500/80 hover:shadow-lg hover:shadow-terra-500/20"
-                  : "border-terra-500/60 text-foreground bg-transparent hover:bg-terra-500/5 hover:border-terra-500/80 hover:shadow-lg"
+                  ? "border-terra-500/50 text-white bg-terra-500/5 md:hover:bg-terra-500/10 md:hover:border-terra-500/80 md:hover:shadow-lg md:hover:shadow-terra-500/20"
+                  : "border-terra-500/60 text-foreground bg-transparent md:hover:bg-terra-500/5 md:hover:border-terra-500/80 md:hover:shadow-lg"
               )}
             >
-              Explore Our Complete Menu
-              <ArrowRight className="ml-2 h-5 w-5 transition-transform duration-300 group-hover/menu:translate-x-1" />
+              See Full Menu
+              <ArrowRight className="ml-2 h-5 w-5 transition-transform duration-300 md:group-hover/menu:translate-x-1" />
             </Button>
           </Link>
         </div>

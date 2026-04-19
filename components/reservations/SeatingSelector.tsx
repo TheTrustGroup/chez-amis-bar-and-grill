@@ -67,7 +67,7 @@ export function SeatingSelector({
                 "focus:outline-none focus:ring-2 focus:ring-terra-500 focus:ring-offset-1",
                 isSelected
                   ? "border-terra-500 bg-terra-500/5 shadow-sm"
-                  : "border-border/50 hover:border-terra-500/50 hover:bg-terra-500/5 active:scale-[0.98]"
+                  : "border-border/50 md:hover:border-terra-500/50 md:hover:bg-terra-500/5 active:scale-[0.98]"
               )}
               aria-label={`Select ${option.title} seating`}
             >
@@ -75,7 +75,7 @@ export function SeatingSelector({
                 <div
                   className={cn(
                     "p-2 rounded-lg transition-colors flex-shrink-0",
-                    isSelected ? "bg-terra-500/10" : "bg-muted/50 group-hover:bg-terra-500/5"
+                    isSelected ? "bg-terra-500/10" : "bg-muted/50 md:group-hover:bg-terra-500/5"
                   )}
                 >
                   <Icon
@@ -83,7 +83,7 @@ export function SeatingSelector({
                       "h-5 w-5 transition-colors",
                       isSelected
                         ? "text-terra-600"
-                        : "text-muted-foreground group-hover:text-terra-600"
+                        : "text-muted-foreground md:group-hover:text-terra-600"
                     )}
                   />
                 </div>

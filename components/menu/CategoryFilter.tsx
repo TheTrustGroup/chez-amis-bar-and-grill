@@ -40,7 +40,7 @@ export function CategoryFilter({
                   "flex items-center gap-2",
                   isActive
                     ? "bg-primary text-primary-foreground shadow-md"
-                    : "hover:bg-accent"
+                    : "md:hover:bg-accent"
                 )}
                 aria-pressed={isActive}
                 aria-label={`Filter by ${category.label}`}

@@ -40,14 +40,14 @@ export function CategoryNav({
             onClick={() => onCategoryChange(category.id)}
             className={cn(
               "block w-full text-left px-3 py-2.5 text-sm transition-all duration-300 rounded-md",
-              "hover:scale-105 active:scale-95",
+              "md:hover:scale-105 active:scale-95",
               activeCategory === category.id
                 ? isDark
                   ? "text-terra-400 font-semibold bg-terra-500/10 border-l-2 border-terra-500"
                   : "text-green-700 font-semibold bg-green-50 border-l-2 border-green-500"
                 : isDark
-                ? "text-white/70 hover:text-white hover:bg-green-700/50"
-                : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
+                ? "text-white/70 md:hover:text-white md:hover:bg-green-700/50"
+                : "text-muted-foreground md:hover:text-foreground md:hover:bg-muted/50"
             )}
             aria-label={`View ${category.name} category`}
           >
@@ -72,10 +72,10 @@ export function CategoryNav({
                 key={filter.id}
                 className={cn(
                   "flex items-center gap-2.5 cursor-pointer text-xs transition-all duration-300 min-h-[32px] rounded-md px-2 py-1.5",
-                  "hover:scale-105",
+                  "md:hover:scale-105",
                   isDark 
-                    ? "text-white/70 hover:text-white hover:bg-green-700/50"
-                    : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
+                    ? "text-white/70 md:hover:text-white md:hover:bg-green-700/50"
+                    : "text-muted-foreground md:hover:text-foreground md:hover:bg-muted/50"
                 )}
               >
                 <input

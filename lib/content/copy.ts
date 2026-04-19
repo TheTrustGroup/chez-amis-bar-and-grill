@@ -29,14 +29,14 @@ export const aboutCopy = {
     title: "Chez Amis",
     story: `Born in Lyon, France, and trained in some of Europe's most prestigious kitchens, Chef Antoine Dubois found his true calling in Accra. After years of traveling and exploring global cuisines, he fell in love with Ghana's vibrant food culture and warm hospitality.
 
-What started as a dream to blend French culinary techniques with West African flavors has become Chez Amis—a place where every dish tells a story, and every guest feels like family.
+What started as a dream to blend French culinary techniques with West African flavors has become Chez Amis, a place where every dish tells a story and every guest feels like family.
 
-"Food is more than sustenance," Chef Antoine believes. "It's a bridge between cultures, a celebration of life, and an expression of love. At Chez Amis, we don't just serve meals—we create memories."`,
+"Food is more than sustenance," Chef Antoine believes. "It's a bridge between cultures, a celebration of life, and an expression of love. At Chez Amis, we don't just serve meals. We create memories."`,
     philosophy: `Our philosophy is simple yet profound: source the finest ingredients, honor traditional techniques, and infuse every dish with genuine care. We believe in the power of food to bring people together, to celebrate moments both big and small, and to nourish not just the body, but the soul.`,
   },
   vision: {
     title: "Our Vision",
-    content: `At Chez Amis, we envision a dining experience that transcends the ordinary. We're not just a restaurant—we're a culinary sanctuary where flavors dance, stories unfold, and connections deepen.
+    content: `At Chez Amis, we envision a dining experience that transcends the ordinary. We're not just a restaurant. We're a culinary sanctuary where flavors dance, stories unfold, and connections deepen.
 
 Every ingredient is chosen with intention. Every dish is crafted with artistry. Every service is delivered with warmth. This is our commitment to you, our cherished guests.`,
   },
@@ -47,7 +47,7 @@ Every ingredient is chosen with intention. Every dish is crafted with artistry. 
   },
   commitment: {
     title: "Our Commitment",
-    content: `We are committed to excellence in every aspect of your visit. From the moment you step through our doors until the last bite of dessert, we strive to exceed your expectations. Your satisfaction is not just our goal—it's our passion.`,
+    content: `We are committed to excellence in every aspect of your visit. From the moment you step through our doors until the last bite of dessert, we strive to exceed your expectations. Your satisfaction is not just our goal. It's our passion.`,
   },
 }
 
@@ -97,7 +97,7 @@ export const menuCopy = {
   },
   chefNote: {
     quote: `"Our commitment to culinary excellence is unwavering. We believe in the power of fresh, local ingredients to tell a story on your plate."`,
-    attribution: "— Chez Amis, Ivorian - Ghanaian fusion",
+    attribution: "Chez Amis, Ivorian - Ghanaian fusion",
   },
   seasonal: {
     title: "Seasonal Specials",

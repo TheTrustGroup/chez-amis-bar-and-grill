@@ -278,9 +278,9 @@ export function ContactForm() {
           className={cn(
             "w-full font-body font-semibold tracking-wide text-base md:text-lg",
             "px-8 py-3 md:py-4 min-h-[52px] md:min-h-[56px]",
-            "transition-all duration-300 hover:scale-[1.02] active:scale-[0.98]",
-            "shadow-xl hover:shadow-2xl hover:shadow-terra-500/30",
-            "disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
+            "transition-all duration-300 md:hover:scale-[1.02] active:scale-[0.98]",
+            "shadow-xl md:hover:shadow-2xl md:hover:shadow-terra-500/30",
+            "disabled:opacity-50 disabled:cursor-not-allowed disabled:md:hover:scale-100"
           )}
         >
           {isSubmitting ? (

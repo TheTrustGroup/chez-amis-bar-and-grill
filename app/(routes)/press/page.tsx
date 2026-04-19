@@ -15,10 +15,10 @@ export default function PressPage() {
       <section className="section-shell bg-gradient-to-b from-green-600 via-green-700 to-green-600 text-white">
         <div className="section-shell-inner">
           <div className="max-w-3xl mx-auto text-center space-y-6">
-            <h1 className="hero-title tracking-tight">
+            <h1 className="nav-page-heading md:text-5xl tracking-tight">
               Press & Media
             </h1>
-            <p className="text-lg md:text-xl font-body font-light text-white/80">
+            <p className="nav-page-subheading text-white/85 md:text-lg">
               We welcome media inquiries and are happy to provide information, images, and interviews.
             </p>
           </div>
@@ -30,7 +30,7 @@ export default function PressPage() {
         <div className="section-shell-inner">
           <div className="max-w-4xl mx-auto space-y-12">
             {/* Press Contact */}
-            <div className="rounded-sm border border-border/30 bg-neutral-50 dark:bg-green-600/40 dark:border-green-700/50 p-8 md:p-12 space-y-6">
+            <div className="ui-card-compact p-8 md:p-10 space-y-6 dark:bg-green-600/40 dark:border-green-700/50">
               <h2 className="section-title text-neutral-900 dark:text-white">
                 Media Inquiries
               </h2>
@@ -63,7 +63,7 @@ export default function PressPage() {
                     <p className="font-body font-medium text-foreground">Email</p>
                     <a
                       href="mailto:chez@chezamisrestaurant.com"
-                      className="text-terra-600 hover:text-terra-700 transition-colors"
+                      className="text-terra-600 md:hover:text-terra-700 transition-colors"
                     >
                       chez@chezamisrestaurant.com
                     </a>
@@ -76,25 +76,25 @@ export default function PressPage() {
                     <div className="space-y-1">
                       <a
                         href="tel:+233557032312"
-                        className="block text-terra-600 hover:text-terra-700 transition-colors"
+                        className="block text-terra-600 md:hover:text-terra-700 transition-colors"
                       >
                         +233 055 703 2312
                       </a>
                       <a
                         href="tel:+233557032335"
-                        className="block text-terra-600 hover:text-terra-700 transition-colors"
+                        className="block text-terra-600 md:hover:text-terra-700 transition-colors"
                       >
                         +233 055 703 2335
                       </a>
                     <a
                       href="tel:+233243952339"
-                        className="block text-terra-600 hover:text-terra-700 transition-colors"
+                        className="block text-terra-600 md:hover:text-terra-700 transition-colors"
                     >
                       +233 024 395 2339
                     </a>
                       <a
                         href="tel:+233502432037"
-                        className="block text-terra-600 hover:text-terra-700 transition-colors"
+                        className="block text-terra-600 md:hover:text-terra-700 transition-colors"
                       >
                         +233 050 243 2037
                       </a>
@@ -123,7 +123,7 @@ export default function PressPage() {
             </div>
 
             {/* Key Facts */}
-            <div className="bg-green-600 text-white rounded-lg p-8 md:p-12">
+            <div className="ui-card-compact bg-green-600 text-white border-green-500/40 p-8 md:p-10">
               <h2 className="text-2xl md:text-3xl font-display font-light mb-6">
                 Key Facts
               </h2>
@@ -160,9 +160,9 @@ export default function PressPage() {
               <Link href="/">
                 <Button
                   variant="outline"
-                  className="group border-2 border-foreground/20 text-foreground hover:bg-foreground/5 hover:border-foreground/40 font-body font-light tracking-wide"
+                  className="group border-2 border-foreground/20 text-foreground md:hover:bg-foreground/5 active:bg-foreground/5 md:hover:border-foreground/40 active:border-foreground/40 font-body font-light tracking-wide"
                 >
-                  <ArrowLeft className="mr-2 h-4 w-4 transition-transform group-hover:-translate-x-1" />
+                  <ArrowLeft className="mr-2 h-4 w-4 transition-transform md:group-hover:-translate-x-1" />
                   Back to Home
                 </Button>
               </Link>

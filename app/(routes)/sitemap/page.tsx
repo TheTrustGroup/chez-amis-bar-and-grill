@@ -34,10 +34,10 @@ export default function SitemapPage() {
       <section className="section-shell bg-gradient-to-b from-green-600 via-green-700 to-green-600 text-white">
         <div className="section-shell-inner">
           <div className="max-w-3xl mx-auto text-center space-y-6">
-            <h1 className="hero-title tracking-tight">
+            <h1 className="nav-page-heading md:text-5xl tracking-tight">
               Sitemap
             </h1>
-            <p className="text-lg md:text-xl font-body font-light text-white/80">
+            <p className="nav-page-subheading text-white/85 md:text-lg">
               Navigate our website easily
             </p>
           </div>
@@ -48,7 +48,7 @@ export default function SitemapPage() {
       <section className="section-shell">
         <div className="section-shell-inner">
           <div className="max-w-3xl mx-auto space-y-8">
-            <div className="rounded-sm border border-border/30 bg-neutral-50 dark:bg-green-600/40 dark:border-green-700/50 p-8 md:p-12">
+            <div className="ui-card-compact p-8 md:p-10 dark:bg-green-600/40 dark:border-green-700/50">
               <h2 className="section-title text-neutral-900 dark:text-white mb-6">
                 All Pages
               </h2>
@@ -57,7 +57,7 @@ export default function SitemapPage() {
                   <li key={page.href}>
                     <Link
                       href={page.href}
-                      className="text-terra-600 hover:text-terra-700 font-body font-light transition-colors underline underline-offset-2"
+                      className="text-terra-600 md:hover:text-terra-700 font-body font-light transition-colors underline underline-offset-2"
                     >
                       {page.label}
                     </Link>
@@ -71,9 +71,9 @@ export default function SitemapPage() {
               <Link href="/">
                 <Button
                   variant="outline"
-                  className="group border-2 border-foreground/20 text-foreground hover:bg-foreground/5 hover:border-foreground/40 font-body font-light tracking-wide"
+                  className="group border-2 border-foreground/20 text-foreground md:hover:bg-foreground/5 active:bg-foreground/5 md:hover:border-foreground/40 active:border-foreground/40 font-body font-light tracking-wide"
                 >
-                  <ArrowLeft className="mr-2 h-4 w-4 transition-transform group-hover:-translate-x-1" />
+                  <ArrowLeft className="mr-2 h-4 w-4 transition-transform md:group-hover:-translate-x-1" />
                   Back to Home
                 </Button>
               </Link>

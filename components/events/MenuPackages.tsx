@@ -73,7 +73,7 @@ export function MenuPackages() {
             <Card
               key={pkg.id}
               className={cn(
-                "relative overflow-hidden border border-border/30 bg-neutral-50 dark:bg-green-600/40 dark:border-green-700/50 hover:shadow-elegant transition-all duration-500 h-full flex flex-col",
+                "ui-card-compact relative overflow-hidden dark:bg-green-600/40 dark:border-green-700/50 md:hover:shadow-elegant transition-all duration-500 h-full flex flex-col",
                 index === 1 && "border-2 border-terra-500/30"
               )}
             >

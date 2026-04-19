@@ -89,7 +89,7 @@ export function MobileCart({ isOpen, onClose }: MobileCartProps) {
           <button
             type="button"
             onClick={onClose}
-            className="flex min-h-[48px] min-w-[48px] items-center justify-center rounded-full hover:bg-neutral-100 active:bg-neutral-200 transition-colors"
+            className="flex min-h-[48px] min-w-[48px] items-center justify-center rounded-full md:hover:bg-neutral-100 active:bg-neutral-200 transition-colors"
             aria-label="Close cart"
           >
             <X className="h-6 w-6 text-neutral-700" />
@@ -125,7 +125,7 @@ export function MobileCart({ isOpen, onClose }: MobileCartProps) {
                           <button
                             type="button"
                             onClick={() => decreaseQuantity(item.id)}
-                            className="flex h-11 w-11 min-h-[44px] min-w-[44px] items-center justify-center rounded-full border border-neutral-200 hover:bg-neutral-50"
+                            className="flex h-11 w-11 min-h-[44px] min-w-[44px] items-center justify-center rounded-full border border-neutral-200 md:hover:bg-neutral-50 active:bg-neutral-100 transition-colors"
                             aria-label="Decrease quantity"
                           >
                             <Minus className="h-5 w-5" />
@@ -136,7 +136,7 @@ export function MobileCart({ isOpen, onClose }: MobileCartProps) {
                           <button
                             type="button"
                             onClick={() => increaseQuantity(item.id)}
-                            className="flex h-11 w-11 min-h-[44px] min-w-[44px] items-center justify-center rounded-full border border-neutral-200 hover:bg-neutral-50"
+                            className="flex h-11 w-11 min-h-[44px] min-w-[44px] items-center justify-center rounded-full border border-neutral-200 md:hover:bg-neutral-50 active:bg-neutral-100 transition-colors"
                             aria-label="Increase quantity"
                           >
                             <Plus className="h-5 w-5" />
@@ -173,7 +173,7 @@ export function MobileCart({ isOpen, onClose }: MobileCartProps) {
                     router.push(CHECKOUT_PATH)
                     onClose()
                   }}
-                  className="w-full bg-terra-500 text-white hover:bg-terra-600 min-h-[48px] shadow-[var(--shadow-terra)]"
+                  className="w-full bg-terra-500 text-white md:hover:bg-terra-600 active:bg-terra-700 min-h-[48px] shadow-[var(--shadow-terra)]"
                 >
                   Place Order
                 </Button>
@@ -184,7 +184,7 @@ export function MobileCart({ isOpen, onClose }: MobileCartProps) {
                     router.push("/reservations")
                     onClose()
                   }}
-                  className="w-full min-h-[48px] border-green-500 text-green-600 hover:bg-green-50"
+                  className="w-full min-h-[48px] border-green-500 text-green-600 md:hover:bg-green-50 active:bg-green-100"
                 >
                   Reserve a Table
                 </Button>

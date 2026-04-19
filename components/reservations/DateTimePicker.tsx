@@ -96,7 +96,7 @@ export function DateTimePicker({
                       selectedTime === slot.time
                         ? "border-terra-500 bg-terra-500/10 text-foreground shadow-sm"
                         : slot.available
-                        ? "border-border/50 hover:border-terra-500/50 hover:bg-terra-500/5 text-foreground active:scale-95"
+                        ? "border-border/50 md:hover:border-terra-500/50 md:hover:bg-terra-500/5 text-foreground active:scale-95"
                         : "border-border/30 bg-muted/30 text-muted-foreground cursor-not-allowed opacity-50"
                     )}
                     aria-label={`Select ${slot.label} time slot`}
@@ -127,7 +127,7 @@ export function DateTimePicker({
                       selectedTime === slot.time
                         ? "border-terra-500 bg-terra-500/10 text-foreground shadow-sm"
                         : slot.available
-                        ? "border-border/50 hover:border-terra-500/50 hover:bg-terra-500/5 text-foreground active:scale-95"
+                        ? "border-border/50 md:hover:border-terra-500/50 md:hover:bg-terra-500/5 text-foreground active:scale-95"
                         : "border-border/30 bg-muted/30 text-muted-foreground cursor-not-allowed opacity-50"
                     )}
                     aria-label={`Select ${slot.label} time slot`}

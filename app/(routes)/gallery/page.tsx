@@ -110,15 +110,15 @@ export default function GalleryPage() {
         <div className="relative z-10 h-full flex items-center justify-center text-center px-6">
           <div className="max-w-4xl">
             <h1 className={cn(
-              "hero-title tracking-tight mb-6 md:mb-8",
+              "nav-page-heading md:text-5xl tracking-tight mb-4 md:mb-6",
               "text-white drop-shadow-[0_4px_20px_rgba(0,0,0,0.8)]",
               "animate-fade-in-up"
             )}>
               Our Gallery
             </h1>
-            <div className="w-24 md:w-32 h-0.5 bg-gradient-to-r from-transparent via-terra-500 to-transparent mx-auto mb-6 md:mb-8 shadow-lg shadow-terra-500/50" />
+            <div className="w-20 md:w-28 h-0.5 bg-gradient-to-r from-transparent via-terra-500 to-transparent mx-auto mb-4 md:mb-6 shadow-lg shadow-terra-500/50" />
             <p className={cn(
-              "text-lg md:text-xl lg:text-2xl font-body font-light leading-relaxed",
+              "nav-page-subheading text-white/90 md:text-lg leading-relaxed",
               "text-white/90 drop-shadow-[0_2px_10px_rgba(0,0,0,0.8)]",
               "animate-fade-in-up"
             )} style={{ animationDelay: "0.2s" }}>
@@ -151,12 +151,12 @@ export default function GalleryPage() {
                     className={cn(
                       'px-5 md:px-6 py-2.5 md:py-3 rounded-full whitespace-nowrap font-body font-medium transition-all duration-300 min-h-[48px] flex-shrink-0 touch-manipulation flex items-center gap-2',
                       'text-sm md:text-base',
-                      'hover:scale-105 active:scale-95',
+                      'md:hover:scale-105 active:scale-95',
                       selectedCategory === category.id
-                        ? 'bg-terra-500 text-neutral-900 shadow-lg shadow-terra-500/30 scale-105'
+                        ? 'bg-terra-500 text-neutral-900 shadow-lg shadow-terra-500/30 md:scale-105'
                         : isDark
-                        ? 'bg-green-700/50 text-white/70 hover:bg-green-700 hover:text-white border border-green-700/50'
-                        : 'bg-muted/50 text-muted-foreground hover:bg-muted hover:text-foreground border border-border/30'
+                        ? 'bg-green-700/50 text-white/70 md:hover:bg-green-700 active:bg-green-700 md:hover:text-white border border-green-700/50'
+                        : 'bg-muted/50 text-muted-foreground md:hover:bg-muted active:bg-muted md:hover:text-foreground border border-border/30'
                     )}
                   >
                     <span>{category.label}</span>
@@ -238,11 +238,11 @@ export default function GalleryPage() {
                     className={cn(
                       "group relative mb-4 break-inside-avoid md:mb-6",
                       "rounded-sm overflow-hidden cursor-pointer transition-all duration-700 ease-out",
-                      "hover:shadow-2xl hover:-translate-y-1 hover:scale-[1.01]",
+                      "md:hover:shadow-lg md:hover:-translate-y-1 md:hover:scale-[1.01]",
                       "border-2",
                       isDark
-                        ? "bg-green-600/50 border-green-700/50 hover:border-terra-500/40"
-                        : "bg-neutral-50 border-border/30 hover:border-terra-500/40",
+                        ? "bg-green-600/50 border-green-700/50 md:hover:border-terra-500/40 active:border-terra-500/40"
+                        : "bg-neutral-50 border-border/30 md:hover:border-terra-500/40 active:border-terra-500/40",
                       "shadow-lg"
                     )}
                   >
@@ -253,7 +253,7 @@ export default function GalleryPage() {
                           videoSrc={item.src}
                           alt={item.alt}
                           poster={item.poster ?? item.thumbnail}
-                          className="object-cover transition-transform duration-700 ease-out group-hover:scale-125"
+                          className="object-cover transition-transform duration-500 ease-out md:group-hover:scale-110"
                           priority={index < 8} // Only first 8 load immediately
                           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 25vw"
                           onThumbnailLoad={() => handleImageLoad(item.id)}
@@ -263,7 +263,7 @@ export default function GalleryPage() {
                           src={item.thumbnail || item.src}
                           alt={item.alt}
                           type={fallbackType}
-                          className="object-cover transition-transform duration-700 ease-out group-hover:scale-125"
+                          className="object-cover transition-transform duration-500 ease-out md:group-hover:scale-110"
                           priority={index < 8} // Only first 8 load immediately
                           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 25vw"
                           onImageLoad={() => handleImageLoad(item.id)}
@@ -285,10 +285,10 @@ export default function GalleryPage() {
                         <div className={cn(
                           "w-16 h-16 md:w-20 md:h-20 rounded-full flex items-center justify-center transition-all duration-500",
                           "bg-terra-500/95 backdrop-blur-md shadow-2xl",
-                          "group-hover:scale-125 group-hover:bg-terra-400",
-                          "border-2 border-terra-300/50 group-hover:border-terra-200"
+                          "md:group-hover:scale-110 md:group-hover:bg-terra-400",
+                          "border-2 border-terra-300/50 md:group-hover:border-terra-200"
                         )}>
-                          <Play className="w-8 h-8 md:w-10 md:h-10 text-neutral-900 ml-1 transition-transform duration-300 group-hover:scale-110" fill="currentColor" />
+                          <Play className="w-8 h-8 md:w-10 md:h-10 text-neutral-900 ml-1 transition-transform duration-300 md:group-hover:scale-110" fill="currentColor" />
                         </div>
                       </div>
                     )}
@@ -297,12 +297,12 @@ export default function GalleryPage() {
                     <div className={cn(
                       "absolute inset-0 z-[25] transition-opacity duration-500",
                       "bg-gradient-to-t from-black/95 via-black/50 to-transparent",
-                      "opacity-0 group-hover:opacity-100 pointer-events-none"
+                      "opacity-0 md:group-hover:opacity-100 pointer-events-none"
                     )} />
 
                     {/* Gold Accent Glow on Hover */}
                     <div className={cn(
-                      "absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 z-[28]",
+                      "absolute inset-0 opacity-0 md:group-hover:opacity-100 transition-opacity duration-700 z-[28]",
                       "bg-gradient-to-br from-terra-500/20 via-transparent to-transparent pointer-events-none"
                     )} />
 
@@ -310,7 +310,7 @@ export default function GalleryPage() {
                     <div
                       className={cn(
                         "absolute inset-0 z-[35] flex items-center justify-center transition-opacity duration-500",
-                        "bg-black/55 opacity-0 group-hover:opacity-100 pointer-events-none",
+                        "bg-black/55 opacity-0 md:group-hover:opacity-100 pointer-events-none",
                       )}
                     >
                       <span className="font-display text-3xl font-light text-white" aria-hidden>
@@ -322,14 +322,14 @@ export default function GalleryPage() {
                     <div className="absolute inset-0 flex flex-col justify-end p-4 md:p-6 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-40">
                       <h3 className={cn(
                         "text-base md:text-lg lg:text-xl font-display font-light mb-2",
-                        "transform translate-y-6 group-hover:translate-y-0 transition-all duration-500 ease-out"
+                        "transform translate-y-6 md:group-hover:translate-y-0 transition-all duration-500 ease-out"
                       )}>
                         {item.title}
                       </h3>
                       {item.description && (
                         <p className={cn(
                           "text-xs md:text-sm text-white/90 font-body font-light line-clamp-2",
-                          "transform translate-y-6 group-hover:translate-y-0 transition-all duration-500 ease-out delay-75"
+                          "transform translate-y-6 md:group-hover:translate-y-0 transition-all duration-500 ease-out delay-75"
                         )}>
                           {item.description}
                         </p>
@@ -339,7 +339,7 @@ export default function GalleryPage() {
                     {/* Category Badge - Premium */}
                     <div className={cn(
                       "absolute top-3 left-3 md:top-4 md:left-4 backdrop-blur-md px-3 py-1.5 rounded-full shadow-lg z-40 transition-all duration-300",
-                      "group-hover:scale-110",
+                      "md:group-hover:scale-105",
                       isDark
                         ? "bg-green-600/90 border border-terra-500/30"
                         : "bg-white/90 border border-terra-500/20"
@@ -355,8 +355,8 @@ export default function GalleryPage() {
                     {/* Premium Hover Border Effect */}
                     <div className={cn(
                       "absolute inset-0 border-2 rounded-xl z-20 pointer-events-none transition-all duration-500",
-                      "border-terra-500/0 group-hover:border-terra-500/60",
-                      "shadow-[0_0_30px_rgba(212,175,55,0.3)] opacity-0 group-hover:opacity-100"
+                      "border-terra-500/0 md:group-hover:border-terra-500/60",
+                      "shadow-[0_0_30px_rgba(212,175,55,0.3)] opacity-0 md:group-hover:opacity-100"
                     )} />
                   </div>
                 )
@@ -384,7 +384,7 @@ export default function GalleryPage() {
                 <Button 
                   variant="premium"
                   size="lg"
-                  className="font-body font-semibold shadow-xl hover:shadow-2xl hover:shadow-terra-500/30"
+                  className="font-body font-semibold shadow-md md:hover:shadow-lg md:hover:shadow-terra-500/20"
                 >
                   Explore Our Menu
                 </Button>
@@ -415,8 +415,8 @@ export default function GalleryPage() {
                 onClick={() => setSelectedCategory('all')}
                 className={cn(
                   "px-6 py-3 rounded-lg transition-all duration-300 font-medium shadow-lg",
-                  "bg-terra-500 text-neutral-900 hover:bg-terra-400 hover:scale-105 active:scale-95",
-                  "hover:shadow-xl hover:shadow-terra-500/30"
+                  "bg-terra-500 text-neutral-900 md:hover:bg-terra-400 active:bg-terra-400 md:hover:scale-105 active:scale-95",
+                  "md:hover:shadow-lg md:hover:shadow-terra-500/20"
                 )}
               >
                 View All Media
@@ -452,7 +452,7 @@ export default function GalleryPage() {
                 size="lg"
                 className={cn(
                   "min-w-[220px]",
-                  "shadow-xl hover:shadow-2xl hover:shadow-terra-500/40"
+                  "shadow-md md:hover:shadow-lg md:hover:shadow-terra-500/20"
                 )}
               >
                 <Calendar className="h-5 w-5" />
@@ -476,7 +476,7 @@ export default function GalleryPage() {
           {/* Close Button */}
           <button
             onClick={closeLightbox}
-            className="absolute top-6 right-6 z-[60] bg-white/10 backdrop-blur-md p-4 rounded-full hover:bg-white/20 transition-all hover:scale-110 hover:rotate-90 min-h-[44px] min-w-[44px] flex items-center justify-center close-button"
+            className="absolute top-6 right-6 z-[60] bg-white/10 backdrop-blur-md p-4 rounded-full md:hover:bg-white/20 active:bg-white/20 transition-all md:hover:scale-110 md:hover:rotate-90 min-h-[44px] min-w-[44px] flex items-center justify-center close-button"
             aria-label="Close gallery"
           >
             <X className="w-6 h-6 text-white" />
@@ -490,7 +490,7 @@ export default function GalleryPage() {
                   e.stopPropagation()
                   prevMedia()
                 }}
-                className="absolute left-6 top-1/2 -translate-y-1/2 z-[60] bg-white/10 backdrop-blur-md p-4 rounded-full hover:bg-white/20 transition-all hover:scale-110 min-h-[44px] min-w-[44px] flex items-center justify-center navigation-buttons"
+                className="absolute left-6 top-1/2 -translate-y-1/2 z-[60] bg-white/10 backdrop-blur-md p-4 rounded-full md:hover:bg-white/20 active:bg-white/20 transition-all md:hover:scale-110 min-h-[44px] min-w-[44px] flex items-center justify-center navigation-buttons"
                 aria-label="Previous media"
               >
                 <ChevronLeft className="w-7 h-7 text-white" />
@@ -501,7 +501,7 @@ export default function GalleryPage() {
                   e.stopPropagation()
                   nextMedia()
                 }}
-                className="absolute right-6 top-1/2 -translate-y-1/2 z-[60] bg-white/10 backdrop-blur-md p-4 rounded-full hover:bg-white/20 transition-all hover:scale-110 min-h-[44px] min-w-[44px] flex items-center justify-center navigation-buttons"
+                className="absolute right-6 top-1/2 -translate-y-1/2 z-[60] bg-white/10 backdrop-blur-md p-4 rounded-full md:hover:bg-white/20 active:bg-white/20 transition-all md:hover:scale-110 min-h-[44px] min-w-[44px] flex items-center justify-center navigation-buttons"
                 aria-label="Next media"
               >
                 <ChevronRight className="w-7 h-7 text-white" />

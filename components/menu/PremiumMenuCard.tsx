@@ -5,7 +5,7 @@ import { Card, CardContent, CardFooter } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { MenuItem, dietaryLabelList } from "@/lib/data/menuData"
-import { ShoppingCart, ChefHat, Sparkles } from "lucide-react"
+import { ShoppingCart, ChefHat, Award } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { useCart } from "@/lib/hooks/useCart"
 import { useTheme } from "@/lib/context/ThemeContext"
@@ -69,12 +69,12 @@ export function PremiumMenuCard({ item, onAddToCart }: PremiumMenuCardProps) {
 
   return (
     <Card className={cn(
-      "group relative overflow-hidden flex flex-col h-full rounded-sm transition-all duration-700 ease-out",
-      "hover:shadow-2xl hover:-translate-y-3",
+      "group relative overflow-hidden flex flex-col h-full rounded-sm transition-all duration-500 ease-out",
+      "md:hover:shadow-2xl md:hover:-translate-y-2",
       isDark 
-        ? "bg-green-600/50 border-green-700/50 hover:border-terra-500/40"
-        : "bg-card/50 backdrop-blur-sm border-border/50 hover:border-terra-500/40",
-      "hover:scale-[1.02]"
+        ? "bg-green-600/50 border-green-700/50 md:hover:border-terra-500/40"
+        : "bg-card/50 backdrop-blur-sm border-border/50 md:hover:border-terra-500/40",
+      "md:hover:scale-[1.01]"
     )}>
       {/* Image Container with Premium Effects */}
       <div className="relative aspect-[4/3] w-full overflow-hidden rounded-none bg-gradient-to-br from-neutral-200 to-neutral-300">
@@ -83,7 +83,7 @@ export function PremiumMenuCard({ item, onAddToCart }: PremiumMenuCardProps) {
           src={item.image}
           alt={item.name}
           fill
-          className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+          className="object-cover transition-transform duration-500 ease-out md:group-hover:scale-105"
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           priority={false}
         />
@@ -98,7 +98,7 @@ export function PremiumMenuCard({ item, onAddToCart }: PremiumMenuCardProps) {
                 "flex items-center gap-1 font-semibold animate-fade-in"
               )}
             >
-              <Sparkles className="h-3 w-3" />
+              <Award className="h-3 w-3" />
               Signature
             </Badge>
           )}
@@ -120,12 +120,12 @@ export function PremiumMenuCard({ item, onAddToCart }: PremiumMenuCardProps) {
         <div className={cn(
           "absolute inset-0 transition-opacity duration-500 z-10",
           "bg-gradient-to-t from-black/70 via-black/30 to-transparent",
-          "opacity-0 group-hover:opacity-100"
+          "opacity-0 md:group-hover:opacity-100"
         )} />
 
         {/* Gold Accent Glow on Hover */}
         <div className={cn(
-          "absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 z-10",
+          "absolute inset-0 opacity-0 md:group-hover:opacity-100 transition-opacity duration-500 z-10",
           "bg-gradient-to-br from-terra-500/20 via-transparent to-transparent"
         )} />
       </div>
@@ -137,7 +137,7 @@ export function PremiumMenuCard({ item, onAddToCart }: PremiumMenuCardProps) {
           <h3 className={cn(
             "text-lg md:text-xl font-display font-light leading-tight flex-1",
             isDark ? "text-white" : "text-foreground",
-            "group-hover:text-terra-600 transition-colors duration-300"
+            "md:group-hover:text-terra-600 transition-colors duration-300"
           )}>
             {item.name}
           </h3>
@@ -145,7 +145,7 @@ export function PremiumMenuCard({ item, onAddToCart }: PremiumMenuCardProps) {
             <p className={cn(
               "text-xl md:text-2xl font-bold",
               isDark ? "text-terra-400" : "text-terra-600",
-              "transition-colors duration-300 group-hover:text-terra-500"
+              "transition-colors duration-300 md:group-hover:text-terra-500"
             )}>
               {formatPrice(getDisplayPrice())}
             </p>
@@ -206,13 +206,13 @@ export function PremiumMenuCard({ item, onAddToCart }: PremiumMenuCardProps) {
           disabled={isAdding || !item.available}
           className={cn(
             "font-semibold relative overflow-hidden group/btn transition-all duration-300",
-            "hover:scale-105 active:scale-95 w-full min-h-[48px]",
-            "shadow-lg hover:shadow-xl hover:shadow-terra-500/30"
+            "active:scale-95 w-full min-h-[48px]",
+            "shadow-md md:hover:shadow-lg md:hover:shadow-terra-500/20"
           )}
           aria-label={`Add ${item.name} to order`}
         >
           {/* Shine effect */}
-          <span className="absolute inset-0 -translate-x-full group-hover/btn:translate-x-full transition-transform duration-700 ease-in-out bg-gradient-to-r from-transparent via-white/20 to-transparent" />
+          <span className="absolute inset-0 -translate-x-full md:group-hover/btn:translate-x-full transition-transform duration-700 ease-in-out bg-gradient-to-r from-transparent via-white/20 to-transparent" />
           <span className="relative z-10 flex items-center justify-center gap-2">
             {isAdding ? (
               <>
@@ -221,7 +221,7 @@ export function PremiumMenuCard({ item, onAddToCart }: PremiumMenuCardProps) {
               </>
             ) : (
               <>
-                <ShoppingCart className="h-4 w-4 transition-transform duration-300 group-hover/btn:scale-110" />
+                <ShoppingCart className="h-4 w-4 transition-transform duration-300 md:group-hover/btn:scale-110" />
                 Add to Order
               </>
             )}

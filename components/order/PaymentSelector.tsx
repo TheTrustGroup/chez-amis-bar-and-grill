@@ -41,7 +41,7 @@ export function PaymentSelector({ selectedMethod, onSelect }: PaymentSelectorPro
             Payment
           </h2>
           <p className="font-body font-light text-muted-foreground">
-            Pay on delivery or when you collect — cash or card. Online payment will be available
+            Pay on delivery or when you collect, cash or card. Online payment will be available
             here soon.
           </p>
         </div>
@@ -62,7 +62,7 @@ export function PaymentSelector({ selectedMethod, onSelect }: PaymentSelectorPro
               </h3>
               <p className="text-sm font-body font-light text-muted-foreground">
                 No charge is made online. Our team may confirm your order by phone or message. You
-                pay the driver or at the restaurant—whichever applies to your order type.
+                pay the driver or at the restaurant, whichever applies to your order type.
               </p>
             </div>
           </div>
@@ -96,20 +96,20 @@ export function PaymentSelector({ selectedMethod, onSelect }: PaymentSelectorPro
                 "focus:outline-none focus:ring-2 focus:ring-terra-500 focus:ring-offset-2",
                 isSelected
                   ? "border-terra-500 bg-terra-500/5"
-                  : "border-border/50 hover:border-terra-500/50 hover:bg-terra-500/5"
+                  : "border-border/50 md:hover:border-terra-500/50 md:hover:bg-terra-500/5"
               )}
             >
               <div className="flex items-start gap-4">
                 <div
                   className={cn(
                     "flex-shrink-0 rounded-lg p-3 transition-colors",
-                    isSelected ? "bg-terra-500/10" : "bg-muted/50 group-hover:bg-terra-500/5"
+                    isSelected ? "bg-terra-500/10" : "bg-muted/50 md:group-hover:bg-terra-500/5"
                   )}
                 >
                   <Icon
                     className={cn(
                       "h-5 w-5 transition-colors",
-                      isSelected ? "text-terra-600" : "text-muted-foreground group-hover:text-terra-600"
+                      isSelected ? "text-terra-600" : "text-muted-foreground md:group-hover:text-terra-600"
                     )}
                   />
                 </div>

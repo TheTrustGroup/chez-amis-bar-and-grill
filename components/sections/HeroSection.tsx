@@ -316,11 +316,11 @@ export function HeroSection() {
               href="/reservations"
               className={cn(
                 "inline-flex items-center justify-center min-h-[44px] w-full max-w-sm sm:w-auto",
-                "bg-green-600 text-neutral-50 hover:bg-green-700",
+                "bg-green-600 text-neutral-50 md:hover:bg-green-700",
                 "tracking-widest uppercase text-xs font-body",
                 "px-8 py-4 transition-all duration-300",
                 "focus:outline-none focus:ring-2 focus:ring-terra-500 focus:ring-offset-2 focus:ring-offset-black/40",
-                "shadow-lg hover:shadow-xl",
+                "shadow-lg md:hover:shadow-xl",
               )}
               onClick={() => trackReservationClick("hero")}
             >
@@ -331,7 +331,7 @@ export function HeroSection() {
               className={cn(
                 isMobile
                   ? "inline-flex items-center justify-center min-h-[44px] w-full max-w-sm text-white/90 underline underline-offset-4"
-                  : "inline-flex items-center justify-center min-h-[44px] w-full max-w-sm sm:w-auto border-2 border-white/80 text-white bg-transparent hover:bg-white/10",
+                  : "inline-flex items-center justify-center min-h-[44px] w-full max-w-sm sm:w-auto border-2 border-white/80 text-white bg-transparent md:hover:bg-white/10",
                 "tracking-widest uppercase text-xs font-body",
                 isMobile ? "px-4 py-2.5" : "px-8 py-4",
                 "transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-terra-500 focus:ring-offset-2 focus:ring-offset-black/40",
@@ -375,18 +375,18 @@ export function HeroSection() {
         type="button"
         onClick={scrollToNext}
         className={cn(
-          "absolute left-1/2 z-10 flex -translate-x-1/2 transform flex-col items-center gap-3 text-terra-400",
+          "absolute left-1/2 z-10 hidden -translate-x-1/2 transform flex-col items-center gap-3 text-terra-400 md:flex",
           "bottom-[calc(7rem+env(safe-area-inset-bottom,0px))] md:bottom-24",
-          "hover:text-terra-300 transition-all duration-500",
+          "md:hover:text-terra-300 transition-all duration-500",
           "focus:outline-none focus:ring-2 focus:ring-terra-400 focus:ring-offset-2 focus:ring-offset-transparent rounded-full p-2",
           "group"
         )}
         aria-label="Scroll to explore"
       >
-        <span className="hidden text-xs font-body font-light tracking-widest uppercase opacity-0 transition-opacity duration-500 group-hover:opacity-100 md:inline md:text-sm">
+        <span className="hidden text-xs font-body font-light tracking-widest uppercase opacity-0 transition-opacity duration-500 md:group-hover:opacity-100 md:inline md:text-sm">
           Scroll to explore
         </span>
-        <ChevronDown className="h-6 w-6 animate-bounce md:h-7 md:w-7 opacity-70" aria-hidden="true" />
+        <ChevronDown className="h-6 w-6 md:h-7 md:w-7 opacity-70" aria-hidden="true" />
       </button>
 
     </section>

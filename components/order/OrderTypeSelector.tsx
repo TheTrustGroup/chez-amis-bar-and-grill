@@ -56,20 +56,20 @@ export function OrderTypeSelector({ selectedType, onSelect }: OrderTypeSelectorP
                 "focus:outline-none focus:ring-2 focus:ring-terra-500 focus:ring-offset-2",
                 isSelected
                   ? "border-terra-500 bg-terra-500/5"
-                  : "border-border/50 hover:border-terra-500/50 hover:bg-terra-500/5"
+                  : "border-border/50 md:hover:border-terra-500/50 md:hover:bg-terra-500/5"
               )}
             >
               <div className="flex flex-col items-start gap-4">
                 <div
                   className={cn(
                     "p-3 rounded-lg transition-colors",
-                    isSelected ? "bg-terra-500/10" : "bg-muted/50 group-hover:bg-terra-500/5"
+                    isSelected ? "bg-terra-500/10" : "bg-muted/50 md:group-hover:bg-terra-500/5"
                   )}
                 >
                   <Icon
                     className={cn(
                       "h-6 w-6 md:h-7 md:w-7 transition-colors",
-                      isSelected ? "text-terra-600" : "text-muted-foreground group-hover:text-terra-600"
+                      isSelected ? "text-terra-600" : "text-muted-foreground md:group-hover:text-terra-600"
                     )}
                   />
                 </div>

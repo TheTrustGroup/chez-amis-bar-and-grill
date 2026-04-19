@@ -21,17 +21,17 @@ export default function CartPage() {
       <section className="section-shell">
         <div className="section-shell-inner">
         <div className="max-w-4xl mx-auto">
-          <div className="text-center mb-8 md:mb-10">
-            <h1 className="hero-title tracking-tight text-neutral-900 dark:text-white mb-4">
+          <div className="text-center mb-6 md:mb-8">
+            <h1 className="nav-page-heading text-neutral-900 dark:text-white mb-2">
               Your Selection
             </h1>
-            <p className="text-muted-foreground text-lg font-body font-light">
-              Review items and checkout
+            <p className="nav-page-subheading">
+              Update items and checkout.
             </p>
           </div>
 
         {items.length === 0 ? (
-          <Card className="rounded-sm border border-border/30 bg-neutral-50 dark:bg-green-600/40 dark:border-green-700/50 shadow-sm">
+          <Card className="ui-card-compact dark:bg-green-600/40 dark:border-green-700/50">
             <CardHeader>
               <CardTitle className="flex items-center gap-2 font-display font-light">
                 <ShoppingBag className="h-5 w-5 shrink-0" aria-hidden />
@@ -49,7 +49,7 @@ export default function CartPage() {
           </Card>
         ) : (
           <div className="grid grid-cols-1 lg:grid-cols-3 grid-gap-section">
-            <div className="lg:col-span-2 space-y-0 rounded-sm border border-border/30 bg-neutral-50 dark:bg-green-600/40 dark:border-green-700/50 px-4 md:px-6">
+            <div className="ui-card-compact lg:col-span-2 space-y-0 px-4 md:px-6 dark:bg-green-600/40 dark:border-green-700/50">
               {items.map((item) => (
                 <SelectionItem
                   key={item.id}
@@ -61,7 +61,7 @@ export default function CartPage() {
             </div>
 
             <div className="lg:col-span-1">
-              <Card className="rounded-sm border border-border/30 bg-neutral-50 dark:bg-green-600/40 dark:border-green-700/50 shadow-sm lg:sticky lg:top-24">
+              <Card className="ui-card-compact lg:sticky lg:top-24 dark:bg-green-600/40 dark:border-green-700/50">
                 <CardHeader>
                   <CardTitle className="font-display font-light">Order Summary</CardTitle>
                 </CardHeader>

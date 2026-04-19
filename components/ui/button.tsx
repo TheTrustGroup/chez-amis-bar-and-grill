@@ -8,19 +8,19 @@ const buttonVariants = cva(
     variants: {
       variant: {
         default:
-          "bg-primary text-primary-foreground hover:bg-[var(--btn-primary-hover)] shadow-[var(--shadow-green)] hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98] px-8",
+          "bg-primary text-primary-foreground md:hover:bg-[var(--btn-primary-hover)] shadow-[var(--shadow-green)] md:hover:shadow-lg md:hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98] px-8",
         destructive:
-          "bg-destructive text-destructive-foreground hover:bg-destructive/90 active:bg-destructive/80 shadow-sm hover:shadow-md hover:scale-[1.02] active:scale-[0.98]",
+          "bg-destructive text-destructive-foreground md:hover:bg-destructive/90 active:bg-destructive/80 shadow-sm md:hover:shadow-md md:hover:scale-[1.02] active:scale-[0.98]",
         outline:
-          "border border-[var(--btn-secondary-border)] bg-transparent text-[var(--btn-secondary-text)] hover:bg-green-50 hover:border-green-500 px-8",
+          "border border-[var(--btn-secondary-border)] bg-transparent text-[var(--btn-secondary-text)] md:hover:bg-green-50 md:hover:border-green-500 px-8",
         secondary:
-          "bg-secondary text-secondary-foreground hover:bg-secondary/80 active:bg-secondary/70 shadow-sm hover:shadow-lg hover:scale-[1.02] active:scale-[0.98] hover:-translate-y-0.5",
+          "bg-secondary text-secondary-foreground md:hover:bg-secondary/80 active:bg-secondary/70 shadow-sm md:hover:shadow-lg md:hover:scale-[1.02] active:scale-[0.98] md:hover:-translate-y-0.5",
         accent:
-          "bg-accent text-accent-foreground hover:bg-accent/90 active:bg-accent/80 shadow-sm hover:shadow-lg hover:scale-[1.02] active:scale-[0.98]",
-        ghost: "hover:bg-accent hover:text-accent-foreground active:bg-accent/80 hover:scale-[1.05] active:scale-[0.95]",
-        link: "text-primary underline-offset-4 hover:underline hover:text-primary/80 transition-all duration-200",
+          "bg-accent text-accent-foreground md:hover:bg-accent/90 active:bg-accent/80 shadow-sm md:hover:shadow-lg md:hover:scale-[1.02] active:scale-[0.98]",
+        ghost: "md:hover:bg-accent md:hover:text-accent-foreground active:bg-accent/80 md:hover:scale-[1.05] active:scale-[0.95]",
+        link: "text-primary underline-offset-4 md:hover:underline md:hover:text-primary/80 transition-all duration-200",
         premium:
-          "bg-terra-500 text-white hover:bg-terra-600 shadow-[var(--shadow-terra)] hover:shadow-lg hover:-translate-y-0.5 border-0 px-8",
+          "bg-terra-500 text-white md:hover:bg-terra-600 shadow-[var(--shadow-terra)] md:hover:shadow-lg md:hover:-translate-y-0.5 border-0 px-8",
       },
       size: {
         default: "px-6 py-3",
@@ -53,14 +53,14 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         {/* Shine effect on hover for premium buttons */}
         {variant === "premium" && (
           <>
-            <span className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-in-out bg-gradient-to-r from-transparent via-white/30 to-transparent" />
+            <span className="absolute inset-0 -translate-x-full md:group-hover:translate-x-full transition-transform duration-1000 ease-in-out bg-gradient-to-r from-transparent via-white/30 to-transparent" />
             {/* Subtle glow effect */}
-            <span className="absolute inset-0 bg-terra-500/20 blur-xl group-hover:bg-terra-500/30 transition-colors duration-500 opacity-0 group-hover:opacity-100" />
+            <span className="absolute inset-0 bg-terra-500/20 blur-xl md:group-hover:bg-terra-500/30 transition-colors duration-500 opacity-0 md:group-hover:opacity-100" />
           </>
         )}
         {/* Subtle shine for outline buttons */}
         {variant === "outline" && (
-          <span className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-in-out bg-gradient-to-r from-transparent via-terra-500/10 to-transparent" />
+          <span className="absolute inset-0 -translate-x-full md:group-hover:translate-x-full transition-transform duration-700 ease-in-out bg-gradient-to-r from-transparent via-terra-500/10 to-transparent" />
         )}
         <span className="relative z-10 flex items-center justify-center gap-2">{props.children}</span>
       </button>

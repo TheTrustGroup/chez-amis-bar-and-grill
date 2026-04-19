@@ -16,7 +16,7 @@ export function ThemeToggle({ className }: { className?: string }) {
       onClick={() => setTheme(isDark ? "light" : "dark")}
       className={cn(
         "relative min-h-[44px] min-w-[44px] transition-all duration-300",
-        "hover:scale-110 active:scale-95",
+        "md:hover:scale-110 active:scale-95",
         className
       )}
       aria-label={`Switch to ${isDark ? "light" : "dark"} mode`}

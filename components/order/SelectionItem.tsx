@@ -72,7 +72,7 @@ export function SelectionItem({ item, onUpdateQuantity, onRemove }: SelectionIte
             <div className="flex items-center gap-2 flex-shrink-0">
               <button
                 onClick={handleDecrease}
-                className="w-8 h-8 flex items-center justify-center rounded-sm border border-border/50 hover:border-terra-500/50 hover:bg-terra-500/5 transition-colors focus:outline-none focus:ring-2 focus:ring-terra-500 focus:ring-offset-1"
+                className="w-8 h-8 flex items-center justify-center rounded-sm border border-border/50 md:hover:border-terra-500/50 md:hover:bg-terra-500/5 transition-colors focus:outline-none focus:ring-2 focus:ring-terra-500 focus:ring-offset-1"
                 aria-label="Decrease quantity"
               >
                 <Minus className="h-4 w-4" aria-hidden />
@@ -82,7 +82,7 @@ export function SelectionItem({ item, onUpdateQuantity, onRemove }: SelectionIte
               </span>
               <button
                 onClick={handleIncrease}
-                className="w-8 h-8 flex items-center justify-center rounded-sm border border-border/50 hover:border-terra-500/50 hover:bg-terra-500/5 transition-colors focus:outline-none focus:ring-2 focus:ring-terra-500 focus:ring-offset-1"
+                className="w-8 h-8 flex items-center justify-center rounded-sm border border-border/50 md:hover:border-terra-500/50 md:hover:bg-terra-500/5 transition-colors focus:outline-none focus:ring-2 focus:ring-terra-500 focus:ring-offset-1"
                 aria-label="Increase quantity"
               >
                 <Plus className="h-4 w-4" aria-hidden />
@@ -93,7 +93,7 @@ export function SelectionItem({ item, onUpdateQuantity, onRemove }: SelectionIte
           {/* Remove Link */}
           <button
             onClick={() => onRemove(item.id)}
-            className="mt-3 text-sm text-muted-foreground hover:text-foreground font-body font-light underline underline-offset-2 transition-colors"
+            className="mt-3 text-sm text-muted-foreground md:hover:text-foreground font-body font-light underline underline-offset-2 transition-colors"
             aria-label={`Remove ${item.menuItem.name}`}
           >
             Remove Item

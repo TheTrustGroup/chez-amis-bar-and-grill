@@ -99,18 +99,6 @@ export const metadata: Metadata = {
   alternates: {
     canonical: siteUrl,
   },
-  // public/* icons + app/favicon.ico / app/icon.png (file convention). Bump ?v= when assets change (cache bust).
-  icons: {
-    icon: [
-      { url: "/favicon.ico", sizes: "any" },
-      { url: "/favicon.svg?v=3", type: "image/svg+xml" },
-      { url: "/favicon-32x32.png?v=3", sizes: "32x32", type: "image/png" },
-      { url: "/favicon-16x16.png?v=3", sizes: "16x16", type: "image/png" },
-    ],
-    apple: { url: "/apple-touch-icon.png?v=3" },
-    shortcut: "/favicon.ico",
-  },
-  manifest: "/site.webmanifest",
 }
 
 export default function RootLayout({

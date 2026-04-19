@@ -73,9 +73,9 @@ export function Philosophy() {
                   "text-center space-y-6 group relative",
                   "p-8 md:p-10 rounded-2xl transition-all duration-700 ease-out",
                   isDark 
-                    ? "bg-green-600/50 border border-green-700/50 hover:border-terra-500/40 hover:bg-green-600/70"
-                    : "bg-background/50 border border-border/30 hover:border-terra-500/40 hover:bg-background/80",
-                  "hover:shadow-2xl hover:-translate-y-2",
+                    ? "bg-green-600/50 border border-green-700/50 md:hover:border-terra-500/40 md:hover:bg-green-600/70"
+                    : "bg-background/50 border border-border/30 md:hover:border-terra-500/40 md:hover:bg-background/80",
+                  "md:hover:shadow-2xl md:hover:-translate-y-2",
                   "animate-fade-in-up"
                 )}
                 style={{ animationDelay: `${index * 0.15}s` }}
@@ -85,14 +85,14 @@ export function Philosophy() {
                   <div className="relative">
                     <div className={cn(
                       "absolute inset-0 rounded-full blur-2xl transition-all duration-700",
-                      "bg-terra-500/10 group-hover:bg-terra-500/30 group-hover:blur-3xl group-hover:scale-125"
+                      "bg-terra-500/10 md:group-hover:bg-terra-500/30 md:group-hover:blur-3xl md:group-hover:scale-125"
                     )} />
                     <div className={cn(
                       "relative rounded-full p-6 transition-all duration-700",
-                      "bg-terra-500/5 group-hover:bg-terra-500/15 group-hover:scale-110",
-                      "border border-terra-500/20 group-hover:border-terra-500/40"
+                      "bg-terra-500/5 md:group-hover:bg-terra-500/15 md:group-hover:scale-110",
+                      "border border-terra-500/20 md:group-hover:border-terra-500/40"
                     )}>
-                      <Icon className="h-10 w-10 md:h-12 md:w-12 text-terra-600 transition-transform duration-500 group-hover:scale-110 group-hover:rotate-3" />
+                      <Icon className="h-10 w-10 md:h-12 md:w-12 text-terra-600 transition-transform duration-500 md:group-hover:scale-110 md:group-hover:rotate-3" />
                     </div>
                   </div>
                 </div>
@@ -100,7 +100,7 @@ export function Philosophy() {
                 {/* Title */}
                 <h3 className={cn(
                   "text-2xl md:text-3xl font-display font-light transition-colors duration-300",
-                  isDark ? "text-white group-hover:text-terra-400" : "text-foreground group-hover:text-terra-600"
+                  isDark ? "text-white md:group-hover:text-terra-400" : "text-foreground md:group-hover:text-terra-600"
                 )}>
                   {pillar.title}
                 </h3>

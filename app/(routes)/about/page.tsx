@@ -45,15 +45,15 @@ export default function AboutPage() {
         
         <div className="relative z-10 text-center px-6 max-w-4xl mx-auto">
           <h1 className={cn(
-            "hero-title tracking-tight mb-6 md:mb-8",
+            "nav-page-heading md:text-5xl tracking-tight mb-4 md:mb-6",
             "text-white drop-shadow-[0_4px_20px_rgba(0,0,0,0.8)]",
             "animate-fade-in-up"
           )}>
             Our Story
           </h1>
-          <div className="w-24 md:w-32 h-0.5 bg-gradient-to-r from-transparent via-terra-500 to-transparent mx-auto mb-6 md:mb-8 shadow-lg shadow-terra-500/50" />
+          <div className="w-20 md:w-28 h-0.5 bg-gradient-to-r from-transparent via-terra-500 to-transparent mx-auto mb-4 md:mb-6 shadow-lg shadow-terra-500/50" />
           <p className={cn(
-            "text-lg md:text-xl lg:text-2xl font-body font-light max-w-3xl mx-auto leading-relaxed",
+            "nav-page-subheading max-w-3xl mx-auto text-white/90 md:text-lg",
             "text-white/90 drop-shadow-[0_2px_10px_rgba(0,0,0,0.8)]",
             "animate-fade-in-up"
           )} style={{ animationDelay: "0.2s" }}>
@@ -108,22 +108,22 @@ export default function AboutPage() {
             {/* TripAdvisor */}
             <div className={cn(
               "text-center space-y-4 p-6 md:p-8 rounded-xl border transition-all duration-500",
-              "hover:shadow-2xl hover:-translate-y-2 group",
+              "md:hover:shadow-lg md:hover:-translate-y-1 group",
               isDark 
-                ? "bg-green-600/50 border-green-700/50 hover:border-terra-500/40"
-                : "bg-neutral-50/50 border-border/30 hover:border-terra-500/40"
+                ? "bg-green-600/50 border-green-700/50 md:hover:border-terra-500/40 active:border-terra-500/40"
+                : "bg-neutral-50/50 border-border/30 md:hover:border-terra-500/40 active:border-terra-500/40"
             )}>
               <div className="flex justify-center">
                 <div className={cn(
                   "p-4 rounded-xl transition-all duration-500",
-                  "bg-terra-500/10 group-hover:bg-terra-500/20 group-hover:scale-110"
+                  "bg-terra-500/10 md:group-hover:bg-terra-500/20 md:group-hover:scale-105"
                 )}>
-                  <Award className="h-8 w-8 md:h-10 md:w-10 text-terra-600 transition-transform duration-500 group-hover:scale-110" />
+                  <Award className="h-8 w-8 md:h-10 md:w-10 text-terra-600 transition-transform duration-500 md:group-hover:scale-105" />
                 </div>
               </div>
               <h3 className={cn(
                 "text-base md:text-lg font-display font-light transition-colors duration-300",
-                isDark ? "text-white group-hover:text-terra-400" : "text-foreground group-hover:text-terra-600"
+                isDark ? "text-white md:group-hover:text-terra-400" : "text-foreground md:group-hover:text-terra-600"
               )}>
                 TripAdvisor Excellence
               </h3>
@@ -138,22 +138,22 @@ export default function AboutPage() {
             {/* Ghana Restaurant Awards */}
             <div className={cn(
               "text-center space-y-4 p-6 md:p-8 rounded-xl border transition-all duration-500",
-              "hover:shadow-2xl hover:-translate-y-2 group",
+              "md:hover:shadow-lg md:hover:-translate-y-1 group",
               isDark 
-                ? "bg-green-600/50 border-green-700/50 hover:border-terra-500/40"
-                : "bg-neutral-50/50 border-border/30 hover:border-terra-500/40"
+                ? "bg-green-600/50 border-green-700/50 md:hover:border-terra-500/40 active:border-terra-500/40"
+                : "bg-neutral-50/50 border-border/30 md:hover:border-terra-500/40 active:border-terra-500/40"
             )}>
               <div className="flex justify-center">
                 <div className={cn(
                   "p-4 rounded-xl transition-all duration-500",
-                  "bg-terra-500/10 group-hover:bg-terra-500/20 group-hover:scale-110"
+                  "bg-terra-500/10 md:group-hover:bg-terra-500/20 md:group-hover:scale-105"
                 )}>
-                  <Award className="h-8 w-8 md:h-10 md:w-10 text-terra-600 transition-transform duration-500 group-hover:scale-110" />
+                  <Award className="h-8 w-8 md:h-10 md:w-10 text-terra-600 transition-transform duration-500 md:group-hover:scale-105" />
                 </div>
               </div>
               <h3 className={cn(
                 "text-base md:text-lg font-display font-light transition-colors duration-300",
-                isDark ? "text-white group-hover:text-terra-400" : "text-foreground group-hover:text-terra-600"
+                isDark ? "text-white md:group-hover:text-terra-400" : "text-foreground md:group-hover:text-terra-600"
               )}>
                 Ghana Restaurant Awards
               </h3>
@@ -168,22 +168,22 @@ export default function AboutPage() {
             {/* Featured in Magazine */}
             <div className={cn(
               "text-center space-y-4 p-6 md:p-8 rounded-xl border transition-all duration-500",
-              "hover:shadow-2xl hover:-translate-y-2 group",
+              "md:hover:shadow-lg md:hover:-translate-y-1 group",
               isDark 
-                ? "bg-green-600/50 border-green-700/50 hover:border-terra-500/40"
-                : "bg-neutral-50/50 border-border/30 hover:border-terra-500/40"
+                ? "bg-green-600/50 border-green-700/50 md:hover:border-terra-500/40 active:border-terra-500/40"
+                : "bg-neutral-50/50 border-border/30 md:hover:border-terra-500/40 active:border-terra-500/40"
             )}>
               <div className="flex justify-center">
                 <div className={cn(
                   "p-4 rounded-xl transition-all duration-500",
-                  "bg-terra-500/10 group-hover:bg-terra-500/20 group-hover:scale-110"
+                  "bg-terra-500/10 md:group-hover:bg-terra-500/20 md:group-hover:scale-105"
                 )}>
-                  <BookOpen className="h-8 w-8 md:h-10 md:w-10 text-terra-600 transition-transform duration-500 group-hover:scale-110" />
+                  <BookOpen className="h-8 w-8 md:h-10 md:w-10 text-terra-600 transition-transform duration-500 md:group-hover:scale-105" />
                 </div>
               </div>
               <h3 className={cn(
                 "text-base md:text-lg font-display font-light transition-colors duration-300",
-                isDark ? "text-white group-hover:text-terra-400" : "text-foreground group-hover:text-terra-600"
+                isDark ? "text-white md:group-hover:text-terra-400" : "text-foreground md:group-hover:text-terra-600"
               )}>
                 Featured in
               </h3>
@@ -198,22 +198,22 @@ export default function AboutPage() {
             {/* Reviews */}
             <div className={cn(
               "text-center space-y-4 p-6 md:p-8 rounded-xl border transition-all duration-500",
-              "hover:shadow-2xl hover:-translate-y-2 group",
+              "md:hover:shadow-lg md:hover:-translate-y-1 group",
               isDark 
-                ? "bg-green-600/50 border-green-700/50 hover:border-terra-500/40"
-                : "bg-neutral-50/50 border-border/30 hover:border-terra-500/40"
+                ? "bg-green-600/50 border-green-700/50 md:hover:border-terra-500/40 active:border-terra-500/40"
+                : "bg-neutral-50/50 border-border/30 md:hover:border-terra-500/40 active:border-terra-500/40"
             )}>
               <div className="flex justify-center">
                 <div className={cn(
                   "p-4 rounded-xl transition-all duration-500",
-                  "bg-terra-500/10 group-hover:bg-terra-500/20 group-hover:scale-110"
+                  "bg-terra-500/10 md:group-hover:bg-terra-500/20 md:group-hover:scale-105"
                 )}>
                   <StarRating count={5} size={22} />
                 </div>
               </div>
               <h3 className={cn(
                 "text-base md:text-lg font-display font-light transition-colors duration-300",
-                isDark ? "text-white group-hover:text-terra-400" : "text-foreground group-hover:text-terra-600"
+                isDark ? "text-white md:group-hover:text-terra-400" : "text-foreground md:group-hover:text-terra-600"
               )}>
                 2,500+ Five-Star Reviews
               </h3>
@@ -273,7 +273,7 @@ export default function AboutPage() {
                   size="lg"
                   className={cn(
                     "min-w-[240px]",
-                    "shadow-xl hover:shadow-2xl hover:shadow-terra-500/40"
+                    "shadow-md md:hover:shadow-lg md:hover:shadow-terra-500/20"
                   )}
                 >
                   Experience It Yourself

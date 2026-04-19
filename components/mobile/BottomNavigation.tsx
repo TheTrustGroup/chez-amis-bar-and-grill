@@ -13,7 +13,7 @@ const navItems = [
   { href: "/menu", label: "Menu", icon: UtensilsCrossed },
   { href: "/reservations", label: "Reserve", icon: Calendar },
   { href: CART_PATH, label: "Order", icon: ShoppingBag },
-  { href: "/contact", label: "More", icon: MenuIcon },
+  { href: "/more", label: "More", icon: MenuIcon },
 ]
 
 export function BottomNavigation() {
@@ -47,10 +47,10 @@ export function BottomNavigation() {
       role="navigation"
       aria-label="Bottom navigation"
     >
-      <div className="safe-area-bottom pointer-events-auto mx-auto max-w-lg px-3 pb-3">
+      <div className="safe-area-bottom pointer-events-auto mx-auto max-w-md px-3 pb-2">
         <div
           className={cn(
-            "flex h-14 items-center justify-around rounded-2xl border border-neutral-200/90 bg-neutral-50/95 px-1 shadow-xl backdrop-blur-md",
+            "flex h-[3.25rem] items-center justify-around rounded-2xl border border-neutral-200/90 bg-neutral-50/95 px-1 shadow-xl backdrop-blur-md",
             "dark:border-white/10 dark:bg-green-900/95"
           )}
         >
@@ -66,11 +66,11 @@ export function BottomNavigation() {
                 key={item.href}
                 href={item.href}
                 className={cn(
-                  "flex min-h-[48px] min-w-[56px] flex-col items-center justify-center gap-0.5 rounded-xl px-1 py-1 transition-all duration-200",
+                  "flex min-h-[46px] min-w-[52px] flex-col items-center justify-center gap-0.5 rounded-xl px-1 py-1 transition-all duration-200",
                   "active:scale-95 active:bg-neutral-100/80 dark:active:bg-white/10",
                   isActive
                     ? "text-terra-600"
-                    : "text-green-700 hover:text-terra-500 dark:text-white/85"
+                    : "text-green-700 md:hover:text-terra-500 dark:text-white/85"
                 )}
                 aria-current={isActive ? "page" : undefined}
               >

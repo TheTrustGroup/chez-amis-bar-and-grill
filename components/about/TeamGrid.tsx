@@ -104,7 +104,7 @@ export function TeamGrid() {
               key={member.id}
               className={cn(
                 "group relative overflow-hidden border-0 bg-card/50 backdrop-blur-sm cursor-pointer transition-all duration-500",
-                "hover:shadow-elegant hover:-translate-y-2"
+                "md:hover:shadow-elegant md:hover:-translate-y-2"
               )}
               onClick={() => setSelectedMember(member)}
             >
@@ -115,7 +115,7 @@ export function TeamGrid() {
                   alt={member.name}
                   fill
                   className={cn(
-                    "transition-transform duration-500 group-hover:scale-105",
+                    "transition-transform duration-500 md:group-hover:scale-105",
                     member.id === "1" 
                       ? "object-cover object-center" 
                       : "object-cover"
@@ -131,8 +131,8 @@ export function TeamGrid() {
                 {/* Fallback gradient background */}
                 <div className="absolute inset-0 bg-gradient-to-br from-green-600 via-green-700 to-green-900 -z-10" />
                 {/* Lighter overlay on hover - less intrusive */}
-                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-colors duration-500 flex items-center justify-center">
-                  <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-500 text-center px-6">
+                <div className="absolute inset-0 bg-black/0 md:group-hover:bg-black/40 transition-colors duration-500 flex items-center justify-center">
+                  <div className="opacity-0 md:group-hover:opacity-100 transition-opacity duration-500 text-center px-6">
                     <p className="text-white font-body font-light text-sm leading-relaxed line-clamp-4 drop-shadow-lg">
                       {member.bio}
                     </p>
@@ -174,7 +174,7 @@ export function TeamGrid() {
                   <button
                     type="button"
                     onClick={() => setSelectedMember(null)}
-                    className="absolute top-4 right-4 z-10 min-h-[44px] min-w-[44px] p-2 rounded-full bg-background/80 backdrop-blur-sm hover:bg-background transition-colors flex items-center justify-center"
+                    className="absolute top-4 right-4 z-10 min-h-[44px] min-w-[44px] p-2 rounded-full bg-background/80 backdrop-blur-sm md:hover:bg-background transition-colors flex items-center justify-center"
                     aria-label="Close team member details"
                   >
                     <X className="h-5 w-5" aria-hidden />

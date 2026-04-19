@@ -52,7 +52,7 @@ const testimonials: Testimonial[] = [
 ]
 
 const arrowBtnClass =
-  "w-12 h-12 rounded-full bg-white border-2 border-green-500 text-green-600 hover:bg-green-500 hover:text-white flex items-center justify-center shadow-md transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-green-500"
+  "w-12 h-12 rounded-full bg-white border-2 border-green-500 text-green-600 md:hover:bg-green-500 md:hover:text-white flex items-center justify-center shadow-md transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-green-500"
 
 export function TestimonialsCarousel() {
   const [currentIndex, setCurrentIndex] = useState(0)
@@ -138,7 +138,7 @@ export function TestimonialsCarousel() {
                 <StarRating count={currentTestimonial.rating} />
               </div>
               <p className="text-base md:text-lg text-muted-foreground font-body font-light">
-                — {currentTestimonial.author}, {currentTestimonial.occasion}
+                {currentTestimonial.author}, {currentTestimonial.occasion}
               </p>
             </div>
           </div>
@@ -151,7 +151,7 @@ export function TestimonialsCarousel() {
                   "h-1.5 rounded-full transition-all duration-300",
                   index === currentIndex
                     ? "w-8 bg-terra-500"
-                    : "w-1.5 bg-muted-foreground/30 hover:bg-muted-foreground/50"
+                    : "w-1.5 bg-muted-foreground/30 md:hover:bg-muted-foreground/50"
                 )}
                 onClick={() => goToSlide(index)}
                 aria-label={`Go to testimonial ${index + 1}`}

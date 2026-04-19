@@ -36,7 +36,7 @@ export function VisitUsSection() {
               href="https://maps.google.com/?q=Chez+Amis+Bar+and+Grill+40+Boundary+Rd+Accra"
               target="_blank"
               rel="noopener noreferrer"
-              className="absolute bottom-4 right-4 bg-white p-3 rounded-full shadow-lg hover:bg-amber-50 transition-colors z-10"
+              className="absolute bottom-4 right-4 bg-white p-3 rounded-full shadow-lg md:hover:bg-amber-50 transition-colors z-10"
               aria-label="Get directions"
             >
               <Navigation className="w-5 h-5 text-amber-600" />
@@ -78,24 +78,20 @@ export function VisitUsSection() {
                   <h3 className="text-lg md:text-xl font-body font-light text-foreground mb-2">
                     Phone
                   </h3>
-                  <div className="space-y-4">
-                    {PHONE_LINES.map((p) => (
+                  <div className="space-y-2">
+                    {PHONE_LINES.slice(0, 2).map((p) => (
                       <a
                         key={p.id}
                         href={`tel:${p.tel}`}
-                        className="flex items-start gap-3 group"
+                        className="flex items-center gap-2 text-base md:text-lg text-neutral-800 font-body md:hover:text-terra-500 transition-colors"
                       >
-                        <Phone className="w-4 h-4 text-terra-500 mt-0.5 flex-shrink-0" aria-hidden />
-                        <div>
-                          <p className="text-xs text-neutral-400 uppercase tracking-widest font-body">
-                            {p.label}
-                          </p>
-                          <p className="text-base md:text-lg text-neutral-800 font-body group-hover:text-terra-500 transition-colors">
-                            {p.display}
-                          </p>
-                        </div>
+                        <Phone className="w-4 h-4 text-terra-500 flex-shrink-0" aria-hidden />
+                        {p.display}
                       </a>
                     ))}
+                    <Link href="/contact" className="inline-flex text-sm text-terra-600 md:hover:underline">
+                      View all contact details
+                    </Link>
                   </div>
                 </div>
               </div>
@@ -131,7 +127,7 @@ export function VisitUsSection() {
                   size="lg"
                   className={cn(
                     "w-full sm:w-auto min-w-[200px]",
-                    "shadow-xl hover:shadow-2xl hover:shadow-terra-500/40"
+                    "shadow-xl md:hover:shadow-2xl md:hover:shadow-terra-500/40"
                   )}
                   aria-label="Make a Reservation"
                 >
@@ -148,8 +144,8 @@ export function VisitUsSection() {
                     "w-full sm:w-auto min-w-[200px]",
                     "border-2",
                     isDark
-                      ? "border-terra-500/50 text-white bg-terra-500/5 hover:bg-terra-500/10 hover:border-terra-500/80 hover:shadow-lg hover:shadow-terra-500/20"
-                      : "border-terra-500/60 text-foreground bg-transparent hover:bg-terra-500/5 hover:border-terra-500/80 hover:shadow-lg"
+                      ? "border-terra-500/50 text-white bg-terra-500/5 md:hover:bg-terra-500/10 md:hover:border-terra-500/80 md:hover:shadow-lg md:hover:shadow-terra-500/20"
+                      : "border-terra-500/60 text-foreground bg-transparent md:hover:bg-terra-500/5 md:hover:border-terra-500/80 md:hover:shadow-lg"
                   )}
                   aria-label="Browse menu to order"
                 >

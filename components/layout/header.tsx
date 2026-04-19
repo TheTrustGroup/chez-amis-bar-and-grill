@@ -14,6 +14,7 @@ import {
   trackReservationClick,
 } from "@/lib/analytics"
 import { CHECKOUT_PATH } from "@/lib/data/siteContact"
+import { getActiveSocialLinks } from "@/lib/data/socialLinks"
 
 const navItems = [
   { href: "/", label: "Home" },
@@ -25,7 +26,7 @@ const navItems = [
 ]
 
 const navLinkClass =
-  "font-body text-sm tracking-widest uppercase whitespace-nowrap text-white/80 hover:text-white transition-colors duration-200 relative py-1 after:absolute after:bottom-0 after:left-0 after:w-0 after:h-px after:bg-terra-400 after:transition-all after:duration-300 hover:after:w-full aria-[current=page]:after:w-full aria-[current=page]:text-white"
+  "font-body text-sm tracking-widest uppercase whitespace-nowrap text-white/80 md:hover:text-white transition-colors duration-200 relative py-1 after:absolute after:bottom-0 after:left-0 after:w-0 after:h-px after:bg-terra-400 after:transition-all after:duration-300 md:hover:after:w-full aria-[current=page]:after:w-full aria-[current=page]:text-white"
 
 export function Header() {
   const pathname = usePathname()
@@ -34,6 +35,7 @@ export function Header() {
   const { getCartItemCount } = useCartContext()
   const cartCount = getCartItemCount()
   const isHome = pathname === "/"
+  const headerSocialLinks = getActiveSocialLinks(["instagram", "facebook"])
 
   useEffect(() => {
     const handleScroll = () => {
@@ -157,32 +159,30 @@ export function Header() {
 
             <div className="flex items-center gap-1 sm:gap-2 md:gap-3 flex-shrink-0">
               <div className="hidden md:flex items-center gap-1">
-                <a
-                  href="https://www.instagram.com/chez_amis_restaurant?igsh=dWFmbnA5MzlqaWk5"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex h-10 w-10 items-center justify-center rounded-md text-white/70 hover:text-white hover:bg-white/10 transition-colors"
-                  aria-label="Chez Amis Instagram"
-                >
-                  <Instagram className="h-4 w-4" />
-                </a>
-                <a
-                  href="https://www.facebook.com/share/1Eh4cywpM5/?mibextid=wwXIfr"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex h-10 w-10 items-center justify-center rounded-md text-white/70 hover:text-white hover:bg-white/10 transition-colors"
-                  aria-label="Chez Amis Facebook"
-                >
-                  <Facebook className="h-4 w-4" />
-                </a>
-                <ThemeToggle className="text-white/70 hover:text-white hover:bg-white/10" />
+                {headerSocialLinks.map((social) => (
+                  <a
+                    key={social.id}
+                    href={social.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex h-10 w-10 items-center justify-center rounded-md text-white/70 md:hover:text-white md:hover:bg-white/10 active:bg-white/15 transition-colors"
+                    aria-label={`Chez Amis ${social.label}`}
+                  >
+                    {social.id === "instagram" ? (
+                      <Instagram className="h-4 w-4" />
+                    ) : (
+                      <Facebook className="h-4 w-4" />
+                    )}
+                  </a>
+                ))}
+                <ThemeToggle className="text-white/70 md:hover:text-white md:hover:bg-white/10 active:bg-white/15" />
               </div>
 
               <Link
                 href="/cart"
                 className={cn(
                   "relative hidden md:inline-flex h-12 w-12 items-center justify-center rounded-md",
-                  "text-white/70 hover:text-white hover:bg-white/10 transition-colors"
+                  "text-white/70 md:hover:text-white md:hover:bg-white/10 active:bg-white/15 transition-colors"
                 )}
                 aria-label="View cart"
                 onClick={() => trackCartOpen("header")}
@@ -197,7 +197,7 @@ export function Header() {
 
               <Link
                 href="/reservations"
-                className="hidden md:inline-flex items-center gap-2 bg-terra-500 text-white font-body font-medium tracking-widest uppercase text-xs px-5 py-2.5 rounded-full flex-shrink-0 hover:bg-terra-600 transition-all duration-200 shadow-sm whitespace-nowrap"
+                className="hidden md:inline-flex items-center gap-2 bg-terra-500 text-white font-body font-medium tracking-widest uppercase text-xs px-5 py-2.5 rounded-full flex-shrink-0 md:hover:bg-terra-600 active:bg-terra-700 transition-all duration-200 shadow-sm whitespace-nowrap"
                 onClick={() => trackReservationClick("header_desktop")}
               >
                 Reserve a Table
@@ -206,7 +206,7 @@ export function Header() {
               <button
                 type="button"
                 className={cn(
-                  "flex h-12 w-12 shrink-0 items-center justify-center rounded-md text-white hover:bg-white/10 transition-colors md:hidden"
+                  "flex h-12 w-12 shrink-0 items-center justify-center rounded-md text-white md:hover:bg-white/10 active:bg-white/15 transition-colors md:hidden"
                 )}
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
                 aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
@@ -226,13 +226,13 @@ export function Header() {
         {isMobileMenuOpen && (
           <nav
             id="mobile-menu"
-            className="md:hidden fixed inset-0 z-50 bg-green-900 flex flex-col px-6 pt-20 pb-8 gap-8"
+            className="md:hidden fixed inset-0 z-50 bg-green-900 flex flex-col px-6 pt-[4.75rem] pb-6 gap-6"
             role="navigation"
             aria-label="Mobile navigation"
           >
             <button
               type="button"
-              className="absolute top-4 right-4 flex h-12 w-12 items-center justify-center text-white hover:bg-white/10 rounded-md transition-colors"
+              className="absolute top-2 right-3 flex h-11 w-11 items-center justify-center text-white md:hover:bg-white/10 active:bg-white/15 rounded-md transition-colors"
               onClick={() => setIsMobileMenuOpen(false)}
               aria-label="Close menu"
             >
@@ -255,7 +255,7 @@ export function Header() {
                         setIsMobileMenuOpen(false)
                       }
                     }}
-                    className="font-display text-3xl font-light text-white hover:text-terra-300 transition-colors py-2 border-b border-white/10"
+                    className="font-display text-3xl font-light text-white md:hover:text-terra-300 transition-colors py-2 border-b border-white/10"
                     aria-current={isActive ? "page" : undefined}
                   >
                     {item.label}
@@ -287,25 +287,23 @@ export function Header() {
               </Link>
               <div className="flex justify-center pt-6 border-t border-white/10 mt-6">
                 <div className="flex items-center gap-2">
-                  <ThemeToggle className="text-white/80 hover:text-white" />
-                  <a
-                    href="https://www.instagram.com/chez_amis_restaurant?igsh=dWFmbnA5MzlqaWk5"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex h-10 w-10 items-center justify-center rounded-md text-white/80 hover:text-white hover:bg-white/10 transition-colors"
-                    aria-label="Chez Amis Instagram"
-                  >
-                    <Instagram className="h-4 w-4" />
-                  </a>
-                  <a
-                    href="https://www.facebook.com/share/1Eh4cywpM5/?mibextid=wwXIfr"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex h-10 w-10 items-center justify-center rounded-md text-white/80 hover:text-white hover:bg-white/10 transition-colors"
-                    aria-label="Chez Amis Facebook"
-                  >
-                    <Facebook className="h-4 w-4" />
-                  </a>
+                  <ThemeToggle className="text-white/80 md:hover:text-white" />
+                  {headerSocialLinks.map((social) => (
+                    <a
+                      key={social.id}
+                      href={social.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex h-10 w-10 items-center justify-center rounded-md text-white/80 md:hover:text-white md:hover:bg-white/10 active:bg-white/15 transition-colors"
+                      aria-label={`Chez Amis ${social.label}`}
+                    >
+                      {social.id === "instagram" ? (
+                        <Instagram className="h-4 w-4" />
+                      ) : (
+                        <Facebook className="h-4 w-4" />
+                      )}
+                    </a>
+                  ))}
                 </div>
               </div>
             </div>

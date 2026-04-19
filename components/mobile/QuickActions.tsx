@@ -18,14 +18,14 @@ export function QuickActions({ variant = "inline", className }: QuickActionsProp
       icon: Phone,
       href: `tel:${PRIMARY_PHONE.tel}`,
       action: "call",
-      className: "bg-terra-600 text-white hover:bg-terra-700",
+      className: "bg-terra-600 text-white md:hover:bg-terra-700",
     },
     {
       label: "Get Directions",
       icon: MapPin,
       href: "https://maps.google.com/?q=40+Boundary+Rd+Accra+Ghana",
       action: "directions",
-      className: "bg-green-600 text-white hover:bg-green-700",
+      className: "bg-green-600 text-white md:hover:bg-green-700",
     },
   ]
 

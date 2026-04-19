@@ -11,11 +11,19 @@ import {
   trackReservationClick,
 } from "@/lib/analytics"
 import { CHECKOUT_PATH, FOOTER_PHONE_LINES, SITE_EMAIL } from "@/lib/data/siteContact"
+import { getActiveSocialLinks } from "@/lib/data/socialLinks"
 
 export function Footer() {
   const currentYear = new Date().getFullYear()
   const { resolvedTheme } = useTheme()
   const isDark = resolvedTheme === "dark"
+  const compactSocialLinks = getActiveSocialLinks(["instagram", "facebook"])
+  const fullSocialLinks = getActiveSocialLinks([
+    "instagram",
+    "facebook",
+    "snapchat",
+    "tiktok",
+  ])
 
   return (
     <footer
@@ -25,9 +33,60 @@ export function Footer() {
       )}
       role="contentinfo"
     >
-      {/* Top Section - Four Columns - Premium */}
       <div className="section-shell-inner section-padding-md">
+        <div className="md:hidden space-y-6">
+          <div className="space-y-3">
+            <Link href="/" className="inline-flex flex-col">
+              <span className="font-display text-2xl font-light text-terra-400">Chez Amis</span>
+              <span className="text-[11px] uppercase tracking-[0.2em] text-white/70">Bar and Grill</span>
+            </Link>
+            <p className={cn("text-sm font-body font-light", isDark ? "text-white/80" : "text-white/70")}>
+              Where passion meets palate
+            </p>
+          </div>
+          <div className="grid grid-cols-2 gap-2">
+            <Link href="/about" className="rounded-md px-2 py-2 text-sm text-white/80 md:hover:text-terra-300 active:bg-white/10">
+              About
+            </Link>
+            <Link href="/menu" className="rounded-md px-2 py-2 text-sm text-white/80 md:hover:text-terra-300 active:bg-white/10">
+              Menu
+            </Link>
+            <Link href="/reservations" className="rounded-md px-2 py-2 text-sm text-white/80 md:hover:text-terra-300 active:bg-white/10">
+              Reserve
+            </Link>
+            <Link href="/more" className="rounded-md px-2 py-2 text-sm text-white/80 md:hover:text-terra-300 active:bg-white/10">
+              More
+            </Link>
+          </div>
+          <div className="flex items-center gap-2">
+            {compactSocialLinks.map((social) => (
+              <a
+                key={social.id}
+                href={social.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex h-10 w-10 items-center justify-center rounded-md text-white/75 md:hover:bg-white/10 md:hover:text-terra-300 active:bg-white/15"
+                aria-label={`Follow us on ${social.label}`}
+              >
+                {social.id === "instagram" ? (
+                  <Instagram className="h-4 w-4" />
+                ) : (
+                  <Facebook className="h-4 w-4" />
+                )}
+              </a>
+            ))}
+            <a
+              href={`mailto:${SITE_EMAIL}`}
+              className="text-sm text-white/75 md:hover:text-terra-300 active:text-terra-200"
+              aria-label="Send us an email"
+            >
+              {SITE_EMAIL}
+            </a>
+          </div>
+        </div>
+
         <div className={cn(
+          "hidden md:grid",
           "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12 lg:gap-16",
           "animate-fade-in-up"
         )}>
@@ -37,11 +96,11 @@ export function Footer() {
               <Link href="/" className="inline-block group">
                 <div className="flex flex-col items-start">
                   <div className="flex items-center gap-2 mb-1">
-                    <div className="h-0.5 w-8 bg-terra-500 group-hover:w-12 transition-all duration-300" aria-hidden="true"></div>
+                    <div className="h-0.5 w-8 bg-terra-500 md:group-hover:w-12 transition-all duration-300" aria-hidden="true"></div>
                   </div>
                   <span className={cn(
                     "font-display text-3xl md:text-4xl font-light leading-tight transition-colors duration-300",
-                    "text-terra-500 group-hover:text-terra-400"
+                    "text-terra-500 md:group-hover:text-terra-400"
                   )}>
                     Chez Amis
                   </span>
@@ -70,81 +129,41 @@ export function Footer() {
             
             {/* Social Media Icons - Premium */}
             <div className="flex items-center gap-3 pt-2">
-              <a
-                href="https://www.instagram.com/chez_amis_restaurant?igsh=dWFmbnA5MzlqaWk5"
-                target="_blank"
-                rel="noopener noreferrer"
-                className={cn(
-                  "relative transition-all duration-300 rounded-full p-2.5 min-h-[44px] min-w-[44px] flex items-center justify-center",
-                  "group/social",
-                  isDark
-                    ? "text-white/70 hover:text-terra-400 hover:bg-terra-500/10"
-                    : "text-white/60 hover:text-terra-500 hover:bg-terra-500/10",
-                  "active:scale-95",
-                  "border border-transparent hover:border-terra-500/30"
-                )}
-                aria-label="Follow us on Instagram"
-              >
-                <Instagram className="h-5 w-5 transition-transform duration-300 group-hover/social:scale-110" />
-              </a>
-              <a
-                href="https://www.facebook.com/share/1Eh4cywpM5/?mibextid=wwXIfr"
-                target="_blank"
-                rel="noopener noreferrer"
-                className={cn(
-                  "relative transition-all duration-300 rounded-full p-2.5 min-h-[44px] min-w-[44px] flex items-center justify-center",
-                  "group/social",
-                  isDark
-                    ? "text-white/70 hover:text-terra-400 hover:bg-terra-500/10"
-                    : "text-white/60 hover:text-terra-500 hover:bg-terra-500/10",
-                  "active:scale-95",
-                  "border border-transparent hover:border-terra-500/30"
-                )}
-                aria-label="Follow us on Facebook"
-              >
-                <Facebook className="h-5 w-5 transition-transform duration-300 group-hover/social:scale-110" />
-              </a>
-              <a
-                href="https://www.snapchat.com/add/chez_amis"
-                target="_blank"
-                rel="noopener noreferrer"
-                className={cn(
-                  "relative transition-all duration-300 rounded-full p-2.5 min-h-[44px] min-w-[44px] flex items-center justify-center",
-                  "group/social",
-                  isDark
-                    ? "text-white/70 hover:text-terra-400 hover:bg-terra-500/10"
-                    : "text-white/60 hover:text-terra-500 hover:bg-terra-500/10",
-                  "active:scale-95",
-                  "border border-transparent hover:border-terra-500/30"
-                )}
-                aria-label="Follow us on Snapchat"
-              >
-                <SnapchatIcon className="h-5 w-5 transition-transform duration-300 group-hover/social:scale-110" />
-              </a>
-              <a
-                href="https://www.tiktok.com/@chezamisrestaurant?_r=1&_t=ZM-920yX90ahAW"
-                target="_blank"
-                rel="noopener noreferrer"
-                className={cn(
-                  "relative transition-all duration-300 rounded-full p-2.5 min-h-[44px] min-w-[44px] flex items-center justify-center",
-                  "group/social",
-                  isDark
-                    ? "text-white/70 hover:text-terra-400 hover:bg-terra-500/10"
-                    : "text-white/60 hover:text-terra-500 hover:bg-terra-500/10",
-                  "active:scale-95",
-                  "border border-transparent hover:border-terra-500/30"
-                )}
-                aria-label="Follow us on TikTok"
-              >
-                <svg
-                  className="h-5 w-5 transition-transform duration-300 group-hover/social:scale-110"
-                  fill="currentColor"
-                  viewBox="0 0 24 24"
-                  aria-hidden="true"
+              {fullSocialLinks.map((social) => (
+                <a
+                  key={social.id}
+                  href={social.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={cn(
+                    "relative transition-all duration-300 rounded-full p-2.5 min-h-[44px] min-w-[44px] flex items-center justify-center",
+                    "group/social",
+                    isDark
+                      ? "text-white/70 md:hover:text-terra-400 md:hover:bg-terra-500/10"
+                      : "text-white/60 md:hover:text-terra-500 md:hover:bg-terra-500/10",
+                    "active:scale-95",
+                    "border border-transparent md:hover:border-terra-500/30"
+                  )}
+                  aria-label={`Follow us on ${social.label}`}
                 >
-                  <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z" />
-                </svg>
-              </a>
+                  {social.id === "instagram" ? (
+                    <Instagram className="h-5 w-5 transition-transform duration-300 md:group-hover/social:scale-110" />
+                  ) : social.id === "facebook" ? (
+                    <Facebook className="h-5 w-5 transition-transform duration-300 md:group-hover/social:scale-110" />
+                  ) : social.id === "snapchat" ? (
+                    <SnapchatIcon className="h-5 w-5 transition-transform duration-300 md:group-hover/social:scale-110" />
+                  ) : (
+                    <svg
+                      className="h-5 w-5 transition-transform duration-300 md:group-hover/social:scale-110"
+                      fill="currentColor"
+                      viewBox="0 0 24 24"
+                      aria-hidden="true"
+                    >
+                      <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z" />
+                    </svg>
+                  )}
+                </a>
+              ))}
             </div>
           </div>
 
@@ -173,17 +192,17 @@ export function Footer() {
                     "py-2 md:py-1.5 min-h-[44px] md:min-h-0 flex items-center group/link relative",
                     "rounded-md px-2 -ml-2",
                     isDark
-                      ? "text-white/70 hover:text-terra-400 hover:bg-terra-500/5"
-                      : "text-white/60 hover:text-terra-500 hover:bg-terra-500/5"
+                      ? "text-white/70 md:hover:text-terra-400 md:hover:bg-terra-500/5"
+                      : "text-white/60 md:hover:text-terra-500 md:hover:bg-terra-500/5"
                   )}
                 >
                   <span className="relative flex items-center gap-2">
-                    <span className="w-1 h-1 rounded-full bg-terra-500/0 group-hover/link:bg-terra-500 transition-all duration-300" />
+                    <span className="w-1 h-1 rounded-full bg-terra-500/0 md:group-hover/link:bg-terra-500 transition-all duration-300" />
                     {link.label}
                     <span className={cn(
                       "absolute bottom-0 left-0 w-0 h-0.5 transition-all duration-300",
                       "bg-gradient-to-r from-terra-500 to-terra-400",
-                      "group-hover/link:w-full"
+                      "md:group-hover/link:w-full"
                     )} />
                   </span>
                 </Link>
@@ -213,17 +232,17 @@ export function Footer() {
                     "py-2 md:py-1.5 min-h-[44px] md:min-h-0 flex items-center group/link relative",
                     "rounded-md px-2 -ml-2",
                     isDark
-                      ? "text-white/70 hover:text-terra-400 hover:bg-terra-500/5"
-                      : "text-white/60 hover:text-terra-500 hover:bg-terra-500/5"
+                      ? "text-white/70 md:hover:text-terra-400 md:hover:bg-terra-500/5"
+                      : "text-white/60 md:hover:text-terra-500 md:hover:bg-terra-500/5"
                   )}
                 >
                   <span className="relative flex items-center gap-2">
-                    <span className="w-1 h-1 rounded-full bg-terra-500/0 group-hover/link:bg-terra-500 transition-all duration-300" />
+                    <span className="w-1 h-1 rounded-full bg-terra-500/0 md:group-hover/link:bg-terra-500 transition-all duration-300" />
                     {link.label}
                     <span className={cn(
                       "absolute bottom-0 left-0 w-0 h-0.5 transition-all duration-300",
                       "bg-gradient-to-r from-terra-500 to-terra-400",
-                      "group-hover/link:w-full"
+                      "md:group-hover/link:w-full"
                     )} />
                   </span>
                 </Link>
@@ -245,7 +264,7 @@ export function Footer() {
               <div className="flex items-start gap-3 group">
                 <div className={cn(
                   "flex-shrink-0 mt-1 p-2 rounded-lg transition-all duration-300",
-                  "bg-terra-500/10 group-hover:bg-terra-500/20 group-hover:scale-110"
+                  "bg-terra-500/10 md:group-hover:bg-terra-500/20 md:group-hover:scale-110"
                 )}>
                   <MapPin className={cn(
                     "h-4 w-4 transition-colors duration-300",
@@ -262,8 +281,8 @@ export function Footer() {
                       target="_blank"
                       rel="noopener noreferrer"
                       className={cn(
-                        "hover:text-terra-400 transition-colors duration-300",
-                        "underline-offset-2 hover:underline"
+                        "md:hover:text-terra-400 transition-colors duration-300",
+                        "underline-offset-2 md:hover:underline"
                       )}
                     >
                       40 Boundary Rd<br />
@@ -277,7 +296,7 @@ export function Footer() {
               <div className="flex items-start gap-3 group">
                 <div className={cn(
                   "flex-shrink-0 mt-1 p-2 rounded-lg transition-all duration-300",
-                  "bg-terra-500/10 group-hover:bg-terra-500/20 group-hover:scale-110"
+                  "bg-terra-500/10 md:group-hover:bg-terra-500/20 md:group-hover:scale-110"
                 )}>
                   <Phone className={cn(
                     "h-4 w-4 transition-colors duration-300",
@@ -292,8 +311,8 @@ export function Footer() {
                       className={cn(
                         "block text-sm md:text-base font-body font-light transition-colors duration-300",
                         isDark
-                          ? "text-white/70 hover:text-terra-400"
-                          : "text-white/60 hover:text-terra-500"
+                          ? "text-white/70 md:hover:text-terra-400"
+                          : "text-white/60 md:hover:text-terra-500"
                       )}
                       onClick={() => trackPhoneClick(`footer_${phone.display}`)}
                     >
@@ -302,7 +321,7 @@ export function Footer() {
                   ))}
                   <Link
                     href="/contact"
-                    className="text-xs text-terra-300 hover:text-terra-200 mt-1 inline-block"
+                    className="text-xs text-terra-300 md:hover:text-terra-200 mt-1 inline-block"
                   >
                     View all contact numbers →
                   </Link>
@@ -313,7 +332,7 @@ export function Footer() {
               <div className="flex items-start gap-3 group">
                 <div className={cn(
                   "flex-shrink-0 mt-1 p-2 rounded-lg transition-all duration-300",
-                  "bg-terra-500/10 group-hover:bg-terra-500/20 group-hover:scale-110"
+                  "bg-terra-500/10 md:group-hover:bg-terra-500/20 md:group-hover:scale-110"
                 )}>
                   <Mail className={cn(
                     "h-4 w-4 transition-colors duration-300",
@@ -326,10 +345,10 @@ export function Footer() {
                     className={cn(
                       "block text-sm md:text-base font-body font-light transition-colors duration-300",
                       "break-all [overflow-wrap:anywhere]",
-                      "underline-offset-2 hover:underline",
+                      "underline-offset-2 md:hover:underline",
                       isDark
-                        ? "text-white/70 hover:text-terra-400"
-                        : "text-white/60 hover:text-terra-500"
+                        ? "text-white/70 md:hover:text-terra-400"
+                        : "text-white/60 md:hover:text-terra-500"
                     )}
                   >
                     {SITE_EMAIL}
@@ -341,7 +360,7 @@ export function Footer() {
               <div className="flex items-start gap-3 group">
                 <div className={cn(
                   "flex-shrink-0 mt-1 p-2 rounded-lg transition-all duration-300",
-                  "bg-terra-500/10 group-hover:bg-terra-500/20 group-hover:scale-110"
+                  "bg-terra-500/10 md:group-hover:bg-terra-500/20 md:group-hover:scale-110"
                 )}>
                   <Clock className={cn(
                     "h-4 w-4 transition-colors duration-300",
@@ -368,8 +387,8 @@ export function Footer() {
                   "px-4 py-2 rounded-lg min-h-[44px]",
                   "border border-terra-500/30",
                   isDark
-                    ? "text-terra-400 bg-terra-500/5 hover:bg-terra-500/10 hover:border-terra-500/50"
-                    : "text-terra-500 bg-terra-500/5 hover:bg-terra-500/10 hover:border-terra-500/50",
+                    ? "text-terra-400 bg-terra-500/5 md:hover:bg-terra-500/10 md:hover:border-terra-500/50"
+                    : "text-terra-500 bg-terra-500/5 md:hover:bg-terra-500/10 md:hover:border-terra-500/50",
                   "active:scale-95"
                 )}
                 onClick={() => trackReservationClick("footer")}
@@ -384,8 +403,8 @@ export function Footer() {
                   "px-4 py-2 rounded-lg min-h-[44px]",
                   "border border-terra-500/30",
                   isDark
-                    ? "text-terra-400 bg-terra-500/5 hover:bg-terra-500/10 hover:border-terra-500/50"
-                    : "text-terra-500 bg-terra-500/5 hover:bg-terra-500/10 hover:border-terra-500/50",
+                    ? "text-terra-400 bg-terra-500/5 md:hover:bg-terra-500/10 md:hover:border-terra-500/50"
+                    : "text-terra-500 bg-terra-500/5 md:hover:bg-terra-500/10 md:hover:border-terra-500/50",
                   "active:scale-95"
                 )}
                 onClick={() => trackOrderClick("footer")}
@@ -399,7 +418,7 @@ export function Footer() {
 
         <div
           className={cn(
-            "border-t border-white/10 mt-12 pt-6",
+            "border-t border-white/10 mt-8 pt-5 md:mt-12 md:pt-6",
             "flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-white/40 font-body"
           )}
         >
@@ -409,13 +428,13 @@ export function Footer() {
           <div className="flex flex-wrap items-center justify-center gap-6">
             <Link
               href="/privacy"
-              className="hover:text-white/70 transition-colors"
+              className="md:hover:text-white/70 transition-colors"
             >
               Privacy Policy
             </Link>
             <Link
               href="/terms"
-              className="hover:text-white/70 transition-colors"
+              className="md:hover:text-white/70 transition-colors"
             >
               Terms of Service
             </Link>

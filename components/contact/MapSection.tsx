@@ -58,14 +58,14 @@ export function MapSection() {
                 href="https://maps.google.com/?q=Chez+Amis+Bar+and+Grill+40+Boundary+Rd+Accra"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="bg-white p-3 rounded-full shadow-lg hover:bg-amber-50 transition-colors min-w-[48px] min-h-[48px] flex items-center justify-center"
+                className="bg-white p-3 rounded-full shadow-lg md:hover:bg-amber-50 transition-colors min-w-[48px] min-h-[48px] flex items-center justify-center"
                 aria-label="Get directions"
               >
                 <Navigation className="w-5 h-5 text-amber-600" />
               </a>
               <a
                 href="tel:+233557032312"
-                className="bg-white p-3 rounded-full shadow-lg hover:bg-amber-50 transition-colors min-w-[48px] min-h-[48px] flex items-center justify-center"
+                className="bg-white p-3 rounded-full shadow-lg md:hover:bg-amber-50 transition-colors min-w-[48px] min-h-[48px] flex items-center justify-center"
                 aria-label="Call restaurant"
               >
                 <Phone className="w-5 h-5 text-amber-600" />
@@ -84,7 +84,7 @@ export function MapSection() {
           {/* RIGHT: Location Details - Simplified to avoid duplication */}
           <div className="section-split-half space-y-4 md:space-y-6 order-1 md:order-2">
             {/* Address Card - Only address info, no duplicate contact */}
-            <div className="bg-white rounded-lg card-padding shadow-lg border border-border/30 hover:border-terra-500/50 transition-colors">
+            <div className="bg-white rounded-lg card-padding shadow-lg border border-border/30 md:hover:border-terra-500/50 transition-colors">
               <div className="flex items-start gap-3 md:gap-4">
                 <div className="flex-shrink-0 w-10 h-10 md:w-12 md:h-12 bg-terra-500/10 rounded-lg flex items-center justify-center">
                   <MapPin className="w-5 h-5 md:w-6 md:h-6 text-terra-600" />
@@ -101,7 +101,7 @@ export function MapSection() {
                     href="https://maps.google.com/?q=Chez+Amis+Bar+and+Grill+40+Boundary+Rd+Accra"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 text-terra-600 hover:text-terra-700 font-body font-light text-sm transition-colors min-h-[48px]"
+                    className="inline-flex items-center gap-2 text-terra-600 md:hover:text-terra-700 font-body font-light text-sm transition-colors min-h-[48px]"
                   >
                     <Navigation className="w-4 h-4" />
                     Get Directions

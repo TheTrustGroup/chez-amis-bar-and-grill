@@ -349,7 +349,7 @@ export function EventRequestForm() {
           type="submit"
           disabled={!isFormValid || isSubmitting}
           size="lg"
-          className="w-full font-body font-light tracking-wide bg-foreground text-background hover:bg-foreground/90 text-base md:text-lg px-8 py-3 md:py-4 min-h-[48px] md:min-h-[52px] disabled:opacity-50 disabled:cursor-not-allowed"
+          className="w-full font-body font-light tracking-wide bg-foreground text-background md:hover:bg-foreground/90 text-base md:text-lg px-8 py-3 md:py-4 min-h-[48px] md:min-h-[52px] disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {isSubmitting ? "Submitting..." : "Request Proposal"}
         </Button>

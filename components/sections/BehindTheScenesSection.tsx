@@ -59,13 +59,13 @@ export function BehindTheScenesSection() {
           ].map((photo, index) => (
             <div
               key={index}
-              className="relative aspect-square rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300"
+              className="relative aspect-square rounded-lg overflow-hidden shadow-lg md:hover:shadow-xl transition-shadow duration-300"
             >
               <Image
                 src={photo.src}
                 alt={photo.alt}
                 fill
-                className="object-cover hover:scale-110 transition-transform duration-500"
+                className="object-cover md:hover:scale-110 transition-transform duration-500"
                 sizes="(max-width: 768px) 50vw, 25vw"
                 loading="lazy"
               />

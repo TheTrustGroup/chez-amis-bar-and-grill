@@ -43,18 +43,18 @@ export function PremiumMenuItem({ item }: PremiumMenuItemProps) {
 
   return (
     <article ref={elementRef} className={cn(
-      "group relative p-6 md:p-8 rounded-xl transition-all duration-500",
-      "hover:shadow-lg hover:-translate-y-1",
+      "group relative p-6 md:p-8 rounded-xl transition-all duration-300",
+      "md:hover:shadow-lg md:hover:-translate-y-1",
       isDark 
-        ? "bg-green-600/30 border border-green-700/50 hover:border-terra-500/40"
-        : "bg-card/50 border border-border/30 hover:border-terra-500/40"
+        ? "bg-green-600/30 border border-green-700/50 md:hover:border-terra-500/40"
+        : "bg-card/50 border border-border/30 md:hover:border-terra-500/40"
     )}>
       <div className="flex gap-4 md:gap-6 items-start">
         {/* Item Image - Premium with hover effects */}
         <div className={cn(
-          "relative h-20 w-20 shrink-0 overflow-hidden rounded-lg transition-all duration-500 md:h-28 md:w-28",
-          "shadow-md group-hover:shadow-xl",
-          "border border-terra-500/20 group-hover:border-terra-500/40",
+          "relative h-20 w-20 shrink-0 overflow-hidden rounded-lg transition-all duration-300 md:h-28 md:w-28",
+          "shadow-sm md:group-hover:shadow-lg",
+          "border border-terra-500/20 md:group-hover:border-terra-500/40",
           isDark ? "bg-green-700" : "bg-gray-100"
         )}>
           {isVisible && (
@@ -62,7 +62,7 @@ export function PremiumMenuItem({ item }: PremiumMenuItemProps) {
               src={item.image}
               alt={item.name}
               fill
-              className="object-cover transition-transform duration-700 group-hover:scale-110"
+              className="object-cover transition-transform duration-500 md:group-hover:scale-105"
               sizes="(max-width: 768px) 80px, 112px"
               priority={false}
             />
@@ -86,7 +86,7 @@ export function PremiumMenuItem({ item }: PremiumMenuItemProps) {
             <div className="flex-1 min-w-0">
               <h3 className={cn(
                 "text-lg md:text-xl font-display font-light leading-tight transition-colors duration-300",
-                "group-hover:text-terra-600",
+                "md:group-hover:text-terra-600",
                 isDark ? "text-white" : "text-foreground"
               )}>
                 {item.name}
@@ -95,7 +95,7 @@ export function PremiumMenuItem({ item }: PremiumMenuItemProps) {
             <div className="text-right flex-shrink-0">
               <p className={cn(
                 "text-lg md:text-xl font-bold transition-colors duration-300",
-                "group-hover:text-terra-600",
+                "md:group-hover:text-terra-600",
                 isDark ? "text-terra-400" : "text-primary",
                 "whitespace-nowrap"
               )}>
@@ -123,13 +123,13 @@ export function PremiumMenuItem({ item }: PremiumMenuItemProps) {
                     )
                   }
                   className={cn(
-                    "text-xs px-3 py-2 border-2 rounded-lg transition-all duration-300 min-h-[36px] touch-manipulation font-medium",
-                    "hover:scale-105 active:scale-95",
+                    "text-xs px-3 py-2 border-2 rounded-lg transition-all duration-200 min-h-[36px] touch-manipulation font-medium",
+                    "active:scale-95",
                     selectedPortion === portion.size
                       ? "border-terra-500 text-terra-700 bg-terra-50 shadow-md"
                       : isDark
-                      ? "border-green-700 text-white/70 hover:border-terra-500/50 hover:bg-green-700/50"
-                      : "border-border text-muted-foreground hover:border-terra-500/50 hover:bg-muted/50"
+                      ? "border-green-700 text-white/70 md:hover:border-terra-500/50 md:hover:bg-green-700/50"
+                      : "border-border text-muted-foreground md:hover:border-terra-500/50 md:hover:bg-muted/50"
                   )}
                   aria-label={`Select ${portion.size} size`}
                 >
@@ -148,8 +148,8 @@ export function PremiumMenuItem({ item }: PremiumMenuItemProps) {
             aria-label={`Add ${item.name} to order`}
             className={cn(
               "mt-2 font-semibold transition-all duration-300",
-              "hover:scale-105 active:scale-95",
-              "shadow-lg hover:shadow-xl hover:shadow-terra-500/30"
+              "active:scale-95",
+              "shadow-md md:hover:shadow-lg md:hover:shadow-terra-500/20"
             )}
           >
             {item.available !== false ? "Add to Order" : "Unavailable"}
