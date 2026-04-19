@@ -130,13 +130,7 @@ export default function RootLayout({
             __html: `
               (function() {
                 try {
-                  var theme = localStorage.getItem('theme') || 'system';
-                  var resolvedTheme = theme === 'system' 
-                    ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')
-                    : theme;
-                  if (resolvedTheme === 'dark') {
-                    document.documentElement.classList.add('dark');
-                  }
+                  document.documentElement.classList.remove('dark');
                 } catch (e) {}
               })();
             `,
