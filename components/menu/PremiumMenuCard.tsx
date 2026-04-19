@@ -11,6 +11,7 @@ import { useCart } from "@/lib/hooks/useCart"
 import { useTheme } from "@/lib/context/ThemeContext"
 import { formatPrice } from "@/lib/utils/formatting"
 import { ImageWithFallback } from "@/components/ui/image-with-fallback"
+import { LoadingSpinner } from "@/components/ui/loading-spinner"
 
 interface PremiumMenuCardProps {
   item: MenuItem
@@ -216,7 +217,7 @@ export function PremiumMenuCard({ item, onAddToCart }: PremiumMenuCardProps) {
           <span className="relative z-10 flex items-center justify-center gap-2">
             {isAdding ? (
               <>
-                <span className="animate-spin mr-2">⏳</span>
+                <LoadingSpinner size="md" className="mr-2 text-white" />
                 Adding...
               </>
             ) : (

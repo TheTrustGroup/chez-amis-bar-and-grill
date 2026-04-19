@@ -23,7 +23,7 @@ export function ToastContainer() {
   if (toasts.length === 0) return null
 
   return (
-    <div className="fixed bottom-4 right-4 z-50 flex flex-col gap-2 max-w-md w-full sm:w-auto">
+    <div className="fixed inset-x-3 bottom-[calc(5.75rem+env(safe-area-inset-bottom,0px))] z-[95] flex w-auto max-w-md flex-col gap-2 sm:inset-x-auto sm:right-4 sm:w-full lg:bottom-4">
       {toasts.map((toast) => (
         <div
           key={toast.id}

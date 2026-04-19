@@ -8,6 +8,7 @@ import type { MenuItem } from "@/lib/data/menuData"
 import { ShoppingCart, ChefHat } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { useCart } from "@/lib/hooks/useCart"
+import { LoadingSpinner } from "@/components/ui/loading-spinner"
 
 interface MenuCardProps {
   item: MenuItem
@@ -131,7 +132,7 @@ export function MenuCard({ item, onAddToCart }: MenuCardProps) {
           <span className="relative z-10 flex items-center">
             {isAdding ? (
               <>
-                <span className="animate-spin mr-2">⏳</span>
+                <LoadingSpinner size="md" className="mr-2 text-white" />
                 Adding...
               </>
             ) : (
